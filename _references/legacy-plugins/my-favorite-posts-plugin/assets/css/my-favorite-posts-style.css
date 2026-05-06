@@ -1,0 +1,139 @@
+/* Thumbnail-Favorite-Button Styling */
+.my-favorite-post-button,
+.wprm-recipe-favorite-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 4px 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 26px;
+    border-radius: 10px;
+    border: none;
+}
+
+.my-favorite-post-button:hover,
+.wprm-recipe-favorite-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+}
+
+.my-favorite-post-button.liked,
+.wprm-recipe-favorite-button.liked {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #FFEBEB;
+}
+
+/* WPRM Spezifische Styles */
+.wprm-recipe-roundup-summary-container {
+    position: relative !important;
+}
+
+.wprm-recipe-roundup-summary-container .like-button-wrapper {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Entferne Umrandung vom Rezeptbild */
+.wprm-recipe-image img {
+    border: none !important;
+}
+
+/* Inline-Favorite-Button Styling */
+.my-favorite-post-inline-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.my-favorite-post-inline-button:hover {
+    color: #333;
+}
+
+.my-favorite-post-inline-button.liked {
+    color: #FFEBEB;
+}
+
+/* Ausrichtung mit anderen Buttons */
+.kt-inside-inner-col .wprm-recipe-snippet, 
+.kt-inside-inner-col .my-favorite-post-inline-button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Thumbnail-Favorite-Button Styling */
+.my-favorite-post-button,
+.wprm-recipe-favorite-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 4px 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 26px;
+    border-radius: 10px;
+    border: none;
+}
+
+.my-favorite-post-button:hover,
+.wprm-recipe-favorite-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+}
+
+.my-favorite-post-button.liked,
+.wprm-recipe-favorite-button.liked {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #FFEBEB;
+}
+
+/* WPRM Spezifische Styles */
+.wprm-recipe-roundup-summary-container {
+    position: relative !important;
+}
+
+.wprm-recipe-roundup-summary-container .like-button-wrapper {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Entferne Umrandung vom Rezeptbild */
+.wprm-recipe-image img {
+    border: none !important;
+}
+
+/* Inline-Favorite-Button Styling */
+.my-favorite-post-inline-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.my-favorite-post-inline-button:hover {
+    color: #333;
+}
+
+.my-favorite-post-inline-button.liked {
+    color: #FFEBEB;
+}
+
+/* Ausrichtung mit anderen Buttons */
+.kt-inside-inner-col .wprm-recipe-snippet, 
+.kt-inside-inner-col .my-favorite-post-inline-button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.kt-inside-inner-col .like-button-wrapper {
+    top: 20px !important;
+}

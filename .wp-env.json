@@ -1,0 +1,21 @@
+{
+  "core": null,
+  "phpVersion": "7.4",
+  "plugins": [
+    "./plugins/depeur-wp-suite",
+    "./plugins/depeur-food"
+  ],
+  "themes": [
+    "https://downloads.wordpress.org/theme/kadence.latest-stable.zip"
+  ],
+  "config": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_LOG": true,
+    "WP_DEBUG_DISPLAY": false,
+    "SCRIPT_DEBUG": true,
+    "WP_ENVIRONMENT_TYPE": "development"
+  },
+  "mappings": {
+    "wp-content/mu-plugins": "./mu-plugins"
+  }
+}

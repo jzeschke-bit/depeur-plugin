@@ -1,0 +1,24 @@
+/**
+ * Admin-Styles für Depeur WP Suite (minimal).
+ *
+ * @package Depeur\WPSuite
+ * @license GPL-2.0-or-later
+ */
+
+.depeur-suite-wrap {
+	max-width: 1200px;
+}
+
+.depeur-suite-wrap .nav-tab-wrapper {
+	margin-bottom: 1em;
+}
+
+.depeur-suite-dashboard p {
+	margin: 0.5em 0;
+}
+
+#depeur-suite-system-report {
+	width: 100%;
+	max-width: 800px;
+	font-size: 12px;
+}

@@ -1,0 +1,436 @@
+/*
+Theme Name:     Alkipedia 3.0
+Theme URI:      n/a
+Template:       kadence
+Author:         Jonas Zeschke
+Author URI:     n/a
+Description:    Alkipedia 3.0 Theme - Ein Kochen und Ernährung Theme basierend auf Kadence
+Version:        1.2.4
+License:        GNU General Public License v3.0 (or later)
+License URI:    https://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+/* ========================================
+   ALKIPEDIA 3.0 THEME STYLES
+   ======================================== */
+
+/* ========================================
+   WPRM (WP Recipe Maker) PLUGIN STYLING
+   ======================================== */
+
+/* WPRM Call-to-Action Button Styling */
+.wprm-call-to-action{
+	padding-left: 5px !important;
+	margin-bottom: 10px !important; 
+}
+
+/* WPRM Hero Abstände */
+.wprm-recipe-block-container-inline {
+    margin-right: 1em!important;
+}
+
+/* WPRM Pop-Up Button Styling */
+.wprm-popup-modal__btn{
+	background-color:var(--global-palette1)!important;
+}
+
+/* WPRM Sterne Farbe - Voll gefüllte Sterne */
+.wprm-rating-star.wprm-rating-star-full svg * {
+    fill: var(--global-palette1)!important;
+    stroke: var(--global-palette1)!important;
+}
+
+/* Teilgefüllte Sterne - 33% */
+.wprm-rating-star.wprm-rating-star-33 svg * { 
+    fill: url(#wprm-recipe-user-rating-0-33)!important;
+    stroke: var(--global-palette1)!important;
+} 
+
+/* Teilgefüllte Sterne - 50% */
+.wprm-rating-star.wprm-rating-star-50 svg * { 
+    fill: url(#wprm-recipe-user-rating-0-50)!important;
+    stroke: var(--global-palette1)!important;
+} 
+
+/* Teilgefüllte Sterne - 66% */
+.wprm-rating-star.wprm-rating-star-66 svg * { 
+    fill: url(#wprm-recipe-user-rating-0-66)!important;
+    stroke: var(--global-palette1)!important;
+}
+
+/* Leere Sterne */
+.wprm-rating-star.wprm-rating-star-empty svg * {
+    stroke: var(--global-palette1)!important;
+}
+
+/* Spezielle Hover-Regeln für selecting-filled Klasse */
+.wprm-rating-star-selecting-filled svg * {
+    fill: var(--global-palette1)!important;
+    stroke: var(--global-palette1)!important;
+}
+
+/* Spezielle Regeln für teilgefüllte Sterne, wenn selecting-filled */
+.wprm-rating-star.wprm-rating-star-33.wprm-rating-star-selecting-filled svg * {
+    fill: var(--global-palette1)!important;
+}
+
+.wprm-rating-star.wprm-rating-star-50.wprm-rating-star-selecting-filled svg * {
+    fill: var(--global-palette1)!important;
+}
+
+.wprm-rating-star.wprm-rating-star-66.wprm-rating-star-selecting-filled svg * {
+    fill: var(--global-palette1)!important;
+}
+
+/* Hover Effekt - alle Sterne bis zu diesem Stern füllen */
+.wprm-rating-star:hover svg polygon,
+.wprm-rating-star:hover ~ .wprm-rating-star svg polygon,
+.wprm-rating-star-selecting-filled:hover svg polygon {
+    fill: var(--global-palette1)!important;
+    stroke: var(--global-palette1)!important;
+}
+
+/* Füllung aufheben für die Sterne nach dem gehighlighteten Stern */
+.wprm-rating-star:hover ~ .wprm-rating-star svg polygon {
+    fill: none!important;
+    stroke: var(--global-palette1)!important;
+}
+
+/* WPRM Kommentar Bewertungen Padding */
+.wprm-user-rating-summary {
+    padding-bottom: 25px;
+}
+
+/* ========================================
+   LAYOUT & NAVIGATION STYLING
+   ======================================== */
+
+/* Hero Container Header Abstände */
+.entry-hero-container-inner .entry-header {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Navigation Dropdown Styling - Abgerundete Ecken */
+.header-navigation ul ul.sub-menu, .header-navigation ul ul.submenu {
+    border-radius: 15px;
+}
+.header-navigation li.menu-item>a:hover, .header-navigation li.menu-item>a:focus{
+	border-radius:15px;	
+}
+.header-navigation .header-menu-container ul ul li.menu-item.current-menu-item > a {
+    border-radius: 15px;
+}
+
+/* Alle Bilder mit abgerundeten Ecken */
+img {
+    border-radius: 15px;
+}
+
+/* Social Warfare Plugin - Tweet Container Styling */
+.swp_social_panel .nc_tweetContainer:not(.total_shares):not(.total_sharesalt){
+	border-radius:10px!important;
+}
+
+/* ========================================
+   BREADCRUMB STYLING (Rank Math Plugin)
+   ======================================== */
+
+/* Hauptstyling für Breadcrumbs - Weiße Schrift */
+.rank-math-breadcrumb {
+    color: white; /* Set the text color to white for the entire breadcrumb */
+}
+
+/* Links innerhalb der Breadcrumbs */
+.rank-math-breadcrumb a {
+    color: white; /* Set link text color to white */
+    text-decoration: none; /* Remove underline */
+	font-size: 80%;
+}
+
+/* Hover-Effekt für Breadcrumb Links */
+.rank-math-breadcrumb a:hover {
+    color: white; /* Maintain white color on hover */
+    text-decoration: none; /* Maintain no underline on hover */
+}
+
+/* Separator zwischen Breadcrumb Elementen */
+.rank-math-breadcrumb .separator {
+    color: lightpink; /* Set the separator color to light pink */
+}
+
+/* Letztes Breadcrumb Element */
+.rank-math-breadcrumb .last {
+    color: white; /* Ensure the last item in the breadcrumb is also white */
+	font-size: 80%;
+}
+
+/* Kadence Breadcrumbs Abstand */
+.kadence-breadcrumbs {
+    padding-top: 1em;
+}
+
+/* ========================================
+   TAG STYLING
+   ======================================== */
+
+/* Styling für einzelne Tags */
+.taxonomy-post_tag a {
+	font-size: 80%;    
+	background-color: var(--global-palette); /* Light grey background for visibility */
+    border-radius: 15px; /* Rounded corners */
+    color: var(--global-palette4);
+	border: 1px solid var(--global-palette2);
+    display: inline-block;
+   	padding: 0.4em 0.6em;
+    margin-top: 0.5em;
+    text-decoration: none; /* Removes underline */
+}
+
+/* Hash-Symbol vor Tags */
+.taxonomy-post_tag a::before {
+    content: "#"; /* Inserts '#' before the tag text */
+    margin-right: 1px; /* Space between the '#' and tag text */
+}
+
+/* Hover-Effekt für Tags */
+.taxonomy-post_tag a:hover {
+    background-color: var(--global-palette6); /* Darker shade on hover */
+    color: var(--global-palette9); /* Black text on hover */
+}
+
+/* ========================================
+   AUTHOR STYLING
+   ======================================== */
+
+/* Desktop Author Styling (767px+) */
+@media screen and (min-width: 767px) {
+    .entry-author-style-center .entry-author-profile .entry-author-description {
+        max-width: 100%!important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ========================================
+   AUTHOR BOX STYLING
+   ======================================== */
+
+/* Mobile Author Styling (max 430px) */
+@media screen and (max-width: 430px) {
+    .entry-author-style-normal .entry-author-profile {
+        grid-template-columns: 20% 80%!important;
+    }
+    
+    /* WPRM CTA ICON */
+    .wprm-recipe-icon img {
+        height: 50px;
+    }
+    
+    .wprm-call-to-action-icon {
+        font-size: 2.2em;
+        margin: 0px!important;
+    }
+}
+
+/* Normal Author Style Layout */
+.entry-author-style-normal {
+    padding: 15px;
+    background-color: var(--global-palette7);
+    border-radius: 15px;
+}
+
+.entry-author-style-normal .entry-author-profile {
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: 13% 86%;
+    grid-template-rows: auto;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.entry-author-style-normal .entry-author-avatar {
+    position: relative!important;
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.entry-author-style-normal .entry-author-name {
+    grid-area: 1/2/1/3;
+    align-self: end;
+}
+
+.entry-author-style-normal .entry-author-occupation {
+    grid-area: 2/3/2/2;
+    align-self: start;
+}
+
+.entry-author-style-normal .entry-author-description {
+    grid-area: 3/1/4/3;
+}
+
+.entry-author-follow {
+    display: flex;
+    gap: 12px;
+}
+
+.entry-author-follow a.social-button {
+    padding: 10px;
+}
+
+/* Custom Author Name Styling */
+.entry-author-name {
+    font-size: 120%;
+}
+
+.entry-author-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.entry-author-profile p {
+    margin: 1em 0;
+}
+
+.entry-author-profile p.entry-author-occupation {
+    margin: 0;
+    font-size: 90%;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - POST LAYOUT ANPASSUNGEN
+   (Werte aus funktionierendem CSS übernommen)
+   ======================================== */
+
+/* Desktop Layout (1025px+) */
+@media screen and (min-width: 1025px) {
+  .hero-beschreibung{
+    position: absolute !important;
+    top: 370px !important;
+  }
+}
+
+/* Tablet Layout (768px - 790px) */
+@media screen and (min-width: 768px) and (max-width: 790px) {
+  .hero-beschreibung{
+    position: absolute !important;
+    top: 450px !important;
+    padding-right: 33%;
+  }
+  .hero-main{
+    margin-bottom: calc(21vh + 20px) !important;
+  }
+}
+
+/* Tablet Layout (790px - 850px) */
+@media screen and (min-width: 790px) and (max-width: 850px) {
+  .hero-beschreibung{
+    position: absolute !important;
+    top: 410px !important;
+    padding-right: 33%;
+  }
+  .hero-main{
+    margin-bottom: calc(12vh + 20px) !important;
+  }
+}
+
+/* Tablet Layout (850px - 912px) */
+@media screen and (min-width: 850px) and (max-width: 912px) {
+  .hero-beschreibung{
+    position: absolute !important;
+    top: 370px !important;
+    padding-right: 33%;
+  }
+}
+
+/* Tablet Layout (913px - 1024px) */
+@media screen and (min-width: 913px) and (max-width: 1024px) {
+  .hero-beschreibung{
+    position: absolute !important;
+    top: 370px !important;
+    padding-right: 33%;
+  }
+}
+
+/* Feintuning für hero-main (aus funktionierendem CSS übernommen)
+   -> später im CSS platzieren, damit es gewinnt */
+@media screen and (min-width: 850px) and (max-width: 1050px) {
+  .hero-main{
+    margin-bottom: calc(9vh + 20px) !important;
+  }
+}
+
+@media screen and (min-width: 950px) and (max-width: 1050px) {
+  .hero-main{
+    margin-bottom: calc(4vh + 20px) !important;
+  }
+}
+
+/* ========================================
+   ADDITIONAL STYLING
+   ======================================== */
+
+/* WPRM CTA ICON */
+.wprm-recipe-icon img {
+    height: 80px;
+}
+
+/* WPRM Call-to-Action Simple Style */
+.wprm-call-to-action.wprm-call-to-action-simple {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+/* Primary Sidebar Widget Area */
+.primary-sidebar.widget-area {
+	margin-bottom: 30px;
+	margin-top: 10px;
+    border-radius: 15px;
+}
+
+/* Images without border radius */
+.no-radius img {
+    border-radius: 0;
+}
+
+/* Category Related Styling */
+.category-related{
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+
+
+/* ========================================
+   Kein plan?
+   ======================================== */
+
+
+input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="number"], input[type="tel"], input[type="range"], input[type="date"], input[type="month"], input[type="week"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea {
+    border-radius: 15px;
+}
+
+@media (max-width: 768px) {
+  .wp-site-blocks .post-thumbnail.kadence-thumbnail-ratio-inherit img {
+    margin-bottom: 1.5em;
+  }
+}
+.wprm-checkbox-container label:before {
+    height: 19px!important;
+    top: 4px!important;
+    border-radius: 5px;
+}
+
+
+/* ========================================
+   ARCHIVE CONTAINER STYLING
+   ======================================== */
+
+/* Archive Container - Entferne Listen-Styling */
+#archive-container,
+.post-archive,
+.grid-cols {
+    list-style: none 
+}
+
+
