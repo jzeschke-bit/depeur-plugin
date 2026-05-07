@@ -4,7 +4,7 @@
 Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-Theme `kadence-child`, gemeinsam Basis für die Content-Sites einfachanders.es (Standard-`post`) und alkipedia.de (CPT für Cocktails). Architektur post-type-agnostisch, ACF nur als Discovery-Quelle, nicht als Runtime-Dependency.
 
 ## Standards & Wissens-Datenbank
-`wordpress.md` ist die Standards-Bibel — vor jedem Commit gegen § 11 Self-Review-Hook prüfen.
+`wordpress.md` ist die Standards-Bibel — vor jedem Commit gegen § 11 Self-Review-Hook prüfen. Besonders nicht-verhandelbar: § 2.5 (Code-Lesbarkeit für Wartung in 6+ Monaten — Why-Kommentare, Magic-Number-Erklärungen, Pattern-Klassen-Header), § 6.2 (Admin-UI Documentation — Modul-Intro, Field-Description, Tutorial-Sektion bei komplexen Modulen) und § 12 (Pre-Implementation-Review mit `BRIEF.md` ab Task 4).
 `PLAN.md` hält Inventar, Architektur und ADRs (frozen). Beide am Session-Start lesen.
 
 ## Architecture Decisions (Stichworte → Detail in PLAN.md § 4)
@@ -15,16 +15,18 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - ADR-5: Custom Fields via `register_post_meta`, kein ACF zur Laufzeit → siehe PLAN.md § 4.
 
 ## Aktueller Sprint (TodoWrite-Mirror — wird in Phase B befüllt)
+Tasks 1–3 sind reine Strukturarbeit (kein BRIEF.md erforderlich). Ab Task 4 zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann erst implementieren.
+
 1. Plugin-Bootstrap (`depeur-food.php` + Konstanten + Autoloader + Helper + Activation/Deactivation/Uninstall + Textdomain + `phpcs.xml.dist`).
 2. Core-Klassen (`Plugin`, `Activation`, `AdminMenu`, `ModuleManager`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`, `Helpers/Autoloader`).
 3. Beispiel-Modul `_ExampleModule` (Discovery + Settings-Render + Lazy-Load validieren).
-4. Modul `cache-bridge` (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
-5. Modul `schema-engine` (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
-6. Modul `favorites` (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
-7. Modul `newsletter` (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider; siehe OQ-2).
-8. Modul `recipe-extras` (Conditional WPRM-Asset-Enqueue, Pinterest-Schema).
-9. Theme-Bootstrap (`themes/kadence-child/` neu anlegen).
-10. Theme-Migration (Customizations aus `alkipedia` portieren in `inc/`-Module).
+4. Modul `cache-bridge` — 4a) `BRIEF.md` schreiben + freigeben lassen · 4b) implementieren (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
+5. Modul `schema-engine` — 5a) `BRIEF.md` · 5b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
+6. Modul `favorites` — 6a) `BRIEF.md` · 6b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
+7. Modul `newsletter` — 7a) `BRIEF.md` (klärt OQ-2) · 7b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
+8. Modul `recipe-extras` — 8a) `BRIEF.md` · 8b) implementieren (Conditional WPRM-Asset-Enqueue, Pinterest-Schema).
+9. Theme-Bootstrap — 9a) `BRIEF.md` für Theme-Architektur (analog zu Modul-Brief) · 9b) `themes/kadence-child/` neu anlegen.
+10. Theme-Migration — 10a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 10b) Customizations aus `alkipedia` portieren.
 
 ## Open Questions / Open Items
 - **OQ-1:** Live-Konsumenten der Legacy-REST-Routes `wl/v1/posts` / `wrm/v1/rating/*`? → klären vor Task 11+.
@@ -34,9 +36,9 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - **Item-2:** `wordpress.md`-Updates aus PLAN.md § 6 vom User einpflegen, bevor Phase-B-Implementierung startet.
 
 ## Session-Start-Routine
-1. `wordpress.md` neu lesen (kann sich geändert haben).
+1. `wordpress.md` neu lesen (kann sich geändert haben). Insbesondere § 2.5, § 6.2, § 12 sind frisch und für die Implementierung verbindlich.
 2. Dieses CLAUDE.md lesen.
-3. `PLAN.md` § 4 (ADRs) querlesen, falls Architektur-Entscheidung berührt.
+3. `PLAN.md` § 4 (ADRs) querlesen, falls Architektur-Entscheidung berührt. Prüfen, ob für den aktuellen Task (ab Nr. 4) bereits ein vom User freigegebener `BRIEF.md` im Modul-Verzeichnis vorliegt — ohne Freigabe **kein** Code-Schreiben.
 4. `git log --oneline -20` für Recent Activity.
 5. TodoWrite-Liste hydratisieren aus § "Aktueller Sprint".
 
