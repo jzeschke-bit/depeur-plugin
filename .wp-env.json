@@ -1,9 +1,18 @@
 {
   "core": null,
-  "phpVersion": "7.4",
+  "phpVersion": "8.2",
   "plugins": [
     "./plugins/depeur-wp-suite",
-    "./plugins/depeur-food"
+    "./plugins/depeur-food",
+    "./_premium/wp-recipe-maker",
+    "./_premium/seo-by-rank-math",
+    "./_premium/kadence-blocks",
+    "./_premium/advanced-custom-fields",
+    "./_premium/wp-recipe-maker-premium",
+    "./_premium/seo-by-rank-math-pro",
+    "./_premium/kadence-blocks-pro",
+    "./_premium/kadence-pro",
+    "./_premium/wp-smush-pro"
   ],
   "themes": [
     "https://downloads.wordpress.org/theme/kadence.latest-stable.zip"

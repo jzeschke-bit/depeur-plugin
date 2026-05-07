@@ -1,3 +1,6 @@
 
 # Third-party reference plugins (do not track)
 _references/plugin-references/
+
+# Premium plugins (commercial code, do not track)
+_premium/
