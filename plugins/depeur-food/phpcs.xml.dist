@@ -34,6 +34,22 @@
 		</properties>
 	</rule>
 
+	<!--
+	PrefixAllGlobals mit den Projekt-Prefixen scharfschalten, damit globale Funktionen,
+	Konstanten und (z. B. in uninstall.php) globale Variablen lokal geprüft werden — analog
+	zur Strenge des WordPress-Plugin-Check. Namespaced Klassen (Depeur\Food\) gelten
+	automatisch als geprefixt. Das Frontend-Kürzel df_ ist hier bewusst NICHT gelistet (vom
+	Sniff als zu kurz abgelehnt); df_-Shortcodes werden ab Modul favorites separat behandelt.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="depeur_food"/>
+				<element value="DEPEUR_FOOD"/>
+			</property>
+		</properties>
+	</rule>
+
 	<config name="minimum_supported_wp_version" value="6.5"/>
 	<config name="testVersion" value="8.2-"/>
 </ruleset>

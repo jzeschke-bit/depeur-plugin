@@ -11,21 +11,23 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$prefix = 'depeur_food_';
+$depeur_food_prefix = 'depeur_food_';
 
 global $wpdb;
 
-// Alle Optionen mit Prefix löschen.
-$options = $wpdb->get_col(
+// Alle Optionen mit Prefix löschen. Direkte DB-Abfrage ohne Object-Cache ist hier korrekt:
+// Uninstall läuft genau einmal, ein persistenter Cache existiert in diesem Kontext nicht.
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall: Einmalaufruf, kein Cache-Kontext.
+$depeur_food_options = $wpdb->get_col(
 	$wpdb->prepare(
 		"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s",
-		$wpdb->esc_like( $prefix ) . '%'
+		$wpdb->esc_like( $depeur_food_prefix ) . '%'
 	)
 );
 
-if ( is_array( $options ) ) {
-	foreach ( $options as $option_name ) {
-		delete_option( $option_name );
+if ( is_array( $depeur_food_options ) ) {
+	foreach ( $depeur_food_options as $depeur_food_option_name ) {
+		delete_option( $depeur_food_option_name );
 	}
 }
 
