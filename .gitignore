@@ -4,3 +4,6 @@ _references/plugin-references/
 
 # Premium plugins (commercial code, do not track)
 _premium/
+
+# macOS / OS cruft
+.DS_Store
