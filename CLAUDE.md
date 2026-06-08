@@ -55,6 +55,57 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 ### Nächster Schritt
 **Task 2 — Core-Klassen** (`ModuleManager`, `AdminMenu`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`). Strukturarbeit, kein BRIEF.md nötig (§ 12.1). Davor `wp plugin check` nachziehen.
 
+### Mid-Session Pause (2026-06-08, vor Task 2 Implementierung)
+**Eingefroren VOR Task-2-Code. Nächste Session: direkt mit `SettingsRegistry` starten — diese Sektion ist self-contained.**
+
+**Start-Pointer (Mechanik):** Dateibaum/Pfade = PLAN.md § 2 (`src/Core/`, `src/Core/Settings/`). Pattern-Vorlagen = `plugins/depeur-wp-suite/src/Core/Settings/SettingsRegistry.php` (109 Z., port-nah), `.../SettingsPage.php` (454 Z. — NUR als Muster, schlank nachbauen), `.../AdminMenu.php`, `.../ModuleManager.php`. Konventionen = CLAUDE.md „Konventionen kompakt" + wordpress.md: **echte Tabs**, PSR-4-PascalCase-Dateien, Yoda-Bedingungen, `array()`-Langform, `@since 0.1.0`, Why-Kommentare (§ 2.5), Admin-UI-Doku (§ 6.2).
+
+#### a) Erledigt seit dem Handoff oben
+- **Item-3 eingetragen** (wordpress.md § 2.3-Doc-Bug als Open Item): Commit `4c6bac7`.
+- **Plugin Check (PCP 2.0.0)** lokal in `tests-cli` installiert + aktiviert (Dev-Tool, NICHT in `.wp-env.json` → siehe Item-4).
+- **Bucket-2-Findings in `uninstall.php` gefixt**: globale Vars mit `depeur_food_` geprefixt; begründeter `phpcs:ignore` für `WordPress.DB.DirectDatabaseQuery.DirectQuery` + `NoCaching` (Uninstall = Einmalaufruf, kein Cache-Kontext). Commit `0637348`.
+- **`phpcs.xml.dist` gehärtet**: `PrefixAllGlobals` mit Prefixen `depeur_food`, `DEPEUR_FOOD` scharfgeschaltet. `df_` vom Sniff als zu kurz abgelehnt → bewusst nicht gelistet, mit Begründung im File dokumentiert (df_-Shortcodes ab Modul favorites separat). Commit `0637348`.
+- **Bucket 1** (.org-Repo-Findings: `hidden_files` .editorconfig, `application_detected` phpcs.xml.dist, `load_plugin_textdomain` discouraged) = akzeptiert, kein Fix (privates Plugin). **Bucket 3** (`readme.txt`/`no_plugin_readme`) = **wird NIE gemacht** (Plugin geht nicht auf wordpress.org).
+
+#### b) Task-2-Scope (approved + ack-bestätigt 2026-06-08)
+**Implementierungs-Reihenfolge (verbindlich):**
+`SettingsRegistry` → `PostTypeRegistry` → `SettingsPage` → `AdminMenu` → `ModuleManager` → `Plugin::init()`-Verdrahtung (finaler Schritt).
+
+**Vier Klarstellungen (der genaue Vertrag):**
+1. **PostTypeRegistry vs `Plugin::get_supported_post_types()`:** PostTypeRegistry wird die kanonische Quelle (liest Option `depeur_food_supported_post_types`, Default `array( 'post' )`, Filter `depeur_food/post_types`, liefert die verfügbaren Public-Post-Types fürs Multi-Select). `Plugin::get_supported_post_types()` delegiert künftig an PostTypeRegistry, statt die Option selbst zu lesen.
+2. **ADR-1 Multi-Option-Pattern in SettingsRegistry:** pro Modul eigene Option `depeur_food_{slug}` (autoload=no für Secrets), Master-Liste aktiver Module `depeur_food_modules`. `OPTION_PREFIX = 'depeur_food_'`. Registrierungs-API für Sektionen/Felder pro Tab/Modul.
+3. **AdminMenu „schlank" = nur Top-Level + Submenu, KEIN Tab-System heute.** Top-Level-Menü `depeur-food-settings` + ein Submenu, das die SettingsPage rendert. Kein Tab-Routing in dieser Session.
+4. **SettingsPage Bare-Minimum = Core-Settings, EIN Setting:** nur „Supported Post Types" als Multi-Checkbox (Optionen aus `get_post_types( array( 'public' => true ) )`), mit Nonce, Save-Handling und Erfolgs-Notice. Kein Multi-Tab, keine weiteren Feldtypen heute.
+
+**LOC-Schätzung:** 440–630 gesamt (5 Klassen + `Plugin.php`-Edit ~20). **SettingsPage ist das Zeit-Risiko** (Suite-Pendant 454 Z. — wir bauen schlank, nicht 1:1).
+
+**`Plugin::init()`-Runtime-Reihenfolge (finaler Schritt):** `PostTypeRegistry` → `ModuleManager::init()` → `if is_admin`: `AdminMenu::register()` + `admin_init`→SettingsPage-Registrierung.
+
+**Fallback-Stufen (bei Zeitdruck):**
+- Stufe 1: `ModuleManager` schon als Stub (modules/ ist leer, lädt eh nichts).
+- Stufe 2: `SettingsPage` weiter reduzieren.
+- Stufe 3: Smoke-Test auf phpcs + activation reduzieren.
+
+#### c) Smoke-Test-Definition Task 2 (unverändert)
+- `phpcs --standard=phpcs.xml.dist .` → Exit 0
+- `php -l` clean auf allen neuen Files
+- `wp plugin check depeur-food` (post-implementation; Bucket 1 + readme.txt-Finding bleiben erwartet)
+- WP-Activation ohne PHP-Fehler
+- Admin-Menü sichtbar im wp-admin
+- `debug.log` frei von depeur-Zeilen
+- **Setting-Roundtrip:** Supported Post Types via SettingsPage ändern → `wp option get depeur_food_supported_post_types` liefert die geänderten Werte
+
+#### d) Workflow-Constraints (für nächste Session wiederholen)
+- Single-Agent only, KEINE fan-out Sub-Agents.
+- Manual approval pro File-Write.
+- Bei „Minute 45" ohne 3 von 5 Klassen → Scope-Cut (Fallback-Stufe).
+- Bei „Minute 60" muss der Smoke-Test beginnen.
+- Test-Env = `tests-cli` (localhost:8889), PHP 8.2.
+
+#### e) Nicht-blockierende Open Items
+- **Item-3:** wordpress.md § 2.3 (PSR-4 vs. `class-{name}.php`) → dedizierte Standards-Patch-Session **vor Task 4** (nicht jetzt fixen).
+- **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json`. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`.
+
 ## Open Questions / Open Items
 - **OQ-1:** Live-Konsumenten der Legacy-REST-Routes `wl/v1/posts` / `wrm/v1/rating/*`? → klären vor Task 11+.
 - **OQ-2:** Newsletter-Provider-Scope (nur Flodesk vs. Multi-Provider von Tag eins)? → klären vor Task 7.
@@ -62,6 +113,7 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **Item-1:** SSH-Alias `runcloud-test` verfügbar (Linux Testserver, PHP 8.4.20, User `runcloud`, verifiziert in dieser Session). Test-WebApp ist `/home/runcloud/webapps/Food-Blog_Template/` — bestehendes Test-WordPress, freigegeben für Phase-B-Remote-Tests. Lese-Operationen sind jederzeit zulässig; Schreibe-/Push-Operationen erst nach explizitem Push-Approval pro Feature.
 - **Item-2 (erledigt 2026-06-08):** Beide Pflicht-Edits aus PLAN.md § 6 sind in `wordpress.md` umgesetzt (§ 1.1 Multi-Option, § 4.5 Autoload); zusätzlich § 4.2 ↔ ADR-3 + Z.21-Glitch gefixt (`df09c5c`). Phase B entsperrt. Siehe „Last Session Handoff".
 - **Item-3:** `wordpress.md` § 2.3 fordert `class-{name}.php` für Klassendateien, die frozen PSR-4-/Suite-Architektur nutzt aber PascalCase (`src/Core/Plugin.php`). Stale-Standard analog zum gelösten § 4.2 ↔ ADR-3. phpcs ist bereits via FileName-Sniff-Exclude (`src/*`, `modules/*`) darauf eingestellt; die Bibel selbst wurde NICHT eigenmächtig editiert. Fix in dedizierter Standards-Patch-Session **vor Task 4** (Befund: Last Session Handoff 2026-06-08).
+- **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json` gemappt. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`. (Eingeführt 2026-06-08, Task-1d.)
 
 ## Session-Start-Routine
 1. `wordpress.md` neu lesen (kann sich geändert haben). Insbesondere § 2.5, § 6.2, § 12 sind frisch und für die Implementierung verbindlich.
