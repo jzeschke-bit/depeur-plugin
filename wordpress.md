@@ -18,7 +18,8 @@ Modulares Feature-Toggle-Pattern, identisch zum bestehenden Depeur Suite Plugin:
   API-Keys). Master-Liste der aktiven Module: `depeur_food_modules` 
   (autoload=yes). Tabbed Admin-UI unter 
   `admin.php?page=depeur-food-settings&tab={slug}`. Begründung: siehe 
-  PLAN.md § 4 ADR-1.- Feature-Klassen werden NUR instanziiert wenn aktiv (Lazy-Loading via `if ( $this->is_feature_active( 'feature_x' ) )`).
+  PLAN.md § 4 ADR-1.
+- Feature-Klassen werden NUR instanziiert wenn aktiv (Lazy-Loading via `if ( $this->is_feature_active( 'feature_x' ) )`).
 - Hooks werden im Feature-Konstruktor registriert, nirgendwo sonst.
 - Keine Globals außer dem Singleton-Helper.
 - **POST-TYPE-AGNOSTISCH.** Das Plugin funktioniert mit `post`, `page` und beliebigen Custom Post Types. Welche CPTs unterstützt werden, wird in den Plugin-Settings konfiguriert (Mehrfachauswahl). Default: `post`. Hooks, Queries, Meta-Felder und Schema-Output dürfen NIRGENDS einen Post-Type hardcoden. Wenn ein Feature post-type-spezifische Logik braucht, holt es die konfigurierten Types über die Plugin-API (z.B. `depeur_food()->get_supported_post_types()`).
@@ -137,7 +138,8 @@ Ziel: Wer den Code in einem Jahr zum ersten Mal liest, versteht nicht nur **was 
 - Transients für teure Berechnungen (`set_transient` / `get_transient`).
 - Object Cache aware: `wp_cache_get` / `wp_cache_set` mit eigener Group (`depeur_food`).
 - Bei Cache-Invalidierung: gezielt purgen, nicht `wp_cache_flush()`.
-- Cloudflare-/RunCache-Purges via Depeur-Suite-API gehen, nicht eigene Implementierung.
+- Edge-/CDN-Purges (Cloudflare, RunCloud, Bunny) werden NICHT direkt aus dem aufrufenden Code ausgelöst, sondern über die plugin-eigene Hook-First-Fassade: `do_action( 'depeur_food/cache/purge', new \Depeur\Food\Cache\Purge_Context( … ) )`. Das `cache-bridge`-Modul übersetzt die Action in Provider-Aufrufe (siehe ADR-3).
+- Provider-Pattern statt Hardcode: `Provider_Log_Only` ist Always-on-Fallback (loggt jeden Purge), Cloudflare/RunCloud-Hub nutzen eigene Modul-Credentials, die Suite-`BunnyApi` wird nur optional und rein lesend über einen `class_exists`-gegateten Provider angebunden. depeur-food implementiert seine Cache-Bridge selbst und ist nicht von der Suite abhängig.
 
 ### 4.3 Datenbank
 
