@@ -7,3 +7,6 @@ _premium/
 
 # macOS / OS cruft
 .DS_Store
+
+# Playwright MCP tool cache (Browser-Smoke-Test-Output, kein Quellcode)
+.playwright-mcp/
