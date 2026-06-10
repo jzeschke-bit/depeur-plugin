@@ -29,6 +29,26 @@ Tasks 1–3 sind reine Strukturarbeit (kein BRIEF.md erforderlich). Ab Task 4 zw
 10. Theme-Migration — 10a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 10b) Customizations aus `alkipedia` portieren.
 
 ## Last Session Handoff
+**Stand: 2026-06-10 (zweite Claude-4.8-Session). Task 2 (Core-Klassen) abgeschlossen, Smoke vollständig grün.**
+
+### Session 2026-06-10 — Task 2 (Core-Klassen) DONE
+- **6 Files geliefert** unter `plugins/depeur-food/src/Core/`: `Settings/SettingsRegistry.php` (ADR-1 Multi-Option-Registry, statisch, port-nah zur Suite), `PostTypeRegistry.php` (ADR-4 Resolver), `Settings/SettingsPage.php` (Core-Settings, manueller Self-POST mit Nonce/PRG), `AdminMenu.php` (Top-Level `depeur-food-settings` + Einstellungs-Submenu), `ModuleManager.php` (Discovery) — **plus Refactor von `Plugin.php`** (Verdrahtung + Delegator).
+- **`Plugin::get_supported_post_types()` ist jetzt reiner Delegator** an `PostTypeRegistry::get_instance()->get_supported()`. Der öffentliche Vertrag aus ADR-4 hält unverändert; intern hat sich nur der Owner geändert (Option-Read + Filter + Normalisierung + Memo umgezogen).
+- **Filter `depeur_food/post_types` lebt jetzt in `PostTypeRegistry`**, nicht mehr in `Plugin` — mit Provenance-Kommentar („Task 2 umgezogen, kein neuer Hook"), `@since 0.1.0` erhalten.
+- **`attachment`** ist im UI versteckt (`get_available()` per `unset`), auf der Daten-Ebene aber erlaubt (`get_supported()` filtert nichts — ADR-4-Treue). Künftiger UI-Bedarf = Filter auf `get_available()`, NICHT das `unset` entfernen.
+- **Memo-Ownership:** statischer Memo allein in `PostTypeRegistry`; `flush()` resettet ihn. `SettingsPage::maybe_handle_save()` ruft `flush()` direkt nach `update_option()` (Belt-and-Suspenders, auch bei PRG-Redirect).
+- **Smoke grün:** phpcs Exit 0 · `php -l` clean (6 Files) · Activation fehlerfrei · Admin-Menü rendert · debug.log frei von depeur-Zeilen · **Setting-Roundtrip** über die echte SettingsPage (UI-Save „Cocktails" → Option `["post","cocktails"]` → `get_supported()` liest's) · **SMOKE3b** (`get_supported_post_types()` = `["post"]`, Backward-Compat nach Refactor) · Graceful-Default (Option gelöscht → `["post"]`).
+- **`wp plugin check` (PCP 2.0.0):** 0 neue Findings aus Task-2-Code; nur bekannte Bucket-1 (.org-Repo-spezifisch: `.editorconfig`, `phpcs.xml.dist`, `load_plugin_textdomain`) und Bucket-3 (`readme.txt`, deferred).
+- **ModuleManager:** Discovery-Logik (Konvention `manifest.php` + `module.php`) implementiert, lädt heute aber nichts (`modules/` ist physisch leer) — wartet auf Task 3.
+
+**Nächster Schritt:** Task 3 — `_ExampleModule`, um die ModuleManager-Discovery scharf zu testen (Discovery + Settings-Render via SettingsRegistry + Lazy-Load validieren).
+
+**Offene Frage zu Task 3 / BRIEF.md (zu Session-Beginn bestätigen):** § 12.1 exemptiert „Beispiel-Modul (Tasks 1–3)" explizit — Task 3 läuft demnach noch unter Bootstrap, **kein** BRIEF.md nötig; der erste BRIEF.md-pflichtige Task ist Task 4 (`cache-bridge`). Diese Lesart vor dem ersten Code-Write kurz bestätigen.
+
+---
+
+#### Historie — vorherige Sessions
+
 **Stand: 2026-06-08 (erste Claude-4.8-Session). Task 1 abgeschlossen, Smoke grün.**
 
 ### Erledigt diese Session
