@@ -54,7 +54,7 @@ final class SettingsRegistry {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $module_slug Modul-Slug (Ordnername, z. B. _ExampleModule); bildet zugleich den Options-Key-Suffix.
+	 * @param string $module_slug Modul-Slug (Ordnername, kebab-case, z. B. example-module); bildet zugleich den Options-Key-Suffix. Modul-Konventionen: modules/example-module/BRIEF.md (Option Y, Autoloader-aligned).
 	 * @param string $tab_label   Anzeigename des Tabs (deutsch).
 	 * @param array  $fields      Felddefinitionen. Pro Feld: id, label, type (checkbox|text|select|password),
 	 *                            default, options (für select), sanitize (optional callback),
