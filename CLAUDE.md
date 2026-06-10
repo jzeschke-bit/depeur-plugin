@@ -15,21 +15,47 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - ADR-5: Custom Fields via `register_post_meta`, kein ACF zur Laufzeit → siehe PLAN.md § 4.
 
 ## Aktueller Sprint (TodoWrite-Mirror — wird in Phase B befüllt)
-Tasks 1–3 sind reine Strukturarbeit (kein BRIEF.md erforderlich). Ab Task 4 zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann erst implementieren.
+Tasks 1–3 + Task 4 (Tab-System, Core-UI-Infrastruktur) sind Strukturarbeit. Ab dem ersten geschäftslogik-tragenden Modul (`cache-bridge`, Task 5) zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann implementieren. (Offen: ob Task 4 Tab-System einen BRIEF braucht — Core-UI wie Task 2, vmtl. § 12.1-exempt; bei Task-4-Start bestätigen.)
 
-1. Plugin-Bootstrap (`depeur-food.php` + Konstanten + Autoloader + Helper + Activation/Deactivation/Uninstall + Textdomain + `phpcs.xml.dist`).
-2. Core-Klassen (`Plugin`, `Activation`, `AdminMenu`, `ModuleManager`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`, `Helpers/Autoloader`).
-3. Beispiel-Modul `_ExampleModule` (Discovery + Settings-Render + Lazy-Load validieren).
-4. Modul `cache-bridge` — 4a) `BRIEF.md` schreiben + freigeben lassen · 4b) implementieren (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
-5. Modul `schema-engine` — 5a) `BRIEF.md` · 5b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
-6. Modul `favorites` — 6a) `BRIEF.md` · 6b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
-7. Modul `newsletter` — 7a) `BRIEF.md` (klärt OQ-2) · 7b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
-8. Modul `recipe-extras` — 8a) `BRIEF.md` · 8b) implementieren (Conditional WPRM-Asset-Enqueue, Pinterest-Schema).
-9. Theme-Bootstrap — 9a) `BRIEF.md` für Theme-Architektur (analog zu Modul-Brief) · 9b) `themes/kadence-child/` neu anlegen.
-10. Theme-Migration — 10a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 10b) Customizations aus `alkipedia` portieren.
+1. Plugin-Bootstrap (`depeur-food.php` + Konstanten + Autoloader + Helper + Activation/Deactivation/Uninstall + Textdomain + `phpcs.xml.dist`). ✓ DONE
+2. Core-Klassen (`Plugin`, `Activation`, `AdminMenu`, `ModuleManager`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`, `Helpers/Autoloader`). ✓ DONE
+3. Beispiel-Modul `example-module` (Discovery + Lazy-Load + SettingsRegistry-Anmeldung validiert; Modul-Architektur-Kanon eingefroren, s. Handoff). ✓ DONE
+4. **Tab-System / Modul-Verwaltung (NEU — Voraussetzung für `cache-bridge`):** SettingsPage um Modul-Tabs erweitern (rendert die via `SettingsRegistry` angemeldeten Schemata) + Modul-Aktivierungs-Toggle-UI (schreibt `depeur_food_modules`). Ohne dies kein Modul-Settings-UI. (In Task 2 + 3 bewusst deferred.)
+5. Modul `cache-bridge` — 5a) `BRIEF.md` schreiben + freigeben lassen · 5b) implementieren (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
+6. Modul `schema-engine` — 6a) `BRIEF.md` · 6b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
+7. Modul `favorites` — 7a) `BRIEF.md` · 7b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
+8. Modul `newsletter` — 8a) `BRIEF.md` (klärt OQ-2) · 8b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
+9. Modul `recipe-extras` — 9a) `BRIEF.md` · 9b) implementieren (Conditional WPRM-Asset-Enqueue, Pinterest-Schema).
+10. Theme-Bootstrap — 10a) `BRIEF.md` für Theme-Architektur (analog zu Modul-Brief) · 10b) `themes/kadence-child/` neu anlegen.
+11. Theme-Migration — 11a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 11b) Customizations aus `alkipedia` portieren.
 
 ## Last Session Handoff
-**Stand: 2026-06-10 (zweite Claude-4.8-Session). Task 2 (Core-Klassen) abgeschlossen, Smoke vollständig grün.**
+**Stand: 2026-06-10 (zweite Claude-4.8-Session, Forts.). Task 3 (`example-module`) abgeschlossen, Smoke + 8-Punkte-Konsistenz-Check grün.**
+
+### Session 2026-06-10 (Forts.) — Task 3 (`example-module`) DONE
+- **4 Files** unter `plugins/depeur-food/modules/example-module/`: `manifest.php`, `module.php` (Bootstrap), `Admin/Settings.php` (Bootstrap-Klasse: Settings-Anmeldung + Demo-Filter `depeur_food/example/greeting`), `BRIEF.md` (Architektur-Snapshot, lebt mit dem Modul, § 12.4) — plus Minor-Docblock in `src/Core/Settings/SettingsRegistry.php`.
+- **Edge-Case durch Approval-Gate gefangen (vor dem ersten Klassen-Body):** macOS case-insensitive FS → `module.php` ≡ `Module.php` kollidiert. Gelöst durch Struktur (Klasse in `Admin/`-Subordner), **ohne ModuleManager-Änderung** (kein Drive-by-Fix). Daraus die FS-Safety-Konvention (Kanon-Punkt 3).
+- **Smoke grün:** phpcs Exit 0 · `php -l` (4 Files) · WP-Mechanik aktiv/inaktiv-Toggle (Schema registriert/weg, Klasse geladen/nicht, Filter feuert/Default) · debug.log frei · `wp plugin check` 0 neue Findings.
+- **8-Punkte-BRIEF-vs-Code-Konsistenz-Check** alle ✓ (6 BRIEF-vs-Code + FS-Safety + Autoloader-only). Code = BRIEF, kein Drift.
+- **`depeur_food_modules` steht auf `[]`** (Default/inaktiv) — `example-module` via Option aktivieren zum Testen.
+
+#### Modul-Architektur-Kanon (Task 3 — bindend für alle Folge-Module, demonstriert im `example-module`)
+Schnellreferenz, ohne den vollen BRIEF (`modules/example-module/BRIEF.md`) lesen zu müssen:
+1. **Ordner-Naming:** kebab-case am Modul-Root, PascalCase ab Subordner.
+2. **Pflicht-Files am Root:** `manifest.php` + `module.php` (beide lowercase).
+3. **KEINE `*.php`-Klassen am Modul-Root** (FS-Safety: vermeidet `module.php`/`Module.php`-Kollision auf macOS/Windows).
+4. **`manifest.php` ohne `slug`-Key** (Discovery keyt nach Ordnername — keine zweite Quelle der Wahrheit).
+5. **Slug-Pass via Konstruktor-Argument** aus `module.php` (`basename( __DIR__ )`), nicht hartkodiert.
+6. **Klassen-Load via PSR-4-Autoloader**, KEIN Hand-Require.
+7. **Hook-/Settings-Wiring im Konstruktor** (wordpress.md § 1.1).
+8. **Anmeldung nur via `SettingsRegistry`-API** (ADR-1).
+9. **„loaded ⟺ active":** ModuleManager lädt `module.php` nur für aktive Module; das Modul prüft die Master-Liste nicht selbst nach.
+
+**Nächster Schritt:** Task 4 (NEU) — **Tab-System / Modul-Verwaltung** (SettingsPage-Modul-Tabs, die registrierte Schemata rendern, + Aktivierungs-Toggle-UI). Voraussetzung für `cache-bridge` (jetzt Task 5). Sprint-Liste oben ist bereits renumbert (alt 4→5 … 10→11). **Offen:** ob Task 4 einen BRIEF braucht (Core-UI wie Task 2, vmtl. § 12.1-exempt) — bei Session-Start klären.
+
+---
+
+#### Historie — vorherige Sessions
 
 ### Session 2026-06-10 — Task 2 (Core-Klassen) DONE
 - **6 Files geliefert** unter `plugins/depeur-food/src/Core/`: `Settings/SettingsRegistry.php` (ADR-1 Multi-Option-Registry, statisch, port-nah zur Suite), `PostTypeRegistry.php` (ADR-4 Resolver), `Settings/SettingsPage.php` (Core-Settings, manueller Self-POST mit Nonce/PRG), `AdminMenu.php` (Top-Level `depeur-food-settings` + Einstellungs-Submenu), `ModuleManager.php` (Discovery) — **plus Refactor von `Plugin.php`** (Verdrahtung + Delegator).
@@ -43,11 +69,7 @@ Tasks 1–3 sind reine Strukturarbeit (kein BRIEF.md erforderlich). Ab Task 4 zw
 
 **Nächster Schritt:** Task 3 — `_ExampleModule`, um die ModuleManager-Discovery scharf zu testen (Discovery + Settings-Render via SettingsRegistry + Lazy-Load validieren).
 
-**Offene Frage zu Task 3 / BRIEF.md (zu Session-Beginn bestätigen):** § 12.1 exemptiert „Beispiel-Modul (Tasks 1–3)" explizit — Task 3 läuft demnach noch unter Bootstrap, **kein** BRIEF.md nötig; der erste BRIEF.md-pflichtige Task ist Task 4 (`cache-bridge`). Diese Lesart vor dem ersten Code-Write kurz bestätigen.
-
----
-
-#### Historie — vorherige Sessions
+**Offene Frage zu Task 3 / BRIEF.md — ERLEDIGT:** § 12.1 exemptiert „Beispiel-Modul (Tasks 1–3)"; Task 3 lief ohne BRIEF-Pflicht. Der freiwillige Mini-BRIEF wurde dennoch geschrieben, weil das `example-module` die Modul-Vorlage einfriert (cache-bridge erbt sie).
 
 **Stand: 2026-06-08 (erste Claude-4.8-Session). Task 1 abgeschlossen, Smoke grün.**
 
