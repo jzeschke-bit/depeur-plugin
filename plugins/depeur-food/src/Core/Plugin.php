@@ -8,6 +8,8 @@
 
 namespace Depeur\Food\Core;
 
+use Depeur\Food\Core\Settings\SettingsPage;
+
 // Kein Zugriff außerhalb von WordPress.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,16 +36,6 @@ final class Plugin {
 	private static ?self $instance = null;
 
 	/**
-	 * Memoisierte Liste der unterstützten Post-Types.
-	 *
-	 * Leeres Array = noch nicht aufgelöst (nicht: keine Typen) – siehe
-	 * get_supported_post_types() für die Lazy-Auflösung.
-	 *
-	 * @var string[]
-	 */
-	private array $supported_post_types = array();
-
-	/**
 	 * Privater Konstruktor erzwingt den Singleton-Zugriff über get_instance().
 	 */
 	private function __construct() {}
@@ -66,10 +58,10 @@ final class Plugin {
 	/**
 	 * Einmalige Initialisierung am init-Hook.
 	 *
-	 * Bootet das Singleton. Die Verdrahtung von ModuleManager, AdminMenu und
-	 * Settings-Registry gehört in Task 2 (Core-Klassen) und wird hier bewusst NICHT
-	 * vorweggenommen – dieser Bootstrap soll ohne weitere Klassen lauffähig und
-	 * aktivierbar sein.
+	 * Bootet das Singleton und verdrahtet die Core-Klassen (Task 2): den
+	 * Modul-Loader und – nur im Backend – Menü plus Settings-Save-Handler.
+	 * PostTypeRegistry (ADR-4) braucht hier KEINE eager Verdrahtung; es ist ein
+	 * lazy, self-contained Singleton, das beim ersten get_supported() auflöst.
 	 *
 	 * @since 0.1.0
 	 *
@@ -77,48 +69,35 @@ final class Plugin {
 	 */
 	public static function init(): void {
 		self::get_instance();
+
+		// Aktive Module laden (modules/ ist in dieser Phase leer → lädt nichts).
+		ModuleManager::init();
+
+		// Admin-spezifische Verdrahtung nur im Backend.
+		if ( is_admin() ) {
+			AdminMenu::register();
+
+			// Save-Handler der Settings-Seite an admin_init hängen – muss vor dem
+			// Rendern laufen, damit der PRG-Redirect nach dem Speichern greift.
+			add_action( 'admin_init', array( SettingsPage::class, 'maybe_handle_save' ) );
+		}
 	}
 
 	/**
 	 * Quelle der Wahrheit für die vom Plugin unterstützten Post-Types (ADR-4).
 	 *
-	 * Liest die in den Core-Settings gespeicherte Liste (Option
-	 * depeur_food_supported_post_types, Default array( 'post' )) und reicht sie durch den
-	 * Filter depeur_food/post_types, damit Sites weitere CPTs ergänzen können, ohne
-	 * Plugin-Code zu ändern. Kein Modul darf Post-Types hardcoden – stattdessen immer über
-	 * diese Methode gehen. Das Ergebnis wird pro Request memoisiert, weil es in vielen Hooks
-	 * wiederholt gebraucht wird.
+	 * Delegiert zustandslos an PostTypeRegistry::get_supported(), das die Option
+	 * depeur_food_supported_post_types liest, durch den Filter depeur_food/post_types
+	 * reicht, normalisiert und als Graceful-Default mindestens array( 'post' )
+	 * garantiert. Die Logik samt Memo wurde mit Task 2 nach PostTypeRegistry
+	 * verlagert (eine Quelle der Wahrheit); diese Methode bleibt als stabiler,
+	 * von jedem Modul nutzbarer Helfer-Einstieg erhalten.
 	 *
 	 * @since 0.1.0
 	 *
 	 * @return string[] Liste der Post-Type-Slugs, mindestens array( 'post' ).
 	 */
 	public function get_supported_post_types(): array {
-		if ( ! empty( $this->supported_post_types ) ) {
-			return $this->supported_post_types;
-		}
-
-		$saved = get_option( 'depeur_food_supported_post_types', array( 'post' ) );
-
-		/**
-		 * Filtert die Liste der unterstützten Post-Types.
-		 *
-		 * @since 0.1.0
-		 *
-		 * @param string[] $post_types Aktuell konfigurierte Post-Type-Slugs.
-		 */
-		$post_types = apply_filters( 'depeur_food/post_types', (array) $saved );
-
-		// Auf nicht-leere String-Slugs normalisieren und Indizes neu setzen.
-		$post_types = array_values( array_filter( array_map( 'strval', $post_types ) ) );
-
-		// Graceful Default: niemals mit leerer Liste zurückkommen.
-		if ( empty( $post_types ) ) {
-			$post_types = array( 'post' );
-		}
-
-		$this->supported_post_types = $post_types;
-
-		return $this->supported_post_types;
+		return PostTypeRegistry::get_instance()->get_supported();
 	}
 }
