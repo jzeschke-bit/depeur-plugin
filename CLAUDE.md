@@ -22,7 +22,7 @@ Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlo
 3. Beispiel-Modul `example-module` (Discovery + Lazy-Load + SettingsRegistry-Anmeldung validiert; Modul-Architektur-Kanon eingefroren, s. Handoff). ✓ DONE
 4. **Tab-System (SettingsPage-Modul-Tabs).** SettingsPage rendert Core-Tab + je einen Tab pro aktivem Modul aus den `SettingsRegistry`-Schemata, inkl. Modul-Save-Handler (Slug-Whitelist vor Nonce, ADR-1 autoload, Password-Preserve). ✓ DONE (Commit `d41106b`, Smoke grün inkl. echtem HTTP-Roundtrip + Negativ-Test).
 4b. **Modul-Aktivierungs-Toggle-UI:** UI, die `depeur_food_modules` schreibt (Master-Liste-Editor, validiert gegen `get_discovered_modules()` — gegenläufige Whitelist zum Tab-Routing). Eigener Feature-Komplex mit Aktivierungs-Semantik, bewusst aus Task 4 ausgeklammert. **Nicht-blockierend für Task 5** — Module bis dahin via `wp option update depeur_food_modules '["slug"]' --format=json` aktivierbar. Kein BRIEF (Core-UI, § 12.1-exempt).
-5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **UNBLOCKED** (Standards-Patch-Backlog erledigt 2026-06-12). Reihenfolge: **(1) `BRIEF.md` schreiben + freigeben lassen → (2) implementieren** (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
+5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **IN PROGRESS** (Session 2026-06-12b). Recon Tier 1+2 + `modules/cache-bridge/BRIEF-SKETCH.md` (18 Sektionen, 11 Pre-Decisions) liegen vor. Reihenfolge: **(1a) Pre-Decisions bestätigen → (1b) `BRIEF.md` Volltext + freigeben → (2) implementieren** (`src/Cache/Purge_Context.php` + `Purge_Result.php` shared; Listener; **vier eigenständige Provider** LogOnly/RunCloud/BunnyCDN/Cloudflare — **kein** Suite-Bridge, s. ADR-3-Supersede; Pause-Mechanismus Variante C + Debounce orthogonal).
 6. Modul `schema-engine` — 6a) `BRIEF.md` · 6b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
 7. Modul `favorites` — 7a) `BRIEF.md` · 7b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
 8. Modul `newsletter` — 8a) `BRIEF.md` (klärt OQ-2) · 8b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
@@ -31,7 +31,17 @@ Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlo
 11. Theme-Migration — 11a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 11b) Customizations aus `alkipedia` portieren.
 
 ## Last Session Handoff
-**Stand: 2026-06-12 (dritte Claude-4.8-Session). Task 4 (Tab-System) abgeschlossen, voller Smoke grün inkl. echtem Browser-Roundtrip + Negativ-Test.**
+**Stand: 2026-06-12 (vierte Claude-4.8-Session). Task 5 (cache-bridge) GESTARTET — Architektur-Klärung + Recon Tier 1+2 + BRIEF-Skizze (kein Code, § 12.3). Volltext-BRIEF nächste Session. Task 4 davor abgeschlossen.**
+
+### Session 2026-06-12 (b) — Task 5 (cache-bridge) Architektur-Vorarbeit (BRIEF-Skizze, KEIN Code)
+- **4 Doku-Commits:** `74abeca` Splitting-Strategie · `0a87e58` ADR-3-Supersede + §2-Layout · `d3ea4be` BRIEF-Skizze (`0a79465` war Vorstand). **Kein Code** — § 12.3 (BRIEF vor Implementierung).
+- **Architektur-Updates eingearbeitet (User-Vorgaben):**
+  - **`Provider_Suite_Bunny` → `Provider_BunnyCDN` eigenständig** (kein Suite-`class_exists`-Bridge). Grund: `cache-bridge` gehört zum künftigen Plugin **Depeur Speed**; Suite-Dependency würde den Plugin-Split sabotieren. Neu: CLAUDE.md › Architecture Notes › **Plugin-Splitting-Strategie** (food/speed/features) + **ADR-3-Supersede-Banner** in PLAN.md.
+  - **Pause-Mechanismus (Variante C):** Queue + Admin-Bar + Resume-Modal + 24h-Auto-Resume — eigene BRIEF-Sektion, **orthogonal** zum Debounce (Debounce im Listener vor `do_action`, Pause in cache-bridge nach `do_action`).
+- **Recon Tier 1+2 — Schlüsselfund F1:** RunCloud ist **NICHT** „analog zu Cloudflare/Bunny" (ADR-3-Annahme kippte): lokaler Nginx-`PURGE` (keine Creds, Env-Detection via HTTP-Probe `X-RunCache-Type` + FS-Fallback) vs. externe CDN-APIs (Creds + Zone). Hätte den BRIEF unbemerkt verbogen. Quellen: Suite-`BunnyApi`/`PurgeService` (nur Inspiration, kein Bridge), Vendor bunnycdn/runcloud-hub/wp-rocket.
+- **`BRIEF-SKETCH.md`** (`modules/cache-bridge/`, **TEMPORARY** — wird bei BRIEF-Finalize gelöscht/umbenannt): 18-Sektion-Struktur + OPEN-DECISIONS-Tracking + **11 Pre-Decisions** (User-Vorschläge, Claude-approved + **4 Recon-Caveats**: 429-Retry-Cap ≤3s, Archive-URL-Pagination-Bound, Queue-Option-Write-Race, Full-Purge-Fallback destruktiv→opt-in).
+- **§ 2-Layout-Korrektur (Recon-Fund):** flache `Provider_*.php` am Modul-Root verletzten FS-Safety → Subordner-Layout `Hooks/` + `Providers/` (PascalCase) + `Pause/`.
+- **Nächster Schritt:** Session-Start mit „lies CLAUDE.md + `modules/cache-bridge/BRIEF-SKETCH.md`" → 11 Pre-Decisions + 4 Caveats bestätigen → **Volltext-`BRIEF.md`** nach 18-Sektion-Struktur schreiben → User-Approval → DANN Code (Purge_Context/Purge_Result zuerst).
 
 ### Session 2026-06-12 — Task 4 (Tab-System) DONE
 - **2 Code-Files** (Commit `d41106b`): `src/Core/Settings/SettingsPage.php` (182 → 673 Z., 7 neue Methoden) + `src/Core/AdminMenu.php` (nur Stale-Kommentar „KEIN Tab-System" korrigiert). CLAUDE.md-Handoff separat (Commit B).
@@ -176,6 +186,7 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json` gemappt. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`. (Eingeführt 2026-06-08, Task-1d.) *(Operationaler Eintrag — NICHT Teil des Standards-Patch-Backlogs.)*
 - **Item-5:** ✓ **ERLEDIGT 2026-06-12** (Commit `45aa3d1`): `wordpress.md` § 12.1 Stale-Reference „ab Task 4 (cache-bridge)" → auf Task 5 korrigiert, renumber-stabil formuliert (semantisches Kriterium „geschäftslogik-tragend" als Hebel, Task-Nummer nur Beispiel) + Task 4 (Tab-System/Core-UI) in die exempt-Liste aufgenommen.
 - **Item-6:** ✓ **ERLEDIGT 2026-06-12** (Commit `03b3780`): `SettingsRegistry::sanitize_field()` select-Zweig auf string-symmetrischen Vergleich umgestellt (`array_map( 'strval', … )` + `(string)`-Cast mit `is_scalar`-Guard, Rückgabe des validierten Strings). Smoke: 4 Vektoren grün (numeric `"1"`→`'1'`, string-Regression, invalid→`''`, out-of-range→Default). (Befund: Task 4, 2026-06-12.)
+- **Item-7:** `src/Support/SuiteCompat.php` (geplant in PLAN.md § 2 als „graceful Fallback wenn Suite nicht aktiv") wird durch die No-Suite-Dependency-Regel der Plugin-Splitting-Strategie fragwürdig — `cache-bridge` bridged nicht mehr zur Suite. Klärung: SuiteCompat ganz streichen vs. für andere (Nicht-Cache-)Suite-Interop behalten. **Nicht cache-bridge-Scope** (kein Drive-by). (Befund: Task-5-Recon, 2026-06-12.)
 
 ### Standards-Patch-Session Backlog — ✓ ABGESCHLOSSEN (2026-06-12)
 Alle drei Items in einer Standards-Patch-Session vor Task 5 erledigt (Reihenfolge klein→groß, Code zuletzt):
