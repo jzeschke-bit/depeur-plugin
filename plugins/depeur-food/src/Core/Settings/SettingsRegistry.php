@@ -144,9 +144,15 @@ final class SettingsRegistry {
 				// Checkbox: Anwesenheit im POST = true; nicht angehakt liefert WP den Wert gar nicht erst.
 				return ! empty( $value );
 			case 'select':
-				// Nur ein in den Optionen definierter Schlüssel ist gültig, sonst zurück auf Default.
-				$options = ( isset( $field['options'] ) && is_array( $field['options'] ) ) ? array_keys( $field['options'] ) : array();
-				return in_array( $value, $options, true ) ? $value : ( isset( $field['default'] ) ? $field['default'] : '' );
+				// Gültig ist nur ein in den Optionen definierter Schlüssel, sonst zurück auf Default.
+				// String-symmetrisch zum Renderer: render_field() gibt die options-Keys als (string)
+				// aus und vergleicht selected() ebenfalls als (string); der POST liefert daher immer
+				// Strings. Ohne Cast fielen numerische options-Keys hier strict durch und der Wert
+				// würde still auf Default zurückgesetzt (Item-6). is_scalar schützt den (string)-Cast
+				// vor einem TypeError bei (theoretischem) Array-POST.
+				$option_keys = ( isset( $field['options'] ) && is_array( $field['options'] ) ) ? array_keys( $field['options'] ) : array();
+				$submitted   = is_scalar( $value ) ? (string) $value : '';
+				return in_array( $submitted, array_map( 'strval', $option_keys ), true ) ? $submitted : ( isset( $field['default'] ) ? $field['default'] : '' );
 			case 'password':
 			case 'text':
 			default:
