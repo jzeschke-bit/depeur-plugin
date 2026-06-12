@@ -321,7 +321,7 @@ Modul `cache-bridge` (toggleable, Default ON):
 
 **Status:** Accepted. Phase A.
 
-**Kontext:** Drei der vier Legacy-Plugins haben Post-Type-Listen hardcoded. Erstes Rollout-Ziel ist `post`, zweites `cocktail`-CPT auf alkipedia.de. Plugin muss beides ohne Code-Änderung bedienen.
+**Kontext:** Drei der vier Legacy-Plugins haben Post-Type-Listen hardcoded. Erstes Rollout-Ziel ist `post`, zweites `cocktail`-CPT auf alkipedia.com. Plugin muss beides ohne Code-Änderung bedienen.
 
 **Entscheidung:** Eine einzige Quelle der Wahrheit: `depeur_food()->get_supported_post_types()`. Default `array( 'post' )`, in den Plugin-Core-Settings (Multi-Select aus `get_post_types( ['public'=>true] )`) erweiterbar. Filter `depeur_food/post_types` für programmatische Erweiterung.
 

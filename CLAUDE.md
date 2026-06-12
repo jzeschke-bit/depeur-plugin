@@ -1,7 +1,7 @@
 # CLAUDE.md — Depeur Food Suite (Working State)
 
 ## Projektziel
-Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-Theme `kadence-child`, gemeinsam Basis für die Content-Sites einfachanders.es (Standard-`post`) und alkipedia.de (CPT für Cocktails). Architektur post-type-agnostisch, ACF nur als Discovery-Quelle, nicht als Runtime-Dependency.
+Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-Theme `kadence-child`, gemeinsam Basis für die Content-Sites einfachandersessen.de (Standard-`post`) und alkipedia.com (CPT für Cocktails). Architektur post-type-agnostisch, ACF nur als Discovery-Quelle, nicht als Runtime-Dependency.
 
 ## Standards & Wissens-Datenbank
 `wordpress.md` ist die Standards-Bibel — vor jedem Commit gegen § 11 Self-Review-Hook prüfen. Besonders nicht-verhandelbar: § 2.5 (Code-Lesbarkeit für Wartung in 6+ Monaten — Why-Kommentare, Magic-Number-Erklärungen, Pattern-Klassen-Header), § 6.2 (Admin-UI Documentation — Modul-Intro, Field-Description, Tutorial-Sektion bei komplexen Modulen) und § 12 (Pre-Implementation-Review mit `BRIEF.md` ab Task 4).
@@ -225,7 +225,7 @@ ACF erfüllt heute zwei getrennte Funktionen:
 ADR-4 (`register_post_meta` statt ACF) löst nur Schicht 1. **Schicht 2 ist eine separate, noch offene Architektur-Entscheidung.**
 
 **Migrations-Schritte (in Reihenfolge):**
-- **Discovery-Session** (Vorarbeit, vor erstem Konsumenten-Task): Bestandsaufnahme aktueller ACF-Field-Groups auf einfachanders.es und alkipedia.de. Ergebnis: `_references/acf-discovery.md` mit Field-Definitions (Meta-Keys, Typen, Post-Types).
+- **Discovery-Session** (Vorarbeit, vor erstem Konsumenten-Task): Bestandsaufnahme aktueller ACF-Field-Groups auf einfachandersessen.de und alkipedia.com. Ergebnis: `_references/acf-discovery.md` mit Field-Definitions (Meta-Keys, Typen, Post-Types).
 - **Modul `meta-registry`** (eigener Task, BRIEF-pflichtig): ruft `register_post_meta` für jede Field-Definition aus Discovery auf, mit `show_in_rest => true`. **Koexistiert zunächst parallel zu aktivem ACF** (selbe `wp_postmeta`-Tabelle, kein Daten-Konflikt).
 - **Editor-UI-Modul** (eigener Task, Option-Entscheidung offen):
   - Option 1: ACF als Editor-Tool aktiv lassen (ADR-4 teilerfüllt).
@@ -256,7 +256,7 @@ ADR-4 (`register_post_meta` statt ACF) löst nur Schicht 1. **Schicht 2 ist eine
 - Plugin-Header: `Requires PHP: 8.2`, `Requires at least: 6.5`, Text Domain `depeur-food`.
 
 ## Test-Konfiguration
-- **Lokal:** wp-env auf `localhost:8888`, PHP 8.2. Premium-Plugins in `_premium/` gemappt (Kadence Pro, Kadence Blocks Pro, WPRM Premium, Rank Math Pro, Smush Pro, ACF, kadence-blocks). Test-Inhalt: einfachanders.es-Posts (Standard-`post`, ACF-Felder nicht überall befüllt → Graceful-Degradation explizit testbar).
+- **Lokal:** wp-env auf `localhost:8888`, PHP 8.2. Premium-Plugins in `_premium/` gemappt (Kadence Pro, Kadence Blocks Pro, WPRM Premium, Rank Math Pro, Smush Pro, ACF, kadence-blocks). Test-Inhalt: einfachandersessen.de-Posts (Standard-`post`, ACF-Felder nicht überall befüllt → Graceful-Degradation explizit testbar).
 - **Remote (Test-Server):** SSH-Alias `runcloud-test` (Linux testserver, PHP 8.4.20, User `runcloud`). Test-WebApp: `/home/runcloud/webapps/Food-Blog_Template/`. Lese-Operationen jederzeit (`ssh runcloud-test "wp ... --path=/home/runcloud/webapps/Food-Blog_Template"`); Schreibe-/Push-Operationen (rsync, `wp plugin activate`, etc.) erst nach explizitem Push-Approval pro Feature.
 - **PHP-Versions-Diff:** Lokal 8.2, Remote 8.4. Bei Remote-Tests `tail -f` auf das PHP-Error-Log laufen lassen, um 8.4-Deprecations zu erwischen, die lokal nicht auftauchen. Beispiel-Befehle siehe PLAN.md § 5.
 
