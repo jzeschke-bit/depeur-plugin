@@ -187,6 +187,31 @@ Drei Standards-/Konsistenz-Items, die als ein Block vor dem ersten BRIEF-pflicht
 Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur richtigen Zeit sichtbar):
 - **`SettingsPage::render_field()` → `Field_Renderer`-Extraktion:** Der natürliche Split-Kandidat, sobald Feldtypen jenseits der heutigen vier (checkbox/text/select/password) dazukommen ODER der Core-Tab eigene Custom-Renderer braucht. Heute (Task 4) nicht nötig — eine Switch-Case-Methode reicht. Aber beim **nächsten Modul mit neuem Feldtyp** (z. B. textarea, multiselect, color-picker) zuerst die `Field_Renderer`-Extraktion erwägen, bevor `render_field()` mit weiteren Switch-Cases wächst. (Kontext: SettingsPage ist nach Task 4 bei 673 Z. — kein Bloat, aber render_field ist die Wachstumsfuge.)
 
+### ACF-Migration-Strategie (vor Schema-Engine relevant)
+
+ACF erfüllt heute zwei getrennte Funktionen:
+1. **Datenschicht:** Definiert Custom Fields, schreibt sie in `wp_postmeta`.
+2. **Editor-UI:** Rendert Editier-Felder im wp-admin (MetaBoxes/Sidebar).
+
+ADR-4 (`register_post_meta` statt ACF) löst nur Schicht 1. **Schicht 2 ist eine separate, noch offene Architektur-Entscheidung.**
+
+**Migrations-Schritte (in Reihenfolge):**
+- **Discovery-Session** (Vorarbeit, vor erstem Konsumenten-Task): Bestandsaufnahme aktueller ACF-Field-Groups auf einfachanders.es und alkipedia.de. Ergebnis: `_references/acf-discovery.md` mit Field-Definitions (Meta-Keys, Typen, Post-Types).
+- **Modul `meta-registry`** (eigener Task, BRIEF-pflichtig): ruft `register_post_meta` für jede Field-Definition aus Discovery auf, mit `show_in_rest => true`. **Koexistiert zunächst parallel zu aktivem ACF** (selbe `wp_postmeta`-Tabelle, kein Daten-Konflikt).
+- **Editor-UI-Modul** (eigener Task, Option-Entscheidung offen):
+  - Option 1: ACF als Editor-Tool aktiv lassen (ADR-4 teilerfüllt).
+  - Option 2: Klassische MetaBoxes nachbauen (vmtl. für Content-Pipeline-Workflow ausreichend).
+  - Option 3: Block-Editor-Sidebar mit Gutenberg `useEntityProp` (modernster Ansatz).
+- **ACF-Deaktivierung** (Deployment-Schritt, kein Sprint-Task): erst NACH meta-registry + Editor-UI live + Smoke-Verifikation aller Konsumenten + Backup.
+
+**Field-Namen-Identität (kritisch):**
+- meta-registry verwendet EXAKT die Meta-Keys, die ACF heute nutzt (aus Discovery).
+- Daten in `wp_postmeta` werden NICHT migriert — bleiben identisch.
+- Konsumenten lesen weiterhin via `get_post_meta()` oder REST-API.
+- ACF-interne Tracking-Meta-Keys (z. B. `_field_xyz`) werden nach ACF-Deaktivierung obsolet, schaden aber nicht.
+
+**Sprint-Position-Vorschlag** (konkrete Task-Nummern offen, bis Vor-Reihenfolge geklärt): Discovery-Session (zwischen Task 5 und meta-registry-Task) → Task: meta-registry-Modul → Task: Editor-UI-Modul (Option 1/2/3 in dedizierter Architektur-Session entschieden) → erst danach Schema-Engine und andere Konsumenten.
+
 ## Session-Start-Routine
 1. `wordpress.md` neu lesen (kann sich geändert haben). Insbesondere § 2.5, § 6.2, § 12 sind frisch und für die Implementierung verbindlich.
 2. Dieses CLAUDE.md lesen.
