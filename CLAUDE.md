@@ -22,7 +22,7 @@ Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlo
 3. Beispiel-Modul `example-module` (Discovery + Lazy-Load + SettingsRegistry-Anmeldung validiert; Modul-Architektur-Kanon eingefroren, s. Handoff). ✓ DONE
 4. **Tab-System (SettingsPage-Modul-Tabs).** SettingsPage rendert Core-Tab + je einen Tab pro aktivem Modul aus den `SettingsRegistry`-Schemata, inkl. Modul-Save-Handler (Slug-Whitelist vor Nonce, ADR-1 autoload, Password-Preserve). ✓ DONE (Commit `d41106b`, Smoke grün inkl. echtem HTTP-Roundtrip + Negativ-Test).
 4b. **Modul-Aktivierungs-Toggle-UI:** UI, die `depeur_food_modules` schreibt (Master-Liste-Editor, validiert gegen `get_discovered_modules()` — gegenläufige Whitelist zum Tab-Routing). Eigener Feature-Komplex mit Aktivierungs-Semantik, bewusst aus Task 4 ausgeklammert. **Nicht-blockierend für Task 5** — Module bis dahin via `wp option update depeur_food_modules '["slug"]' --format=json` aktivierbar. Kein BRIEF (Core-UI, § 12.1-exempt).
-5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **Reihenfolge bei Session-Start: (1) Standards-Patch-Session (Items 3/5/6, s. Open Items) → (2) `BRIEF.md` schreiben + freigeben lassen → (3) implementieren** (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
+5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **UNBLOCKED** (Standards-Patch-Backlog erledigt 2026-06-12). Reihenfolge: **(1) `BRIEF.md` schreiben + freigeben lassen → (2) implementieren** (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
 6. Modul `schema-engine` — 6a) `BRIEF.md` · 6b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
 7. Modul `favorites` — 7a) `BRIEF.md` · 7b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
 8. Modul `newsletter` — 8a) `BRIEF.md` (klärt OQ-2) · 8b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
@@ -46,7 +46,7 @@ Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlo
 - **Zwei latente Funde dokumentiert** (NICHT in Task 4 gefixt → Standards-Patch-Backlog): Item-5 (§ 12.1 Stale-Reference) + Item-6 (numeric-select-Asymmetrie in `sanitize_field`).
 - **`depeur_food_modules` zurück auf `[]`** (Test-Cleanup), Env-State = Pre-Snapshot.
 
-**Nächster Schritt:** Task 5 — `cache-bridge` (erster BRIEF-pflichtige Task). **Reihenfolge: (1) Standards-Patch-Session Items 3/5/6 → (2) BRIEF.md schreiben + freigeben → (3) Code.** Vorher Task 4b (Modul-Toggle-UI) NICHT nötig — cache-bridge via `wp option` aktivierbar.
+**Nächster Schritt:** Task 5 — `cache-bridge` (erster BRIEF-pflichtige Task). Standards-Patch-Backlog (Items 3/5/6) **erledigt 2026-06-12** → Reihenfolge jetzt: **(1) BRIEF.md schreiben + freigeben → (2) Code.** Vorher Task 4b (Modul-Toggle-UI) NICHT nötig — cache-bridge via `wp option` aktivierbar.
 
 ---
 
@@ -172,16 +172,16 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **OQ-3:** Verwendung von `mu-plugins/` (aktuell leer)?
 - **Item-1:** SSH-Alias `runcloud-test` verfügbar (Linux Testserver, PHP 8.4.20, User `runcloud`, verifiziert in dieser Session). Test-WebApp ist `/home/runcloud/webapps/Food-Blog_Template/` — bestehendes Test-WordPress, freigegeben für Phase-B-Remote-Tests. Lese-Operationen sind jederzeit zulässig; Schreibe-/Push-Operationen erst nach explizitem Push-Approval pro Feature.
 - **Item-2 (erledigt 2026-06-08):** Beide Pflicht-Edits aus PLAN.md § 6 sind in `wordpress.md` umgesetzt (§ 1.1 Multi-Option, § 4.5 Autoload); zusätzlich § 4.2 ↔ ADR-3 + Z.21-Glitch gefixt (`df09c5c`). Phase B entsperrt. Siehe „Last Session Handoff".
-- **Item-3:** `wordpress.md` § 2.3 fordert `class-{name}.php` für Klassendateien, die frozen PSR-4-/Suite-Architektur nutzt aber PascalCase (`src/Core/Plugin.php`). Stale-Standard analog zum gelösten § 4.2 ↔ ADR-3. phpcs ist bereits via FileName-Sniff-Exclude (`src/*`, `modules/*`) darauf eingestellt; die Bibel selbst wurde NICHT eigenmächtig editiert. Fix in dedizierter Standards-Patch-Session **vor Task 5** (s. „Standards-Patch-Session Backlog" unten; Befund: Last Session Handoff 2026-06-08).
+- **Item-3:** `wordpress.md` § 2.3 fordert `class-{name}.php` für Klassendateien, die frozen PSR-4-/Suite-Architektur nutzt aber PascalCase (`src/Core/Plugin.php`). Stale-Standard analog zum gelösten § 4.2 ↔ ADR-3. phpcs ist bereits via FileName-Sniff-Exclude (`src/*`, `modules/*`) darauf eingestellt; die Bibel selbst wurde NICHT eigenmächtig editiert. ✓ **ERLEDIGT 2026-06-12** (Commit `7ea65d9`): § 2.3 + § 1.1-Architektur auf PSR-4/PascalCase synchronisiert (Z. 11/13/14/65/68). (Befund: Last Session Handoff 2026-06-08.)
 - **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json` gemappt. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`. (Eingeführt 2026-06-08, Task-1d.) *(Operationaler Eintrag — NICHT Teil des Standards-Patch-Backlogs.)*
-- **Item-5:** `wordpress.md` § 12.1 hat eine Stale-Reference „ab Task 4 (cache-bridge)" — durch den Renumber (Tab-System als neues Task 4 eingeschoben) falsch: `cache-bridge` ist jetzt Task 5. § 12 BRIEF-Pflicht greift ab Task 5, nicht Task 4. Fix in Standards-Patch-Session vor Task 5. (Befund: Task 4, 2026-06-12.)
-- **Item-6:** `SettingsRegistry::sanitize_field()` select-Zweig nutzt strict `in_array( $value, array_keys($options), true )` **ohne** Cast. Render-Seite (`SettingsPage::render_field`) castet dagegen `selected( (string)$value, (string)$opt_key )`. Asymmetrie: ein Modul mit **numerischen** Select-Keys würde beim Save auf Default fallen, obwohl die UI korrekt rendert. Heute kein Modul betroffen, latent. Fix-Vorschlag: sanitize_field select-Vergleich ebenfalls `(string)`-casten. (Befund: Task 4, 2026-06-12.)
+- **Item-5:** ✓ **ERLEDIGT 2026-06-12** (Commit `45aa3d1`): `wordpress.md` § 12.1 Stale-Reference „ab Task 4 (cache-bridge)" → auf Task 5 korrigiert, renumber-stabil formuliert (semantisches Kriterium „geschäftslogik-tragend" als Hebel, Task-Nummer nur Beispiel) + Task 4 (Tab-System/Core-UI) in die exempt-Liste aufgenommen.
+- **Item-6:** ✓ **ERLEDIGT 2026-06-12** (Commit `03b3780`): `SettingsRegistry::sanitize_field()` select-Zweig auf string-symmetrischen Vergleich umgestellt (`array_map( 'strval', … )` + `(string)`-Cast mit `is_scalar`-Guard, Rückgabe des validierten Strings). Smoke: 4 Vektoren grün (numeric `"1"`→`'1'`, string-Regression, invalid→`''`, out-of-range→Default). (Befund: Task 4, 2026-06-12.)
 
-### Standards-Patch-Session Backlog (zusammen adressieren, VOR Task 5)
-Drei Standards-/Konsistenz-Items, die als ein Block vor dem ersten BRIEF-pflichtigen Modul (`cache-bridge`) gefixt werden sollen — `wordpress.md` ist User-owned, Edits an der Bibel nur mit Freigabe:
-1. **Item-3** — `wordpress.md` § 2.3 (PSR-4-PascalCase vs. gefordertes `class-{name}.php`).
-2. **Item-5** — `wordpress.md` § 12.1 Stale-Reference „ab Task 4 (cache-bridge)" (Renumber → Task 5).
-3. **Item-6** — numeric-select-Asymmetrie in `SettingsRegistry::sanitize_field()` (Code-Fix, kein Bibel-Edit).
+### Standards-Patch-Session Backlog — ✓ ABGESCHLOSSEN (2026-06-12)
+Alle drei Items in einer Standards-Patch-Session vor Task 5 erledigt (Reihenfolge klein→groß, Code zuletzt):
+1. **Item-3** ✓ — § 2.3 + § 1.1 PSR-4-Sync (Commit `7ea65d9`).
+2. **Item-5** ✓ — § 12.1 Renumber-Fix (Commit `45aa3d1`).
+3. **Item-6** ✓ — `sanitize_field` string-Symmetrie + Smoke (Commit `03b3780`).
 
 ## Architecture Notes for Future Sessions
 Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur richtigen Zeit sichtbar):
