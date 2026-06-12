@@ -187,6 +187,24 @@ Alle drei Items in einer Standards-Patch-Session vor Task 5 erledigt (Reihenfolg
 Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur richtigen Zeit sichtbar):
 - **`SettingsPage::render_field()` → `Field_Renderer`-Extraktion:** Der natürliche Split-Kandidat, sobald Feldtypen jenseits der heutigen vier (checkbox/text/select/password) dazukommen ODER der Core-Tab eigene Custom-Renderer braucht. Heute (Task 4) nicht nötig — eine Switch-Case-Methode reicht. Aber beim **nächsten Modul mit neuem Feldtyp** (z. B. textarea, multiselect, color-picker) zuerst die `Field_Renderer`-Extraktion erwägen, bevor `render_field()` mit weiteren Switch-Cases wächst. (Kontext: SettingsPage ist nach Task 4 bei 673 Z. — kein Bloat, aber render_field ist die Wachstumsfuge.)
 
+### Plugin-Splitting-Strategie (langfristig — ab cache-bridge/Task 5 bindend)
+
+Aktuell: **ein** Plugin (`depeur-food` / Depeur Food Suite). Die Depeur Suite wird langfristig durch die Depeur Food Suite ersetzt.
+
+**Mittelfristige Zielarchitektur — Split in drei Plugins:**
+- **Depeur Food** — Content/Schema/Newsletter/Favoriten (food-spezifisch).
+- **Depeur Speed** — `cache-bridge`, Performance, Edge-Integration (BunnyCDN, Cloudflare, RunCloud).
+- **Depeur Features** — nicht-food-spezifische Features.
+
+**Konsequenzen für die aktuelle Architektur (jetzt schon einzuhalten):**
+- **Module dürfen KEINE direkten Cross-Module-Dependencies haben.** Cross-Module-Kommunikation ausschließlich via Hook-Fassade (Action/Filter). Direkter Klassen-Import von Modul A → Modul B sabotiert die Splitting-Strategie.
+- **Settings-Namespacing bleibt pro Modul** (`depeur_food_{slug}` via ADR-1). Beim Split werden Optionen umbenannt — klare Mapping-Strategie bleibt möglich.
+- **Modul-Manifest könnte zukünftig dokumentieren**, zu welchem Plugin-Cluster ein Modul gehört (food/speed/features). Heute nicht relevant, aber Vorbereitung.
+- **Shared Core** (`SettingsRegistry`, `ModuleManager`, `AdminMenu`, `Plugin`-Klasse, `Purge_Context`, Helpers) wird beim Split entweder dupliziert oder als gemeinsame Library extrahiert. Empfohlene Lösung: ein `depeur-core`-Library-Plugin oder Composer-Package, das alle drei nutzen. Heute **KEIN** Action-Item, nur Future-Note.
+- **Konkretes Beispiel (bindend ab Task 5):** `cache-bridge` gehört semantisch zu Depeur Speed. Der BunnyCDN-Provider darf **NICHT** die Suite-`BunnyApi` referenzieren (auch nicht `class_exists`-gegated) — sonst hätte Depeur Speed beim Split eine Suite-Abhängigkeit. Daher: eigenständiger `Provider_BunnyCDN` mit eigenen Credentials statt des ursprünglich in ADR-3 geplanten `Provider_Suite_Bunny`.
+
+**Merksatz:** Bei jeder neuen Modul-Implementierung Cross-Modul-Kontakte explizit hinterfragen — muss die Verbindung direkt sein, oder kann sie via Hook laufen?
+
 ### ACF-Migration-Strategie (vor Schema-Engine relevant)
 
 ACF erfüllt heute zwei getrennte Funktionen:
