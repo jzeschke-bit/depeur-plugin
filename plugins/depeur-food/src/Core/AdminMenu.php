@@ -16,10 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Bewusst schlank: ein Top-Level-Menü + genau eine Unterseite (Einstellungen),
-// die die SettingsPage rendert. KEIN Tab-System und keine Modul-Unterseiten in
-// dieser Phase – die kommen erst, wenn Module eigene Settings registrieren.
-// MENU_SLUG ist zugleich der page-Parameter, auf den die SettingsPage verweist
-// (Form-Action, PRG-Redirect); daher public und stabil zu halten.
+// die die SettingsPage rendert. Die Tab-Navigation und die Modul-Settings rendert
+// die SettingsPage selbst (Tabs via ?tab= unter demselben page-Parameter);
+// AdminMenu bleibt bei einem Menü + einer Unterseite. MENU_SLUG ist zugleich der
+// page-Parameter, auf den die SettingsPage verweist (Form-Action, PRG-Redirect);
+// daher public und stabil zu halten.
 /**
  * Klasse AdminMenu.
  *
