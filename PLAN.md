@@ -185,16 +185,19 @@ plugins/depeur-food/
     │   ├── manifest.php
     │   ├── module.php
     │   └── Endpoints/Rating.php
-    └── cache-bridge/                  ← Hook-First Purge-Layer (siehe ADR-3)
+    └── cache-bridge/                  ← Hook-First Purge-Layer (siehe ADR-3) — Cluster: Depeur Speed
         ├── manifest.php
         ├── module.php
-        ├── Listener.php               ← lauscht auf save_post + WPRM-Hooks → feuert Purge-Action
-        ├── Provider_Interface.php
-        ├── Provider_Log_Only.php      ← Always-on Default, schreibt error_log
-        ├── Provider_Suite_Bunny.php   ← class_exists-Check, nur lesend auf Suite-BunnyApi
-        ├── Provider_Cloudflare.php    ← eigene Credentials in Modul-Settings
-        ├── Provider_RunCloud_Hub.php  ← analog
+        ├── Hooks/
+        │   └── Listener.php           ← save_post + WPRM-Hooks → feuert Purge-Action  (TENTATIV: zentraler vs. pro-Hook-Listener + Lifecycle final im BRIEF)
+        ├── Providers/                 ← PascalCase/PSR-4, kein *.php am Modul-Root (FS-Safety § 2.7)
+        │   ├── ProviderInterface.php
+        │   ├── LogOnly.php            ← Always-on Default, schreibt error_log
+        │   ├── BunnyCDN.php           ← eigenständig, eigene Credentials (kein Suite-Bridge)
+        │   ├── Cloudflare.php         ← eigene Credentials in Modul-Settings
+        │   └── RunCloud.php           ← analog
         └── Admin/Settings.php
+        (Pause-Mechanismus Variante C — Queue/Admin-Bar/Resume — Files im cache-bridge BRIEF)
 ```
 
 Konventionen:
@@ -265,6 +268,14 @@ Schema-Markup aus `alkipedia/rank-math.php` wandert ins Plugin (Modul `schema-en
 **Konsequenz:** Kein Code für PHP 8.0/8.1-Fallbacks. CI/Plugin-Check-Profile auf 8.2 fixiert.
 
 ### ADR-3: Cache-Purge = Hook-First mit Provider-Pattern in depeur-food selbst
+
+> **⚠️ Update 2026-06-12 — supersedes Provider #2 + Suite-Klauseln (Splitting-Strategie):**
+> - **`Provider_Suite_Bunny` → `Provider_BunnyCDN`** (eigenständig, eigene Credentials, **kein** `class_exists`-Bridge auf die Suite-`BunnyApi`). Grund: `cache-bridge` gehört zum künftigen Plugin **Depeur Speed**; eine Suite-Abhängigkeit — auch `class_exists`-gegated — sabotiert den Plugin-Split.
+> - Die Klauseln „Suite wird in dieser Phase nicht angefasst" / „Suite kann unverändert bleiben" sind gegenstandslos: Wir bridgen nicht mehr zur Suite — Unabhängigkeit ist jetzt Architektur-Ziel, nicht Nebeneffekt. → CLAUDE.md › Architecture Notes › Plugin-Splitting-Strategie.
+> - **Physisches Layout:** Provider-Klassen im `Providers/`-Subordner (PascalCase/PSR-4), **nicht** flach am Modul-Root (FS-Safety, Modul-Architektur-Kanon § 2.7). Exakte Klassennamen + Listener-Platzierung + Pause-Files = im `cache-bridge`-BRIEF.
+> - **Neu (Variante C):** Purge-Pause-Mechanismus (Queue + Admin-Bar + Resume-Modal) — Design im BRIEF.
+>
+> Der Original-Text unten bleibt als Entscheidungs-Historie stehen.
 
 **Status:** Accepted. Phase A.
 
