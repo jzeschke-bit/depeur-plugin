@@ -8,10 +8,10 @@ Diese Datei ist die **verbindliche Referenz** für alle Code-Arbeiten an Plugin 
 
 ### 1.1 Plugin-Struktur (Depeur Food)
 
-Modulares Feature-Toggle-Pattern, identisch zum bestehenden Depeur Suite Plugin:
+Modulares Feature-Toggle-Pattern wie das bestehende Depeur Suite Plugin (Toggle-Mechanik), aber mit eigener PSR-4-Architektur (siehe § 2.3):
 
-- Hauptklasse `Depeur_Food` als Singleton, instanziiert über `depeur_food()` Helper.
-- Jedes Feature ist eine eigene Klasse in `includes/features/class-{feature-name}.php`.
+- Hauptklasse `Depeur\Food\Core\Plugin` als Singleton, zugänglich über den globalen `depeur_food()`-Helper.
+- Plugin-Klassen folgen PSR-4 (PascalCase): Core unter `src/`, Module unter `modules/{slug}/` (Discovery via `manifest.php` + `module.php`). Kein `class-{name}.php`.
 - Features werden über zentrales Admin-Panel an/aus geschaltet (Settings API). 
   Settings-Pattern: Multi-Option — pro Modul eine eigene Option 
   `depeur_food_{slug}` (Array, autoload=no für Module mit sensiblen Daten wie 
@@ -62,10 +62,10 @@ Modulares Feature-Toggle-Pattern, identisch zum bestehenden Depeur Suite Plugin:
 ### 2.3 Naming Conventions
 
 - Funktionen, Variablen, Hooks: `snake_case`.
-- Klassen: `PascalCase` mit Prefix `Depeur_Food_` oder `Depeur_Food\Feature_Name` (Namespacing erlaubt).
+- Klassen: `PascalCase`, via Namespace `Depeur\Food\…` (Core) bzw. `Depeur\Food\Modules\{Slug}\…` (Module) — kein `Depeur_Food_`-Klassen-Prefix nötig, das Namespacing übernimmt die Eindeutigkeit.
 - Konstanten: `UPPER_SNAKE_CASE`, immer mit Prefix `DEPEUR_FOOD_`.
 - Optionen, Transients, Meta-Keys, Hooks, CSS-Klassen: alle mit Prefix `depeur_food_` oder `df_` (kürzer, aber konsequent).
-- Dateinamen: `class-{name}.php` für Klassen, `{name}.php` für funktionale Files.
+- Dateinamen: **PSR-4 PascalCase** passend zum Klassennamen (`Plugin.php`, `SettingsPage.php`), geladen über `src/Helpers/Autoloader.php` — **nicht** `class-{name}.php`. Ausnahmen für Lowercase-Filenames: WordPress-Konventions-Files (`depeur-food.php`, `uninstall.php`) am Plugin-Root, Modul-Reserved-Files (`manifest.php`, `module.php`) am Modul-Root. Hintergrund: der WP-Plugin-Header sucht den Plugin-Entry nach Konvention, die Modul-Discovery sucht `manifest`/`module` nach hardcodiertem Namen. Keine `*.php`-Klassen am Modul-Root (FS-Safety gegen `module.php`/`Module.php`-Kollision auf case-insensitive FS, siehe BRIEF § 2.7).
 
 ### 2.4 Inline Documentation
 
