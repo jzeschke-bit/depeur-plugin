@@ -15,13 +15,14 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - ADR-5: Custom Fields via `register_post_meta`, kein ACF zur Laufzeit → siehe PLAN.md § 4.
 
 ## Aktueller Sprint (TodoWrite-Mirror — wird in Phase B befüllt)
-Tasks 1–3 + Task 4 (Tab-System, Core-UI-Infrastruktur) sind Strukturarbeit. Ab dem ersten geschäftslogik-tragenden Modul (`cache-bridge`, Task 5) zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann implementieren. (Offen: ob Task 4 Tab-System einen BRIEF braucht — Core-UI wie Task 2, vmtl. § 12.1-exempt; bei Task-4-Start bestätigen.)
+Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlossene Strukturarbeit (§ 12.1-exempt, Core-UI ohne BRIEF). Task 4b (Modul-Toggle-UI) ist optionale UI, **nicht-blockierend für Task 5**. Ab dem ersten geschäftslogik-tragenden Modul (`cache-bridge`, Task 5) zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann implementieren.
 
 1. Plugin-Bootstrap (`depeur-food.php` + Konstanten + Autoloader + Helper + Activation/Deactivation/Uninstall + Textdomain + `phpcs.xml.dist`). ✓ DONE
 2. Core-Klassen (`Plugin`, `Activation`, `AdminMenu`, `ModuleManager`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`, `Helpers/Autoloader`). ✓ DONE
 3. Beispiel-Modul `example-module` (Discovery + Lazy-Load + SettingsRegistry-Anmeldung validiert; Modul-Architektur-Kanon eingefroren, s. Handoff). ✓ DONE
-4. **Tab-System / Modul-Verwaltung (NEU — Voraussetzung für `cache-bridge`):** SettingsPage um Modul-Tabs erweitern (rendert die via `SettingsRegistry` angemeldeten Schemata) + Modul-Aktivierungs-Toggle-UI (schreibt `depeur_food_modules`). Ohne dies kein Modul-Settings-UI. (In Task 2 + 3 bewusst deferred.)
-5. Modul `cache-bridge` — 5a) `BRIEF.md` schreiben + freigeben lassen · 5b) implementieren (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
+4. **Tab-System (SettingsPage-Modul-Tabs).** SettingsPage rendert Core-Tab + je einen Tab pro aktivem Modul aus den `SettingsRegistry`-Schemata, inkl. Modul-Save-Handler (Slug-Whitelist vor Nonce, ADR-1 autoload, Password-Preserve). ✓ DONE (Commit `d41106b`, Smoke grün inkl. echtem HTTP-Roundtrip + Negativ-Test).
+4b. **Modul-Aktivierungs-Toggle-UI:** UI, die `depeur_food_modules` schreibt (Master-Liste-Editor, validiert gegen `get_discovered_modules()` — gegenläufige Whitelist zum Tab-Routing). Eigener Feature-Komplex mit Aktivierungs-Semantik, bewusst aus Task 4 ausgeklammert. **Nicht-blockierend für Task 5** — Module bis dahin via `wp option update depeur_food_modules '["slug"]' --format=json` aktivierbar. Kein BRIEF (Core-UI, § 12.1-exempt).
+5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **Reihenfolge bei Session-Start: (1) Standards-Patch-Session (Items 3/5/6, s. Open Items) → (2) `BRIEF.md` schreiben + freigeben lassen → (3) implementieren** (Purge_Context, Listener, vier Provider mit Log_Only Always-on).
 6. Modul `schema-engine` — 6a) `BRIEF.md` · 6b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
 7. Modul `favorites` — 7a) `BRIEF.md` · 7b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
 8. Modul `newsletter` — 8a) `BRIEF.md` (klärt OQ-2) · 8b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
@@ -30,7 +31,24 @@ Tasks 1–3 + Task 4 (Tab-System, Core-UI-Infrastruktur) sind Strukturarbeit. Ab
 11. Theme-Migration — 11a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 11b) Customizations aus `alkipedia` portieren.
 
 ## Last Session Handoff
-**Stand: 2026-06-10 (zweite Claude-4.8-Session, Forts.). Task 3 (`example-module`) abgeschlossen, Smoke + 8-Punkte-Konsistenz-Check grün.**
+**Stand: 2026-06-12 (dritte Claude-4.8-Session). Task 4 (Tab-System) abgeschlossen, voller Smoke grün inkl. echtem Browser-Roundtrip + Negativ-Test.**
+
+### Session 2026-06-12 — Task 4 (Tab-System) DONE
+- **2 Code-Files** (Commit `d41106b`): `src/Core/Settings/SettingsPage.php` (182 → 673 Z., 7 neue Methoden) + `src/Core/AdminMenu.php` (nur Stale-Kommentar „KEIN Tab-System" korrigiert). CLAUDE.md-Handoff separat (Commit B).
+- **Was SettingsPage jetzt kann:** Core-Tab (Post-Types, **verbatim aus Task 2 verschoben** → Backward-Compat trivial) + je ein Tab pro aktivem Modul aus den `SettingsRegistry`-Schemata. Routing über `?tab=` (Default `core`). Neue Methoden: `get_allowed_tabs`, `get_active_tab`, `render_tab_nav`, `render_core_tab`, `render_module_tab`, `render_field`, `handle_module_save`, `redirect_with_flag`.
+- **Implementiert in 4 Approval-Blöcken** (B1 Tab-Nav+Routing · B2 Feld-Renderer · B3 Modul-Tab-Render · B4 Modul-Save), pro Block `php -l` + phpcs (Policy ab B1 nachgezogen).
+- **KEINE Registry-Erweiterung nötig:** `SettingsRegistry::register($slug,$tab_label,$fields,$desc)` + `get_schemas_for_active_modules()` trugen den Tab-Mechanismus schon (Task 2/3).
+- **Zwei gegenläufige Whitelists (bindend):** Tab-Routing (GET) erlaubt `['core'] + get_active_module_slugs()`; Modul-Save (POST) erlaubt `get_active_module_slugs()` **ohne** `core`. `core` hat den eigenen Save-Zweig.
+- **Security-Reihenfolge `handle_module_save` (nicht umstellen):** cap → Slug-Read → `sanitize_key` → Whitelist → **DANN** `check_admin_referer` (Nonce-Action slug-gebunden `depeur_food_save_module_{slug}`). Ungültiger Slug fällt VOR der Nonce durch. Defense-in-Depth-`return` im Reject-Zweig (Success-Zweig ohne `return` — phpcs-redundant, dokumentiert).
+- **ADR-1 autoload:** Feld mit `autoload=false` (Secret) → ganze Option `autoload=false`, sonst `true`. **Password-Preserve:** leerer/whitespace-Submit behält den gespeicherten Wert (sanitize_field kennt nur den NEW value, die Behalten-Entscheidung lebt in `handle_module_save`).
+- **Feld-Renderer `render_field( $field, $value, $name )`:** vier Typen (checkbox/text/select/password), unbekannter Typ → `_doing_it_wrong` + Skip (kein Fatal, kein bogus Key — Save spiegelt den Skip). `$name` vom Aufrufer (Slug-Kontext).
+- **Smoke grün:** `php -l` · phpcs Exit 0 (B1-Finding „assoc-Array mehrzeilig" früh gefixt) · `wp plugin check` 0 neue Findings · **Pre/Post-Vergleich** `depeur_food_supported_post_types` `["post"]`→`["post"]` + `depeur_food_modules` `[]`→`[]` **identisch (keine Daten-Migration)** · **Browser-Roundtrip** (example-module Checkbox gespeichert → `{"example_enabled":true}`, autoload=on) · **Negativ** (Hidden-Slug auf `evil-module` manipuliert → Whitelist-Ablehnung vor Nonce → core+`df_error`-Notice, **keine** `depeur_food_evil-module`-Option) · debug.log frei.
+- **Zwei latente Funde dokumentiert** (NICHT in Task 4 gefixt → Standards-Patch-Backlog): Item-5 (§ 12.1 Stale-Reference) + Item-6 (numeric-select-Asymmetrie in `sanitize_field`).
+- **`depeur_food_modules` zurück auf `[]`** (Test-Cleanup), Env-State = Pre-Snapshot.
+
+**Nächster Schritt:** Task 5 — `cache-bridge` (erster BRIEF-pflichtige Task). **Reihenfolge: (1) Standards-Patch-Session Items 3/5/6 → (2) BRIEF.md schreiben + freigeben → (3) Code.** Vorher Task 4b (Modul-Toggle-UI) NICHT nötig — cache-bridge via `wp option` aktivierbar.
+
+---
 
 ### Session 2026-06-10 (Forts.) — Task 3 (`example-module`) DONE
 - **4 Files** unter `plugins/depeur-food/modules/example-module/`: `manifest.php`, `module.php` (Bootstrap), `Admin/Settings.php` (Bootstrap-Klasse: Settings-Anmeldung + Demo-Filter `depeur_food/example/greeting`), `BRIEF.md` (Architektur-Snapshot, lebt mit dem Modul, § 12.4) — plus Minor-Docblock in `src/Core/Settings/SettingsRegistry.php`.
@@ -51,7 +69,7 @@ Schnellreferenz, ohne den vollen BRIEF (`modules/example-module/BRIEF.md`) lesen
 8. **Anmeldung nur via `SettingsRegistry`-API** (ADR-1).
 9. **„loaded ⟺ active":** ModuleManager lädt `module.php` nur für aktive Module; das Modul prüft die Master-Liste nicht selbst nach.
 
-**Nächster Schritt:** Task 4 (NEU) — **Tab-System / Modul-Verwaltung** (SettingsPage-Modul-Tabs, die registrierte Schemata rendern, + Aktivierungs-Toggle-UI). Voraussetzung für `cache-bridge` (jetzt Task 5). Sprint-Liste oben ist bereits renumbert (alt 4→5 … 10→11). **Offen:** ob Task 4 einen BRIEF braucht (Core-UI wie Task 2, vmtl. § 12.1-exempt) — bei Session-Start klären.
+**Nächster Schritt (erledigt 2026-06-12):** Task 4 (Tab-System) abgeschlossen — s. Session 2026-06-12 oben. BRIEF-Frage geklärt: § 12.1-exempt, ohne BRIEF gelaufen. Toggle-UI in Task 4b ausgelagert.
 
 ---
 
@@ -154,8 +172,20 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **OQ-3:** Verwendung von `mu-plugins/` (aktuell leer)?
 - **Item-1:** SSH-Alias `runcloud-test` verfügbar (Linux Testserver, PHP 8.4.20, User `runcloud`, verifiziert in dieser Session). Test-WebApp ist `/home/runcloud/webapps/Food-Blog_Template/` — bestehendes Test-WordPress, freigegeben für Phase-B-Remote-Tests. Lese-Operationen sind jederzeit zulässig; Schreibe-/Push-Operationen erst nach explizitem Push-Approval pro Feature.
 - **Item-2 (erledigt 2026-06-08):** Beide Pflicht-Edits aus PLAN.md § 6 sind in `wordpress.md` umgesetzt (§ 1.1 Multi-Option, § 4.5 Autoload); zusätzlich § 4.2 ↔ ADR-3 + Z.21-Glitch gefixt (`df09c5c`). Phase B entsperrt. Siehe „Last Session Handoff".
-- **Item-3:** `wordpress.md` § 2.3 fordert `class-{name}.php` für Klassendateien, die frozen PSR-4-/Suite-Architektur nutzt aber PascalCase (`src/Core/Plugin.php`). Stale-Standard analog zum gelösten § 4.2 ↔ ADR-3. phpcs ist bereits via FileName-Sniff-Exclude (`src/*`, `modules/*`) darauf eingestellt; die Bibel selbst wurde NICHT eigenmächtig editiert. Fix in dedizierter Standards-Patch-Session **vor Task 4** (Befund: Last Session Handoff 2026-06-08).
-- **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json` gemappt. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`. (Eingeführt 2026-06-08, Task-1d.)
+- **Item-3:** `wordpress.md` § 2.3 fordert `class-{name}.php` für Klassendateien, die frozen PSR-4-/Suite-Architektur nutzt aber PascalCase (`src/Core/Plugin.php`). Stale-Standard analog zum gelösten § 4.2 ↔ ADR-3. phpcs ist bereits via FileName-Sniff-Exclude (`src/*`, `modules/*`) darauf eingestellt; die Bibel selbst wurde NICHT eigenmächtig editiert. Fix in dedizierter Standards-Patch-Session **vor Task 5** (s. „Standards-Patch-Session Backlog" unten; Befund: Last Session Handoff 2026-06-08).
+- **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json` gemappt. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`. (Eingeführt 2026-06-08, Task-1d.) *(Operationaler Eintrag — NICHT Teil des Standards-Patch-Backlogs.)*
+- **Item-5:** `wordpress.md` § 12.1 hat eine Stale-Reference „ab Task 4 (cache-bridge)" — durch den Renumber (Tab-System als neues Task 4 eingeschoben) falsch: `cache-bridge` ist jetzt Task 5. § 12 BRIEF-Pflicht greift ab Task 5, nicht Task 4. Fix in Standards-Patch-Session vor Task 5. (Befund: Task 4, 2026-06-12.)
+- **Item-6:** `SettingsRegistry::sanitize_field()` select-Zweig nutzt strict `in_array( $value, array_keys($options), true )` **ohne** Cast. Render-Seite (`SettingsPage::render_field`) castet dagegen `selected( (string)$value, (string)$opt_key )`. Asymmetrie: ein Modul mit **numerischen** Select-Keys würde beim Save auf Default fallen, obwohl die UI korrekt rendert. Heute kein Modul betroffen, latent. Fix-Vorschlag: sanitize_field select-Vergleich ebenfalls `(string)`-casten. (Befund: Task 4, 2026-06-12.)
+
+### Standards-Patch-Session Backlog (zusammen adressieren, VOR Task 5)
+Drei Standards-/Konsistenz-Items, die als ein Block vor dem ersten BRIEF-pflichtigen Modul (`cache-bridge`) gefixt werden sollen — `wordpress.md` ist User-owned, Edits an der Bibel nur mit Freigabe:
+1. **Item-3** — `wordpress.md` § 2.3 (PSR-4-PascalCase vs. gefordertes `class-{name}.php`).
+2. **Item-5** — `wordpress.md` § 12.1 Stale-Reference „ab Task 4 (cache-bridge)" (Renumber → Task 5).
+3. **Item-6** — numeric-select-Asymmetrie in `SettingsRegistry::sanitize_field()` (Code-Fix, kein Bibel-Edit).
+
+## Architecture Notes for Future Sessions
+Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur richtigen Zeit sichtbar):
+- **`SettingsPage::render_field()` → `Field_Renderer`-Extraktion:** Der natürliche Split-Kandidat, sobald Feldtypen jenseits der heutigen vier (checkbox/text/select/password) dazukommen ODER der Core-Tab eigene Custom-Renderer braucht. Heute (Task 4) nicht nötig — eine Switch-Case-Methode reicht. Aber beim **nächsten Modul mit neuem Feldtyp** (z. B. textarea, multiselect, color-picker) zuerst die `Field_Renderer`-Extraktion erwägen, bevor `render_field()` mit weiteren Switch-Cases wächst. (Kontext: SettingsPage ist nach Task 4 bei 673 Z. — kein Bloat, aber render_field ist die Wachstumsfuge.)
 
 ## Session-Start-Routine
 1. `wordpress.md` neu lesen (kann sich geändert haben). Insbesondere § 2.5, § 6.2, § 12 sind frisch und für die Implementierung verbindlich.
