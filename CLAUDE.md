@@ -14,24 +14,44 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - ADR-4: Post-Type-Agnostik via `depeur_food()->get_supported_post_types()` → siehe PLAN.md § 4.
 - ADR-5: Custom Fields via `register_post_meta`, kein ACF zur Laufzeit → siehe PLAN.md § 4.
 
-## Aktueller Sprint (TodoWrite-Mirror — wird in Phase B befüllt)
-Tasks 1–4 (Bootstrap, Core-Klassen, Beispiel-Modul, Tab-System) sind abgeschlossene Strukturarbeit (§ 12.1-exempt, Core-UI ohne BRIEF). Task 4b (Modul-Toggle-UI) ist optionale UI, **nicht-blockierend für Task 5**. Ab dem ersten geschäftslogik-tragenden Modul (`cache-bridge`, Task 5) zwingt § 12 (Pre-Implementation-Review) jeweils zwei Sub-Tasks: erst BRIEF schreiben + freigeben lassen, dann implementieren.
+## Aktueller Sprint — Live-First-Strategie (VORLÄUFIG bis Recon-Lücken P0 geschlossen)
 
-1. Plugin-Bootstrap (`depeur-food.php` + Konstanten + Autoloader + Helper + Activation/Deactivation/Uninstall + Textdomain + `phpcs.xml.dist`). ✓ DONE
-2. Core-Klassen (`Plugin`, `Activation`, `AdminMenu`, `ModuleManager`, `PostTypeRegistry`, `Settings/SettingsRegistry`, `Settings/SettingsPage`, `Helpers/Autoloader`). ✓ DONE
-3. Beispiel-Modul `example-module` (Discovery + Lazy-Load + SettingsRegistry-Anmeldung validiert; Modul-Architektur-Kanon eingefroren, s. Handoff). ✓ DONE
-4. **Tab-System (SettingsPage-Modul-Tabs).** SettingsPage rendert Core-Tab + je einen Tab pro aktivem Modul aus den `SettingsRegistry`-Schemata, inkl. Modul-Save-Handler (Slug-Whitelist vor Nonce, ADR-1 autoload, Password-Preserve). ✓ DONE (Commit `d41106b`, Smoke grün inkl. echtem HTTP-Roundtrip + Negativ-Test).
-4b. **Modul-Aktivierungs-Toggle-UI:** UI, die `depeur_food_modules` schreibt (Master-Liste-Editor, validiert gegen `get_discovered_modules()` — gegenläufige Whitelist zum Tab-Routing). Eigener Feature-Komplex mit Aktivierungs-Semantik, bewusst aus Task 4 ausgeklammert. **Nicht-blockierend für Task 5** — Module bis dahin via `wp option update depeur_food_modules '["slug"]' --format=json` aktivierbar. Kein BRIEF (Core-UI, § 12.1-exempt).
-5. Modul `cache-bridge` (erster BRIEF-pflichtiger Task, § 12.1 geschäftslogik-tragend) — **BRIEF APPROVED, CODE-PHASE PENDING** (BRIEF.md v1.0 `8e7dae4`, Session 2026-06-12c). `modules/cache-bridge/BRIEF.md` (871 Z., 18 Sektionen, Schema 1.1) ist frozen Architektur (Sketch entfernt `9704258`). **Code-Reihenfolge:** shared Value-Objects (`Purge_Context`/`Purge_Result`/`Provider_Catalog`) + `Transport` (4. shared File, Executor) → `Provider_Interface` → Listener + `Purge_Runner` + `module.php`/`manifest.php`-Skelett → vier Provider (LogOnly/RunCloud/BunnyCDN/Cloudflare, eigenständig, **kein** Suite-Bridge) → Pause-Trio (Variante C: Controller/Queue/AdminBar) + Assets → Admin/Settings → Smoke + MockedHttpResponses. ~19 Files / ~1.700–1.800 LOC / **5–6 Code-Sessions**. **Smoke-Step-0 ZWINGEND:** Autoloader-`Word_Word`-Auflösung verifizieren VOR Provider-Code.
-6. Modul `schema-engine` — 6a) `BRIEF.md` · 6b) implementieren (migriert `category-schema` + `alkipedia/rank-math.php`, post-type-agnostisch, ACF-frei).
-7. Modul `favorites` — 7a) `BRIEF.md` · 7b) implementieren (REST-Endpoint mit Nonce, Shortcodes, WPRM-Integration, `register_post_meta`-Like-Counter).
-8. Modul `newsletter` — 8a) `BRIEF.md` (klärt OQ-2) · 8b) implementieren (the_content-Inserter, Custom-Meta-Box, Flodesk-Provider).
-9. Modul `recipe-extras` — 9a) `BRIEF.md` · 9b) implementieren (Conditional WPRM-Asset-Enqueue, Pinterest-Schema).
-10. Theme-Bootstrap — 10a) `BRIEF.md` für Theme-Architektur (analog zu Modul-Brief) · 10b) `themes/kadence-child/` neu anlegen.
-11. Theme-Migration — 11a) `BRIEF.md` mit Migrations-Inventar pro `inc/`-File · 11b) Customizations aus `alkipedia` portieren.
+**Strategie-Wechsel 2026-06-12 (Session d):** Nach Recon-Re-Validation der Legacy-Funktionalität (→ `_references/legacy-inventory.md`) Umstellung von „Architektur-Sauberkeit zuerst" auf **Live-First** (sichtbare/sofort-testbare Features zuerst). `cache-bridge` ist Infrastruktur-Sahne (unsichtbar, nur live testbar) → von Position 5 auf **Position 11** verschoben; BRIEF v1.0 liegt bereits (`8e7dae4`), Code deferred. Migrations-Phase kommt zuerst.
+
+**Fundament-Struktur ✓ DONE (§ 12.1-exempt, ohne BRIEF):** Tasks 1–4 — Plugin-Bootstrap · Core-Klassen (`Plugin`/`ModuleManager`/`PostTypeRegistry`/`SettingsRegistry`/`SettingsPage`/`AdminMenu`/`Activation`/`Autoloader`) · Beispiel-Modul `example-module` (Modul-Kanon eingefroren) · Tab-System (Commit `d41106b`). Task 4b (Modul-Toggle-UI) optional, nicht-blockierend — Module via `wp option update depeur_food_modules '["slug"]' --format=json` aktivierbar.
+
+Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Review): erst `BRIEF.md` schreiben + freigeben, dann implementieren.
+
+**Live-First-Sprint P0–P11 — VORLÄUFIG, final erst nach P0:**
+
+- **P0 · Recon-Lücken schließen** (kein Code): CPT-/Taxonomie-Registrierungs-Quelle (welches Plugin registriert heute `cocktails`/`blog`/`tests`/`trinkspiel`/`bar-equipment` + `anlass`/`herkunft`/`art`/…?) + OQ-1 (externe App-Audit: genutzte Endpoints, Plattform iOS/Android/Web, Versionierung, Auth). **Blockiert P3 + P10.**
+- **P1 · ACF-Discovery** (kein Code): Bestandsaufnahme aller Live-Felder (einfachandersessen.de + alkipedia.com) → `_references/acf-discovery.md`. Fundament-Recon für meta-registry.
+- **P2 · `meta-registry`-Modul** (BRIEF-pflichtig): `register_post_meta`/`register_user_meta`/`register_term_meta` für alle Discovery-Felder, `show_in_rest`. **Entsperrt ALLE Feature-Module.** Koexistiert mit ACF (E6).
+- **P3 · `post-type-registry`-Modul** (BRIEF-pflichtig, NEU aus E7): CPT-/Taxonomie-Registrierung ins Plugin + Settings-UI für generische CPT-Konfiguration. CPT UI später deaktivieren. Voraussetzung P0.
+- **P4 · `favorites`-Modul** (BRIEF-pflichtig): höchste Live-Sichtbarkeit. REST+Nonce, **Cookie→localStorage-Migration** (Like-Counter `register_post_meta`), CPT filterbar `depeur_food/favorites/post_types`. WPRM soft-dep (E2). Parallel-Migration (E5).
+- **P5 · `newsletter`-Modul** (BRIEF-pflichtig): the_content-Inserter + Custom-Meta-Box, **Flodesk-only mit dünner Provider-Naht** (`Providers/Flodesk.php`-Klassen-Trennung, E4), Nonce nachziehen. Big-Bang-Migration (E5).
+- **P6 · `schema-engine`-Modul** (BRIEF-pflichtig): migriert `category-schema` + `alkipedia/rank-math.php`. **Rank Math hard-dep (E1)**, WPRM soft-dep (E2). Big-Bang (E5).
+- **P7 · `language-selector`-Modul** (BRIEF-pflichtig): manuelles Cross-Domain-hreflang (E3), `link_en`/`link_de` via register_post_meta. Vor englischer alkipedia.com.
+- **P8 · Theme-Bootstrap + Migration** (BRIEF-pflichtig): `themes/kadence-child/` + 3 komplexe Templates (favorite-archive, rezeptkategorie, was-koche-ich-heute) + Plugin-vs-Theme-Schnitt pro Funktion. **Realistisch 5–8 Sessions** (nicht 2–3).
+- **P9 · Kategorie-Seiten-Automatisierung** (BRIEF-pflichtig, **NEU-Feature, kein Legacy-Pendant**): Voraussetzung P3 + P8.
+- **P10 · `rest-legacy`-Modul** (BRIEF-pflichtig, Klassifikation „legacy"): Legacy-Routen **1:1 inkl. Bugs** (E8). Voraussetzung OQ-1 (P0). Bugs in BRIEF „Bekannte Tech-Debt", nicht gefixt; Code-Standards eingeschränkt.
+- **P11 · `cache-bridge` (Code-Phase)**: BRIEF v1.0 liegt (`8e7dae4`). ~19 Files / ~1.700–1.800 LOC / 5–6 Sessions. Infrastruktur, bewusst zuletzt. **Smoke-Step-0:** Autoloader-`Word_Word`-Auflösung verifizieren VOR Provider-Code.
 
 ## Last Session Handoff
-**Stand: 2026-06-12 (fünfte Claude-4.8-Session, „c"). Task 5 (cache-bridge): `BRIEF.md` v1.0 APPROVED + committed (`8e7dae4`), Sketch entfernt (`9704258`). Code-Phase beginnt NÄCHSTE Session. Diese Session KEIN Code (§ 12.3 erfüllt: BRIEF vor Implementierung).**
+**Stand: 2026-06-12 (sechste Claude-4.8-Session, „d"). STRATEGIE-WECHSEL: Sprint von „Architektur-zuerst" auf Live-First umgestellt nach Legacy-Recon-Re-Validation. cache-bridge BRIEF v1.0 bleibt freigegeben, Code-Phase aber von Position 5 → Position 11 deferred. Legacy-Inventar persistiert (`_references/legacy-inventory.md`). E1–E8-Architektur-Entscheidungen final. KEIN Code diese Session.**
+
+### Session 2026-06-12 (d) — Strategie-Refactor (Live-First) + Legacy-Recon (KEIN Code)
+- **Auslöser:** Jonas' Einsicht — (1) cache-bridge ist Infrastruktur-Sahne (unsichtbar, nur live testbar), nicht launch-blocking; (2) die gewünschte Kern-Funktionalität ist **Migration aus existierendem System**, nicht Neubau.
+- **Recon-Session:** alle 4 Legacy-Plugins (`category-schema`, `my-favorite-posts-plugin`, `rest-api-wprm`, `spotlight-subscribe`) + Theme `alkipedia` (`functions.php` 928 Z., `rank-math.php`, 3 Templates) vollständig gelesen → 7-Funktionen-Inventar in **`_references/legacy-inventory.md`** (persistente Migrations-Referenz). Denkfehler-Aufdeckung (D1–D8) + strategische Synthese.
+- **Ergebnis:** Neue Live-First-Sprint-Liste P0–P11 (s. „Aktueller Sprint", **VORLÄUFIG** bis P0). cache-bridge → P11. Neue Module aus E7/E8: `post-type-registry`, `rest-legacy`.
+- **E1–E8 final entschieden** (→ Architecture Notes › „Architektur-Entscheidungen E1–E8").
+- **Commits heute (Session d):** dieser Commit (Sprint-Refactor + `legacy-inventory.md`). Session-c-Vorlauf: `9cd9131` (Domain-Fix) · `8e7dae4` (BRIEF v1.0) · `9704258` (Sketch-Entfernung) · `8f39b96` (alter Handoff, durch diesen ersetzt). Vorsession: `74abeca` `0a87e58` `d3ea4be` `c0defad`.
+- **Jonas-Beobachtungen (für künftige BRIEFs verbindlich):**
+  - **Externe App = Black-Box:** OQ-1 muss neben Endpoint-Nutzung auch Plattform (iOS/Android/Web), Versionierungs-Bedarf und Auth-Mechanismus klären (→ P0).
+  - **Cookie→localStorage-Migration nicht trivial:** User mit bestehenden Favoriten dürfen sie nicht verlieren — Migrations-Pfad (Cookie lesen → localStorage übertragen → Cookie löschen) muss im Favoriten-BRIEF (P4) explizit sein.
+  - **Theme-Bootstrap (P8) unterschätzt:** 3 komplexe Templates + Plugin-vs-Theme-Aufteilung pro Funktion → realistisch **5–8 Sessions**, nicht 2–3.
+- **Recon-Lücken (P0, blockierend):** CPT-/Taxonomie-Registrierungs-Quelle (extern, nicht in `_references/`) + OQ-1. Details in `legacy-inventory.md`.
+- **Nächste Session:** P0 (Recon-Lücken) → Sprint final (VORLÄUFIG-Markierung entfernen) → P1 ACF-Discovery starten.
 
 ### Session 2026-06-12 (c) — Task 5 (cache-bridge) BRIEF.md v1.0 FREIGEGEBEN (KEIN Code)
 - **Ablauf:** Pre-Decisions-Triage (11 Pre-Decisions + 4 Recon-Caveats + Lazy-vs-Eager-Entscheidung, thematisch in Gruppen A–F bestätigt) → Volltext-`BRIEF.md` in 6 Block-Reviews (B1–B6, je 2–4 Sektionen, pro Block Approval) → Approval → Commit. Per-Block-Approval + Mid-Session-Checks gehalten.
@@ -204,12 +224,7 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **Item-6:** ✓ **ERLEDIGT 2026-06-12** (Commit `03b3780`): `SettingsRegistry::sanitize_field()` select-Zweig auf string-symmetrischen Vergleich umgestellt (`array_map( 'strval', … )` + `(string)`-Cast mit `is_scalar`-Guard, Rückgabe des validierten Strings). Smoke: 4 Vektoren grün (numeric `"1"`→`'1'`, string-Regression, invalid→`''`, out-of-range→Default). (Befund: Task 4, 2026-06-12.)
 - **Item-7:** `src/Support/SuiteCompat.php` (geplant in PLAN.md § 2 als „graceful Fallback wenn Suite nicht aktiv") wird durch die No-Suite-Dependency-Regel der Plugin-Splitting-Strategie fragwürdig — `cache-bridge` bridged nicht mehr zur Suite. Klärung: SuiteCompat ganz streichen vs. für andere (Nicht-Cache-)Suite-Interop behalten. **Nicht cache-bridge-Scope** (kein Drive-by). (Befund: Task-5-Recon, 2026-06-12.)
 
-*(Reihenfolge-Hinweis für Items 8–11: ALLE sind POST-cache-bridge. Reihenfolge bleibt: 1) cache-bridge Code-Phase (5–6 Sessions) → 2) cache-bridge Smoke + Live-Aktivierung → 3) ACF-Discovery (Item-8) → 4) `meta-registry`-Modul → 5) Schema-Engine → 6) später Theme-Templates (Item-9) vor Task 11. NICHT vor cache-bridge-Code anfangen.)*
-
-- **Item-8: ACF-Discovery-Session (vor Task 6 schema-engine, NICHT vor cache-bridge-Code).** Die ACF-Migration-Note (Architecture Notes) ist abstrakt; jetzt operativ: dedizierte Discovery-Session (~30–60 Min), Bestandsaufnahme aller Live-Felder auf einfachandersessen.de + alkipedia.com → `_references/acf-discovery.md` (Meta-Keys, Typen, Post-Types). Danach `meta-registry`-Modul als eigener Task (vermutlich Task 6; schema-engine rutscht auf Task 7+). **Offene Sub-Entscheidung (blockiert ALLE Feld-Konsumenten — Schema-Engine, Newsletter, …):** Editor-UI interim bei ACF behalten, oder native MetaBoxen/Gutenberg ab `meta-registry`? In/direkt nach Discovery entscheiden. (Befund: Session 2026-06-12c.)
-- **Item-9: Theme-Template-Architektur für alkipedia-Portierung (vor Task 11).** Task 11 „alkipedia portieren" ist zu grob. Drei Legacy-Templates brauchen eigene Spezifikation: (1) Rezeptkategorie-Seiten (Multi-Taxonomie-Query + Pagination), (2) Favoriten-Archiv (aktuell Cookie-basiert → Migration zu localStorage/User-Meta), (3) „Was koche ich heute" (AJAX-Filter). Plus übergreifender Plugin-vs-Theme-Schnitt: Schema/Daten = Plugin, Layout/Query = Theme; Favoriten-Daten = Plugin, Favoriten-Seite = Theme oder Shortcode-auf-normaler-Seite? Klärung vor Task 11. (Befund: Session 2026-06-12c.)
-- **Item-10: Performance-Themen explizit als Phase-2-deferred.** Critical CSS / JS-Delay / Bloat-Reduction bewusst NICHT im aktuellen Sprint: (a) WP-Rocket-Ersatz NICHT im Scope (Page-Cache via RunCache/Cloudflare), (b) Theme-Performance erst nach Theme-Migration (Task 11+), (c) Critical CSS später ggf. als eigenes **Depeur-Speed**-Modul (passt zur Splitting-Strategie). Dokumentiert, damit die „warum kein Critical CSS?"-Frage in 6 Monaten eine explizite Antwort hat. (Befund: Session 2026-06-12c.)
-- **Item-11: Asset-Convention plugin-weit hochziehen.** Im cache-bridge-BRIEF (§ 8.4) als modul-lokale Convention festgehalten: **Admin-Assets** jQuery erlaubt (nicht Pflicht, Heuristik: nur wenn >30 % Code-Reduktion); **Frontend-Assets Vanilla strikt** (Kadence ist Frontend-jQuery-frei — ~30 KB Bloat/Page-Load vermeiden); Resume-Modal = Vanilla ohne Build-Step. Sollte als plugin-weite Konvention nach „Konventionen kompakt" (o. ä.) hochgezogen werden, nicht cache-bridge-lokal bleiben. (Befund: Session 2026-06-12c.)
+*(Items 8/9/10/11 wurden 2026-06-12d aufgelöst: **Item-8** (ACF-Discovery) → Sprint **P1**; **Item-9** (Theme-Templates) → Sprint **P8/P9**; **Item-10** (Performance-deferred) → `_references/ROADMAP-ANALYSIS-NOTES.md` (Depeur-Speed-Cluster, Phase 2+); **Item-11** (Asset-Convention) → Architecture Notes. Die Editor-UI-Sub-Entscheidung aus Item-8 ist via **E6** entschieden: ACF bleibt als Editor-UI eigenständig, depeur-food nutzt nur die Datenschicht.)*
 
 ### Standards-Patch-Session Backlog — ✓ ABGESCHLOSSEN (2026-06-12)
 Alle drei Items in einer Standards-Patch-Session vor Task 5 erledigt (Reihenfolge klein→groß, Code zuletzt):
@@ -221,7 +236,24 @@ Alle drei Items in einer Standards-Patch-Session vor Task 5 erledigt (Reihenfolg
 Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur richtigen Zeit sichtbar):
 - **`SettingsPage::render_field()` → `Field_Renderer`-Extraktion:** Der natürliche Split-Kandidat, sobald Feldtypen jenseits der heutigen vier (checkbox/text/select/password) dazukommen ODER der Core-Tab eigene Custom-Renderer braucht. Heute (Task 4) nicht nötig — eine Switch-Case-Methode reicht. Aber beim **nächsten Modul mit neuem Feldtyp** (z. B. textarea, multiselect, color-picker) zuerst die `Field_Renderer`-Extraktion erwägen, bevor `render_field()` mit weiteren Switch-Cases wächst. (Kontext: SettingsPage ist nach Task 4 bei 673 Z. — kein Bloat, aber render_field ist die Wachstumsfuge.)
 
-### Plugin-Splitting-Strategie (langfristig — ab cache-bridge/Task 5 bindend)
+### Architektur-Entscheidungen E1–E8 (2026-06-12d, post Recon-Re-Validation)
+- **E1: Rank Math = Hard-Dependency** (`schema-engine` setzt voraus, kein Soft-Path; SEO-Provider-Abstraktion = Phase 2).
+- **E2: WPRM = Soft-Dependency** (`function_exists`-gated, graceful skip; Favoriten funktionieren auch auf Nicht-Recipe-Posts).
+- **E3: Language-Selector = manuell via ACF `link_en`/`link_de`** (Cross-Domain-Realität de/com, kein Polylang/WPML; Felder → `register_post_meta`).
+- **E4: Newsletter = Flodesk-only mit dünner Provider-Naht** (`Providers/Flodesk.php`-Klassen-Trennung; **KEINE** Provider-Abstraktion/Interface/Registry/Factory ohne zweiten realen Konsumenten — Disziplin analog cache-bridge).
+- **E5: Migrations-Strategie = gemischt** (parallel für daten-tragende Module mit zu ACF identischen Meta-Keys → koexistenzfähig; Big-Bang für reine Logik wie Schema-Filter/Newsletter-Insertion, sonst doppelter Output).
+- **E6: ACF bleibt als Editor-UI eigenständig auf jeder Site** (lizenzrechtlich nicht bundle-bar). depeur-food nutzt nur die Datenschicht parallel via `register_post_meta` (selbe `wp_postmeta`-Tabelle, kein Konflikt). Native Editor-UI (MetaBoxen/Gutenberg-Sidebar) = separate spätere Entscheidung.
+- **E7: CPT-Registrierung wandert ins Plugin** (`post-type-registry`-Modul, P3) — „Plugins so weit möglich reduzieren". CPT UI später deaktivieren. ACF-Field-Groups bleiben separat in ACF-UI (NICHT E7-Scope).
+- **E8: REST-Legacy-Routen 1:1 erhalten INKL. Bugs** (`rest-legacy`-Modul, P10). Bewusste Tech-Debt, niedriges Risiko (interner App-Userkreis). Bugs (`ParrentID`-Typo, `content="hallo"`, auskommentierte `permission_callback`/offenes DELETE, `max(…,200)`) in BRIEF „Bekannte Tech-Debt" dokumentiert, **nicht gefixt**. Klassifikation „legacy": BRIEF-Pflicht gilt, voller Code-Qualitäts-Standard nicht. Refactor on-the-table für künftiges `rest-modern`-Modul.
+
+### Sicherheits-Funde aus Legacy-Recon (2026-06-12d)
+- **BLOCKING vor Live-Deploy (NEUE Module mit Code-Neubau):** Favoriten-AJAX `my_favorite_post` **ohne Nonce** (→ `favorites`/P4, Nonce + `permission_callback` Pflicht); Newsletter-Admin-Save **ohne Nonce** (→ `newsletter`/P5).
+- **Akzeptierte Tech-Debt, niedriges Risiko (`rest-legacy`/P10):** REST-Rating-CRUD mit auskommentierten `permission_callback` (offenes DELETE) + `wl/v1/posts` ohne Permission → **NICHT gefixt** (E8), in `rest-legacy`-BRIEF „Bekannte Tech-Debt". Voll-Details: `_references/legacy-inventory.md`.
+
+### Asset-Convention (plugin-weit, ex-Item-11)
+- **Admin-Assets:** jQuery erlaubt (Core-Admin lädt es eh, nicht Pflicht; Heuristik: nur bei >30 % Code-Reduktion). **Frontend-Assets: Vanilla strikt** (Kadence ist Frontend-jQuery-frei → ~30 KB Bloat/Page-Load vermeiden), kein Frontend-jQuery-Enqueue, kein Build-Step (direkt enqueuebares Vanilla). Gilt plugin-weit für alle Module.
+
+### Plugin-Splitting-Strategie (langfristig — ab cache-bridge bindend)
 
 Aktuell: **ein** Plugin (`depeur-food` / Depeur Food Suite). Die Depeur Suite wird langfristig durch die Depeur Food Suite ersetzt.
 
