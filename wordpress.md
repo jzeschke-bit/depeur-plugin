@@ -286,8 +286,8 @@ Bevor ein geschäftslogik-tragendes Modul implementiert wird, läuft ein **verpf
 
 ### 12.1 Geltungsbereich
 
-- **Pflicht** ab dem ersten geschäftslogik-tragenden Modul. In der Sprint-Reihenfolge aus `CLAUDE.md` heißt das: ab Task 4 (`cache-bridge`).
-- **Nicht erforderlich** für strukturelle Tasks ohne Geschäftslogik: Plugin-Bootstrap, Core-Klassen, Beispiel-Modul (Tasks 1–3).
+- **Pflicht** ab dem ersten geschäftslogik-tragenden Modul. In der Sprint-Reihenfolge aus `CLAUDE.md` heißt das aktuell: ab Task 5 (`cache-bridge`). Maßgeblich ist das semantische Kriterium (geschäftslogik-tragend), nicht die Task-Nummer — letztere ist nur ein bei Renumbers nachzuführendes Beispiel.
+- **Nicht erforderlich** für strukturelle Tasks ohne Geschäftslogik: Plugin-Bootstrap, Core-Klassen, Beispiel-Modul sowie Tab-System/Core-UI samt zugehöriger UI-Erweiterungen (z. B. Modul-Toggle).
 
 ### 12.2 Modul-Brief
 
