@@ -69,5 +69,51 @@ function depeur_food_load_textdomain(): void {
 	);
 }
 
-// Core am init-Hook initialisieren.
-add_action( 'init', array( \Depeur\Food\Core\Plugin::class, 'init' ) );
+// Bootstrap erst nach allen Plugins (prio 20 > ACF-Standard prio 10), damit die
+// ACF-Hard-Dependency zuverlässig prüfbar ist (BRIEF meta-registry § 11).
+add_action( 'plugins_loaded', 'depeur_food_bootstrap', 20 );
+
+/**
+ * Startet den Core – aber nur, wenn die ACF-Hard-Dependency erfüllt ist.
+ *
+ * Fehlt ACF zur Laufzeit (z. B. nach manueller ACF-Deaktivierung, ohne Depeur Food selbst zu
+ * deaktivieren), bleibt das Plugin dormant: keine Modul-/Settings-Verdrahtung, nur eine
+ * Admin-Notice. Datenverlust ist ausgeschlossen, weil nichts registriert oder geschrieben
+ * wird; die Meta-Daten in wp_postmeta bleiben unangetastet (BRIEF meta-registry § 9.1).
+ *
+ * @since 0.1.0
+ *
+ * @return void
+ */
+function depeur_food_bootstrap(): void {
+	if ( ! class_exists( 'ACF' ) ) {
+		add_action( 'admin_notices', 'depeur_food_acf_missing_notice' );
+		return;
+	}
+
+	// Core am init-Hook initialisieren (nach ACFs acf/init prio 5 – Module fangen das
+	// Timing via did_action-Guard ab, BRIEF meta-registry § 9.10).
+	add_action( 'init', array( \Depeur\Food\Core\Plugin::class, 'init' ) );
+}
+
+/**
+ * Admin-Notice, wenn die ACF-Hard-Dependency zur Laufzeit fehlt.
+ *
+ * @since 0.1.0
+ *
+ * @return void
+ */
+function depeur_food_acf_missing_notice(): void {
+	// Nur für Nutzer mit Plugin-Verwaltungsrechten relevant.
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+
+	$message = sprintf(
+		/* translators: %s: URL zum ACF-Plugin im WordPress-Repository. */
+		__( 'Depeur Food ist inaktiv: Das Plugin benötigt <a href="%s">Advanced Custom Fields</a> (Free oder Pro). Bitte ACF installieren und aktivieren.', 'depeur-food' ),
+		esc_url( 'https://wordpress.org/plugins/advanced-custom-fields/' )
+	);
+
+	printf( '<div class="notice notice-error"><p>%s</p></div>', wp_kses_post( $message ) );
+}
