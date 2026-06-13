@@ -25,15 +25,18 @@ Erbt das geschäftslogik-Schema (1.1) vom `cache-bridge`-Brief; die reine Modul-
   Cross-Module-Importe. Konsumenten-Module greifen **nie** auf meta-registry-Klassen zu,
   sondern lesen via `get_post_meta()`/`get_field()`/REST. Die einzige Kopplung ist der
   gemeinsame Meta-Key-Namensraum (= ACF-Field-Name) + optionale Filter (§ 5).
-- **Status:** Volltext-BRIEF zur Freigabe (Session 2026-06-13). Nach Approval →
-  **ACF-Dependency-Core-Mini-Task** (Plugin-Core, vor Modul-Code) → P2-Code-Phase.
+- **Status:** **IMPLEMENTIERT 2026-06-14** (Commits `704d3c6` Core-ACF-Dependency · `3b83b4d`
+  `html`-Feldtyp · `56af7ea` Modul). Lebende Doku — Build-Korrekturen in § 9.11/§ 9.12 +
+  aktualisierter Datei-Liste (§ 13). Smoke grün (§ 12: 34/34 Keys, ACF-Override ohne
+  Doppel-Render, REST, Diagnose, Inaktiv-Restore).
 
 ## 2. Zweck & Funktionalitäts-Inventar
 
 **Zweck:** Single-Point-of-Truth für **alle** Custom-Field-Definitionen aus der Discovery.
 Aus **einer** Definitionsquelle entstehen **zwei** gekoppelte Wirkungen:
-1. **Datenschicht** — `register_post_meta` / `register_user_meta` / `register_term_meta`
-   mit `show_in_rest`, `sanitize_callback`, ggf. `auth_callback`.
+1. **Datenschicht** — `register_post_meta` / `register_meta( 'user', … )` / `register_term_meta`
+   mit `show_in_rest`, `sanitize_callback`, ggf. `auth_callback`. *(Korrektur 2026-06-14:
+   ein `register_user_meta()` existiert in WP NICHT — User-Meta läuft über `register_meta('user',…)`.)*
 2. **Editor-UI-Definition** — `acf_add_local_field_group`, damit die Felder **ohne**
    manuelle ACF-UI-Anlage pro Site im Post-/Term-/User-Editor erscheinen (ACF rendert).
 
@@ -137,7 +140,7 @@ ACF-Group-Zugehörigkeit.
 
 ### 4.3 Vollständige Feld-Tabelle (34 Meta-Keys; `_my_favorite_post_likes` → P4, § 3.8)
 
-**USER-META** (`register_user_meta`, Group `author_fields`, Location `user_role==all`):
+**USER-META** (`register_meta( 'user', … )`, Group `author_fields`, Location `user_role==all`):
 | Meta-Key(s) | acf_type | sanitize | Anmerkung |
 |---|---|---|---|
 | `same_as`, `same_as_2` | text | sanitize_text_field | sameAs-Schema |
@@ -264,7 +267,7 @@ außer dem Modul-Toggle.
 - **Laden:** `ModuleManager::init()` lädt `module.php` nur wenn aktiv (Kanon). Konstruktor
   der Bootstrap-Klasse verdrahtet die Hooks (wordpress.md § 1.1).
 - **`init`:** Registry bauen (`depeur_food/meta/registry`-Filter anwenden) → `register_post_meta`
-  / `register_user_meta` / `register_term_meta` je Eintrag → Action `depeur_food/meta/registered`.
+  / `register_meta( 'user', … )` / `register_term_meta` je Eintrag → Action `depeur_food/meta/registered`.
 - **`acf/init`:** `depeur_food/meta/groups`-Filter → `acf_add_local_field_group` je Gruppe
   (defensiv `function_exists`-gated; Timing-Edge § 9.10).
 - **Aktivierung:** keine eigene Aktivierungsroutine nötig — alles sind Runtime-Hooks. **Keine
@@ -312,7 +315,18 @@ außer dem Modul-Toggle.
   `add_action('acf/init', …)` ins Leere → Field-Groups würden NICHT registriert. **Mitigation
   (bindend):** im Konstruktor `if ( did_action('acf/init') ) { groups sofort registrieren; }
   else { add_action('acf/init', …); }`. **In Smoke § 12 explizit prüfen** (Editor-Felder
-  rendern?), weil die ModuleManager-Init-Priorität dies entscheidet.
+  rendern?), weil die ModuleManager-Init-Priorität dies entscheidet. *(Build-bestätigt
+  2026-06-14: Modul lädt auf init prio 10, acf/init lief auf prio 5 → did_action-Zweig greift,
+  alle 8 Groups als `local='php'` registriert.)*
+- **⚠️ 9.11 Kein `register_user_meta()` in WordPress (Build-Fund 2026-06-14):** WP kennt nur
+  `register_post_meta`/`register_term_meta` als Wrapper; User-Meta läuft über
+  `register_meta( 'user', $key, $args )`. Der Field_Registrar nutzt das. (Korrektur des
+  BRIEF-§-2-Begriffs.)
+- **⚠️ 9.12 Typ-konsistenter Default Pflicht (Build-Fund 2026-06-14):** `register_meta` lehnt
+  die Registrierung ab, wenn der `default` nicht zum `type` passt (verifiziert: `integer` +
+  `default ''` → schlägt fehl). Field_Registrar lässt bei Typ-Mismatch den Default weg
+  (integer-Felder wie `reviewed_by`/`post_object` ohne Default → get_*_meta liefert '' bei
+  Abwesenheit) bzw. normalisiert (`array`/`object` → array(), `boolean` → cast).
 
 ## 10. Anti-Patterns (nicht tun)
 
@@ -383,7 +397,7 @@ verschwinden, falls UI-Groups gelöscht), **Daten in `wp_postmeta` intakt**.
 
 **Modul** (`plugins/depeur-food/modules/meta-registry/`, Kanon: kebab-Root, PascalCase-Subordner):
 - `manifest.php` (neu, ~20) — name/version/description.
-- `module.php` (neu, ~20) — `new …\MetaRegistry( basename( __DIR__ ) )`.
+- `module.php` (neu, ~20) — **direkte Multi-Instanziierung** (`Field_Registrar` + `Group_Registrar` + `Admin\Settings( basename(__DIR__) )`); KEIN `MetaRegistry`-Wrapper am Root (FS-Safety § 2.7, Session-Entscheidung 2026-06-14).
 - `BRIEF.md` (dieser).
 - `config/fields.php` (neu, ~180) — Field-Registry-Array (§ 4.3). *Daten, via `require` geladen,
   nicht autoloaded → lowercase-Ordner zulässig.*
@@ -391,7 +405,7 @@ verschwinden, falls UI-Groups gelöscht), **Daten in `wp_postmeta` intakt**.
 - `Registry/Field_Registrar.php` (neu, ~140) — `register_*_meta`-Loop + Typ→Sanitize/REST-Map (§ 4.1/4.2).
 - `Registry/Group_Registrar.php` (neu, ~90) — `acf_add_local_field_group`-Loop + `acf/init`-Timing (§ 9.10).
 - `Admin/Settings.php` (neu, ~110) — SettingsRegistry-Anmeldung + Diagnose-Tab-Render (§ 7).
-- *(optional)* `Support/Sanitizers.php` — Typ→Callback-Map, falls Field_Registrar zu groß.
+- *(nicht angelegt)* `Support/Sanitizers.php` — die Typ→Sanitize-Map blieb in `Field_Registrar` (klein genug, keine Extraktion nötig).
 
 **Core** (außerhalb Modul — eigene Mini-Tasks **vor/mit** P2, § 11/§ 7.3):
 - `src/Core/Activation.php` (ändern, ~+15) — ACF-`class_exists`-Aktivierungs-Block.
