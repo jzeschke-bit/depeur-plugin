@@ -14,7 +14,7 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 - ADR-4: Post-Type-Agnostik via `depeur_food()->get_supported_post_types()` → siehe PLAN.md § 4.
 - ADR-5: Custom Fields via `register_post_meta`, kein ACF zur Laufzeit → siehe PLAN.md § 4.
 
-## Aktueller Sprint — Live-First-Strategie (VORLÄUFIG bis Recon-Lücken P0 geschlossen)
+## Aktueller Sprint — Live-First-Strategie (final, P0 abgeschlossen 2026-06-13)
 
 **Strategie-Wechsel 2026-06-12 (Session d):** Nach Recon-Re-Validation der Legacy-Funktionalität (→ `_references/legacy-inventory.md`) Umstellung von „Architektur-Sauberkeit zuerst" auf **Live-First** (sichtbare/sofort-testbare Features zuerst). `cache-bridge` ist Infrastruktur-Sahne (unsichtbar, nur live testbar) → von Position 5 auf **Position 11** verschoben; BRIEF v1.0 liegt bereits (`8e7dae4`), Code deferred. Migrations-Phase kommt zuerst.
 
@@ -22,9 +22,9 @@ Plugin `depeur-food` (modular, Toggle-Pattern wie `depeur-wp-suite`) + Child-The
 
 Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Review): erst `BRIEF.md` schreiben + freigeben, dann implementieren.
 
-**Live-First-Sprint P0–P11 — VORLÄUFIG, final erst nach P0:**
+**Live-First-Sprint P0–P11 — final (P0 abgeschlossen 2026-06-13):**
 
-- **P0 · Recon-Lücken schließen** (kein Code): CPT-/Taxonomie-Registrierungs-Quelle (welches Plugin registriert heute `cocktails`/`blog`/`tests`/`trinkspiel`/`bar-equipment` + `anlass`/`herkunft`/`art`/…?) + OQ-1 (externe App-Audit: genutzte Endpoints, Plattform iOS/Android/Web, Versionierung, Auth). **Blockiert P3 + P10.**
+- **P0 · Recon-Lücken schließen** ✓ **ABGESCHLOSSEN** (2026-06-13, außerhalb Code-Session geklärt): **CPT-/Taxonomie-Registrierungs-Quelle = ACF (free, nicht Pro)** — wird vom `post-type-registry`-Modul (P3) aus ACF ausgelesen + ins Plugin repliziert. **OQ-1 obsolet** durch E8 (Legacy-REST-Routen 1:1 inkl. Bugs → `rest-legacy`/P10; kein externer App-Audit mehr nötig). Entsperrt P3 + P10.
 - **P1 · ACF-Discovery** (kein Code): Bestandsaufnahme aller Live-Felder (einfachandersessen.de + alkipedia.com) → `_references/acf-discovery.md`. Fundament-Recon für meta-registry.
 - **P2 · `meta-registry`-Modul** (BRIEF-pflichtig): `register_post_meta`/`register_user_meta`/`register_term_meta` für alle Discovery-Felder, `show_in_rest`. **Entsperrt ALLE Feature-Module.** Koexistiert mit ACF (E6).
 - **P3 · `post-type-registry`-Modul** (BRIEF-pflichtig, NEU aus E7): CPT-/Taxonomie-Registrierung ins Plugin + Settings-UI für generische CPT-Konfiguration. CPT UI später deaktivieren. Voraussetzung P0.
@@ -243,7 +243,12 @@ Vorausschauende Architektur-Hinweise (kein Open-Item-Backlog — werden zur rich
 - **E4: Newsletter = Flodesk-only mit dünner Provider-Naht** (`Providers/Flodesk.php`-Klassen-Trennung; **KEINE** Provider-Abstraktion/Interface/Registry/Factory ohne zweiten realen Konsumenten — Disziplin analog cache-bridge).
 - **E5: Migrations-Strategie = gemischt** (parallel für daten-tragende Module mit zu ACF identischen Meta-Keys → koexistenzfähig; Big-Bang für reine Logik wie Schema-Filter/Newsletter-Insertion, sonst doppelter Output).
 - **E6: ACF bleibt als Editor-UI eigenständig auf jeder Site** (lizenzrechtlich nicht bundle-bar). depeur-food nutzt nur die Datenschicht parallel via `register_post_meta` (selbe `wp_postmeta`-Tabelle, kein Konflikt). Native Editor-UI (MetaBoxen/Gutenberg-Sidebar) = separate spätere Entscheidung.
+  - **ACF-Version = free (nicht Pro)** auf beiden Sites (einfachandersessen.de + alkipedia.com) — verifiziert via P0 + ACF-Export (P1, `_references/acf-discovery.md`).
+  - **Konsequenz für künftige Module: KEINE Pro-only-Features voraussetzen** — Repeater, Flexible Content, Gallery, Clone, Options Pages, ACF-Blocks. Das gilt sowohl für gelesene Legacy-Felder als auch für neu zu bauende Editor-UI.
+  - **Falls ein Modul-BRIEF doch ein Pro-Feature braucht:** Architektur-Diskussion **VOR** Implementierung (Upgrade zu ACF Pro vs. native Custom-UI bauen) — explizit als **OPEN-DECISION** im BRIEF markieren, nicht stillschweigend voraussetzen.
 - **E7: CPT-Registrierung wandert ins Plugin** (`post-type-registry`-Modul, P3) — „Plugins so weit möglich reduzieren". CPT UI später deaktivieren. ACF-Field-Groups bleiben separat in ACF-UI (NICHT E7-Scope).
+  - **CPT-/Taxonomie-Quelle = ACF (free) (P0-Erkenntnis 2026-06-13):** Die heute live registrierten CPTs (`cocktails`/`blog`/`tests`/`trinkspiel`/`bar-equipment`) + Taxonomien (`anlass`/`herkunft`/`art`/…) werden von ACF free registriert (ACF free kann seit 6.1 CPTs/Taxonomien anlegen).
+  - **P3-Code-Verfahren:** bestehende CPT-/Taxonomie-Definitionen aus ACF auslesen → im Plugin via `register_post_type`/`register_taxonomy` replizieren → **dann** die CPT-/Taxonomie-Registrierung in ACF deaktivieren (Deployment-Schritt, nicht im selben Commit wie der Code). **ACF-Field-Groups bleiben in ACF** (E6, NICHT Teil dieser Migration).
 - **E8: REST-Legacy-Routen 1:1 erhalten INKL. Bugs** (`rest-legacy`-Modul, P10). Bewusste Tech-Debt, niedriges Risiko (interner App-Userkreis). Bugs (`ParrentID`-Typo, `content="hallo"`, auskommentierte `permission_callback`/offenes DELETE, `max(…,200)`) in BRIEF „Bekannte Tech-Debt" dokumentiert, **nicht gefixt**. Klassifikation „legacy": BRIEF-Pflicht gilt, voller Code-Qualitäts-Standard nicht. Refactor on-the-table für künftiges `rest-modern`-Modul.
 
 ### Sicherheits-Funde aus Legacy-Recon (2026-06-12d)

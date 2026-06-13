@@ -57,6 +57,7 @@
 - **Daten:** WPRM-Recipe-Posts, WPRM-Rating-DB-Tabelle.
 - **Externe Deps:** WPRM (hart), externe App (OQ-1).
 - **Geplant:** Modul `rest-legacy` (Sprint P10) — **Routen 1:1 inkl. Bugs erhalten** (E8), Klassifikation „legacy", Bugs in BRIEF „Bekannte Tech-Debt", nicht gefixt. Refactor on-the-table für künftiges `rest-modern`-Modul.
+- **OQ-1-Status (2026-06-13):** **obsolet durch E8-Entscheidung.** Kein externer App-Audit (Endpoints/Plattform/Auth) mehr nötig — alle Legacy-Routen werden im `rest-legacy`-Modul (P10) 1:1 inkl. Bugs übernommen, unabhängig davon, welche die externe App konkret nutzt.
 
 ## 8 · Post-Type-Generizität
 - **Wo:** `alkipedia/functions.php`: `alkipedia_get_supported_post_types()` (hardcodierte 6 Typen), `alkipedia_get_taxonomy_mapping()` (hardcodiert), `alkipedia_add_custom_post_type()` = **STUB mit `TODO: dynamische Hinzufügung`** (Z. 77–82).
