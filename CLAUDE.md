@@ -26,7 +26,7 @@ Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Rev
 
 - **P0 · Recon-Lücken schließen** ✓ **ABGESCHLOSSEN** (2026-06-13, außerhalb Code-Session geklärt): **CPT-/Taxonomie-Registrierungs-Quelle = ACF (free, nicht Pro)** — wird vom `post-type-registry`-Modul (P3) aus ACF ausgelesen + ins Plugin repliziert. **OQ-1 obsolet** durch E8 (Legacy-REST-Routen 1:1 inkl. Bugs → `rest-legacy`/P10; kein externer App-Audit mehr nötig). Entsperrt P3 + P10.
 - **P1 · ACF-Discovery** ✓ **ABGESCHLOSSEN** (2026-06-13): `_references/acf-discovery.md` — 35 Kandidaten-Felder (30 UI + 4 Code + 1 Orphan), empirisch via wp-cli validiert. Fundament-Recon für meta-registry steht.
-- **P2 · `meta-registry`-Modul** (BRIEF-pflichtig) **← NÄCHSTER**: `register_post_meta`/`register_user_meta`/`register_term_meta` für alle Discovery-Felder, `show_in_rest`. **Entsperrt ALLE Feature-Module.** Koexistiert mit ACF (E6). Feld-Liste + Beobachtungen: `acf-discovery.md` § 3/§ 5.
+- **P2 · `meta-registry`-Modul** (BRIEF-pflichtig): **BRIEF v1.0 FREIGEGEBEN** (`a39c1c7`, 402 Z., Schema 1.1). `register_post_meta`/`register_user_meta`/`register_term_meta` + `acf_add_local_field_group` für 34 Discovery-Felder, `show_in_rest`, Doppel-Owner-Pattern. **← NÄCHSTER: CODE** (zuerst Core-Mini-Tasks: ACF-Hard-Dependency + `html`-Feldtyp, dann Modul). Entsperrt ALLE Feature-Module. Feld-Liste: BRIEF § 4.
 - **P3 · `post-type-registry`-Modul** (BRIEF-pflichtig, NEU aus E7): CPT-/Taxonomie-Registrierung ins Plugin + Settings-UI für generische CPT-Konfiguration. CPT UI später deaktivieren. Voraussetzung P0.
 - **P4 · `favorites`-Modul** (BRIEF-pflichtig): höchste Live-Sichtbarkeit. REST+Nonce, **Cookie→localStorage-Migration** (Like-Counter `register_post_meta`), CPT filterbar `depeur_food/favorites/post_types`. WPRM soft-dep (E2). Parallel-Migration (E5).
 - **P5 · `newsletter`-Modul** (BRIEF-pflichtig): the_content-Inserter + Custom-Meta-Box, **Flodesk-only mit dünner Provider-Naht** (`Providers/Flodesk.php`-Klassen-Trennung, E4), Nonce nachziehen. Big-Bang-Migration (E5).
@@ -38,7 +38,21 @@ Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Rev
 - **P11 · `cache-bridge` (Code-Phase)**: BRIEF v1.0 liegt (`8e7dae4`). ~19 Files / ~1.700–1.800 LOC / 5–6 Sessions. Infrastruktur, bewusst zuletzt. **Smoke-Step-0:** Autoloader-`Word_Word`-Auflösung verifizieren VOR Provider-Code.
 
 ## Last Session Handoff
-**Stand: 2026-06-13 (siebte Claude-4.8-Session, „e"). P0 geschlossen (CPT-Quelle = ACF free, OQ-1 obsolet via E8) + P1 ACF-Discovery ABGESCHLOSSEN (`_references/acf-discovery.md`, 35 Kandidaten-Felder, empirisch via wp-cli validiert). Live-First-Sprint final. NÄCHSTER: P2 `meta-registry`-Modul (BRIEF-pflichtig). KEIN Plugin-Code diese Session (nur Doku + Recon).**
+**Stand: 2026-06-14 (achte Claude-4.8-Session, „f"). P2 `meta-registry` BRIEF v1.0 FREIGEGEBEN (`a39c1c7`). Nächster Schritt = CODE: zuerst zwei Core-Mini-Tasks (ACF-Hard-Dependency + read-only `html`-Feldtyp), dann das Modul (config → Registrars → Admin → Smoke). KEIN Plugin-Code diese Session (nur BRIEF).**
+
+### Session 2026-06-14 (f) — P2 meta-registry BRIEF v1.0 FREIGEGEBEN (KEIN Code)
+- **Ablauf:** Block-Review (4 Blöcke à 3–4 Sektionen, je schnelle Approval) → konsolidierter Write → Commit `a39c1c7` (`modules/meta-registry/BRIEF.md`, 402 Z., Schema 1.1). § 12.3-konform: Code erst nach Freigabe.
+- **Schlüssel-Festschreibungen:**
+  - **Doppel-Owner-Pattern:** Plugin = Schema-Definition (`register_*_meta`) **+** Field-Group-Definition (`acf_add_local_field_group`); ACF = Editor-UI-Renderer; Konsumenten-Module = Logik-Schreiber. Löst ADR-5 **und** E6 gleichzeitig (Konsumenten hängen nur am Meta-Key).
+  - **Field-Registry = Single-Source** (config-as-code `config/fields.php`+`groups.php`): 1 Eintrag → BEIDE Registrierungen (kein Schema-/Editor-Drift).
+  - **34 Meta-Keys** (User/Term/Post + mixed link_*); `_my_favorite_post_likes` → **P4** ausgelagert (protected key + Favoriten-Logik, full-gate-Entscheidung 3.8).
+  - **ACF-Key-Reuse → local-Override** (4.5): Code-Groups nutzen exakte Discovery-Keys → ACF überschattet die DB-/UI-Groups (kein Doppel-Render); nach manueller UI-Group-Löschung pro Site ist die ACF-Feldgruppen-Verwaltung **leer** (Struktur im Plugin geschützt, Werte weiter via ACF editierbar — Jonas-Anforderung). Trade-off: Struktur danach nur per Code änderbar.
+  - **ACF free = Hard-Dependency** (Plugin-Core, nicht Modul): Aktivierungs-Block (`class_exists('ACF')`) + Runtime-Dormancy + `plugins_loaded` prio 20. Eigener Core-Mini-Task VOR Modul-Code.
+  - **`acf/init`-Timing-Fund (9.10):** `did_action('acf/init')`-Guard im Konstruktor (sonst Field-Groups verpasst je nach ModuleManager-Init-Prio) — Smoke verifiziert Editor-Render.
+  - **Diagnose-Tab** braucht kleinen Core-`html`-Feldtyp (Field_Renderer-Wachstumsfuge, pre-blessed) → zweiter Core-Mini-Task.
+  - **Empirische P1-Korrekturen eingearbeitet:** 5 Dead-Code-`rezept_*` raus, `rezept_tag`-Orphan (meta-only, `editor_ui=false`) rein, `reviewed_by` (67 Werte) aktiv.
+- **Commit (Session f):** `a39c1c7` (BRIEF v1.0).
+- **Nächster Schritt:** Code-Phase. **Reihenfolge:** (1) Core-Mini-Task ACF-Hard-Dependency (`Activation.php` + `depeur-food.php`) → (2) Core-Mini-Task `html`-Feldtyp (`SettingsPage::render_field`) → (3) Modul `config/` → `Registry/` → `Admin/` → Smoke (§ 12). Datei-Liste: BRIEF § 13. **Smoke-Schwerpunkte:** kein Doppel-Render (Key-Override), `acf/init`-Timing, REST-Sichtbarkeit, Management-Liste-leer nach UI-Group-Löschung.
 
 ### Session 2026-06-13 (e) — P0-Abschluss + P1 ACF-Discovery DONE (KEIN Plugin-Code)
 - **Phase 1 (Doku):** P0 als abgeschlossen festgeschrieben (CPT-/Taxonomie-Quelle = ACF free; OQ-1 obsolet via E8). ACF-free-Constraint in E6 ergänzt (keine Pro-Features voraussetzen — sonst OPEN-DECISION im BRIEF). E7 um ACF-Quelle + P3-Code-Verfahren erweitert. Sprint-Liste „VORLÄUFIG" → final. Commit `3fd75e5`.
