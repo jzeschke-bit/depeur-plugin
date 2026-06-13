@@ -546,7 +546,21 @@ final class SettingsPage {
 				?>
 			</table>
 
-			<?php submit_button( __( 'Einstellungen speichern', 'depeur-food' ) ); ?>
+			<?php
+			// Reine Read-only-Tabs (nur 'html'-Felder, z. B. der meta-registry-Diagnose-Tab)
+			// bekommen keinen Speichern-Button – nichts zu speichern (BRIEF meta-registry § 7.2).
+			$has_saveable = false;
+			foreach ( $fields as $f ) {
+				$ftype = isset( $f['type'] ) ? $f['type'] : 'text';
+				if ( in_array( $ftype, array( 'checkbox', 'text', 'select', 'password' ), true ) ) {
+					$has_saveable = true;
+					break;
+				}
+			}
+			if ( $has_saveable ) {
+				submit_button( __( 'Einstellungen speichern', 'depeur-food' ) );
+			}
+			?>
 		</form>
 		<?php
 	}
@@ -555,10 +569,12 @@ final class SettingsPage {
 	 * Rendert ein einzelnes Settings-Feld als Form-Table-Zeile (<tr>).
 	 *
 	 * Reiner Renderer ohne Option-Zugriff: Wert und name-Attribut reicht der
-	 * Aufrufer herein. Unterstützt die vier Feldtypen, die
-	 * SettingsRegistry::sanitize_field kennt (checkbox, text, select, password).
-	 * Unbekannte Typen werden – als Modul-API-Missbrauch – gemeldet und
-	 * übersprungen, ohne eine leere Zeile zu hinterlassen.
+	 * Aufrufer herein. Unterstützt die vier Form-Feldtypen, die
+	 * SettingsRegistry::sanitize_field kennt (checkbox, text, select, password),
+	 * plus den read-only Typ 'html' (volle Breite, kein Bedienelement, kein
+	 * Save-Wert) für Diagnose-/Info-Blöcke. Unbekannte Typen werden – als
+	 * Modul-API-Missbrauch – gemeldet und übersprungen, ohne eine leere Zeile zu
+	 * hinterlassen.
 	 *
 	 * @since 0.1.0
 	 *
@@ -572,6 +588,23 @@ final class SettingsPage {
 	 */
 	private static function render_field( array $field, mixed $value, string $name ): void {
 		$type = isset( $field['type'] ) ? $field['type'] : 'text';
+
+		// Read-only HTML-Block (z. B. Diagnose-Tabellen): volle Breite, kein Label/
+		// Bedienelement, kein Save-Wert. Inhalt ist plugin-generiertes Markup, via
+		// wp_kses_post abgesichert; der Save-Loop (handle_module_save) überspringt 'html'
+		// als Nicht-Form-Typ. Field_Renderer-Wachstumsfuge (CLAUDE.md › Architecture Notes).
+		if ( 'html' === $type ) {
+			$html = isset( $field['html'] ) ? $field['html'] : '';
+			if ( '' === $html ) {
+				return;
+			}
+			?>
+			<tr>
+				<td colspan="2"><?php echo wp_kses_post( $html ); ?></td>
+			</tr>
+			<?php
+			return;
+		}
 
 		// Unbekannte Typen früh aussortieren, BEVOR eine Zeile geöffnet wird – sonst
 		// bliebe ein Label ohne Bedienelement stehen. _doing_it_wrong respektiert
