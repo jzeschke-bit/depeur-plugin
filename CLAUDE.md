@@ -25,8 +25,8 @@ Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Rev
 **Live-First-Sprint P0–P11 — final (P0 abgeschlossen 2026-06-13):**
 
 - **P0 · Recon-Lücken schließen** ✓ **ABGESCHLOSSEN** (2026-06-13, außerhalb Code-Session geklärt): **CPT-/Taxonomie-Registrierungs-Quelle = ACF (free, nicht Pro)** — wird vom `post-type-registry`-Modul (P3) aus ACF ausgelesen + ins Plugin repliziert. **OQ-1 obsolet** durch E8 (Legacy-REST-Routen 1:1 inkl. Bugs → `rest-legacy`/P10; kein externer App-Audit mehr nötig). Entsperrt P3 + P10.
-- **P1 · ACF-Discovery** (kein Code): Bestandsaufnahme aller Live-Felder (einfachandersessen.de + alkipedia.com) → `_references/acf-discovery.md`. Fundament-Recon für meta-registry.
-- **P2 · `meta-registry`-Modul** (BRIEF-pflichtig): `register_post_meta`/`register_user_meta`/`register_term_meta` für alle Discovery-Felder, `show_in_rest`. **Entsperrt ALLE Feature-Module.** Koexistiert mit ACF (E6).
+- **P1 · ACF-Discovery** ✓ **ABGESCHLOSSEN** (2026-06-13): `_references/acf-discovery.md` — 35 Kandidaten-Felder (30 UI + 4 Code + 1 Orphan), empirisch via wp-cli validiert. Fundament-Recon für meta-registry steht.
+- **P2 · `meta-registry`-Modul** (BRIEF-pflichtig) **← NÄCHSTER**: `register_post_meta`/`register_user_meta`/`register_term_meta` für alle Discovery-Felder, `show_in_rest`. **Entsperrt ALLE Feature-Module.** Koexistiert mit ACF (E6). Feld-Liste + Beobachtungen: `acf-discovery.md` § 3/§ 5.
 - **P3 · `post-type-registry`-Modul** (BRIEF-pflichtig, NEU aus E7): CPT-/Taxonomie-Registrierung ins Plugin + Settings-UI für generische CPT-Konfiguration. CPT UI später deaktivieren. Voraussetzung P0.
 - **P4 · `favorites`-Modul** (BRIEF-pflichtig): höchste Live-Sichtbarkeit. REST+Nonce, **Cookie→localStorage-Migration** (Like-Counter `register_post_meta`), CPT filterbar `depeur_food/favorites/post_types`. WPRM soft-dep (E2). Parallel-Migration (E5).
 - **P5 · `newsletter`-Modul** (BRIEF-pflichtig): the_content-Inserter + Custom-Meta-Box, **Flodesk-only mit dünner Provider-Naht** (`Providers/Flodesk.php`-Klassen-Trennung, E4), Nonce nachziehen. Big-Bang-Migration (E5).
@@ -38,7 +38,25 @@ Ab dem ersten geschäftslogik-tragenden Modul gilt § 12 (Pre-Implementation-Rev
 - **P11 · `cache-bridge` (Code-Phase)**: BRIEF v1.0 liegt (`8e7dae4`). ~19 Files / ~1.700–1.800 LOC / 5–6 Sessions. Infrastruktur, bewusst zuletzt. **Smoke-Step-0:** Autoloader-`Word_Word`-Auflösung verifizieren VOR Provider-Code.
 
 ## Last Session Handoff
-**Stand: 2026-06-12 (sechste Claude-4.8-Session, „d"). STRATEGIE-WECHSEL: Sprint von „Architektur-zuerst" auf Live-First umgestellt nach Legacy-Recon-Re-Validation. cache-bridge BRIEF v1.0 bleibt freigegeben, Code-Phase aber von Position 5 → Position 11 deferred. Legacy-Inventar persistiert (`_references/legacy-inventory.md`). E1–E8-Architektur-Entscheidungen final. KEIN Code diese Session.**
+**Stand: 2026-06-13 (siebte Claude-4.8-Session, „e"). P0 geschlossen (CPT-Quelle = ACF free, OQ-1 obsolet via E8) + P1 ACF-Discovery ABGESCHLOSSEN (`_references/acf-discovery.md`, 35 Kandidaten-Felder, empirisch via wp-cli validiert). Live-First-Sprint final. NÄCHSTER: P2 `meta-registry`-Modul (BRIEF-pflichtig). KEIN Plugin-Code diese Session (nur Doku + Recon).**
+
+### Session 2026-06-13 (e) — P0-Abschluss + P1 ACF-Discovery DONE (KEIN Plugin-Code)
+- **Phase 1 (Doku):** P0 als abgeschlossen festgeschrieben (CPT-/Taxonomie-Quelle = ACF free; OQ-1 obsolet via E8). ACF-free-Constraint in E6 ergänzt (keine Pro-Features voraussetzen — sonst OPEN-DECISION im BRIEF). E7 um ACF-Quelle + P3-Code-Verfahren erweitert. Sprint-Liste „VORLÄUFIG" → final. Commit `3fd75e5`.
+- **Phase 2/3 (Discovery):** `_references/acf-discovery.md` (357 Z.) — 6 UI-Field-Groups (30 Felder, aus `acf-export-2026-06-12.json`) + 3 Code-Registrierungen via `acf_add_local_field_group()` (Spotlight-Newsletter-Overrides `show_newsletter_form`/`newsletter_position`/`show_app_promo` aus spotlight-subscribe; `tag_group` aus alkipedia/functions.php) + Cross-Reference gegen legacy-inventory.md + Field-Key-vs-Name + Pro-Features-Check (sauber/free) + Meta-Box-Komplexitäts-Schätzung. Commit `348be8b` (mit Roh-Export).
+- **Empirische wp-cli-Verifikation** (localhost:8889, nach Jonas' Test-Content-Import: 217 cocktails/23 trinkspiele/19 bar-equipment): Post-Meta-Counts bestätigen alle Felder; **§ 4.3 aufgelöst** — 5 `rezept_*`-Code-Referenzen = Dead-Code (0 Werte), `rezept_tag` (singular, 9 Werte) = lebender Orphan, **kein zweiter Export nötig**; **§ 4.4 korrigiert** — `reviewed_by` hat 67 Werte (genutzt, Reader im Produktiv-Theme). Term-/User-Meta lokal leer (Test-Daten-Lücke, nicht Beweis für Nichtnutzung).
+- **Doku-Hygiene (P0-Folge, vorab disclosed):** RECON-LÜCKEN in legacy-inventory.md auf P0/P1-Abschluss aktualisiert; OQ-1 in CLAUDE.md Open Questions als obsolet markiert.
+- **Commits (Session e):** `3fd75e5` (P0-close) · `348be8b` (acf-discovery + Roh-Export) · dieser (Handoff + Doku-Hygiene).
+
+#### Beobachtungen für den P2-BRIEF (meta-registry) — verbindlich
+1. **Scope geklärt:** Export ist global/vollständig. 5 `rezept_{post_tags,categories,cocktail_tags,trinkspiel_tags,equipment_tags}` = Dead-Code → **NICHT** registrieren. `rezept_tag` (singular, lebender Orphan, 9 Werte) → **mit-registrieren** trotz Fehlens im JSON-Export.
+2. **`_my_favorite_post_likes` gehört zu P4 (favorites), nicht P2** — protected Key (führender `_` → `auth_callback` nötig) **und** Favoriten-Geschäftslogik. P2/P4-Owner-Abgrenzung im P2-BRIEF festlegen.
+3. **Drei Registrierungs-Ziele:** `register_post_meta` + `register_user_meta` + `register_term_meta` (Übersetzungen `link_de`/`link_en` brauchen post **und** term; Author-Felder = user; tag_group/WPRM/static_page = term).
+4. **`link`-Feldtyp speichert ein Array** (`{title,url,target}`) auch bei `return_format=url` → Schema-Typ in register_*_meta beachten (P7).
+5. **`show_in_rest => true` für alle** — ACF setzt es heute nirgends (alle Groups show_in_rest=0/false); das ist der Kern-Mehrwert von P2.
+6. **Namens-Identität strikt** (ADR-5/E5): exakt der ACF-Field-**Name** als Meta-Key.
+7. **Newsletter-Overrides NICHT auf Standard-`post`** registriert (nur page/blog/tests + rezeptkategorie-Template) — P5-BRIEF klärt, ob `post` ergänzt wird.
+8. **Term-/User-Meta lokal unbefüllt** — echte Nutzung der reinen Social-Profile-Felder + Term-Felder erst in P6/P7/P8 auf Live verifizieren (P2 registriert vorsorglich, billig).
+9. **CPT `trinkspiele` (plural)** ≠ `trinkspiel` (Legacy-Naming) — für P3 relevant.
 
 ### Session 2026-06-12 (d) — Strategie-Refactor (Live-First) + Legacy-Recon (KEIN Code)
 - **Auslöser:** Jonas' Einsicht — (1) cache-bridge ist Infrastruktur-Sahne (unsichtbar, nur live testbar), nicht launch-blocking; (2) die gewünschte Kern-Funktionalität ist **Migration aus existierendem System**, nicht Neubau.
@@ -213,7 +231,7 @@ php -l clean · phpcs Exit 0 · Aktivierung ohne PHP-Fehler · `depeur_food()` S
 - **Item-4:** Plugin Check (PCP 2.0.0) nur als Dev-Tool im `tests-cli` installiert, NICHT in `.wp-env.json`. Bei `wp-env destroy`/Neuaufbau nachinstallieren: `wp-env run tests-cli wp plugin install plugin-check --activate`.
 
 ## Open Questions / Open Items
-- **OQ-1:** Live-Konsumenten der Legacy-REST-Routes `wl/v1/posts` / `wrm/v1/rating/*`? → klären vor Task 11+.
+- **OQ-1:** ✓ **OBSOLET 2026-06-13** (durch E8): Live-Konsumenten der Legacy-REST-Routes `wl/v1/posts` / `wrm/v1/rating/*` müssen nicht geklärt werden — alle Routen werden 1:1 inkl. Bugs ins `rest-legacy`-Modul (P10) übernommen, unabhängig von der konkreten App-Nutzung. (Befund: P0-Abschluss.)
 - **OQ-2:** Newsletter-Provider-Scope (nur Flodesk vs. Multi-Provider von Tag eins)? → klären vor Task 7.
 - **OQ-3:** Verwendung von `mu-plugins/` (aktuell leer)?
 - **Item-1:** SSH-Alias `runcloud-test` verfügbar (Linux Testserver, PHP 8.4.20, User `runcloud`, verifiziert in dieser Session). Test-WebApp ist `/home/runcloud/webapps/Food-Blog_Template/` — bestehendes Test-WordPress, freigegeben für Phase-B-Remote-Tests. Lese-Operationen sind jederzeit zulässig; Schreibe-/Push-Operationen erst nach explizitem Push-Approval pro Feature.

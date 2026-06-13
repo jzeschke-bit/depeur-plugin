@@ -66,12 +66,12 @@
 
 ---
 
-## RECON-LÜCKEN (Stand 2026-06-12d — offen, vor finaler Sprint-Reihenfolge zu schließen)
-1. **CPT-Registrierungs-Quelle** (`cocktails`/`blog`/`tests`/`trinkspiel`/`bar-equipment`) — NICHT in `_references/`. Externes Plugin (CPT UI / Pods / ACF?). → Sprint P0.
-2. **Taxonomie-Registrierungs-Quelle** (`anlass`/`herkunft`/`art`/`cocktail_tags`/`trinkspiel_tags`/`equipment_tags`) — ebenfalls extern. → Sprint P0.
-3. **Kategorie-Seiten-Auto-Anlage** — existiert nicht (Neu-Feature, Sprint P9).
-4. **ACF-Field-Definitionen** — in ACF-UI (extern). → Sprint P1 (ACF-Discovery).
-5. **OQ-1 Live-REST-Konsumenten** — externe App als Black-Box: genutzte Endpoints, Plattform (iOS/Android/Web), Versionierungs-Bedarf, Auth-Mechanismus. → Sprint P0.
+## RECON-LÜCKEN (Stand 2026-06-12d — Status-Update 2026-06-13: P0 + P1 geschlossen)
+1. **CPT-Registrierungs-Quelle** (`cocktails`/`bar-equipment`/`trinkspiele`) — ✅ **GEKLÄRT (P0):** = **ACF free** (`acf-post-type`/`acf-taxonomy`-Post-Types empirisch bestätigt, P1 § 6.1). Übernahme ins `post-type-registry`-Modul (P3, E7). *(Hinweis P3: lokal registriert sind `cocktails`/`bar-equipment`/`trinkspiele` (plural!); die ACF-Location-Werte `blog`/`tests` aus dem Field-Export sind in der tests-Env NICHT als CPT registriert — P3 enumeriert die wahre CPT-Liste aus ACF.)*
+2. **Taxonomie-Registrierungs-Quelle** (`anlass`/`herkunft`/`art`/`cocktail_tags`/`trinkspiel_tags`/`equipment_tags`) — ✅ **GEKLÄRT (P0):** = **ACF free.** Übernahme P3.
+3. **Kategorie-Seiten-Auto-Anlage** — existiert nicht (Neu-Feature, Sprint P9). *(unverändert offen — kein Recon-Gap, sondern Neubau)*
+4. **ACF-Field-Definitionen** — ✅ **GESCHLOSSEN (P1):** vollständig erfasst in `_references/acf-discovery.md` (35 Kandidaten-Felder: 30 UI + 4 Code + 1 Orphan; empirisch via wp-cli validiert).
+5. **OQ-1 Live-REST-Konsumenten** — ✅ **OBSOLET (E8):** Legacy-Routen werden 1:1 inkl. Bugs ins `rest-legacy`-Modul (P10) übernommen, kein externer App-Audit nötig (s. § 7 OQ-1-Status).
 
 ---
 
