@@ -1,73 +1,432 @@
 /**
- * df-newsletter.css — minimales Layout für Newsletter-Formular und App-Promotion.
+ * df-newsletter.css — Newsletter-Formular (Flodesk) + App-Promotion.
  *
- * Bewusst schlank: nur Wrapper-Abstände, Close-Button und die App-Promotion-Zeile. Das
- * eigentliche Formular-Styling liefert Flodesk (ff-<formid>-Klassen) bzw. das Theme.
+ * Portiert aus spotlight-subscribe/subscribe.css (386 Z., vollständig — Hover-States,
+ * Grau-Überblendung/Overlay, Sticky-Scroll-Effekt, App-Store-Button, Responsive-Regeln).
+ * Nur die `spotlight-*`/`app-promo-*`-Klassen wurden auf den df_-Frontend-Prefix umbenannt
+ * (Mapping in den Kommentaren pro Block). Die inneren Flodesk-Klassen
+ * `ff-68319b10b61ee160f25775e2*` bleiben UNVERÄNDERT, weil das Flodesk-Universal-Script sie
+ * exakt so bindet — sie sind an die Standard-Form-ID gekoppelt (wie im Original-Plugin).
+ * Setzt eine Site eine abweichende `flodesk_form_id`, greifen diese ff-Regeln nicht mehr und
+ * Flodesk rendert sein Eigen-Styling (identische Einschränkung wie im Legacy).
  *
  * @package Depeur\Food\Modules\Newsletter
  */
 
+/* --------------------------------------------------------------------------
+ * Modal-/Overlay-Variante (Legacy-Altbestand, für 1:1-Vollständigkeit portiert;
+ * das aktuelle Inline-Markup rendert diese Klassen nicht, sie bleiben aber als
+ * Erweiterungspunkt erhalten).
+ *   #spotlight-subscribe-overlay          -> #df-newsletter-modal-overlay
+ *   .spotlight-subscribe-box              -> .df-newsletter-box
+ *   .close-spotlight                      -> .df-newsletter-box-close
+ *   .spotlight-subscribe-scroll-container -> .df-newsletter-scroll-container
+ *   .spotlight-subscribe-scroll-space     -> .df-newsletter-scroll-space
+ *   .spotlight-subscribe-container        -> .df-newsletter-container
+ *   .spotlight-subscribe-content          -> .df-newsletter-content
+ * -------------------------------------------------------------------------- */
+#df-newsletter-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+#df-newsletter-modal-overlay.active {
+    opacity: 1; pointer-events: auto;
+}
+.df-newsletter-box {
+    background: white;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    position: relative;
+}
+.df-newsletter-box-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+.df-newsletter-scroll-container {
+    position: relative;
+    margin: 40px auto;
+    width: 100%;
+}
+
+.df-newsletter-scroll-space {
+    height: 100vh; /* Creates scrollable space */
+}
+
+/* --------------------------------------------------------------------------
+ * Inline-Newsletter-Wrapper (LIVE — vom aktuellen Markup gerendert).
+ *   .spotlight-subscribe-wrapper -> .df-newsletter
+ *   .spotlight-overlay           -> .df-newsletter__overlay
+ *   .spotlight-scroll-space      -> .df-newsletter__scroll-space
+ *   .spotlight-close-button      -> .df-newsletter__close
+ * -------------------------------------------------------------------------- */
 .df-newsletter {
-	position: relative;
-	margin: 2em 0;
+    position: relative;
+    margin: 40px auto;
+    padding: 40px 0;
+    max-width: 95%;
+    width: 900px;
+    z-index: 1;
 }
 
-.df-newsletter__close {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 2em;
-	height: 2em;
-	padding: 0;
-	border: 0;
-	background: transparent;
-	font-size: 1.5em;
-	line-height: 1;
-	cursor: pointer;
-	color: inherit;
+.df-newsletter-container {
+    position: sticky;
+    top: 20px;
+    z-index: 2;
+    margin: 0 auto;
+    background: white;
+    padding: 25px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out, top 0.2s ease-out;
 }
 
-.df-newsletter__close:hover,
-.df-newsletter__close:focus {
-	opacity: 0.7;
+.df-newsletter-content {
+    text-align: center;
 }
 
+.df-newsletter-content h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.df-newsletter__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 998;
+}
+
+.df-newsletter.in-view .df-newsletter__overlay,
+.df-newsletter:has([data-ff-el="root"].ff-68319b10b61ee160f25775e2:hover) .df-newsletter__overlay {
+    opacity: 1;
+}
+
+.df-newsletter.in-view .df-newsletter-container {
+    transform: scale(1.02);
+}
+
+.df-newsletter.in-view .ff-68319b10b61ee160f25775e2__container,
+.df-newsletter:has([data-ff-el="root"].ff-68319b10b61ee160f25775e2:hover) .ff-68319b10b61ee160f25775e2__container {
+    transform: scale(1.02);
+    box-shadow: 0 0 50px rgba(255,255,255,0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .df-newsletter {
+        width: 95%;
+        margin: 30px auto;
+        padding: 20px 0;
+    }
+
+    .df-newsletter-scroll-container {
+        margin: 30px auto;
+    }
+
+    .df-newsletter-container {
+        padding: 20px 15px;
+        top: 20px;
+    }
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 {
+    position: sticky;
+    top: 120px; /* Increased for desktop */
+    z-index: 999;
+    margin-bottom: 40px;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__container {
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__wrapper {
+    display: flex;
+    align-items: stretch;
+    background: #ffffff;
+    border-radius: 15px;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 15px 0 0 15px;
+    padding: 20px;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: contain;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__right {
+    flex: 1;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 0 15px 15px 0;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__title {
+    color: #2C1A1A;
+    margin: 0 0 20px;
+    font-size: 23px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__subtitle {
+    margin: 0 0 25px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #482D2D;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__control {
+    width: 100%;
+    color: #333;
+    border: 1px solid #000000;
+    height: 51.5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: transparent;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__button {
+    color: #ffffff;
+    width: 100%;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: var(--global-palette-btn-bg);
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__button:hover {
+    background: var(--global-palette-btn-bg-hover);
+}
+
+.df-newsletter__scroll-space {
+    height: 5vh; /* Desktop scroll space - much shorter now */
+}
+
+@media (max-width: 768px) {
+    .df-newsletter__scroll-space {
+        height: 30vh; /* Mobile scroll space - stays longer */
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 {
+        top: 20px;
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__container {
+        top: 20px;
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__wrapper {
+        flex-direction: column;
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__left {
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__right {
+        border-radius: 15px 15px 15px 15px;
+        padding: 20px 15px;
+    }
+
+    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__title {
+        font-size: 20px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+ * App-Promotion (LIVE).
+ *   .spotlight-app-promo -> .df-app-promo
+ *   .app-promo-container -> .df-app-promo__container
+ *   .app-promo-icon      -> .df-app-promo__icon
+ *   .app-promo-content   -> .df-app-promo__content
+ *   .app-promo-cta       -> .df-app-promo__cta
+ *   .app-store-button    -> .df-app-promo__button
+ * -------------------------------------------------------------------------- */
 .df-app-promo {
-	margin: 2em 0;
+    display: none; /* Hide by default on desktop */
+    margin: 0 0 2em 0;
+    width: 100%;
+}
+
+/* Specific styling for when app promo is before title */
+body.single-post article > .df-app-promo:first-child {
+    margin-bottom: 1.5em;
 }
 
 .df-app-promo__container {
-	display: flex;
-	align-items: center;
-	gap: 1em;
-	padding: 1em;
-	border: 1px solid rgba( 0, 0, 0, 0.1 );
-	border-radius: 8px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 20px;
+    border: 1px solid #eee;
+}
+
+.df-app-promo__icon {
+    flex: 0 0 40px;
 }
 
 .df-app-promo__icon img {
-	display: block;
-	width: 56px;
-	height: 56px;
-	max-width: none;
-	border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: block;
 }
 
 .df-app-promo__content {
-	flex: 1 1 auto;
+    flex: 1;
+    min-width: 0;
+}
+
+.df-app-promo__content h4 {
+    margin: 0 0 2px 0;
+    font-size: 18px;
+    color: #2C1A1A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .df-app-promo__content p {
-	margin: 0.25em 0 0;
+    margin: 0;
+    font-size: 16px;
+    color: #482D2D;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .df-app-promo__cta {
-	flex: 0 0 auto;
+    flex: 0 0 auto;
 }
 
 .df-app-promo__button {
-	display: inline-block;
-	padding: 0.6em 1.2em;
-	border-radius: 6px;
-	text-decoration: none;
+    display: inline-block;
+    background: var(--global-palette-btn-bg);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.df-app-promo__button:hover {
+    background: var(--global-palette-btn-bg-hover);
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .df-app-promo {
+        display: block; /* Show only on mobile */
+    }
+
+    .df-app-promo__container {
+        padding: 12px 15px;
+        gap: 15px;
+    }
+
+    .df-app-promo__content h4 {
+        font-size: 16px;
+    }
+
+    .df-app-promo__content p {
+        font-size: 14px;
+    }
+
+    .df-app-promo__button {
+        padding: 6px 16px;
+        font-size: 14px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+ * Schließen-Button des Inline-Wrappers (LIVE).
+ *   .spotlight-close-button -> .df-newsletter__close
+ * -------------------------------------------------------------------------- */
+.df-newsletter__close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 18px;
+    line-height: 0;
+    padding: 0 0 3px 0;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(2px);
+}
+
+.df-newsletter__close:hover {
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
 }

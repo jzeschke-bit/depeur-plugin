@@ -116,6 +116,10 @@ final class Flodesk {
 					</form>
 				</div>
 			</div>
+			<?php // Ganzseiten-Grau-Überblendung (fixed, z-index 998): fadet via `.in-view`/Hover ein (CSS). ?>
+			<div class="df-newsletter__overlay"></div>
+			<?php // Zusätzlicher Scrollraum, damit der Sticky-Effekt des Formulars greift (Legacy). ?>
+			<div class="df-newsletter__scroll-space"></div>
 		</div>
 		<?php
 		return (string) ob_get_clean();
