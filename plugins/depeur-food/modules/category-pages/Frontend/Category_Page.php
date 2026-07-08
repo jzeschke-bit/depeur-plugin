@@ -45,12 +45,64 @@ final class Category_Page {
 	public const TAG = 'df_category_page';
 
 	/**
-	 * Verdrahtet den Shortcode.
+	 * Verdrahtet Shortcode + Auto-Render geflaggter Seiten.
 	 *
 	 * @since 0.3.0
 	 */
 	public function __construct() {
 		add_shortcode( self::TAG, array( $this, 'render' ) );
+
+		// Auto-Render: geflaggte Kategorie-Seiten hängen das Raster automatisch an den Inhalt
+		// (wie das alte Seiten-Template) — kein manueller Shortcode nötig. Prio 20 < Newsletter (99).
+		add_filter( 'the_content', array( $this, 'maybe_append' ), 20 );
+	}
+
+	/**
+	 * Hängt das Raster automatisch an geflaggte Kategorie-Seiten (the_content).
+	 *
+	 * Seite 1: Intro (Seiten-Inhalt) + Vorschau-Raster. Ab Seite 2: nur das Raster
+	 * (Legacy-Verhalten). Manuelle Shortcode-Platzierung hat Vorrang (kein Doppel).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $content the_content-Wert.
+	 * @return string
+	 */
+	public function maybe_append( $content ): string {
+		$content = (string) $content;
+
+		// Rekursionsschutz: render() fährt eine Sekundär-Query; deren Karten dürfen diesen
+		// Filter nicht erneut auslösen.
+		static $running = false;
+		if ( $running ) {
+			return $content;
+		}
+
+		if ( is_admin() || ! is_singular( 'page' ) || ! is_main_query() || ! in_the_loop() ) {
+			return $content;
+		}
+
+		$page_id = (int) get_the_ID();
+		if ( $page_id < 1 || ! get_post_meta( $page_id, 'df_catpage_enabled', true ) ) {
+			return $content;
+		}
+
+		// Manuelle Platzierung gewinnt.
+		if ( has_shortcode( (string) get_post_field( 'post_content', $page_id ), self::TAG ) ) {
+			return $content;
+		}
+
+		$running = true;
+		$grid    = $this->render( array( 'id' => $page_id ) );
+		$running = false;
+
+		if ( '' === $grid ) {
+			return $content;
+		}
+
+		$paged = max( 1, (int) get_query_var( 'paged' ) );
+
+		return ( $paged > 1 ) ? $grid : $content . $grid;
 	}
 
 	/**
@@ -205,9 +257,11 @@ final class Category_Page {
 			return $grouped;
 		}
 
+		// Kein Default-Fallback mehr (Legacy nutzte 'low-carb' — verwirrend, wenn nichts
+		// kuratiert ist). Nur ein explizit gesetzter Fallback-Term greift.
 		$slug = (string) get_post_meta( $page_id, 'df_catpage_fallback_term', true );
 		if ( '' === $slug ) {
-			$slug = (string) apply_filters( 'depeur_food/category_pages/fallback_term', 'low-carb', $page_id );
+			$slug = (string) apply_filters( 'depeur_food/category_pages/fallback_term', '', $page_id );
 		}
 		if ( '' === $slug ) {
 			return array();

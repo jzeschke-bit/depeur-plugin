@@ -19,6 +19,7 @@
 
 namespace Depeur\Food\Modules\CategoryPages\Query;
 
+use Depeur\Food\Modules\CategoryPages\Support\Taxonomies;
 use WP_Term;
 
 // Kein direkter Aufruf.
@@ -62,19 +63,54 @@ final class Term_Resolver {
 			return array();
 		}
 
-		// 1) Neue strukturierte Auswahl (hat Vorrang, sobald gesetzt).
+		// 1) Term-Auswahl je Taxonomie (das reguläre UI-Feld, df_catpage_terms_{tax}).
+		$grouped = array();
+		foreach ( Taxonomies::supported() as $taxonomy ) {
+			$ids = get_post_meta( $page_id, Taxonomies::meta_key( $taxonomy ), true );
+			$ids = self::clean_ids( $ids );
+			if ( ! empty( $ids ) ) {
+				$grouped[ $taxonomy ] = $ids;
+			}
+		}
+		if ( ! empty( $grouped ) ) {
+			return self::dedupe( $grouped );
+		}
+
+		// 2) Strukturierte Sammel-Meta (API/Import).
 		$structured = get_post_meta( $page_id, self::META_TERMS, true );
 		if ( is_array( $structured ) && ! empty( $structured ) ) {
 			return self::sanitize_grouped( $structured );
 		}
 
-		// 2) Legacy-Fallback: flache ID-Liste → nach Taxonomie auto-gruppieren.
+		// 3) Legacy-Fallback: flache ID-Liste → nach Taxonomie auto-gruppieren.
 		$legacy = get_post_meta( $page_id, self::META_LEGACY, true );
 		if ( ! empty( $legacy ) ) {
 			return self::group_by_taxonomy( (array) $legacy );
 		}
 
 		return array();
+	}
+
+	/**
+	 * Bereinigt eine ID-Liste (int, positiv).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param mixed $ids Rohe ID-Liste.
+	 * @return array<int>
+	 */
+	private static function clean_ids( $ids ): array {
+		if ( ! is_array( $ids ) ) {
+			return array();
+		}
+		$clean = array_filter(
+			array_map( 'intval', $ids ),
+			static function ( $id ) {
+				return $id > 0;
+			}
+		);
+
+		return array_values( $clean );
 	}
 
 	/**
