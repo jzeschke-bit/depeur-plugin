@@ -106,16 +106,12 @@
 }
 
 .df-newsletter__overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease-in-out;
-    z-index: 998;
+    /* Vollbild-„Spotlight"-Abdunkelung deaktiviert: sie dimmte beim Reinscrollen die
+       ganze Seite, konnte aber Sidebar-Elemente (z. B. die App-Box) wegen der
+       Theme-Stacking-Contexts nicht mit abdunkeln → die blieben hell und wirkten
+       fälschlich „hervorgehoben". Das Formular ist als weiße Karte mit Schatten
+       auffällig genug; die Seite muss dafür nicht abgedunkelt werden. */
+    display: none;
 }
 
 .df-newsletter.in-view .df-newsletter__overlay,
