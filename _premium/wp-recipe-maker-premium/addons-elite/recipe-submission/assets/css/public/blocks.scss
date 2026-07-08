@@ -1,0 +1,120 @@
+.wprmprs-layout-block-required {
+    color: darkred;
+    display: inline-block;
+    margin-left: 2px;
+}
+
+.wprmprs-layout-block-upload,
+.wprmprs-layout-block-input,
+.wprmprs-layout-block-textarea,
+.wprmprs-layout-block-dropdown,
+.wprmprs-layout-block-recipe_image,
+.wprmprs-layout-block-recipe_video_upload {
+    label {
+        margin-top: 10px;
+        margin-bottom: 3px;
+        display: block;
+        font-weight: bold;
+    }
+
+    .wprmprs-form-help {
+        font-style: italic;
+    }
+
+    input,
+    textarea {
+        display: block;
+        width: 100%;
+    }
+
+    &.wprmprs-layout-block-recipe_ingredients,
+    &.wprmprs-layout-block-recipe_instructions {
+        textarea {
+            min-height: 180px;
+        }
+    }
+}
+
+.wprmprs-layout-block-isotope {
+    label.wprmprs-form-label {
+        margin-top: 10px;
+        margin-bottom: 3px;
+        display: block;
+        font-weight: bold;
+    }
+
+    .wprmprs-form-help {
+        font-style: italic;
+    }
+
+    .wprmprs-layout-block-isotope-options {
+        margin-left: -2px;
+        margin-right: -2px;
+    }
+
+    .wprmprs-layout-block-isotope-option {
+        display: inline-block;
+          
+        label {
+            display: inline-block;
+            padding: 2px 7px;
+            margin: 4px 2px;
+            cursor: pointer;
+
+            border: 1px solid #ccc;
+
+            &:hover {
+                border-style: dashed;
+                border-color: black;
+            }
+        }
+
+        input {
+            display: none;
+            &:checked + label {
+                border-style: solid;
+                border-color: black;
+            }
+        }
+    }
+}
+
+.wprmprs-layout-block-recipe_image {
+    .ezdz-dropzone {
+        border-width: 1px;
+        border-color: #999;
+        border-radius: 3px;
+        max-width: 200px;
+        min-height: 100px;
+        height: auto;
+        font-size: 1em;
+        font-family: inherit;
+    
+        div {
+            line-height: 100px;
+            font-weight: normal;
+            font-size: 1em;
+            font-family: inherit;
+            color: #999;
+        }
+    
+        .image-g {
+            margin: 0;
+        }
+    
+        .image-g li {
+            float: none;
+            margin: 0;
+            padding: 5px;
+    
+            width: 100%;
+            height: auto;
+            max-width: none;
+            max-height: none;
+        }
+    }
+}
+
+.wprmprs-layout-block-submit {
+    margin-top: 15px;
+}

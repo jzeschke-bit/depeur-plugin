@@ -1,0 +1,25 @@
+.wprmpuc-units-form {
+    max-width: 800px;
+
+    th, td {
+        padding: 4px 0;
+
+        input {
+            width: 95%;
+        }
+    }
+
+    thead {
+        th {
+            width: auto;
+        }
+    }
+    tbody {
+        th {
+            width: 220px;
+        }
+
+        td { width: 150px; }
+        td:nth-of-type(1) { width: 280px; }
+    }
+}

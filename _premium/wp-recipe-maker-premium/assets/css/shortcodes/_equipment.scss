@@ -1,0 +1,88 @@
+.wprm-recipe-equipment-images,
+.wprm-recipe-equipment-grid {
+    .eafl-disclaimer {
+        display: none;
+    }
+}
+
+.wprm-recipe-equipment-images {
+    margin: 5px -5px;
+    display: flex;
+    flex-wrap: wrap;
+
+    &.wprm-recipe-equipment-images-align-center { justify-content: center; }
+    &.wprm-recipe-equipment-images-align-right { justify-content: flex-end; }
+    &.wprm-recipe-equipment-images-align-spaced { justify-content: space-evenly; }
+
+    // Prevent compatibility problems with links
+    a {
+        border: 0 !important;
+        background: 0 !important;
+        box-shadow: none !important;
+        float: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+    }
+
+    .wprm-recipe-equipment-item {
+        margin: 5px;
+
+        img {
+            margin: 0;
+        }
+
+        .wprm-recipe-equipment-name {
+            text-align: center;
+        }
+    }
+}
+
+.wprm-recipe-equipment-grid {
+    margin: 5px -5px;
+
+    .wprm-recipe-equipment-item {
+        margin: 5px;
+        text-align: center;
+        max-width: 100%;
+        overflow: hidden;
+
+        img {
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .wprm-recipe-equipment-name {
+            text-align: center;
+        }
+    }
+}
+
+@media screen and (min-width: 400px) {
+    .wprm-recipe-equipment-grid {    
+        .wprm-recipe-equipment-grid-row {
+            display: flex;
+        }
+    
+        .wprm-recipe-equipment-item { flex: 1 1 50%; }
+        &.wprm-recipe-equipment-grid-columns-1 { .wprm-recipe-equipment-item { flex: 1 1 100%; } }
+    }
+}
+
+@media screen and (min-width: 550px) {
+    .wprm-recipe-equipment-grid {
+        .wprm-recipe-equipment-item { flex: 1 1 33.33%; }
+        &.wprm-recipe-equipment-grid-columns-1 { .wprm-recipe-equipment-item { flex: 1 1 100%; } }
+        &.wprm-recipe-equipment-grid-columns-2 { .wprm-recipe-equipment-item { flex: 1 1 50%; } }
+        &.wprm-recipe-equipment-grid-columns-3 { .wprm-recipe-equipment-item { flex: 1 1 33.33%; } }
+    }
+}
+
+@media screen and (min-width: 650px) {
+    .wprm-recipe-equipment-grid {
+        &.wprm-recipe-equipment-grid-columns-1 { .wprm-recipe-equipment-item { flex: 1 1 100%; } }
+        &.wprm-recipe-equipment-grid-columns-2 { .wprm-recipe-equipment-item { flex: 1 1 50%; } }
+        &.wprm-recipe-equipment-grid-columns-3 { .wprm-recipe-equipment-item { flex: 1 1 33.33%; } }
+        &.wprm-recipe-equipment-grid-columns-4 { .wprm-recipe-equipment-item { flex: 1 1 25%; } }
+    }
+}

@@ -1,0 +1,80 @@
+@use 'progress-bar';
+
+.wprm-import-warning {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	margin-top: 16px;
+	padding: 16px 20px;
+	background: #fef8ee;
+	border: 1px solid #f0c33c;
+	border-radius: 12px;
+	box-sizing: border-box;
+
+	> .dashicons {
+		color: #9d6e00;
+		font-size: 22px;
+		width: 22px;
+		height: 22px;
+		flex-shrink: 0;
+		margin-top: 1px;
+	}
+
+	strong {
+		display: block;
+		margin-bottom: 4px;
+		color: #6e4600;
+	}
+
+	p {
+		margin: 4px 0 0 0;
+		color: #6e4600;
+		font-size: 13px;
+	}
+
+	> div > .button {
+		margin-top: 12px;
+	}
+}
+
+.wprm-import {
+	p {
+		max-width: 600px;
+	}
+
+	.wprm-import-error {
+		max-width: 600px;
+		border: 1px solid darkred;
+		background-color: #ff9f9f;
+		padding: 10px;
+	}
+
+	.wprm-import-recipes {
+		width: 100%;
+
+		input[type="checkbox"] {
+			vertical-align: top;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.dashicons.dashicons-visibility {
+			font-size: 18px;
+		}
+
+		td {
+			&:nth-child(1) {
+				width: 2%;
+			}
+			&:nth-child(2) {
+				width: 30%;
+			}
+		}
+	}
+
+	#wprm-import-finished {
+		display: none;
+	}
+}

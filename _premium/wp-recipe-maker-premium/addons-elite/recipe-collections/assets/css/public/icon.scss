@@ -1,0 +1,17 @@
+.wprmprc-icon {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+
+    & > div {
+        font-size: 0;
+        line-height: 1;
+    }
+
+    svg {
+        width: 16px;
+        height: auto;
+        max-height: 24px;
+    }
+}

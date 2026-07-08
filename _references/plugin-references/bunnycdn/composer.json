@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Bunny\\Wordpress\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "bunnycdn/storage": "^3.4",
+        "guzzlehttp/guzzle": "^7.10",
+        "guzzlehttp/promises": "^2.3"
+    }
+}

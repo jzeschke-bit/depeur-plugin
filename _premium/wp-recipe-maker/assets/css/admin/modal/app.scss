@@ -1,0 +1,149 @@
+@use 'elementor';
+@use 'public';
+
+.wprm-admin-modal-overlay,
+.wprm-admin-modal-overlay-secondary {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 99999;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wprm-admin-modal-overlay-dimmed {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.wprm-admin-modal-overlay-secondary {
+    z-index: 100000;
+}
+
+.wprm-admin-modal {
+    box-sizing: border-box;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 4px;
+    outline: none;
+    width: 90%;
+    height: auto;
+    max-height: 95%;
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .wprm-admin-modal-header {
+        flex: none;
+        padding: 10px;
+        background-color: #23282d;
+
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+
+        h2 {
+            margin: 0;
+            color: white;
+        }
+
+        .wprm-admin-modal-close {
+            margin-bottom: -2px;
+            svg line {
+                stroke: white;
+            }
+        }
+    }
+
+    .wprm-admin-modal-content {
+        flex: 1 1 auto;
+        overflow: auto;
+
+        padding: 10px;
+    }
+
+    .wprm-admin-modal-footer {
+        flex: none;
+        padding: 10px;
+        background-color: #23282d;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        span, a {
+            color: white;
+        }
+
+        span, a, .button {
+            margin: 0 5px;
+        }
+
+        .wprm-admin-modal-footer-left,
+        .wprm-admin-modal-footer-right {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .wprm-admin-modal-footer-right {
+            flex: 0 1 auto;
+        }
+
+        &.wprm-admin-modal-footer-has-left {
+            justify-content: space-between;
+
+            .wprm-admin-modal-footer-left {
+                margin-right: auto;
+            }
+
+            .wprm-admin-modal-footer-right {
+                margin-left: auto;
+                justify-content: flex-end;
+            }
+        }
+    }
+}
+
+// Override secondary button styles. Their transparant background doesn't work well with the dark footer.
+.wprm-admin-modal-footer {
+    button.button-secondary {
+        background-color: white !important;
+        color: #444;
+        border-color: white;
+    }
+}
+
+@media screen and (min-width: 782px) {
+    .wprm-admin-modal {
+        .wprm-admin-modal-footer {
+            justify-content: flex-end;
+    
+            .button:last-child {
+                margin-right: 0;
+            }
+
+            &.wprm-admin-modal-footer-has-left {
+                justify-content: space-between;
+            }
+        }
+    }
+}

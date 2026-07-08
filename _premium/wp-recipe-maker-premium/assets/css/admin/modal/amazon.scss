@@ -1,0 +1,67 @@
+.wprm-admin-modal-amazon {
+    max-width: 1000px;
+}
+
+.wprm-admin-modal-amazon-container {
+    padding: 10px;
+    overflow: scroll;
+
+    .wprm-admin-modal-amazon-search {
+        display: flex;
+        align-items: center;
+
+        input {
+            max-width: 300px;
+        }
+
+        button {
+            margin-left: 5px;
+        }
+    }
+
+    .wprm-admin-loader {
+        margin-top: 15px;
+    }
+
+    .wprm-admin-modal-amazon-matches {
+        margin: -5px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .wprm-admin-modal-amazon-matches-option {
+            flex: 0 0 187px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
+            border: 1px dashed black;
+            border-radius: 4px;
+
+            margin: 5px;
+            padding: 5px;
+    
+            &:hover {
+                border-style: solid;
+            }
+    
+            img {
+                max-width: 100px;
+                margin: 5px 0;
+            }
+
+            div {
+                text-align: center;
+            }
+
+            .wprm-admin-modal-amazon-matches-option-asin {
+                display: block;
+                font-weight: bold;
+            }
+            .wprm-admin-modal-amazon-matches-option-actions {
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

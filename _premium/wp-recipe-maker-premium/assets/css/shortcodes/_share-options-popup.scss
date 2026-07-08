@@ -1,0 +1,48 @@
+.wprm-recipe-share-options-popup-container {
+    display: none !important;
+}
+
+.wprm-recipe-share-options-popup-options {
+    --wprm-share-popup-icon-color: #ffffff;
+    --wprm-share-popup-icon-hover-color: #ffffff;
+    --wprm-share-popup-text-color: #ffffff;
+    --wprm-share-popup-text-hover-color: #ffffff;
+    --wprm-share-popup-text-decoration: none;
+    --wprm-share-popup-text-hover-decoration: underline;
+    --wprm-share-popup-align: flex-start;
+
+    & > a {
+        display: flex;
+        gap: 10px;
+
+        padding: 5px 10px;
+        justify-content: var(--wprm-share-popup-align);
+        text-decoration: none;
+
+        .wprm-share-popup-icon {
+            color: var(--wprm-share-popup-icon-color);
+        }
+        .wprm-share-popup-text {
+            text-decoration: var(--wprm-share-popup-text-decoration);
+            color: var(--wprm-share-popup-text-color);   
+        }
+
+        &:hover {
+            .wprm-share-popup-icon {
+                color: var(--wprm-share-popup-icon-hover-color);
+            }
+            .wprm-share-popup-text {
+                text-decoration: var(--wprm-share-popup-text-hover-decoration);
+                color: var(--wprm-share-popup-text-hover-color);
+            }
+        }
+    }
+
+    .wprm-share-popup-line {
+        height: 1px;
+        background-color: var(--wprm-share-popup-text-color);
+        opacity: 0.3;
+        margin: 5px 10px;
+        width: calc(100% - 20px);
+    }
+}

@@ -1,0 +1,320 @@
+#wprm-template-main {
+    .wprm-main-container-name {
+        input {
+            display: inline-block;
+            width: 85px;
+            font-size: 18px;
+            margin-right: 5px;
+            padding-right: 0;
+        }
+    }
+
+    .wprm-main-container-preview {
+        .wprm-main-container-preview-content {
+            margin: 0 auto;
+            max-width: 100%;
+
+            &, & > p {
+                font-size: 16px;
+            }
+        }
+
+        .wprm-main-container-preview-recipe {
+            font-size: 14px;
+            margin: 15px auto 0;
+            width: 100%;
+            max-width: 300px;
+            z-index: 99;
+        }
+
+        .wprm-preview-snippet-recipe-box {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #444;
+        }
+    }
+    .cm-editor {
+        margin-top: 10px;
+        height: 350px;
+        border: 1px solid #ddd;
+    }
+
+    .wprm-template-block-hovering {
+        outline: 2px dashed blue;
+        outline-offset: 2px;
+        cursor: pointer;
+    }
+
+    .wprm-template-block-wrapper {
+        display: contents;
+    }
+
+    &.wprm-template-main-add {
+        .wprm-template-block-hovering {
+            outline-color: green;
+        }
+    }
+
+    &.wprm-template-main-remove {
+        .wprm-template-block-hovering {
+            outline-color: red;
+        }
+    }
+
+    .wprm-template-editor-premium-only {
+        color: darkred;
+        font-style: italic;
+    }
+
+    // Add Blocks View Styles
+    .wprm-add-blocks-view {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+
+        .wprm-add-blocks-view-header {
+            margin-top: 50px;
+            margin-bottom: 30px;
+
+            h2 {
+                margin: 0 0 10px 0;
+                font-size: 24px;
+                font-weight: 600;
+                color: #23282d;
+            }
+
+            > p {
+                margin: 0 0 20px 0;
+                color: #646970;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+        }
+
+        .wprm-add-blocks-view-content {
+            .wprm-add-blocks-view-empty {
+                text-align: center;
+                padding: 60px 20px;
+                color: #646970;
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                }
+
+                .wprm-add-blocks-view-empty-link {
+                    color: #2271b1;
+                    text-decoration: none;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #135e96;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .wprm-add-blocks-view-group {
+                margin-bottom: 40px;
+
+                .wprm-add-blocks-view-group-header {
+                    margin-bottom: 20px;
+                }
+
+                .wprm-add-blocks-view-group-title {
+                    margin: 0 0 8px 0;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1d2327;
+                }
+
+                .wprm-add-blocks-view-group-description {
+                    margin: 0 0 0 0;
+                    font-size: 14px;
+                    color: #646970;
+                    line-height: 1.5;
+                    padding-bottom: 12px;
+                    border-bottom: 2px solid #f0f0f1;
+                }
+
+                .wprm-add-blocks-view-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 20px;
+
+                    @media (max-width: 782px) {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            }
+        }
+
+        .wprm-add-blocks-view-card {
+            background: #fff;
+            border: 1px solid #c3c4c7;
+            border-radius: 6px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 140px;
+            position: relative;
+
+            &:hover {
+                border-color: #2271b1;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+            &.wprm-add-blocks-view-card-new {
+                border-color: #2271b1;
+                border-width: 2px;
+            }
+
+            .wprm-add-blocks-view-card-header {
+                margin-bottom: 12px;
+
+                .wprm-add-blocks-view-card-title {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #1d2327;
+                    line-height: 1.4;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .wprm-add-blocks-view-card-new-badge {
+                        display: inline-block;
+                        background: #2271b1;
+                        color: #fff;
+                        font-size: 10px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        padding: 2px 6px;
+                        border-radius: 3px;
+                        line-height: 1.4;
+                    }
+                }
+            }
+
+            .wprm-add-blocks-view-card-body {
+                flex: 1;
+                margin-bottom: 12px;
+
+                .wprm-add-blocks-view-card-description {
+                    margin: 0;
+                    font-size: 13px;
+                    color: #646970;
+                    line-height: 1.5;
+                }
+            }
+
+            .wprm-add-blocks-view-card-footer {
+                margin-top: auto;
+                padding-top: 12px;
+                border-top: 1px solid #f0f0f1;
+
+                .wprm-add-blocks-view-card-action {
+                    font-size: 12px;
+                    color: #2271b1;
+                    font-weight: 500;
+                    transition: color 0.2s ease;
+                }
+            }
+
+            &:hover .wprm-add-blocks-view-card-action {
+                color: #135e96;
+            }
+        }
+    }
+
+    .wprm-feature-explorer {
+        .wprm-feature-explorer-post-content {
+            max-width: 650px;
+            margin: 0 auto;
+
+            > p {
+                margin-top: 18px;
+                margin-bottom: 0;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+        }
+
+        .wprm-feature-explorer-snippet-preview,
+        .wprm-feature-explorer-recipe-preview,
+        .wprm-feature-explorer-roundup-preview {
+            margin-top: 18px;
+        }
+
+        .wprm-feature-explorer-roundup-preview {
+            .wprm-recipe-roundup-item {
+                margin: 0;
+            }
+        }
+
+        .wprm-feature-explorer-preview {
+            position: relative;
+
+            .wprm-recipe {
+                overflow: visible;
+            }
+
+            .wprm-glossary-term,
+            .wprm-timer,
+            .wprm-recipe-advanced-servings-input {
+                text-decoration: underline;
+            }
+
+            .wprm-feature-explorer-preview-tooltip {
+                position: absolute;
+                z-index: 20;
+                pointer-events: none;
+                padding: 7px 11px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(15, 23, 42, 0.94);
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 1;
+                white-space: nowrap;
+                box-shadow: 0 10px 24px rgba(2, 6, 23, 0.24);
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+
+            .wprm-feature-explorer-preview-tooltip-top {
+                transform: translate(-50%, calc(-100% - 14px));
+            }
+
+            .wprm-feature-explorer-preview-tooltip-bottom {
+                transform: translate(-50%, 14px);
+            }
+
+            .wprm-feature-explorer-highlight-target {
+                position: relative;
+            }
+
+            .wprm-feature-explorer-highlight-target::after {
+                content: "";
+                position: absolute;
+                border: 2px dashed black;
+                inset: -10px;
+                border-radius: 12px;
+            }
+        }
+
+        @media all and (max-width: 640px) {
+            .wprm-feature-explorer-roundup-preview {
+                margin-top: 12px;
+            }
+        }
+
+    }
+}

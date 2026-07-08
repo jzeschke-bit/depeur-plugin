@@ -1,0 +1,54 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-collection {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -10px;
+        margin-bottom: 20px;
+
+        .wprmprc-collection-column-balancer,
+        .wprmprc-collection-column,
+        .wprmprc-collection-actions {
+            margin: 10px;
+        }
+
+        .wprmprc-collection-column-balancer {
+            visibility: hidden;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .wprmprc-collection-column,
+        .wprmprc-collection-actions:not(.wprmprc-collection-actions-overview) {
+            background-color: variables.$color-collection;
+        }
+
+        .wprmprc-collection-column {
+            border: 1px solid variables.$color-collection-border;
+            border-radius: variables.$border-radius;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wprmprc-collection-column-header {
+            background-color: variables.$color-collection-border;
+            border-top-left-radius: calc(#{variables.$border-radius} - 1px);
+            border-top-right-radius: calc(#{variables.$border-radius} - 1px);
+
+            color: variables.$color-collection-text;
+            text-align: center;
+            padding: 10px 5px;
+            font-weight: bold;
+        }
+
+        .wprmprc-collection-column-groups {
+            flex: 1;
+            -ms-flex: 1 1 auto;
+
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

@@ -1,0 +1,1078 @@
+# Copyright (C) 2020 RunCloud
+# This file is distributed under the GPL-2.0 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: RunCloud Hub {{CURRENTVERSION}}\n"
+"Report-Msgid-Bugs-To: https://runcloud.io\n"
+"POT-Creation-Date: 2020-08-12 01:13:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: RunCloud Team <team@runcloud.io>\n"
+"Language-Team: RunCloud Team <team@runcloud.io>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+
+#: partials/admin.php:5
+msgid "%s Page"
+msgstr ""
+
+#: partials/btnsubmit.php:3
+msgid "Save Settings"
+msgstr ""
+
+#: partials/btnsubmit.php:5
+msgid "Reset Settings"
+msgstr ""
+
+#: partials/command.php:4
+msgid "Network Site Switching"
+msgstr ""
+
+#: partials/command.php:9
+msgid ""
+"Automatically switch to RunCloud Hub settings page of the network site, for "
+"Super Administrator only."
+msgstr ""
+
+#: partials/command.php:14
+msgid "Quick Network Action"
+msgstr ""
+
+#: partials/command.php:18 runcloud-hub.php:2071
+msgid "Clear All Sites Cache"
+msgstr ""
+
+#: partials/command.php:22 runcloud-hub.php:2081
+msgid "Clear All Sites Redis Object Cache"
+msgstr ""
+
+#: partials/command.php:28
+msgid "Quick Site Action"
+msgstr ""
+
+#: partials/command.php:30
+msgid "Quick Action"
+msgstr ""
+
+#: partials/command.php:36 runcloud-hub.php:2050
+msgid "Clear All Cache"
+msgstr ""
+
+#: partials/command.php:40
+msgid "Clear Homepage Cache"
+msgstr ""
+
+#: partials/command.php:45 runcloud-hub.php:2060
+msgid "Clear Redis Object Cache"
+msgstr ""
+
+#: partials/command.php:49
+msgid "Run Cache Preload"
+msgstr ""
+
+#: partials/command.php:53
+msgid "Fetch Server Stats"
+msgstr ""
+
+#: partials/command.php:59 partials/redis.php:91
+msgid "Install Object Cache Drop-in"
+msgstr ""
+
+#: partials/command.php:63 partials/redis.php:97
+msgid "Update Object Cache Drop-in"
+msgstr ""
+
+#: partials/command.php:67 partials/redis.php:109
+msgid "Fix Redis Site Config Drop-in"
+msgstr ""
+
+#: partials/links.php:4
+msgid "Help"
+msgstr ""
+
+#: partials/links.php:5
+msgid "What's New"
+msgstr ""
+
+#: partials/links.php:6
+msgid "RunCloud Dashboard"
+msgstr ""
+
+#: partials/preload.php:4 partials/preload.php:19 partials/preload.php:38
+#: partials/preload.php:64
+msgid "RunCache Preload"
+msgstr ""
+
+#: partials/preload.php:5
+msgid "Cache Preload"
+msgstr ""
+
+#: partials/preload.php:10
+msgid "Preload speed (posts/pages per minute)"
+msgstr ""
+
+#: partials/preload.php:20
+msgid "Automatic Preload"
+msgstr ""
+
+#: partials/preload.php:27
+msgid "Automatic Cache Preload"
+msgstr ""
+
+#: partials/preload.php:30
+msgid "Automatically run cache preload when purge cache action is triggered."
+msgstr ""
+
+#: partials/preload.php:39
+msgid "Scheduled Preload"
+msgstr ""
+
+#: partials/preload.php:46
+msgid "Enable Scheduled Preload"
+msgstr ""
+
+#: partials/preload.php:49
+msgid "Automatically preload cache based on schedule time."
+msgstr ""
+
+#: partials/preload.php:51
+msgid "The frequency of time set to preload"
+msgstr ""
+
+#: partials/preload.php:65
+msgid "Preload URL Path"
+msgstr ""
+
+#: partials/preload.php:72
+msgid "Enable Path Preload"
+msgstr ""
+
+#: partials/preload.php:75
+msgid "Always preload cache for matching URL Path, one per line."
+msgstr ""
+
+#: partials/purger.php:4 partials/sidebar.php:19
+msgid "RunCache"
+msgstr ""
+
+#: partials/purger.php:5
+msgid "Purge Homepage Settings"
+msgstr ""
+
+#: partials/purger.php:12
+msgid "Post Updated/Added"
+msgstr ""
+
+#: partials/purger.php:15
+msgid ""
+"Automatically clear cache of homepage when a post / page / CPT is "
+"updated/added."
+msgstr ""
+
+#: partials/purger.php:21
+msgid "Post Removed"
+msgstr ""
+
+#: partials/purger.php:24
+msgid "Automatically clear cache of homepage when a post / page / CPT is removed."
+msgstr ""
+
+#: partials/purger.php:32 partials/purger.php:68 partials/purger.php:98
+#: partials/purger.php:118 partials/purger.php:144
+msgid "RunCache Purger"
+msgstr ""
+
+#: partials/purger.php:33
+msgid "Purge Post/Page/CPT Settings"
+msgstr ""
+
+#: partials/purger.php:40
+msgid "Post Published/Removed"
+msgstr ""
+
+#: partials/purger.php:43
+msgid "Automatically clear cache of a post / page / CPT when published or removed."
+msgstr ""
+
+#: partials/purger.php:49
+msgid "Comment Approved"
+msgstr ""
+
+#: partials/purger.php:52
+msgid ""
+"Automatically clear cache of a post / page / CPT when a comment is approved "
+"or published."
+msgstr ""
+
+#: partials/purger.php:57
+msgid "Comment Removed"
+msgstr ""
+
+#: partials/purger.php:60
+msgid ""
+"Automatically clear cache of a post / page / CPT when a comment is "
+"unapproved or removed."
+msgstr ""
+
+#: partials/purger.php:69
+msgid "Purge Archives Settings"
+msgstr ""
+
+#: partials/purger.php:71
+msgid ""
+"Archives are categories, tags, custom taxonomies, author page, and date "
+"pages of current post / page / CPT"
+msgstr ""
+
+#: partials/purger.php:78
+msgid "Homepage Purged"
+msgstr ""
+
+#: partials/purger.php:81
+msgid ""
+"Automatically clear cache of archives when running any action of purge "
+"homepage setting."
+msgstr ""
+
+#: partials/purger.php:87
+msgid "Post Purged"
+msgstr ""
+
+#: partials/purger.php:90
+msgid ""
+"Automatically clear cache of archives when running any action of purge post "
+"/ page / CPT setting."
+msgstr ""
+
+#: partials/purger.php:99
+msgid "Purge URL Path"
+msgstr ""
+
+#: partials/purger.php:106
+msgid "Enable purge URL path"
+msgstr ""
+
+#: partials/purger.php:109
+msgid ""
+"Automatically clear cache of matching URL path, one per line, when a post / "
+"page / CPT is published/removed or a comment is approved/removed."
+msgstr ""
+
+#: partials/purger.php:119
+msgid "Scheduled Purge"
+msgstr ""
+
+#: partials/purger.php:126
+msgid "Enable Scheduled Purge"
+msgstr ""
+
+#: partials/purger.php:129
+msgid "Automatically clear cache based on schedule time."
+msgstr ""
+
+#: partials/purger.php:131
+msgid "The frequency of time set to purge"
+msgstr ""
+
+#: partials/purger.php:145
+msgid "Debug Purge"
+msgstr ""
+
+#: partials/purger.php:152
+msgid "Enable HTML Footprint in HTML"
+msgstr ""
+
+#: partials/purger.php:155
+msgid ""
+"Automatically add RunCloud Hub HTML footprint at the bottom of HTML output. "
+"Please clear all cache after enabling this option."
+msgstr ""
+
+#: partials/redis.php:5 partials/redis.php:40 partials/redis.php:196
+#: partials/redis.php:217 partials/redis.php:255 partials/sidebar.php:40
+msgid "Redis"
+msgstr ""
+
+#: partials/redis.php:6
+msgid "Redis Object Cache"
+msgstr ""
+
+#: partials/redis.php:14
+msgid "Enable Redis Object Cache For All Sites"
+msgstr ""
+
+#: partials/redis.php:16
+msgid "Enable Redis Object Cache"
+msgstr ""
+
+#: partials/redis.php:19
+msgid "Enable this option to allow this plugin handle Redis object cache."
+msgstr ""
+
+#: partials/redis.php:25
+msgid "Apply To All Network Sites"
+msgstr ""
+
+#: partials/redis.php:41
+msgid "Redis Object Cache Status"
+msgstr ""
+
+#: partials/redis.php:46
+msgid "Status"
+msgstr ""
+
+#: partials/redis.php:51
+msgid "Object cache is disabled via RCWP_REDIS_DISABLED constant."
+msgstr ""
+
+#: partials/redis.php:55
+msgid ""
+"Object cache should be enabled for this site, but redis site config drop-in "
+"file is not valid and needs update."
+msgstr ""
+
+#: partials/redis.php:58
+msgid "Object cache is enabled for this site."
+msgstr ""
+
+#: partials/redis.php:60
+msgid "Object cache is not active because Redis is not connected."
+msgstr ""
+
+#: partials/redis.php:62
+msgid "Please disable Redis object cache option to completely disable object cache."
+msgstr ""
+
+#: partials/redis.php:67
+msgid "Object cache is enabled for this site but drop-in file needs update."
+msgstr ""
+
+#: partials/redis.php:71
+msgid "Unknown object cache drop-in file. Object cache is handled by other plugin."
+msgstr ""
+
+#: partials/redis.php:75
+msgid ""
+"Object cache drop-in is not installed because RUNCLOUD_HUB_INSTALL_DROPIN "
+"constant is false."
+msgstr ""
+
+#: partials/redis.php:77
+msgid "Object cache drop-in has not been installed."
+msgstr ""
+
+#: partials/redis.php:82
+msgid "Object cache is still enabled for this site."
+msgstr ""
+
+#: partials/redis.php:83
+msgid ""
+"Redis site config drop-in file needs update to disable object cache for "
+"this site."
+msgstr ""
+
+#: partials/redis.php:85
+msgid "Object cache is disabled for this site."
+msgstr ""
+
+#: partials/redis.php:93 partials/redis.php:99 partials/redis.php:105
+#: partials/redis.php:111
+msgid "Please contact super administrator of this website to fix this issue."
+msgstr ""
+
+#: partials/redis.php:103
+msgid "Replace Object Cache Drop-in"
+msgstr ""
+
+#: partials/redis.php:127
+msgid "Client"
+msgstr ""
+
+#: partials/redis.php:130
+msgid "Redis Version"
+msgstr ""
+
+#: partials/redis.php:135
+msgid "Host"
+msgstr ""
+
+#: partials/redis.php:139
+msgid "Cluster"
+msgstr ""
+
+#: partials/redis.php:143
+msgid "Shards"
+msgstr ""
+
+#: partials/redis.php:147
+msgid "Servers"
+msgstr ""
+
+#: partials/redis.php:151
+msgid "Port"
+msgstr ""
+
+#: partials/redis.php:155
+msgid "Username"
+msgstr ""
+
+#: partials/redis.php:159
+msgid "Password"
+msgstr ""
+
+#: partials/redis.php:163
+msgid "Database"
+msgstr ""
+
+#: partials/redis.php:167
+msgid "Connection Timeout"
+msgstr ""
+
+#: partials/redis.php:171
+msgid "Read Timeout"
+msgstr ""
+
+#: partials/redis.php:175
+msgid "Retry Interval"
+msgstr ""
+
+#: partials/redis.php:179
+msgid "Max TTL"
+msgstr ""
+
+#: partials/redis.php:183
+msgid "Key Prefix"
+msgstr ""
+
+#: partials/redis.php:197
+msgid "Redis Object Cache Groups"
+msgstr ""
+
+#: partials/redis.php:204
+msgid "Exclude Object Cache Groups"
+msgstr ""
+
+#: partials/redis.php:207
+msgid ""
+"Exclude object cache groups that should not be cached in Redis, one per "
+"line."
+msgstr ""
+
+#: partials/redis.php:218
+msgid "Advanced Redis Options"
+msgstr ""
+
+#: partials/redis.php:225
+msgid "Object Cache Key Prefix"
+msgstr ""
+
+#: partials/redis.php:226
+msgid "Set the prefix for object cache keys. Leave blank for auto generated prefix."
+msgstr ""
+
+#: partials/redis.php:236
+msgid "Maximum Time-To-Live"
+msgstr ""
+
+#: partials/redis.php:239
+msgid "Enable this option to set maximum time-to-live for cached objects."
+msgstr ""
+
+#: partials/redis.php:241
+msgid "The amount of time, a cache will be served before automatically released"
+msgstr ""
+
+#: partials/redis.php:256
+msgid "Debug Redis"
+msgstr ""
+
+#: partials/redis.php:263
+msgid "Enable Redis statistics in the footer"
+msgstr ""
+
+#: partials/redis.php:266
+msgid ""
+"Automatically show statistics of Redis object cache (hits, misses, size) in "
+"the footer, both admin and frontend, for administrator user only."
+msgstr ""
+
+#: partials/rules.php:4 partials/rules.php:64 partials/rules.php:97
+msgid "RunCache Rules"
+msgstr ""
+
+#: partials/rules.php:5
+msgid "Cache Exclusion Settings"
+msgstr ""
+
+#: partials/rules.php:13
+msgid "Exclude URL Path"
+msgstr ""
+
+#: partials/rules.php:16
+msgid "Exclude page cache based on matching URL path, one per line."
+msgstr ""
+
+#: partials/rules.php:25
+msgid "Exclude Cookie"
+msgstr ""
+
+#: partials/rules.php:28
+msgid "Exclude page cache based on matching cookie name, one per line."
+msgstr ""
+
+#: partials/rules.php:37
+msgid "Exclude Browser User-Agent"
+msgstr ""
+
+#: partials/rules.php:40
+msgid "Exclude page cache based on matching browser user-agent, one per line."
+msgstr ""
+
+#: partials/rules.php:49
+msgid "Exclude Visitor IP Address"
+msgstr ""
+
+#: partials/rules.php:52
+msgid "Exclude page cache based on matching visitor IP address, one per line."
+msgstr ""
+
+#: partials/rules.php:65
+msgid "Cache Query String Settings"
+msgstr ""
+
+#: partials/rules.php:66
+msgid ""
+"By default a page with query string will not be cached, you need to enable "
+"either one of the options below to activate it."
+msgstr ""
+
+#: partials/rules.php:73
+msgid "Allow Cache Query String"
+msgstr ""
+
+#: partials/rules.php:76
+msgid "Allow cache based on matching query string, one per line."
+msgstr ""
+
+#: partials/rules.php:84
+msgid "Exclude Cache Query String"
+msgstr ""
+
+#: partials/rules.php:87
+msgid "Exclude page cache based on matching query string, one per line."
+msgstr ""
+
+#: partials/rules.php:98
+msgid "Cache Key"
+msgstr ""
+
+#: partials/rules.php:105
+msgid "Set Cache Key"
+msgstr ""
+
+#: partials/rules.php:107
+msgid ""
+"Enable this option to add additional cache keys. The input should as "
+"recognized and valid NGINX variables."
+msgstr ""
+
+#: partials/settings.php:4 partials/settings.php:31 partials/settings.php:52
+#: partials/sidebar.php:49 runcloud-hub.php:1435 runcloud-hub.php:2005
+msgid "Settings"
+msgstr ""
+
+#: partials/settings.php:5
+msgid "RunCloud Panel"
+msgstr ""
+
+#: partials/settings.php:11
+msgid "HUB API Key"
+msgstr ""
+
+#: partials/settings.php:16
+msgid "HUB API Secret"
+msgstr ""
+
+#: partials/settings.php:21
+msgid "WebApp ID"
+msgstr ""
+
+#: partials/settings.php:32
+msgid "Magic Link"
+msgstr ""
+
+#: partials/settings.php:40
+msgid "Allow Magic Link"
+msgstr ""
+
+#: partials/settings.php:43
+msgid "Enable this option to allow login automatically from RunCloud Panel."
+msgstr ""
+
+#: partials/settings.php:53 partials/sidebar.php:10
+msgid "Stats"
+msgstr ""
+
+#: partials/settings.php:60
+msgid "Enable Stats Panel"
+msgstr ""
+
+#: partials/settings.php:63
+msgid "Enable this option to show stats panel."
+msgstr ""
+
+#: partials/settings.php:68
+msgid "Display Server Health"
+msgstr ""
+
+#: partials/settings.php:71
+msgid "Enable this option to show stats of server health."
+msgstr ""
+
+#: partials/settings.php:73
+msgid "Type of server health stats data to display"
+msgstr ""
+
+#: partials/settings.php:81
+msgid "Display Traffic Stats"
+msgstr ""
+
+#: partials/settings.php:84
+msgid ""
+"Enable this option to show stats of webapp traffic, the amount of data "
+"served for this web application to your users."
+msgstr ""
+
+#: partials/settings.php:86
+msgid "Type of webapp traffic stats data to display"
+msgstr ""
+
+#: partials/settings.php:92
+msgid "Update stats data based on schedule time"
+msgstr ""
+
+#: partials/sidebar-sm.php:26
+msgid "Menu"
+msgstr ""
+
+#: partials/sidebar.php:22
+msgid "Purger"
+msgstr ""
+
+#: partials/sidebar.php:26
+msgid "Rules"
+msgstr ""
+
+#: partials/sidebar.php:30
+msgid "Preload"
+msgstr ""
+
+#: runcloud-hub.php:742
+msgid "Redis Object Cache: Hits %s, Misses %s, Hit Ratio %s%s, Size %s"
+msgstr ""
+
+#: runcloud-hub.php:745
+msgid "Redis Object Cache: Could not get statistics info"
+msgstr ""
+
+#: runcloud-hub.php:749
+msgid "Redis Object Cache: Not connected"
+msgstr ""
+
+#: runcloud-hub.php:1118
+msgid "Install Drop-in Stopped - RUNCLOUD_HUB_INSTALL_DROPIN"
+msgstr ""
+
+#: runcloud-hub.php:1132
+msgid "Install Drop-in Stopped - Drop-in source file does not exist"
+msgstr ""
+
+#: runcloud-hub.php:1151
+msgid "Install Drop-in Stopped - Drop-in file was not writable"
+msgstr ""
+
+#: runcloud-hub.php:1167
+msgid "Installing/updating object cache drop-in was successful"
+msgstr ""
+
+#: runcloud-hub.php:1180
+msgid "Installing/updating object cache drop-in failed"
+msgstr ""
+
+#: runcloud-hub.php:1190
+msgid "Install Drop-in Stopped - Drop-in file could not be updated"
+msgstr ""
+
+#: runcloud-hub.php:1207
+msgid "Update Drop-in Config Stopped - RUNCLOUD_HUB_INSTALL_DROPIN"
+msgstr ""
+
+#: runcloud-hub.php:1229
+msgid "Update Drop-in Config Stopped - Drop-in config file was not writable"
+msgstr ""
+
+#: runcloud-hub.php:1250
+msgid "Updating object cache drop-in config was successful"
+msgstr ""
+
+#: runcloud-hub.php:1259
+msgid "Updating object cache drop-in config failed"
+msgstr ""
+
+#: runcloud-hub.php:1269
+msgid "Install Drop-in Config Stopped - Drop-in config file could not be updated"
+msgstr ""
+
+#: runcloud-hub.php:1373
+msgid "Removing object cache drop-in was successful"
+msgstr ""
+
+#: runcloud-hub.php:1379
+msgid "Removing object cache drop-in failed"
+msgstr ""
+
+#: runcloud-hub.php:1499
+msgid "Minutes"
+msgstr ""
+
+#: runcloud-hub.php:1504
+msgid "Hours"
+msgstr ""
+
+#: runcloud-hub.php:1509
+msgid "Days"
+msgstr ""
+
+#: runcloud-hub.php:1514
+msgid "Weeks"
+msgstr ""
+
+#: runcloud-hub.php:1519
+msgid "Months"
+msgstr ""
+
+#: runcloud-hub.php:1524
+msgid "Years"
+msgstr ""
+
+#: runcloud-hub.php:1561
+msgid "Hourly"
+msgstr ""
+
+#: runcloud-hub.php:1562
+msgid "Daily"
+msgstr ""
+
+#: runcloud-hub.php:1563
+msgid "Monthly"
+msgstr ""
+
+#: runcloud-hub.php:1591 runcloud-hub.php:1632
+msgid "(primary)"
+msgstr ""
+
+#: runcloud-hub.php:1611
+msgid "Select Site"
+msgstr ""
+
+#: runcloud-hub.php:1615
+msgid "Network Admin Settings"
+msgstr ""
+
+#: runcloud-hub.php:1757
+msgid "Preloading is running... Please wait..."
+msgstr ""
+
+#: runcloud-hub.php:1760
+msgid "Preloading is started... Please wait..."
+msgstr ""
+
+#: runcloud-hub.php:1764
+msgid "Cancel"
+msgstr ""
+
+#: runcloud-hub.php:1765
+msgid "Run in the background"
+msgstr ""
+
+#: runcloud-hub.php:1774
+msgid ""
+"Preloading is running in the background (%s/%s). Please refresh to see the "
+"progress."
+msgstr ""
+
+#: runcloud-hub.php:1777
+msgid "Stop"
+msgstr ""
+
+#: runcloud-hub.php:1778
+msgid "Run now"
+msgstr ""
+
+#: runcloud-hub.php:1790 runcloud-hub.php:1793 runcloud-hub.php:4458
+#: runcloud-hub.php:4459
+msgid "Invalid request"
+msgstr ""
+
+#: runcloud-hub.php:1797 runcloud-hub.php:1800 runcloud-hub.php:4463
+#: runcloud-hub.php:4464
+msgid "Invalid nonce"
+msgstr ""
+
+#: runcloud-hub.php:1820 runcloud-hub.php:1826
+msgid "Preload %s / %s : %s"
+msgstr ""
+
+#: runcloud-hub.php:1826 runcloud-hub.php:1832
+msgid "Preload URL is empty"
+msgstr ""
+
+#: runcloud-hub.php:1852
+msgid "Cannot read \"%s\" file"
+msgstr ""
+
+#: runcloud-hub.php:2017 runcloud-hub.php:2028
+msgid "Clear Cache Of This Post"
+msgstr ""
+
+#: runcloud-hub.php:2038
+msgid "Clear Cache Of This URL"
+msgstr ""
+
+#: runcloud-hub.php:2178
+msgid ""
+"RunCache Purger has been automatically deactivated due to superseded by the "
+"RunCloud Hub Plugin"
+msgstr ""
+
+#: runcloud-hub.php:2193
+msgid "Updating... Please wait..."
+msgstr ""
+
+#: runcloud-hub.php:2216
+msgid "Settings saved."
+msgstr ""
+
+#: runcloud-hub.php:2728
+msgid "Purge cache was initiated and will run shortly"
+msgstr ""
+
+#: runcloud-hub.php:2735
+msgid "Purge cache was successful"
+msgstr ""
+
+#: runcloud-hub.php:2739
+msgid "Purge cache was skipped (no cache)"
+msgstr ""
+
+#: runcloud-hub.php:2743 runcloud-hub.php:2747
+msgid "Purge cache failed - Request Forbidden"
+msgstr ""
+
+#: runcloud-hub.php:2751
+msgid "Purge cache failed - Request Not Found"
+msgstr ""
+
+#: runcloud-hub.php:2755
+msgid "Purge cache failed - Method Not Allowed"
+msgstr ""
+
+#: runcloud-hub.php:2760
+msgid "Purge cache failed - Failed to connect"
+msgstr ""
+
+#: runcloud-hub.php:2763
+msgid "Purge cache failed - %s"
+msgstr ""
+
+#: runcloud-hub.php:3018 runcloud-hub.php:3025
+msgid "Failed, no valid action was specified"
+msgstr ""
+
+#: runcloud-hub.php:3032
+msgid "Failed, security nonce was invalid"
+msgstr ""
+
+#: runcloud-hub.php:3077
+msgid "Success"
+msgstr ""
+
+#: runcloud-hub.php:3086
+msgid "Unknown Error"
+msgstr ""
+
+#: runcloud-hub.php:3091
+msgid "Redirecting in 5 seconds..."
+msgstr ""
+
+#: runcloud-hub.php:3205
+msgid "Purge Redis object cache was successful"
+msgstr ""
+
+#: runcloud-hub.php:3208
+msgid "Purge Redis object cache failed - Request not found"
+msgstr ""
+
+#: runcloud-hub.php:3212
+msgid "Purge Redis object cache failed - Redis is not connected"
+msgstr ""
+
+#: runcloud-hub.php:3254
+msgid "Purge all sites Redis object cache was successful"
+msgstr ""
+
+#: runcloud-hub.php:3257
+msgid "Purge all sites Redis object cache failed - Request not found"
+msgstr ""
+
+#: runcloud-hub.php:3261
+msgid "Purge all sites Redis object cache failed - Redis server is not connected"
+msgstr ""
+
+#: runcloud-hub.php:3265
+msgid ""
+"Purge all sites Redis object cache failed - Redis object cache is disabled "
+"on main site"
+msgstr ""
+
+#: runcloud-hub.php:3269
+msgid "Purge all sites Redis object cache failed - For Super Administrator only"
+msgstr ""
+
+#: runcloud-hub.php:3682
+msgid "Upgrade to v%s "
+msgstr ""
+
+#: runcloud-hub.php:4619
+msgid " (%s ago)"
+msgstr ""
+
+#: runcloud-hub.php:4719
+msgid "Reset settings was successful."
+msgstr ""
+
+#: runcloud-hub.php:4740 runcloud-hub.php:4741
+msgid "RunCloud_Hub_CLI"
+msgstr ""
+
+#: runcloud-hub.php:4740
+msgid "Manages RunCloud Hub WordPress Plugin"
+msgstr ""
+
+#: runcloud-hub.php:4741
+msgid "RunCache Purger for RunCloud Hub"
+msgstr ""
+
+#: runcloud-hub.php:5093
+msgid "PID%s Background Preload START %s / %s"
+msgstr ""
+
+#: runcloud-hub.php:5100 runcloud-hub.php:5106 runcloud-hub.php:5114
+#: runcloud-hub.php:5120 runcloud-hub.php:5125 runcloud-hub.php:5131
+#: runcloud-hub.php:5138 runcloud-hub.php:5145
+msgid "Background Preload STOP : %s"
+msgstr ""
+
+#: runcloud-hub.php:5100
+msgid "PID is missing"
+msgstr ""
+
+#: runcloud-hub.php:5106
+msgid "PID is different"
+msgstr ""
+
+#: runcloud-hub.php:5114
+msgid "No preload run"
+msgstr ""
+
+#: runcloud-hub.php:5120
+msgid "No preload type"
+msgstr ""
+
+#: runcloud-hub.php:5125
+msgid "Not background preload"
+msgstr ""
+
+#: runcloud-hub.php:5131
+msgid "No preload number"
+msgstr ""
+
+#: runcloud-hub.php:5138
+msgid "No preload total"
+msgstr ""
+
+#: runcloud-hub.php:5145
+msgid "Preload total is invalid"
+msgstr ""
+
+#: runcloud-hub.php:5169
+msgid "PID%s Background Preload %s / %s : %s"
+msgstr ""
+
+#: runcloud-hub.php:5181
+msgid "PID%s Background Preload STOP %s / %s"
+msgstr ""
+
+#: runcloud-hub.php:5427 runcloud-hub.php:5441 runcloud-hub.php:5466
+#: runcloud-hub.php:5479 runcloud-hub.php:5493 runcloud-hub.php:5529
+msgid "Fetching server stats failed - %s"
+msgstr ""
+
+#: runcloud-hub.php:5432
+msgid "Fetching server stats was successful"
+msgstr ""
+
+#: runcloud-hub.php:5461
+msgid "Only can fetch stats from main site. Current: %s"
+msgstr ""
+
+#: runcloud-hub.php:5474
+msgid "Stats is not empty, no need to fetch new stats data"
+msgstr ""
+
+#: runcloud-hub.php:5488 runcloud-hub.php:5573
+msgid "Missing API Key / Secret / WebApp ID"
+msgstr ""
+
+#: runcloud-hub.php:5526 runcloud-hub.php:5706
+msgid "Endpoint not configured properly"
+msgstr ""
+
+#: runcloud-hub.php:5565
+msgid "Only can update from main site. Current: %s"
+msgstr ""
+
+#: runcloud-hub.php:5578 runcloud-hub.php:5698 runcloud-hub.php:5711
+msgid "Updating cache rules to the server failed - %s"
+msgstr ""
+
+#: runcloud-hub.php:5688
+msgid "Updating cache rules to the server was successful"
+msgstr ""
+
+#: runcloud-hub.php:5884
+msgid "Magic Link: link has expired"
+msgstr ""
+
+#: runcloud-hub.php:5902
+msgid "Magic Link: Invalid token"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "RunCloud Hub"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"RunCloud server-side caching for WordPress, Nginx FastCGI/Proxy Cache and "
+"Redis Object Cache"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "RunCloud"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://runcloud.io/"
+msgstr ""

@@ -1,0 +1,62 @@
+.no-js {
+    .wprm-recipe-private-notes-header,
+    .wprm-private-notes-container {
+        display: none;
+    }
+}
+
+.wprm-private-notes-container {
+    &:not(.wprm-private-notes-container-disabled) {
+        cursor: pointer;
+    }
+
+    .wprm-private-notes-user,
+    .wprm-private-notes-input {
+        display: none;
+    }
+
+    &.wprm-private-notes-has-notes {
+        .wprm-private-notes-placeholder {
+            display: none;
+        }
+        .wprm-private-notes-user {
+            display: block;
+        }
+    }
+
+    &.wprm-private-notes-editing {
+        .wprm-private-notes-placeholder,
+        .wprm-private-notes-user {
+            display: none;
+        }
+        .wprm-private-notes-input {
+            display: block;
+        }
+    }
+
+    .wprm-private-notes-user {
+        white-space: pre-wrap;
+    }
+
+    .wprm-private-notes-input {
+        resize: none;
+        width: 100%;
+        height: 100px;
+        padding: 5px;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+}
+
+.wprm-print .wprm-private-notes-container {
+    cursor: default;
+
+    .wprm-private-notes-placeholder,
+    .wprm-private-notes-input {
+        display: none !important;
+    }
+
+    .wprm-private-notes-user {
+        display: block !important;
+    }
+}

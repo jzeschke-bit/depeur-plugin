@@ -1,0 +1,144 @@
+.wprm-manage-ingredients-group-container,
+.wprm-manage-ingredient-units-group-container,
+.wprm-manage-saved-collections-container {
+    display: flex;
+    align-items: center;
+
+    span {
+        margin-left: 5px;
+    }
+}
+
+.wprm-manage-ingredients-eafl-container {
+    display: flex;
+    align-items: center;
+
+    .wprm-manage-ingredients-eafl-details {
+        margin-left: 5px;
+        font-size: 11px;
+    }
+}
+
+.wprm-manage-ingredients-link-container {
+    display: flex;
+    align-items: center;
+
+    a {
+        margin-left: 5px;
+        font-size: 11px;
+    }
+}
+
+.wprm-manage-product-container {
+    display: flex;
+    align-items: center;
+
+    a {
+        margin-left: 5px;
+    }
+}
+
+.wprm-manage-image-preview {
+    display: flex;
+
+    img {
+        max-width: 80px;
+        height: auto;
+        cursor: pointer;
+        margin-right: 2px;
+    }
+}
+
+.wprm-manage-equipment-amazon-product-container {
+    display: flex;
+    align-items: center;
+
+    .wprm-manage-equipment-amazon-product {
+        display: inline-block;
+        margin-right: 5px;
+    }
+    .wprm-admin-icon {
+        margin-right: 5px;
+    }
+}
+
+.wprm-manage-glossary-tooltip-container {
+    display: flex;
+    align-items: center;
+
+    span {
+        margin-left: 5px;
+    }
+}
+
+.wprm-manage-equipment-affiliate-html-container {
+    display: flex;
+    align-items: center;
+
+    .wprm-manage-equipment-affiliate-html {
+        margin-left: 5px;
+        font-size: 12px;
+        line-height: 12px;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+    }
+}
+
+.wprm-manage-equipment-amazon-status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    
+    &-type {
+        font-weight: 600;
+    }
+    
+    &-message {
+        font-size: 11px;
+        opacity: 0.7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    &-link {
+        opacity: 0.6;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        
+        &:hover {
+            opacity: 1;
+        }
+        
+        .wprm-admin-icon {
+            width: 14px;
+            height: 14px;
+        }
+    }
+    
+    &.status-in-stock {
+        color: #00a32a;
+    }
+    
+    &.status-out-of-stock,
+    &.status-unavailable,
+    &.status-not-found {
+        color: #d63638;
+    }
+    
+    &.status-preorder,
+    &.status-backorderable {
+        color: #dba617;
+    }
+    
+    &.status-unknown {
+        color: #646970;
+    }
+    
+    &-none {
+        opacity: 0.5;
+    }
+}

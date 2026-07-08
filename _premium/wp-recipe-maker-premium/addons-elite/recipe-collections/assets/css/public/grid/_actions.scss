@@ -1,0 +1,166 @@
+.wprm-recipe-collections-layout-grid {
+    .wprmprc-action {
+        color: var(--wprm-collections-action-color);
+    }
+    .wprmprc-collection-actions {
+        .wprmprc-collection-action-search-recipe,
+        .wprmprc-collection-action-search-ingredient {
+            input {
+                margin: 0;
+                padding: 3px 5px;
+                font-size: 1em;
+                color: black;
+                background: white;
+                border: 1px solid #aaa;
+                border-radius: 5px;
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .wprmprc-collection-item {
+            margin-bottom: 5px;
+            
+            .wprmprc-collection-item-main .wprmprc-collection-item-actions {
+                min-height: 0;
+            }
+            .wprmprc-collection-item-action-add {
+                cursor: pointer;
+            }
+            .wprmprc-collection-item-servings {
+                display: none;
+            }
+        }
+    }
+
+    .wprmprc-collection-action-header {
+        font-size: 1.1em;
+        margin-bottom: 5px;
+
+        .wprmprc-header-link,
+        .wprmprc-header-link-separator {
+            display: none;
+        }
+    }
+
+    .wprmprc-collection-actions-add-item {
+        .wprmprc-collection-action-add-item-mode,
+        .wprmprc-collection-action-select-collection {
+            margin: 5px 0; 
+        }
+
+        .wprmprc-collection-action-search-recipe,
+        .wprmprc-collection-action-search-ingredient {
+            padding: 5px 0;
+            text-align: center;
+        }
+
+        .wprmprc-collection-action-select-items {
+            padding: 10px 0;
+
+            .wprmprc-collection-action-select-items-add {
+                padding-bottom: 5px;
+                font-size: 0.8em;
+            }
+        }
+
+        .wprmprc-collection-action-select-items-actions {
+            text-align: center;
+            font-size: 0.9em;
+        
+            .wprmprc-collection-action-select-items-action {
+                opacity: 0.7;
+        
+                &:hover {
+                    cursor: pointer;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .wprmprc-collection-action-edit-note-form,
+    .wprmprc-collection-action-edit-ingredient-form {
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        textarea {
+            margin: 0;
+            padding: 3px 5px;
+            font-size: 1em;
+            color: black;
+            background: white;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            width: 100%;
+            min-height: 80px;
+            resize: vertical;
+        }
+    }
+
+    .wprmprc-collection-action-edit-ingredient-form {
+        input {
+            margin: 0;
+            padding: 3px 5px;
+            font-size: 1em;
+            color: black;
+            background: white;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            width: 100%;
+            height: auto;
+        }
+        .wprmprc-edit-list-item-edit {
+            padding-right: 0;
+
+            input {
+                flex: 1;
+
+                &:last-child {
+                    flex: 2;
+                }
+
+                &::-webkit-input-placeholder {
+                    color: #bbb;
+                }
+                &:-moz-placeholder {
+                    color: #bbb;
+                    opacity: 1;
+                }
+                &::-moz-placeholder {
+                    color: #bbb;
+                    opacity: 1;
+                }
+                &:-ms-input-placeholder {
+                    color: #bbb;
+                }
+            }
+        }
+        .wprmprc-collection-action-edit-ingredient-nutrient {
+            display: flex;
+            align-items: center;
+
+            .wprmprc-collection-action-edit-ingredient-nutrient-value {
+                flex: 1;
+                display: flex;
+                align-items: center;
+
+                input {
+                    width: 60px;
+                    margin-right: 5px;
+                }
+            }
+
+            .wprmprc-collection-action-edit-ingredient-nutrient-label {
+                flex: 1;
+            }
+        }
+    }
+}

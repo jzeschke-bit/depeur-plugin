@@ -1,0 +1,141 @@
+<?php
+/**
+ * Handle the recipe notes shortcode.
+ *
+ * @link       https://bootstrapped.ventures
+ * @since      3.2.0
+ *
+ * @package    WP_Recipe_Maker
+ * @subpackage WP_Recipe_Maker/includes/public/shortcodes/recipe
+ */
+
+/**
+ * Handle the recipe notes shortcode.
+ *
+ * @since      3.2.0
+ * @package    WP_Recipe_Maker
+ * @subpackage WP_Recipe_Maker/includes/public/shortcodes/recipe
+ * @author     Brecht Vandersmissen <brecht@bootstrapped.ventures>
+ */
+class WPRM_SC_Notes extends WPRM_Template_Shortcode {
+	public static $shortcode = 'wprm-recipe-notes';
+
+	public static function init() {
+		$atts = array(
+			'id' => array(
+				'default' => '0',
+			),
+			'section_header' => array(
+				'type' => 'header',
+				'default' => __( 'Header', 'wp-recipe-maker' ),
+			),
+			'notes_header' => array(
+				'type' => 'header',
+				'default' => __( 'Notes', 'wp-recipe-maker' ),
+			),
+			'text_style' => array(
+				'default' => 'normal',
+				'type' => 'dropdown',
+				'options' => 'text_styles',
+			),
+			'tips_header' => array(
+				'type' => 'header',
+				'default' => __( 'Tips', 'wp-recipe-maker' ),
+			),
+			'tips_style' => array(
+				'default' => WPRM_Tip::DEFAULT_STYLE,
+				'type' => 'dropdown',
+				'options' => array(
+					'left-border-straight' => __( 'Left Border Straight', 'wp-recipe-maker' ),
+					'left-border-rounded' => __( 'Left Border Rounded', 'wp-recipe-maker' ),
+					'filled' => __( 'Filled', 'wp-recipe-maker' ),
+					'outline' => __( 'Outline', 'wp-recipe-maker' ),
+					'banner' => __( 'Banner', 'wp-recipe-maker' ),
+				),
+			),
+			'tips_default_icon' => array(
+				'default' => WPRM_Tip::DEFAULT_ICON,
+				'type' => 'icon',
+			),
+			'tips_default_accent' => array(
+				'default' => WPRM_Tip::DEFAULT_ACCENT,
+				'type' => 'color',
+			),
+			'tips_default_text_color' => array(
+				'default' => WPRM_Tip::DEFAULT_TEXT_COLOR,
+				'type' => 'color',
+			),
+			'container_header' => array(
+				'type' => 'header',
+				'default' => __( 'Notes Container', 'wp-recipe-maker' ),
+			),
+		);
+
+		$atts = WPRM_Shortcode_Helper::insert_atts_after_key( $atts, 'section_header', WPRM_Shortcode_Helper::get_section_atts() );
+		$atts = WPRM_Shortcode_Helper::insert_atts_after_key( $atts, 'container_header', WPRM_Shortcode_Helper::get_internal_container_atts() );
+		self::$attributes = $atts;
+
+		parent::init();
+	}
+
+	/**
+	 * Output for the shortcode.
+	 *
+	 * @since	3.2.0
+	 * @param	array $atts Options passed along with the shortcode.
+	 */
+	public static function shortcode( $atts ) {
+		$atts = parent::get_attributes( $atts );
+
+		$recipe = WPRM_Template_Shortcodes::get_recipe( $atts['id'] );
+		if ( ! $recipe || ! $recipe->notes() ) {
+			return apply_filters( parent::get_hook(), '', $atts, $recipe );
+		}
+
+		// Output.
+		$classes = array(
+			'wprm-recipe-notes-container',
+			'wprm-block-text-' . $atts['text_style'],
+		);
+
+		// Add custom class if set.
+		if ( $atts['class'] ) { $classes[] = esc_attr( $atts['class'] ); }
+
+		$output = '<div id="recipe-' . esc_attr( $recipe->id() ) . '-notes" class="' . esc_attr( implode( ' ', $classes ) ) . '">';
+		$output .= WPRM_Shortcode_Helper::get_section_header( $atts, 'notes' );
+		
+		if ( (bool) $atts['has_container'] ) {
+			$output .= WPRM_Shortcode_Helper::get_internal_container( $atts, 'notes' );
+		}
+
+		$tip_defaults = array(
+			'style' => isset( $atts['tips_style'] ) ? $atts['tips_style'] : WPRM_Tip::DEFAULT_STYLE,
+			'icon' => isset( $atts['tips_default_icon'] ) ? $atts['tips_default_icon'] : WPRM_Tip::DEFAULT_ICON,
+			'accent' => isset( $atts['tips_default_accent'] ) ? $atts['tips_default_accent'] : WPRM_Tip::DEFAULT_ACCENT,
+			'text_color' => isset( $atts['tips_default_text_color'] ) ? $atts['tips_default_text_color'] : WPRM_Tip::DEFAULT_TEXT_COLOR,
+		);
+		$has_tip_shortcode_class = class_exists( 'WPRM_SC_Tip' );
+		if ( $has_tip_shortcode_class ) {
+			WPRM_SC_Tip::push_context_defaults( $tip_defaults );
+		}
+
+		$notes = parent::clean_paragraphs( $recipe->notes() );
+
+		$output .= '<div class="wprm-recipe-notes">';
+		$output .= do_shortcode( $notes );
+		if ( $has_tip_shortcode_class ) {
+			WPRM_SC_Tip::pop_context_defaults();
+		}
+		$output .= '</div>';
+
+		if ( (bool) $atts['has_container'] ) {
+			$output .= '</div>';
+		}
+
+		$output .= '</div>';
+
+		return apply_filters( parent::get_hook(), $output, $atts, $recipe );
+	}
+}
+
+WPRM_SC_Notes::init();

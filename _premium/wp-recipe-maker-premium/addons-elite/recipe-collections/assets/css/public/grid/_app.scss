@@ -1,0 +1,22 @@
+.wprm-recipe-collections-layout-grid {
+    color: var(--wprm-collections-base-color);
+    font-size: var(--wprm-collections-font-size);
+
+    .wprmprc-action {
+        display: table;
+        opacity: 0.5;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 1;
+        }
+    }
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+    .wprm-recipe-collections-layout-grid {
+        input {
+            font-size: 16px !important;
+        }
+    }
+  }

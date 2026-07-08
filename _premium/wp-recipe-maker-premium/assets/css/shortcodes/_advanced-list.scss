@@ -1,0 +1,58 @@
+.wprm-recipe-equipment-container,
+.wprm-recipe-ingredients-container,
+.wprm-recipe-instructions-container {
+    counter-reset: wprm-advanced-list-counter;
+}
+
+ul.wprm-advanced-list,
+ol.wprm-advanced-list {
+    --wprm-advanced-list-top-position: 0px;
+    --wprm-advanced-list-left-position: 0px;
+    --wprm-advanced-list-background: #444444;
+    --wprm-advanced-list-text: #ffffff;
+    --wprm-advanced-list-size: 18px;
+    --wprm-advanced-list-text-size: 12px;
+
+    &.wprm-advanced-list-reset {
+        counter-reset: wprm-advanced-list-counter;
+    }
+
+    li {
+        list-style-type: none;
+
+        &:before {
+            counter-increment: wprm-advanced-list-counter;
+            content: counter(wprm-advanced-list-counter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            float: left;
+
+            font-weight: bold;
+            
+            margin: calc(2px + var(--wprm-advanced-list-top-position)) 0 0 calc(-32px + var(--wprm-advanced-list-left-position));
+            
+            border-radius: 100%;
+            border: 0;
+
+            background-color: var(--wprm-advanced-list-background);
+            color: var(--wprm-advanced-list-text);
+            width: var(--wprm-advanced-list-size);
+            height: var(--wprm-advanced-list-size);
+            font-size: var(--wprm-advanced-list-text-size);
+            line-height: var(--wprm-advanced-list-text-size);
+        }
+
+        &.wprm-recipe-instruction-tip:before {
+            counter-increment: none;
+            content: none;
+            display: none;
+        }
+    }
+}
+
+.rtl ul.wprm-advanced-list li:before,
+.rtl ol.wprm-advanced-list li:before {
+    float: right;
+    margin: 2px -32px 0 0;
+}

@@ -1,0 +1,16 @@
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-add-saved-collection-actions {
+        padding: 5px 10px 10px 10px;
+        font-size: 0.8em;
+
+        .wprmprc-add-saved-collection-action {
+            text-decoration: underline;
+            opacity: 0.7;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 1;
+            }
+        }
+    }
+}

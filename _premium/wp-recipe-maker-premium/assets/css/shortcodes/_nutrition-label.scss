@@ -1,0 +1,72 @@
+.wprm-nutrition-label,
+html body .wprm-recipe-container .wprm-nutrition-label {
+    display: inline-block;
+    max-width: 250px;
+
+    border: 1px solid #333;
+    padding: 5px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left !important;
+    color: black;
+
+    .nutrition-title {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+    }
+
+    .nutrition-serving {
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: bold;
+    }
+
+    .nutrition-item, .nutrition-sub-item {
+        border-top: 1px solid #333;
+        clear: both;
+    }
+
+    .nutrition-sub-item {
+        margin-left: 14px;
+    }
+
+    .nutrition-percentage {
+        float: right;
+    }
+
+    .nutrition-line {
+        background-color: #333;
+        height: 5px;
+        font-size: 1px;
+
+        &.nutrition-line-big {
+            height: 10px;
+        }
+    }
+
+    .nutrition-warning {
+        border-top: 1px solid #333;
+        clear: both;
+
+        padding-top: 5px;
+        font-size: 10px;
+        color: #999;
+    }
+}
+
+.rtl .wprm-nutrition-label,
+html body.rtl .wprm-recipe-container .wprm-nutrition-label {
+    text-align: right !important;
+
+    .nutrition-sub-item {
+        margin-left: 0;
+        margin-right: 14px;
+    }
+
+    .nutrition-percentage {
+        float: left;
+    }
+}

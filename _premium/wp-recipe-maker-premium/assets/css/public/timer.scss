@@ -1,0 +1,65 @@
+#wprm-timer-container {
+    position: fixed;
+    z-index: 2147483647;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 50px;
+    font-size: 24px;
+    font-family: monospace, sans-serif;
+    line-height: 50px;
+
+    background-color: black;
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    .wprm-timer-icon {
+        cursor: pointer;
+        padding: 0 10px;
+
+		svg {
+            display: table-cell;
+			vertical-align: middle;
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+    span {
+        flex-shrink: 0;
+        
+        &#wprm-timer-bar-container {
+            flex: 1;
+            padding: 0 10px 0 15px;
+
+            #wprm-timer-bar {
+                display: block;
+                // float: left;
+                border: 3px solid white;
+                height: 24px;
+                width: 100%;
+
+                #wprm-timer-bar-elapsed {
+                    display: block;
+                    height: 100%;
+                    width: 0%;
+                    background-color: white;
+                    border: 0;
+                }
+            }
+        }
+    }
+
+    &.wprm-timer-finished {
+        animation: wprmtimerblink 1s linear infinite;
+    }
+}
+  
+@keyframes wprmtimerblink {
+    50% {
+        opacity: 0.5;
+    }
+}

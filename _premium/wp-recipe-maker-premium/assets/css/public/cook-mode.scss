@@ -1,0 +1,902 @@
+// Cook Mode Modal Styles
+.wprm-popup-modal-cook-mode {
+	// Resuse from general popup modal styles.
+	--wprm-cook-mode-background: var(--wprm-popup-background);
+	--wprm-cook-mode-text-primary: var(--wprm-popup-content);
+	--wprm-cook-mode-primary: var(--wprm-popup-accent);
+	--wprm-cook-mode-font-size: var(--wprm-popup-font-size);
+
+	// Base CSS Variables.
+	--wprm-cook-mode-border: #ddd;
+	--wprm-cook-mode-border-base: rgba(0, 0, 0, 0.1); // Base color for opacity-based borders
+	
+	// Derived Variables - automatically calculated from base variables
+	// These use color-mix() for modern browsers, with fallback values
+	// Primary hover (darker version of primary)
+	--wprm-cook-mode-primary-hover: color-mix(in srgb, var(--wprm-cook-mode-primary) 85%, black);
+	
+	// Background secondary (slightly darker version of background)
+	--wprm-cook-mode-background-secondary: color-mix(in srgb, var(--wprm-cook-mode-background) 96%, black);
+	
+	// Text secondary (lighter version of text primary)
+	--wprm-cook-mode-text-secondary: color-mix(in srgb, var(--wprm-cook-mode-text-primary) 60%, var(--wprm-cook-mode-background));
+	
+	// Border hover (darker version of border)
+	--wprm-cook-mode-border-hover: color-mix(in srgb, var(--wprm-cook-mode-border) 60%, black);
+	
+	// Border opacity variants (derived from border base)
+	--wprm-cook-mode-border-light: var(--wprm-cook-mode-border-base);
+	--wprm-cook-mode-border-lighter: color-mix(in srgb, var(--wprm-cook-mode-border-base) 50%, transparent);
+	
+	// Shadow (darker version of border base - 80% border base, 20% black)
+	--wprm-cook-mode-shadow: color-mix(in srgb, var(--wprm-cook-mode-border-base) 80%, black);
+	
+	// Fallback values for browsers that don't support color-mix()
+	@supports not (color: color-mix(in srgb, red, blue)) {
+		--wprm-cook-mode-primary-hover: #636926;
+		--wprm-cook-mode-background-secondary: #f5f5f5;
+		--wprm-cook-mode-text-secondary: #666;
+		--wprm-cook-mode-border-hover: #999;
+		--wprm-cook-mode-border-lighter: rgba(0, 0, 0, 0.05);
+		--wprm-cook-mode-shadow: rgba(0, 0, 0, 0.15);
+	}
+
+	// Reset theme styles that interfere with cook mode buttons and inputs
+	// Scope to cook mode content and footer to avoid affecting header close button
+	.wprm-cook-mode,
+	.wprm-popup-modal__footer .wprm-cook-mode-footer {
+		// Reset padding/margin for unstyled buttons and all inputs (main issue with themes)
+		// Exclude styled buttons so their own padding/margin/line-height styles work
+		button[class*="wprm-cook-mode-"]:not(.wprm-cook-mode-start-button):not(.wprm-cook-mode-nav-button):not(.wprm-cook-mode-timer-button):not(.wprm-cook-mode-unit-button):not(.wprm-cook-mode-servings-decrease):not(.wprm-cook-mode-servings-increase),
+		input,
+		select,
+		textarea {
+			// Reset padding (commonly overridden by themes) - this is the main issue
+			padding: 0;
+			margin: 0;
+			
+			// Reset box-sizing
+			box-sizing: border-box;
+			
+			// Reset font properties
+			font-family: inherit;
+			font-size: inherit;
+			line-height: inherit;
+			font-weight: inherit;
+			
+			// Reset appearance
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			
+			// Reset other common theme overrides
+			text-decoration: none;
+			text-transform: none;
+			letter-spacing: normal;
+			word-spacing: normal;
+			text-shadow: none;
+			outline: none;
+			
+			// Reset display (will be set per element)
+			display: inline-block;
+			vertical-align: baseline;
+		}
+
+		// Reset border/background/box-shadow only for unstyled buttons
+		button[class*="wprm-cook-mode-"]:not(.wprm-cook-mode-start-button):not(.wprm-cook-mode-nav-button):not(.wprm-cook-mode-timer-button):not(.wprm-cook-mode-unit-button):not(.wprm-cook-mode-servings-decrease):not(.wprm-cook-mode-servings-increase) {
+			border: none;
+			background: none;
+			box-shadow: none;
+			cursor: pointer;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+		}
+
+		// Specific resets for inputs
+		input[type="number"],
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="url"] {
+			// Reset input-specific properties
+			-webkit-appearance: textfield;
+			-moz-appearance: textfield;
+			appearance: textfield;
+			
+			// Remove number input spinners
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			
+			&::-webkit-search-decoration,
+			&::-webkit-search-cancel-button {
+				-webkit-appearance: none;
+			}
+		}
+	}
+
+	.wprm-popup-modal__container {
+		width: 100%;
+		max-width: 500px;
+		height: 100vh;
+		height: 100dvh;
+
+		padding: 0;
+		border-radius: 0;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+
+		@media (min-width: 768px) {
+			max-height: 90vh;
+			max-height: 90dvh;
+			height: 800px;
+			border-radius: 8px;
+		}
+
+		@media (orientation: landscape) and (max-height: 600px) {
+			max-height: 100vh;
+			max-height: 100dvh;
+		}
+	}
+
+	.wprm-popup-modal__header {
+		padding: 15px 20px;
+		margin-bottom: 0;
+		border-bottom: 1px solid var(--wprm-cook-mode-border-light);
+		flex-shrink: 0;
+	}
+
+	.wprm-popup-modal__content {
+		flex: 1;
+		overflow-y: auto;
+		padding: 0;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.wprm-popup-modal__footer {
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid var(--wprm-cook-mode-border-light);
+		background: var(--wprm-cook-mode-background);
+		flex-shrink: 0;
+	}
+}
+
+// Cook Mode Content
+.wprm-cook-mode {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	font-size: var(--wprm-cook-mode-font-size);
+
+	// Screens
+	.wprm-cook-mode-screen {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		min-height: 0;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	// Image Container
+	.wprm-cook-mode-image-container {
+		width: 100%;
+		position: relative;
+		background: var(--wprm-cook-mode-background-secondary);
+		overflow: hidden;
+		flex-shrink: 0;
+		min-height: 200px;
+		max-height: 50%;
+
+		.wprm-cook-mode-image {
+			width: 100%;
+			height: auto;
+			display: block;
+			object-fit: cover;
+		}
+	}
+
+	// Controls
+	.wprm-cook-mode-controls {
+		padding: 20px;
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		border-bottom: 1px solid var(--wprm-cook-mode-border-light);
+		background: var(--wprm-cook-mode-background);
+		flex-shrink: 0;
+	}
+
+	.wprm-cook-mode-control {
+		min-width: 120px;
+
+		.wprm-cook-mode-control-label {
+			display: block;
+			font-size: calc(var(--wprm-cook-mode-font-size) * 0.75);
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			color: var(--wprm-cook-mode-text-secondary);
+			margin-bottom: 8px;
+		}
+
+		&.wprm-cook-mode-servings {
+			flex: 1;
+		}
+
+		&.wprm-cook-mode-units {
+			flex: 2;
+		}
+	}
+
+	// Servings Control
+	.wprm-cook-mode-servings-input-container {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		button {
+			width: 36px;
+			height: 36px;
+			padding: 0;
+			margin: 0;
+			border: 1px solid var(--wprm-cook-mode-border);
+			background: var(--wprm-cook-mode-background);
+			border-radius: 4px;
+			font-size: calc(var(--wprm-cook-mode-font-size) * 1.25);
+			line-height: 1;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.2s ease;
+			color: var(--wprm-cook-mode-text-primary);
+			-webkit-tap-highlight-color: transparent;
+
+			&:hover:not(:disabled) {
+				background: var(--wprm-cook-mode-background-secondary);
+				border-color: var(--wprm-cook-mode-border-hover);
+			}
+
+			&:active:not(:disabled) {
+				transform: scale(0.95);
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+		}
+
+		.wprm-cook-mode-servings-input {
+			flex: 1;
+			height: 36px;
+			padding: 0;
+			margin: 0;
+			border: 1px solid var(--wprm-cook-mode-border);
+			border-radius: 4px;
+			font-size: var(--wprm-cook-mode-font-size);
+			text-align: center;
+			width: 100%;
+			min-width: 40px;
+            appearance: textfield;
+            -moz-appearance: textfield;
+
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+		}
+	}
+
+	// Unit System Control
+	.wprm-cook-mode-units-buttons {
+		display: flex;
+		gap: 8px;
+
+		.wprm-cook-mode-unit-button {
+			flex: 1;
+			height: 36px;
+			padding: 0;
+			margin: 0;
+			border: 1px solid var(--wprm-cook-mode-border);
+			background: var(--wprm-cook-mode-background);
+			border-radius: 4px;
+			font-size: calc(var(--wprm-cook-mode-font-size) * 0.875);
+			cursor: pointer;
+			transition: all 0.2s ease;
+			color: var(--wprm-cook-mode-text-primary);
+			-webkit-tap-highlight-color: transparent;
+
+			&:hover {
+				background: var(--wprm-cook-mode-background-secondary);
+				border-color: var(--wprm-cook-mode-border-hover);
+			}
+
+			&.active {
+				background: var(--wprm-cook-mode-primary);
+				color: var(--wprm-cook-mode-background);
+				border-color: var(--wprm-cook-mode-primary);
+			}
+		}
+	}
+
+	// Ingredients
+	.wprm-cook-mode-ingredients {
+		padding: 20px;
+
+		.wprm-cook-mode-section-title {
+			font-size: calc(var(--wprm-cook-mode-font-size) * 1.25);
+			font-weight: 600;
+			margin: 0 0 16px 0;
+			color: var(--wprm-cook-mode-text-primary);
+		}
+
+		.wprm-cook-mode-ingredients-list {
+			.wprm-cook-mode-ingredient-group {
+				margin-bottom: 24px;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				.wprm-cook-mode-ingredient-group-name {
+					font-size: calc(var(--wprm-cook-mode-font-size) * 0.875);
+					font-weight: 600;
+					text-transform: uppercase;
+					letter-spacing: 0.5px;
+					color: var(--wprm-cook-mode-text-secondary);
+					margin-bottom: 12px;
+				}
+
+				.wprm-cook-mode-ingredients-group-list {
+					list-style: none;
+					padding: 0;
+					margin: 0;
+
+					.wprm-cook-mode-ingredient {
+						padding: 12px 0;
+						border-bottom: 1px solid var(--wprm-cook-mode-border-lighter);
+						font-size: var(--wprm-cook-mode-font-size);
+						line-height: 1.5;
+						color: var(--wprm-cook-mode-text-primary);
+						display: flex;
+						align-items: center;
+						gap: 12px;
+
+						&:last-child {
+							border-bottom: none;
+						}
+
+						.wprm-cook-mode-ingredient-image {
+							flex-shrink: 0;
+							width: 50px;
+							height: 50px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							overflow: hidden;
+							border-radius: 4px;
+							background: var(--wprm-cook-mode-background-secondary);
+
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+								display: block;
+							}
+						}
+
+						.wprm-cook-mode-ingredient-content {
+							flex: 1;
+							min-width: 0;
+							display: flex;
+							flex-wrap: wrap;
+							align-items: baseline;
+							gap: 4px;
+						}
+
+						.wprm-cook-mode-ingredient-amount {
+							font-weight: 600;
+						}
+
+						.wprm-cook-mode-ingredient-notes {
+							color: var(--wprm-cook-mode-text-secondary);
+							font-size: calc(var(--wprm-cook-mode-font-size) * 0.875);
+
+							&.wprm-cook-mode-ingredient-notes-separator-comma {
+								// Keep comma attached to the ingredient name in flex layout.
+								margin-left: -4px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Equipment
+	.wprm-cook-mode-equipment {
+		padding: 20px;
+		border-top: 1px solid var(--wprm-cook-mode-border-light);
+		margin-top: 0;
+
+		.wprm-cook-mode-section-title {
+			font-size: calc(var(--wprm-cook-mode-font-size) * 1.25);
+			font-weight: 600;
+			margin: 0 0 16px 0;
+			color: var(--wprm-cook-mode-text-primary);
+		}
+
+		.wprm-cook-mode-equipment-list {
+			.wprm-cook-mode-equipment-items {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+
+				.wprm-cook-mode-equipment-item {
+					padding: 12px 0;
+					border-bottom: 1px solid var(--wprm-cook-mode-border-lighter);
+					font-size: var(--wprm-cook-mode-font-size);
+					line-height: 1.5;
+					color: var(--wprm-cook-mode-text-primary);
+
+					&:last-child {
+						border-bottom: none;
+					}
+
+					.wprm-cook-mode-equipment-amount {
+						font-weight: 600;
+						margin-right: 4px;
+					}
+
+					.wprm-cook-mode-equipment-notes {
+						color: var(--wprm-cook-mode-text-secondary);
+						font-size: calc(var(--wprm-cook-mode-font-size) * 0.875);
+						margin-left: 4px;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Styles for cook mode footer when in modal footer
+.wprm-popup-modal-cook-mode .wprm-popup-modal__footer {
+	.wprm-cook-mode-footer {
+		padding: 20px;
+		border-top: none;
+		background: var(--wprm-cook-mode-background);
+        width: 100%;
+	}
+
+	.wprm-cook-mode-cooking-footer {
+		width: 100%;
+	}
+
+	.wprm-cook-mode-timers {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-bottom: 16px;
+
+		max-height: 216px; // Should be room for 3 timers.
+		overflow: scroll;
+
+		&:empty {
+			display: none;
+		}
+
+		.wprm-cook-mode-timer {
+			background: var(--wprm-cook-mode-background-secondary);
+			border: 1px solid var(--wprm-cook-mode-border-lighter);
+			border-radius: 8px;
+			padding: 10px 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+
+			&.wprm-cook-mode-timer-finished {
+				border-color: var(--wprm-cook-mode-primary);
+				animation: wprmtimerblink 1s linear infinite;
+			}
+
+			.wprm-cook-mode-timer-top {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				font-size: calc(var(--wprm-cook-mode-font-size) * 0.9);
+				color: var(--wprm-cook-mode-text-primary);
+
+				.wprm-cook-mode-timer-label {
+					font-weight: 600;
+					flex: 1;
+					min-width: 0;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				.wprm-cook-mode-timer-remaining {
+					font-family: monospace, sans-serif;
+					font-size: calc(var(--wprm-cook-mode-font-size) * 1.1);
+					color: var(--wprm-cook-mode-text-primary);
+					flex-shrink: 0;
+				}
+			}
+
+			.wprm-cook-mode-timer-controls {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				flex-shrink: 0;
+
+				.wprm-cook-mode-timer-button {
+					border: none;
+					background: var(--wprm-cook-mode-background);
+					border-radius: 4px;
+					padding: 5px;
+					margin: 0;
+					cursor: pointer;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					color: var(--wprm-cook-mode-text-primary);
+					transition: background 0.2s ease, color 0.2s ease;
+					-webkit-tap-highlight-color: transparent;
+
+					&:hover {
+						color: var(--wprm-cook-mode-primary);
+						svg path {
+							fill: var(--wprm-cook-mode-primary);
+						}
+					}
+
+					svg {
+						width: 16px;
+						height: 16px;
+
+						path {
+							fill: var(--wprm-cook-mode-text-primary);
+						}
+					}
+				}
+			}
+
+			.wprm-cook-mode-timer-bar {
+				height: 6px;
+				background: var(--wprm-cook-mode-background);
+				border-radius: 3px;
+				overflow: hidden;
+
+				.wprm-cook-mode-timer-bar-fill {
+					height: 100%;
+					width: 0%;
+					background: var(--wprm-cook-mode-primary);
+					transition: width 0.3s ease;
+				}
+			}
+		}
+	}
+
+	.wprm-cook-mode-navigation {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+
+		.wprm-cook-mode-nav-button {
+			padding: 10px 16px;
+			margin: 0;
+			border: 1px solid var(--wprm-cook-mode-border);
+			background: var(--wprm-cook-mode-background);
+			border-radius: 6px;
+			font-size: calc(var(--wprm-cook-mode-font-size) * 0.875);
+			cursor: pointer;
+			transition: all 0.2s ease;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			color: var(--wprm-cook-mode-text-primary);
+			-webkit-tap-highlight-color: transparent;
+
+			&:hover:not(:disabled) {
+				background: var(--wprm-cook-mode-background-secondary);
+				border-color: var(--wprm-cook-mode-border-hover);
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+		}
+
+		.wprm-cook-mode-nav-close {
+			// Position Close button in the same place as Next button
+			order: 3;
+		}
+
+		.wprm-cook-mode-nav-next {
+			order: 3;
+		}
+
+		.wprm-cook-mode-progress {
+			flex: 1;
+			min-width: 0;
+
+			.wprm-cook-mode-progress-text {
+				font-size: calc(var(--wprm-cook-mode-font-size) * 0.75);
+				color: var(--wprm-cook-mode-text-secondary);
+				margin-bottom: 6px;
+				text-align: center;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.wprm-cook-mode-progress-bar {
+				width: 100%;
+				height: 6px;
+				background: var(--wprm-cook-mode-background-secondary);
+				border-radius: 3px;
+				overflow: hidden;
+
+				.wprm-cook-mode-progress-bar-fill {
+					height: 100%;
+					background: var(--wprm-cook-mode-primary);
+					border-radius: 3px;
+					transition: width 0.3s ease;
+					width: 0%;
+				}
+			}
+		}
+	}
+
+	.wprm-cook-mode-start-button {
+		width: 100%;
+		display: block;
+		padding: 10px 16px;
+		margin: 0;
+		background: var(--wprm-cook-mode-primary);
+		color: var(--wprm-cook-mode-background);
+		border: none;
+		border-radius: 6px;
+		font-size: var(--wprm-cook-mode-font-size);
+		font-weight: 600;
+		line-height: 1.5;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		box-shadow: none;
+		-webkit-tap-highlight-color: transparent;
+
+		&:hover:not(:disabled) {
+			background: var(--wprm-cook-mode-primary-hover);
+			transform: translateY(-1px);
+			box-shadow: 0 4px 8px var(--wprm-cook-mode-shadow);
+		}
+
+		&:active:not(:disabled) {
+			transform: translateY(0);
+		}
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+}
+
+// Cooking Screen (inside content area)
+.wprm-cook-mode {
+	.wprm-cook-mode-screen-cooking {
+		.wprm-cook-mode-instructions-container {
+			flex: 1;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			padding: 0;
+		}
+
+		.wprm-cook-mode-instruction-step {
+			height: 100%;
+			min-height: 0;
+
+			// Media at top
+			.wprm-cook-mode-step-media {
+				width: 100%;
+				height: 50%;
+				max-height: 50%;
+				background: var(--wprm-cook-mode-background-secondary);
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				img {
+					width: 100%;
+					height: auto;
+					max-height: 100%;
+					display: block;
+					object-fit: contain;
+				}
+
+				// Video embed styling
+				iframe,
+				video {
+					width: 100%;
+					height: auto;
+					max-height: 100%;
+					display: block;
+				}
+
+				// Ensure video containers respect max height
+				.wp-video {
+					height: 100% !important;
+					max-height: 100%;
+					width: 100% !important;
+				}
+
+				.wp-video .mejs-poster {
+					display: none;
+				}
+
+				// Uploaded videos use WordPress MediaElement wrappers with inline dimensions.
+				// Constrain those wrappers so portrait videos can fit the available space.
+				.wp-video,
+				.wp-video .mejs-container,
+				.wp-video .mejs-inner,
+				.wp-video .mejs-mediaelement,
+				.wp-video .mejs-layers,
+				.wp-video .mejs-overlay,
+				.wp-video .mejs-poster {
+					max-width: 100%;
+					max-height: 100%;
+				}
+
+				.wp-video .mejs-container,
+				.wp-video video.wp-video-shortcode,
+				.wp-video video {
+					width: 100% !important;
+					height: 100% !important;
+				}
+
+				.wp-video video {
+					object-fit: contain;
+				}
+
+			}
+
+			// Instruction text
+			.wprm-cook-mode-step-text {
+				padding: 20px;
+				font-size: calc(var(--wprm-cook-mode-font-size) * 1.125);
+				line-height: 1.6;
+				color: var(--wprm-cook-mode-text-primary);
+				overflow-y: auto;
+				-webkit-overflow-scrolling: touch;
+				display: flex;
+				gap: 16px;
+				align-items: flex-start;
+
+				.wprm-cook-mode-step-number {
+					flex-shrink: 0;
+					width: 30px;
+					height: 30px;
+					border-radius: 50%;
+					background: var(--wprm-cook-mode-primary);
+					color: var(--wprm-cook-mode-background);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: var(--wprm-cook-mode-font-size);
+					font-weight: 600;
+					line-height: 1;
+				}
+
+				.wprm-cook-mode-step-text-content {
+					flex: 1;
+					min-width: 0;
+				}
+			}
+
+			.wprm-cook-mode-step-tips {
+				padding: 0 20px 16px;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+
+					.wprm-cook-mode-step-tip {
+						border-left: 4px solid var(--wprm-cook-mode-tip-accent, var(--wprm-cook-mode-primary));
+						background: color-mix(in srgb, var(--wprm-cook-mode-tip-accent, var(--wprm-cook-mode-primary)) 12%, transparent);
+					border-radius: 4px;
+					padding: 10px 12px;
+					display: flex;
+					gap: 10px;
+					align-items: flex-start;
+					color: var(--wprm-cook-mode-text-primary);
+
+						.wprm-cook-mode-step-tip-icon {
+							flex-shrink: 0;
+							font-size: 1em;
+							line-height: 1.45;
+							display: inline-flex;
+							align-items: center;
+							justify-content: center;
+							min-height: 1.45em;
+							min-height: 1lh;
+						}
+
+					.wprm-cook-mode-step-tip-text {
+						flex: 1;
+						min-width: 0;
+						font-size: calc(var(--wprm-cook-mode-font-size) * 0.95);
+						line-height: 1.45;
+					}
+				}
+			}
+
+			// Associated ingredients
+			.wprm-cook-mode-step-ingredients {
+				padding: 10px 20px;
+				flex-shrink: 0;
+				font-size: calc(var(--wprm-cook-mode-font-size) * 0.9);
+				background: var(--wprm-cook-mode-background-secondary);
+				border-bottom: 1px solid var(--wprm-cook-mode-border-lighter);
+
+				.wprm-cook-mode-step-ingredients-list {
+					list-style: none;
+					padding: 0;
+					margin: 0;
+
+					.wprm-cook-mode-step-ingredient {
+						padding: 4px 0;
+						line-height: 1.5;
+						color: var(--wprm-cook-mode-text-primary);
+					}
+				}
+			}
+		}
+	}
+}
+
+.rtl .wprm-cook-mode .wprm-cook-mode-screen-cooking .wprm-cook-mode-instruction-step .wprm-cook-mode-step-tips .wprm-cook-mode-step-tip {
+	border-left: 0;
+	border-right: 4px solid var(--wprm-cook-mode-tip-accent, var(--wprm-cook-mode-primary));
+}
+
+// Touch/swipe support
+.wprm-cook-mode-instructions-container {
+	touch-action: pan-y;
+	-webkit-overflow-scrolling: touch;
+}
+
+// Thank You Screen
+.wprm-cook-mode {
+	.wprm-cook-mode-screen-thank-you {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 40px 20px;
+
+		.wprm-cook-mode-thank-you-content {
+			text-align: center;
+
+			.wprm-cook-mode-thank-you-text {
+				font-size: calc(var(--wprm-cook-mode-font-size) * 1.25);
+				line-height: 1.6;
+				color: var(--wprm-cook-mode-text-primary);
+				margin: 0;
+			}
+		}
+	}
+}

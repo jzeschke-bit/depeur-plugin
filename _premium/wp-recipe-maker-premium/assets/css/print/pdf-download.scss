@@ -1,0 +1,133 @@
+.wprm-print-pdf-download {
+	#wprm-print-header {
+		display: none;
+	}
+
+	#wprm-print-footer-ad {
+		display: none;
+	}
+
+	#wprm-print-content {
+		max-width: 750px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+#wprm-pdf-generation-indicator {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	max-width: 750px;
+	margin: 0 auto 20px;
+	padding: 10px 12px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	background: #fff;
+	color: #444;
+	font-size: 0.9em;
+
+	.wprm-pdf-generation-indicator-spinner {
+		flex: 0 0 auto;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		border: 2px solid #d2d2d2;
+		border-top-color: #444;
+		animation: wprm-print-pdf-spinner 0.8s linear infinite;
+	}
+
+	.wprm-pdf-generation-indicator-text {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+}
+
+.wprm-print .wprm-print-button.wprm-print-button-loading {
+	opacity: 0.7;
+	pointer-events: none;
+	cursor: wait;
+}
+
+#print-pdf {
+	display: none;
+}
+
+.wprm-print-pdf-download.wprm-print-pdf-generating {
+	#wprm-pdf-generation-indicator {
+		display: flex;
+	}
+
+	.wprm-recipe-tip-style-left-border,
+	.wprm-recipe-tip-style-left-border-straight,
+	.wprm-recipe-tip-style-left-border-rounded,
+	.wprm-recipe-instruction-tip-style-left-border,
+	.wprm-recipe-instruction-tip-style-left-border-straight,
+	.wprm-recipe-instruction-tip-style-left-border-rounded {
+		background: rgba(43, 108, 176, 0.09) !important;
+	}
+
+	.wprm-recipe-tip-style-filled,
+	.wprm-recipe-instruction-tip-style-filled {
+		background: rgba(43, 108, 176, 0.16) !important;
+	}
+}
+
+@keyframes wprm-print-pdf-spinner {
+	from {
+		transform: rotate( 0deg );
+	}
+	to {
+		transform: rotate( 360deg );
+	}
+}
+
+// html2canvas can clip SVGs when they are shifted with negative margins.
+// Tip icons use the generic icon SVG style, so reset it for PDF output.
+.wprm-print-pdf-download .wprm-recipe-tip .wprm-recipe-icon svg,
+.wprm-print-pdf-download .wprm-recipe-instructions .wprm-recipe-instruction-tip .wprm-recipe-icon svg {
+	margin-top: 0 !important;
+	display: block;
+	overflow: visible;
+}
+
+// Keep item-level content together when rendering to PDF where possible.
+.wprm-print-pdf-download img,
+.wprm-print-pdf-download svg,
+.wprm-print-pdf-download figure,
+.wprm-print-pdf-download .wprm-recipe-summary,
+.wprm-print-pdf-download .wprm-recipe-notes-container,
+.wprm-print-pdf-download .wprm-recipe-ingredient,
+.wprm-print-pdf-download .wprm-recipe-ingredient-details,
+.wprm-print-pdf-download .wprm-recipe-ingredient-details-container,
+.wprm-print-pdf-download .wprm-recipe-equipment-item,
+.wprm-print-pdf-download .wprm-recipe-equipment-name,
+.wprm-print-pdf-download .wprm-recipe-equipment-image,
+.wprm-print-pdf-download .wprm-recipe-equipment-affiliate-html,
+.wprm-print-pdf-download .wprm-recipe-instructions li,
+.wprm-print-pdf-download .wprm-recipe-instruction,
+.wprm-print-pdf-download .wprm-recipe-instruction-text,
+.wprm-print-pdf-download .wprm-recipe-image,
+.wprm-print-pdf-download .wprm-recipe-video-container,
+.wprm-print-pdf-download .wprm-recipe-ingredient-image,
+.wprm-print-pdf-download .wprm-recipe-instruction-image,
+.wprm-print-pdf-download .wprm-recipe-instruction-media,
+.wprm-print-pdf-download .wprm-recipe-tip,
+.wprm-print-pdf-download .wprm-recipe-instruction-tip,
+.wprm-print-pdf-download .wprm-recipe-summary p,
+.wprm-print-pdf-download .wprm-recipe-notes p,
+.wprm-print-pdf-download .wprm-recipe-instruction-text p,
+.wprm-print-pdf-download .wprm-recipe-equipment-name p,
+.wprm-print-pdf-download .wprm-recipe-ingredient-group-name,
+.wprm-print-pdf-download .wprm-recipe-instruction-group-name {
+	break-inside: avoid;
+	break-inside: avoid-page;
+	page-break-inside: avoid;
+}
+
+.wprm-print-pdf-download .wprm-recipe-ingredient-group-name,
+.wprm-print-pdf-download .wprm-recipe-instruction-group-name {
+	break-after: avoid-page;
+	page-break-after: avoid;
+}

@@ -1,0 +1,186 @@
+/**
+ * Product Icon Tooltip Styles
+ *
+ * @since 8.6.0
+ */
+
+// Product icon container
+.wprm-recipe-product-icon-container {
+	display: inline-block;
+	margin-left: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	svg {
+		width: 16px;
+		height: 16px;
+		vertical-align: middle;
+	}
+
+	&:hover {
+		transform: scale(1.1);
+	}
+
+	&.wprmp-success-icon {
+		color: #28a745;
+		animation: pulse 0.5s ease-in-out;
+	}
+}
+
+@keyframes pulse {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.2); }
+	100% { transform: scale(1); }
+}
+
+// Product tooltip
+.wprmp-product-tooltip {
+	max-width: 300px;
+	padding: 16px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+	.wprmp-product-tooltip-image {
+		margin-bottom: 5x;
+		float: right;
+
+		img {
+			max-width: 50px;
+			height: auto;
+			border-radius: 4px;
+		}
+	}
+
+	.wprmp-product-tooltip-name {
+		font-weight: 600;
+		font-size: 16px;
+		margin-bottom: 4px;
+		color: #333;
+
+		a {
+			color: #333;
+			text-decoration: none;
+
+			&:hover {
+				color: #007cba;
+			}
+		}
+
+		.wprmp-external-link-icon {
+			font-size: 1em;
+			margin-top: -3px;
+			opacity: 0.7;
+			transition: opacity 0.2s ease;
+			vertical-align: top;
+			display: inline-block;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	.wprmp-product-tooltip-variation {
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 6px;
+	}
+
+	.wprmp-product-tooltip-price {
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 12px;
+	}
+
+	.wprmp-product-tooltip-quantity-cart {
+		clear: both;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		.wprmp-quantity-input {
+			width: 60px;
+			height: 32px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			text-align: center;
+			font-size: 14px;
+			padding: 0 4px;
+
+			&:focus {
+				outline: none;
+				border-color: #007cba;
+				box-shadow: 0 0 0 1px #007cba;
+			}
+		}
+
+		.wprmp-add-to-cart-btn {
+			flex: 1;
+			height: 32px;
+			padding: 0 12px;
+			border: none;
+			border-radius: 4px;
+			font-size: 12px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			text-align: center;
+			display: inline-block;
+			background: #007cba;
+			color: #fff;
+
+			&:hover {
+				background: #005a87;
+			}
+
+			&:disabled {
+				background: #ccc;
+				cursor: not-allowed;
+			}
+
+			&.wprmp-success {
+				background: #28a745;
+			}
+		}
+	}
+
+	.wprmp-product-tooltip-cart-summary {
+		margin-top: 12px;
+		padding-top: 12px;
+		border-top: 1px solid #eee;
+
+		.wprmp-cart-count {
+			font-size: 12px;
+			color: #666;
+			font-weight: 500;
+
+			.wprmp-cart-link {
+				color: #007cba;
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s ease;
+
+				&:hover {
+					color: #005a87;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}
+
+// Tippy.js theme customization
+.tippy-box[data-theme~='wprm-products'] {
+	background: transparent;
+	border: none;
+	padding: 0;
+
+	.tippy-content {
+		padding: 0;
+	}
+
+	.tippy-arrow {
+		color: #fff;
+	}
+}

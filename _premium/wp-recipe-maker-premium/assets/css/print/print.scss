@@ -1,0 +1,78 @@
+.wprm-print {
+    .wprm-recipe-share-options-popup {
+        display: none !important;
+    }
+
+    .wprm-recipe-download-pdf {
+        display: none !important;
+    }
+}
+
+#wprm-print-servings-container {
+    margin: 10px;
+
+    #wprm-print-servings {
+        width: 40px;
+        padding: 0;
+        vertical-align: top;
+        text-align: center;
+        outline: none;
+
+        font-size: 14px;
+    }
+    #wprm-print-servings,
+    .wprm-print-servings-change {
+        border: 1px solid #444444;
+        height: 30px;
+        user-select: none;
+    }
+
+    .wprm-print-servings-change {
+        display: inline-block;
+        width: 20px;
+        line-height: 26px;
+        background: #444444;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+      
+        &:active {
+            font-weight: bold;
+        }
+        
+        &.wprm-print-servings-decrement {
+            border-right: none;
+            border-radius: 3px 0 0 3px;
+        }
+        &.wprm-print-servings-increment {
+            border-left: none;
+            border-radius: 0 3px 3px 0;
+        }
+    }
+}
+
+#wprm-print-unit-conversion-container {
+    a.wprm-unit-conversion {
+        &.wprmpuc-active {
+            background: #444444;
+            color: white;
+        }
+    }
+}
+
+.rtl {
+    #wprm-print-servings-container {    
+        .wprm-print-servings-change {
+            &.wprm-print-servings-decrement {
+                border-right: 1px solid #444444;;
+                border-left: none;
+                border-radius: 0 3px 3px 0;
+            }
+            &.wprm-print-servings-increment {
+                border-left: 1px solid #444444;;
+                border-right: none;
+                border-radius: 3px 0 0 3px;
+            }
+        }
+    }
+}

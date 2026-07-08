@@ -1,0 +1,164 @@
+.wprmprc-overview-grid-collections {
+    display: flex;
+    flex-direction: column;
+}
+
+.wprmprc-overview-grid-collection {
+    background-color: var(--wprm-collections-item-background);
+    color: var(--wprm-collections-item-color);
+    border: 1px solid var(--wprm-collections-item-border);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    min-height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    &.wprmprc-overview-grid-collection-clickable {
+        .wprmprc-overview-grid-collection-name,
+        .wprmprc-overview-grid-collection-images-container {
+            cursor: pointer;
+        }
+    }
+
+    .wprmprc-overview-grid-collection-handle,
+    .wprmprc-overview-grid-collection-actions,
+    .wprmprc-overview-grid-collection-actions-shopping-list {
+        flex: 0 0 30px;
+        height: 50px;
+        opacity: 0.5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wprmprc-overview-grid-collection-actions-shopping-list {
+        cursor: pointer;
+    }
+
+    .wprmprc-overview-grid-collection-handle {
+        cursor: move;
+    }
+    .wprmprc-overview-grid-collection-nohandle {
+        flex: 0 0 10px;
+    }
+
+    .wprmprc-overview-grid-collection-name {
+        flex: 0 0 170px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        input[type="text"] {
+            height: 30px;
+            padding: 2px 5px;
+            margin: 0 -6px;
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: none;
+        }
+    }
+
+    // Make sure images div has the same space left.
+    .wprmprc-overview-grid-collection-nohandle + .wprmprc-overview-grid-collection-name {
+        flex-basis: 190px;
+    }
+
+    .wprmprc-overview-grid-collection-images-container {
+        flex: auto;
+        margin-left: 10px;
+
+        position: relative;
+        overflow: hidden;
+
+        .wprmprc-overview-grid-collection-count {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top: -12px;
+
+            background-color: var(--wprm-collections-item-background);
+            width: 24px;
+            height: 24px;
+            border-radius: 100%;
+
+            text-align: center;
+            font-size: 0.9em;
+            line-height: 24px;
+
+            opacity: 0.7;
+        }
+    }
+    .wprmprc-overview-grid-collection-images {
+        height: 50px;
+        padding-left: 5px;
+
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+
+        overflow: hidden;
+
+        -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+        mask-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+
+        .wprmprc-overview-grid-collection-image {
+            flex-shrink: 0;
+
+            img {
+                height: 30px;
+                width: auto;
+                margin: 0;
+               
+                border: 0;
+                border-radius: 5px;
+                box-shadow: 0 2px 3px 0 rgba(0,0,0,0.2),0 1px 3px 0 rgba(0,0,0,0.2);
+            }
+
+            margin-left: -5px;
+
+            &:nth-child(odd) { margin-top: -6px; }
+            &:nth-child(even) { margin-bottom: -6px; }
+            &:first-child { margin-top: 0; }
+            &:nth-child(2) { margin-bottom: -3px; }
+            &:nth-child(3) { margin-top: -3px; }
+        }
+    }
+
+    &:hover {
+        .wprmprc-overview-grid-collection-handle {
+            opacity: 1;
+        }
+        .wprmprc-overview-grid-collection-actions {
+            opacity: 1;
+        }
+        .wprmprc-overview-grid-collection-actions-shopping-list {
+            opacity: 1;
+        }
+    }
+}
+
+@media screen and ( min-width: 400px) {
+    .wprmprc-overview-grid-collection {
+        .wprmprc-overview-grid-collection-name {
+            flex-basis: 200px;
+        }
+        .wprmprc-overview-grid-collection-nohandle + .wprmprc-overview-grid-collection-name {
+            flex-basis: 220px;
+        }
+    }
+}
+
+@media screen and ( min-width: 500px) {
+    .wprmprc-overview-grid-collection {
+        .wprmprc-overview-grid-collection-name {
+            flex-basis: 300px;
+        }
+        .wprmprc-overview-grid-collection-nohandle + .wprmprc-overview-grid-collection-name {
+            flex-basis: 320px;
+        }
+    }
+}

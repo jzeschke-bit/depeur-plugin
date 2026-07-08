@@ -1,0 +1,28 @@
+.wprm-recipe-collections-layout-grid {
+    .wprmprc-collection-column-nutrition {
+        margin-bottom: 20px;
+        font-size: 0.9em;
+
+        border: 1px solid var(--wprm-collections-nutrition-border);
+        border-radius: 5px;
+        background-color: var(--wprm-collections-nutrition-background);
+        color: var(--wprm-collections-nutrition-color);
+        padding: 5px;
+
+        .wprmprc-collection-column-nutrition-header {
+            font-weight: bold;
+        }
+
+        .wprmprc-collection-column-nutrition-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .wprmprc-collection-column-nutrition-field-unit {
+                font-size: 0.8em;
+                opacity: 0.8;
+                margin-left: 2px;
+            }
+        }
+    }
+}

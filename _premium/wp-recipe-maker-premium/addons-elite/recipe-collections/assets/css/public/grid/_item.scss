@@ -1,0 +1,175 @@
+.wprm-recipe-collections-layout-grid {
+    .wprmprc-collection-item {
+        margin-bottom: 10px;
+        border: 1px solid var(--wprm-collections-item-border);
+        border-radius: 5px;
+        background-color: var(--wprm-collections-item-background);
+        color: var(--wprm-collections-item-color);
+
+        &.wprmprc-collection-item-color-blue { background-color: #DEF3FD; }
+        &.wprmprc-collection-item-color-red { background-color: #FDDFDF; }
+        &.wprmprc-collection-item-color-yellow { background-color: #FCF7DE; }
+        &.wprmprc-collection-item-color-green { background-color: #DEFDE0; }
+
+        .wprmprc-collection-item-image-top {
+            font-size: 0;
+    
+            img {
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border: 0;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+
+                width: 100%;
+                height: auto;
+            }
+
+            &.wprmprc-collection-item-image-allow-click {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .wprmprc-collection-item-main {
+            display: flex;
+
+            .wprmprc-collection-item-actions {
+                flex: 0 0 30px;
+                opacity: 0.5;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+
+                min-height: 60px;
+
+                .wprmprc-collection-item-action {
+                    flex: 0 0 30px;
+                    width: 100%;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            .wprmprc-collection-item-details {
+                flex: auto;
+                display: flex;
+
+                .wprmprc-collection-item-meta {
+                    white-space: pre-line;
+                    flex: auto;
+                    font-size: 0.9em;
+                    padding: 5px;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .wprmprc-collection-item-nutrition {
+                        font-size: 0.8em;
+                        margin-top: 10px;
+            
+                        .wprmprc-collection-item-nutrition-field-label,
+                        .wprmprc-collection-item-nutrition-field-value-container {
+                            display: inline-block;
+                        }
+            
+                        .wprmprc-collection-item-nutrition-field-label {
+                            margin-right: 5px;
+                        }
+            
+                        .wprmprc-collection-item-nutrition-field-unit {
+                            font-size: 0.8em;
+                            opacity: 0.8;
+                            margin-left: 2px;
+                        }
+                    }
+                }
+
+                .wprmprc-collection-item-image-side {
+                    flex-shrink: 0;
+                    padding: 5px;
+                    font-size: 0;
+            
+                    img {
+                        border-radius: 5px;
+                        border: 0;
+                        margin: 0;
+                        padding: 0;
+                        box-shadow: 0 2px 3px 0 rgba(0,0,0,0.2),0 1px 3px 0 rgba(0,0,0,0.2);
+
+                        width: var(--wprm-collections-item-image-size);
+                        height: auto;
+                    }
+                }
+            }
+        }
+
+        .wprmprc-collection-item-qr {
+            margin-top: 5px;
+        }
+
+        .wprmprc-collection-item-servings {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            opacity: 0.5;
+            background-color: var(--wprm-collections-servings-background);
+            color: var(--wprm-collections-servings-color);
+
+            .wprmprc-collection-item-servings-minus,
+            .wprmprc-collection-item-servings-plus {
+                flex: 0 0 30px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .wprmprc-collection-item-leftovers,
+            .wprmprc-collection-item-servings-value {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.9em;
+            }
+
+            .wprmprc-collection-item-servings-value {
+                &:hover {
+                    cursor: pointer;
+                }
+
+                .wprmprc-collection-item-servings-unit {
+                    margin-left: 5px;
+                    font-size: 0.9em;
+                }
+            }
+
+            
+        }
+
+        &:hover {
+            .wprmprc-collection-item-actions,
+            .wprmprc-collection-item-servings {
+                opacity: 1;
+            }
+        }
+
+        // Clickable recipes.
+        &.wprmprc-collection-item {
+            .wprmprc-collection-item-details-allow-click {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?php
+/**
+ * Template for importing ingredient nutrition from WP Ultimate Recipe.
+ *
+ * @link       https://bootstrapped.ventures
+ * @since      5.6.0
+ *
+ * @package    WP_Recipe_Maker
+ * @subpackage WP_Recipe_Maker/templates/admin/menu/tools
+ */
+?>
+
+<div class="wrap wprm-tools">
+	<h2><?php esc_html_e( 'Importing WP Ultimate Recipe Ingredients', 'wp-recipe-maker' ); ?> - <?php esc_html_e( 'Nutrition Facts', 'wp-recipe-maker' ); ?></h2>
+	<?php
+	// translators: %d: number of ingredients left to search through.
+	printf( esc_html( _n( 'Searching %d ingredient', 'Searching %d ingredients', count( $ingredients ), 'wp-recipe-maker' ) ), count( $ingredients ) );
+	?>.
+	<?php
+	$progress_bar_type = 'tools';
+	include WPRM_DIR . 'templates/admin/progress-bar.php';
+	?>
+	<a href="<?php echo esc_url( admin_url( 'admin.php?page=wprm_manage' ) ); ?>" id="wprm-tools-finished"><?php esc_html_e( 'Finished succesfully. Click here to continue.', 'wp-recipe-maker' ); ?></a>
+</div>

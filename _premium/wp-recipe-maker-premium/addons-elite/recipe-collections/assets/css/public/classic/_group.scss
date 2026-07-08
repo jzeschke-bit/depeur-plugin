@@ -1,0 +1,46 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-collection-group {
+        flex: auto;
+
+        display: flex;
+        flex-direction: column;
+
+        .wprmprc-collection-group-header {
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .wprmprc-collection-group-items {
+            flex: 1;
+            -ms-flex: 1 1 auto;
+            padding: 10px 0;
+            min-height: 30px;
+            border-bottom-left-radius: variables.$border-radius;
+            border-bottom-right-radius: variables.$border-radius;
+
+            &.wprmprc-collection-group-items-draggingover {
+                background-color: variables.$color-item-dropzone;
+            }
+        }
+
+        .wprmprc-collection-group-add-item {
+            margin-top: -10px;
+            padding: 10px;
+            opacity: variables.$link-opacity;
+            font-style: italic;
+
+            &:hover {
+                opacity: 1;
+                cursor: pointer;
+            }
+        }
+
+        .wprmprc-collection-group-items-draggingover {
+            .wprmprc-collection-group-add-item {
+                visibility: hidden;
+            }
+        }
+    }
+}

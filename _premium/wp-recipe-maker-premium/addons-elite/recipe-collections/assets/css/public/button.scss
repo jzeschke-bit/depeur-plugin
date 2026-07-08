@@ -1,0 +1,10 @@
+.wprmprc-button {
+    &.wprmprc-button--disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+
+        .wprmprc-icon {
+            cursor: not-allowed;
+        }
+    }
+}

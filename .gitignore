@@ -1,12 +1,22 @@
-
-# Third-party reference plugins (do not track)
-_references/plugin-references/
-
-# Premium plugins (commercial code, do not track)
-_premium/
-
-# macOS / OS cruft
+# WordPress / Plugin
+*.log
 .DS_Store
+Thumbs.db
 
-# Playwright MCP tool cache (Browser-Smoke-Test-Output, kein Quellcode)
-.playwright-mcp/
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build / Cache
+*.cache
+dist/
+build/
+
+# IDE / Editor
+.idea/
+.vscode/
+*.sublime-*
+
+# Env / lokale Configs
+.env
+*.local

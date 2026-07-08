@@ -1,0 +1,119 @@
+.wprm-recipe-collections-layout-grid {
+    .wprmprc-container-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        color: var(--wprm-collections-header-color);
+    }
+
+    .wprmprc-container-header {
+        font-size: 1.3em;
+        line-height: 1.3em;
+        font-weight: bold;
+
+        .wprmprc-container-header-name {
+            display: block;
+        }
+    }
+
+    .wprmprc-header-link {
+        font-size: 0.8em;
+
+        opacity: 0.7;
+        text-decoration: underline;
+        &:hover {
+            cursor: pointer;
+            opacity: 1;
+        }
+    }
+    .wprmprc-header-link-separator {
+        display: none;
+    }
+
+    .wprmprc-container-header-actions {
+        flex: 0 0;
+
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+
+        .wprmprc-container-header-action {
+            flex: 0 0 40px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+
+            .wprmprc-icon svg {
+                width: 20px;
+            }
+
+            &.wprmprc-container-header-action-inactive {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .wprmprc-collection-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--wprm-collections-header-color);
+
+        .wprmprc-collection-header-name {
+            input[type="text"] {
+                height: 30px;
+                padding: 2px 5px;
+                margin: 0 -6px;
+    
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: none;
+            }
+
+            .wprmprc-collection-header-name-empty {
+                opacity: 0.5;
+                cursor: pointer;
+            }
+        }
+
+        .wprmprc-collection-header-actions {
+            opacity: 0.5;
+
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+
+            flex: 0 0 40px;
+        }
+
+        .wprmprc-collection-header-action {
+            flex: 0 0 20px;
+            cursor: pointer;
+        }
+
+        &:hover {
+            .wprmprc-collection-header-actions {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+@media screen and ( max-width: 500px ) {
+    .wprm-recipe-collections-layout-grid {
+        .wprmprc-container-header {
+            text-align: center;
+        }
+
+        .wprmprc-container-header-container {
+            display: block;
+
+            .wprmprc-container-header-actions {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}

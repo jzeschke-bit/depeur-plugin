@@ -1,0 +1,1249 @@
+import React, { Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
+import he from 'he';
+ 
+import Media from 'Modal/general/Media';
+import TextFilter from '../general/TextFilter';
+import bulkEditCheckbox from '../general/bulkEditCheckbox';
+import Api from 'Shared/Api';
+import Icon from 'Shared/Icon';
+import Tooltip from 'Shared/Tooltip';
+import { __wprm } from 'Shared/Translations';
+
+import '../../../css/admin/manage/taxonomies.scss';
+
+export default {
+    getColumns( datatable ) {
+        const link_nofollow_options = wprm_admin_modal.options.hasOwnProperty( `${datatable.props.options.id}_link_nofollow` ) ? wprm_admin_modal.options[`${datatable.props.options.id}_link_nofollow`] : wprm_admin_modal.options.term_link_nofollow;
+        const unitConversion = wprm_admin_modal.hasOwnProperty( 'unit_conversion' ) ? wprm_admin_modal.unit_conversion : false;
+
+        let columns = [];
+        let shoppingListGroupDefaultOptions = false;
+        let shoppingListGroupDefaultPromise = false;
+
+        const normalizeShoppingListGroupOptions = ( groups = [] ) => {
+            const uniqueGroups = {};
+
+            groups.forEach( ( group ) => {
+                let name = '';
+
+                if ( 'string' === typeof group ) {
+                    name = group.trim();
+                } else if ( group && group.hasOwnProperty( 'name' ) ) {
+                    name = `${ group.name }`.trim();
+                } else if ( group && group.hasOwnProperty( 'value' ) ) {
+                    name = `${ group.value }`.trim();
+                }
+
+                if ( name ) {
+                    const key = name.toLowerCase();
+
+                    if ( ! uniqueGroups.hasOwnProperty( key ) ) {
+                        uniqueGroups[ key ] = name;
+                    }
+                }
+            });
+
+            return Object.values( uniqueGroups ).map( ( name ) => ({
+                value: name,
+                label: name,
+            }) );
+        };
+
+        const loadShoppingListGroupOptions = ( search = '' ) => {
+            return Api.manage.getShoppingGroups( search ).then( ( groups ) => {
+                return normalizeShoppingListGroupOptions( groups );
+            });
+        };
+
+        const getDefaultShoppingListGroupOptions = () => {
+            if ( false !== shoppingListGroupDefaultOptions ) {
+                return Promise.resolve( shoppingListGroupDefaultOptions );
+            }
+
+            if ( shoppingListGroupDefaultPromise ) {
+                return shoppingListGroupDefaultPromise;
+            }
+
+            shoppingListGroupDefaultPromise = loadShoppingListGroupOptions().then( ( options ) => {
+                shoppingListGroupDefaultOptions = options;
+                shoppingListGroupDefaultPromise = false;
+
+                return options;
+            }).catch(() => {
+                shoppingListGroupDefaultOptions = [];
+                shoppingListGroupDefaultPromise = false;
+
+                return [];
+            });
+
+            return shoppingListGroupDefaultPromise;
+        };
+
+        const openShoppingListGroupModal = ( row, defaultOptions = [] ) => {
+            WPRM_Modal.open( 'input-fields', {
+                header: __wprm( 'Change Shopping List Group' ),
+                fields: [{
+                    label: __wprm( 'Shopping List Group' ),
+                    type: 'async-creatable-single',
+                    value: row.value ? row.value : '',
+                    placeholder: __wprm( 'Select from list or type to create...' ),
+                    defaultOptions,
+                    loadOptions: loadShoppingListGroupOptions,
+                }],
+                insertCallback: ( args ) => {
+                    const group = 'string' === typeof args.fields[0].value ? args.fields[0].value.trim() : '';
+
+                    Api.manage.updateTaxonomyMeta('ingredient', row.original.term_id, { group }).then(() => {
+                        if ( false !== shoppingListGroupDefaultOptions && group ) {
+                            const exists = shoppingListGroupDefaultOptions.find( ( option ) => option.value.toLowerCase() === group.toLowerCase() );
+
+                            if ( ! exists ) {
+                                shoppingListGroupDefaultOptions = [
+                                    {
+                                        value: group,
+                                        label: group,
+                                    },
+                                    ...shoppingListGroupDefaultOptions,
+                                ].slice( 0, 50 );
+                            }
+                        }
+
+                        datatable.refreshData();
+                    });
+                },
+            } );
+        };
+
+        const getUnitSystemName = ( names, system, field ) => {
+            if ( ! names ) {
+                return '';
+            }
+
+            const systemNames = names[ system ] || names[ `${ system }` ] || {};
+            return systemNames[ field ] ? systemNames[ field ] : '';
+        };
+
+        const openUnitSystemNamesModal = ( row ) => {
+            const names = row.original.unit_system_names || {};
+
+            WPRM_Modal.open( 'input-fields', {
+                header: __wprm( 'Change Converted Names' ),
+                fields: [
+                    {
+                        label: __wprm( 'Converted Singular' ),
+                        value: getUnitSystemName( names, 2, 'singular' ),
+                    },
+                    {
+                        label: __wprm( 'Converted Plural' ),
+                        value: getUnitSystemName( names, 2, 'plural' ),
+                    },
+                ],
+                insertCallback: ( args ) => {
+                    const unit_system_names = {
+                        2: {
+                            singular: args.fields[0].value ? args.fields[0].value.trim() : '',
+                            plural: args.fields[1].value ? args.fields[1].value.trim() : '',
+                        },
+                    };
+
+                    Api.manage.updateTaxonomyMeta( 'ingredient', row.original.term_id, { unit_system_names } ).then(() => datatable.refreshData());
+                },
+            } );
+        };
+
+        if ( 'suitablefordiet' !== datatable.props.options.id ) {
+            columns.push( bulkEditCheckbox( datatable, 'term_id' ) );
+        }
+
+        columns = [
+            ...columns,
+            {
+                Header: __wprm( 'Sort:' ),
+                id: 'actions',
+                headerClassName: 'wprm-admin-table-help-text',
+                sortable: false,
+                width: 'suitablefordiet' === datatable.props.options.id ? 65 : 100,
+                Filter: () => (
+                    <div>
+                        { __wprm( 'Filter:' ) }
+                    </div>
+                ),
+                Cell: row => (
+                    <div className="wprm-admin-manage-actions">
+                        {
+                            'suitablefordiet' === datatable.props.options.id
+                            ?
+                            <Fragment>
+                                <Icon
+                                    type="pencil"
+                                    title={ `${ __wprm( 'Rename' ) } ${ datatable.props.options.label.singular }` }
+                                    onClick={() => {
+                                        let newName = prompt( `${ __wprm( 'What do you want to be the new name for' ) } "${row.original.label}"?`, row.original.label );
+                                        if( newName && newName.trim() ) {
+                                            Api.manage.renameTermLabel(datatable.props.options.id, row.original.term_id, newName).then(() => datatable.refreshData());
+                                        }
+                                    }}
+                                />
+                                {
+                                    ! row.original.is_default
+                                    &&
+                                    <Icon
+                                        type="merge"
+                                        title={ `${ __wprm( 'Merge into another' ) } ${ datatable.props.options.label.singular }` }
+                                        onClick={() => {
+                                            let newId = prompt( `${ __wprm( 'What is the ID of the term you want the merge' ) } "${row.original.name}" ${ __wprm( 'into' ) }?` );
+                                            if( newId && newId != row.original.term_id && newId.trim() ) {
+                                                Api.manage.getTerm(datatable.props.options.id, newId).then(newTerm => {
+                                                    if ( newTerm ) {
+                                                        if ( confirm( `${ __wprm( 'Are you sure you want to merge' ) } "${row.original.name}" ${ __wprm( 'into' ) } "${newTerm.name}"?` ) ) {
+                                                            Api.manage.mergeTerm(datatable.props.options.id, row.original.term_id, newId).then(() => datatable.refreshData());
+                                                        }
+                                                    } else {
+                                                        alert( __wprm( 'We could not find a term with that ID.' ) );
+                                                    }
+                                                });
+                                            }
+                                        }}
+                                    />
+                                }
+                            </Fragment>
+                            :
+                            <Fragment>
+                                <Icon
+                                    type="pencil"
+                                    title={ `${ __wprm( 'Rename' ) } ${ datatable.props.options.label.singular }` }
+                                    onClick={() => {
+                                        let newName = prompt( `${ __wprm( 'What do you want to be the new name for' ) } "${row.original.name}"?`, row.original.name );
+                                        if( newName && newName.trim() ) {
+                                            Api.manage.renameTerm(datatable.props.options.id, row.original.term_id, newName).then(() => datatable.refreshData());
+                                        }
+                                    }}
+                                />
+                                <Icon
+                                    type="merge"
+                                    title={ `${ __wprm( 'Merge into another' ) } ${ datatable.props.options.label.singular }` }
+                                    onClick={() => {
+                                        let newId = prompt( `${ __wprm( 'What is the ID of the term you want the merge' ) } "${row.original.name}" ${ __wprm( 'into' ) }?` );
+                                        if( newId && newId != row.original.term_id && newId.trim() ) {
+                                            Api.manage.getTerm(datatable.props.options.id, newId).then(newTerm => {
+                                                if ( newTerm ) {
+                                                    if ( confirm( `${ __wprm( 'Are you sure you want to merge' ) } "${row.original.name}" ${ __wprm( 'into' ) } "${newTerm.name}"?` ) ) {
+                                                        Api.manage.mergeTerm(datatable.props.options.id, row.original.term_id, newId).then(() => datatable.refreshData());
+                                                    }
+                                                } else {
+                                                    alert( __wprm( 'We could not find a term with that ID.' ) );
+                                                }
+                                            });
+                                        }
+                                    }}
+                                />
+                                <Icon
+                                    type="trash"
+                                    title={ `${ __wprm( 'Delete' ) } ${ datatable.props.options.label.singular }` }
+                                    onClick={() => {
+                                        if( confirm( `${ __wprm( 'Are you sure you want to delete' ) } "${row.original.name}"?` ) ) {
+                                            Api.manage.deleteTerm(datatable.props.options.id, row.original.term_id).then(() => datatable.refreshData());
+                                        }
+                                    }}
+                                />
+                            </Fragment>
+                        }
+                    </div>
+                ),
+            },{
+                Header: __wprm( 'ID' ),
+                id: 'id',
+                accessor: 'term_id',
+                width: 65,
+                Filter: (props) => (<TextFilter {...props}/>),
+            },{
+                Header: __wprm( 'Slug' ),
+                id: 'slug',
+                accessor: 'slug',
+                width: 200,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-ingredients-group-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Slug' ) }
+                                onClick={() => {
+                                    const newSlug = prompt( `${ __wprm( 'What do you want the slug to be for' ) } "${row.original.name}"?`, row.value );
+                                    if( false !== newSlug ) {
+                                        Api.manage.changeTermSlug(datatable.props.options.id, row.original.term_id, newSlug).then(() => datatable.refreshData());
+                                    }
+                                }}
+                            />
+                            {
+                                row.original.permalink
+                                ?
+                                <span><a href={ row.original.permalink } target="_blank">{ row.value }</a></span>
+                                :
+                                <span>{ row.value }</span>
+                            }
+                        </div>
+                    )
+                },
+            },{
+                Header: 'suitablefordiet' === datatable.props.options.id ? __wprm( 'Diet' ) : __wprm( 'Name' ),
+                id: 'name',
+                accessor: 'name',
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => row.value ? he.decode(row.value) : null,
+            },{
+                Header: __wprm( 'Published' ),
+                id: 'count',
+                accessor: 'count',
+                filterable: false,
+                width: 70,
+                Cell: row => {
+                    return (
+                        <NavLink to={ `/recipe/${ datatable.props.options.id }=${row.original.term_id}` }>{ row.value }</NavLink>
+                    )
+                }
+            },{
+                Header: __wprm( 'Total' ),
+                id: 'total_count',
+                accessor: 'total_count',
+                sortable: false,
+                filterable: false,
+                width: 70,
+                Cell: row => {
+                    return (
+                        <NavLink to={ `/recipe/${ datatable.props.options.id }=${row.original.term_id}` }>{ row.value }</NavLink>
+                    )
+                }
+            }
+        ];
+
+        if ( wprm_admin_manage.multilingual ) {
+            columns.push({
+                Header: __wprm( 'Language' ),
+                id: 'language',
+                accessor: 'language',
+                sortable: false,
+                filterable: false,
+                width: 220,
+                Cell: row => {
+                    const languages = wprm_admin_manage.multilingual.languages || {};
+                    const current = row.value && languages.hasOwnProperty( row.value ) ? row.value : '';
+
+                    return (
+                        <div className="wprm-admin-manage-language-select">
+                            <select
+                                value={ current }
+                                onChange={ (event) => {
+                                    const newLanguage = event.target.value;
+
+                                    if ( ! newLanguage || newLanguage === current ) {
+                                        return;
+                                    }
+
+                                    Api.manage.updateTermLanguage(
+                                        datatable.props.options.id,
+                                        row.original.term_id,
+                                        newLanguage
+                                    ).then(() => datatable.refreshData());
+                                }}
+                                style={{ width: '100%', fontSize: '1em' }}
+                            >
+                                <option value="">{ __wprm( 'Select language' ) }</option>
+                                {
+                                    Object.values( languages ).map((language, index) => (
+                                        <option value={ language.value } key={ index }>
+                                            { `${ language.value } - ${ he.decode( language.label ) }` }
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    );
+                },
+            });
+        }
+
+        if ( 'suitablefordiet' === datatable.props.options.id ) {
+            columns.push({
+                Header: __wprm( 'Label' ),
+                id: 'label',
+                accessor: 'label',
+                sortable: false,
+                filterable: false,
+                Cell: row => row.value ? he.decode(row.value) : null,
+            });
+        }
+
+        if ( 'ingredient' === datatable.props.options.id ) {
+            columns.push({
+                Header: __wprm( 'Plural' ),
+                id: 'plural',
+                accessor: 'plural',
+                width: 200,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-ingredients-group-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Plural' ) }
+                                onClick={() => {
+                                    const newPlural = prompt( `${ __wprm( 'What do you want the plural to be for' ) } "${row.original.name}"?`, row.value );
+                                    if( false !== newPlural ) {
+                                        Api.manage.updateTaxonomyMeta('ingredient', row.original.term_id, { plural: newPlural }).then(() => datatable.refreshData());
+                                    }
+                                }}
+                            />
+                            {
+                                row.value
+                                ?
+                                <span>{ row.value }</span>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( 'ingredient' === datatable.props.options.id && unitConversion ) {
+            columns.push({
+                Header: __wprm( 'Converted Names' ),
+                id: 'unit_system_names',
+                accessor: 'unit_system_names',
+                exportValue: ( names ) => {
+                    const singular = getUnitSystemName( names, 2, 'singular' );
+                    const plural = getUnitSystemName( names, 2, 'plural' );
+
+                    return [ singular, plural ].filter( ( value ) => !! value ).join( ' / ' );
+                },
+                width: 240,
+                sortable: false,
+                filterable: false,
+                Cell: row => {
+                    const singular = getUnitSystemName( row.value, 2, 'singular' );
+                    const plural = getUnitSystemName( row.value, 2, 'plural' );
+                    const values = [ singular, plural ].filter( ( value ) => !! value );
+
+                    return (
+                        <div className="wprm-manage-ingredients-group-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Converted Names' ) }
+                                onClick={() => {
+                                    openUnitSystemNamesModal( row );
+                                }}
+                            />
+                            {
+                                values.length
+                                ?
+                                <span>{ values.join( ' / ' ) }</span>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( 'ingredient' === datatable.props.options.id && wprm_admin.addons.premium ) {
+            getDefaultShoppingListGroupOptions();
+
+            columns.push({
+                Header: __wprm( 'Shopping List Group' ),
+                id: 'group',
+                accessor: 'group',
+                width: 200,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-ingredients-group-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Group' ) }
+                                onClick={() => {
+                                    getDefaultShoppingListGroupOptions().then( ( defaultOptions ) => {
+                                        openShoppingListGroupModal( row, defaultOptions );
+                                    });
+                                }}
+                            />
+                            {
+                                row.value
+                                ?
+                                <span>{ row.value }</span>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( wprm_admin.addons.premium ) {
+            // Term images.
+            columns.push({
+                Header: __wprm( 'Image' ),
+                id: 'image_id',
+                accessor: 'image_id',
+                width: 110,
+                sortable: false,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Show All' ) }</option>
+                        <option value="yes">{ __wprm( 'Has Image' ) }</option>
+                        <option value="no">{ __wprm( 'Does not have Image' ) }</option>
+                    </select>
+                ),
+                Cell: row => {
+                    const selectImage = (e) => {
+                        e.preventDefault();
+                                
+                        Media.selectImage((attachment) => {
+                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { image_id: attachment.id }).then(() => datatable.refreshData());
+                        });
+                    };
+
+                    return (
+                        <div className="wprm-manage-image-container">
+                            {
+                                row.value
+                                ?
+                                <div className="wprm-manage-image-preview">
+                                    <Tooltip content={ __wprm( 'Edit Image' ) }>
+                                        <img
+                                            src={ row.original.image_url }
+                                            onClick={ selectImage }
+                                        />
+                                    </Tooltip>
+                                    <Icon
+                                        type="trash"
+                                        title={ __wprm( 'Remove Image' ) }
+                                        onClick={ () => {
+                                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { image_id: 0 }).then(() => datatable.refreshData());
+                                        } }
+                                    />
+                                </div>
+                                :
+                                <Icon
+                                    type="photo"
+                                    title={ __wprm( 'Add Image' ) }
+                                    onClick={ selectImage }
+                                />
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( wprm_admin.addons.premium ) {
+            // Easy Affiliate Links plugin integration.
+            if ( window.hasOwnProperty( 'EAFL_Modal' ) ) {
+                columns.push({
+                    Header: __wprm( 'Easy Affiliate Links' ),
+                    id: 'eafl',
+                    accessor: 'eafl',
+                    width: 300,
+                    Filter: (props) => (<TextFilter {...props}/>),
+                    Cell: row => {
+                        return (
+                            <div className="wprm-manage-ingredients-eafl-container">
+                                {
+                                    row.value
+                                    ?
+                                    <Fragment>
+                                        <Icon
+                                            type="eafl-link"
+                                            title={ __wprm( 'Edit Link' ) }
+                                            onClick={() => {
+                                                if ( row.original.hasOwnProperty( 'eafl_details' ) ) {
+                                                    EAFL_Modal.open('edit', { link: row.original.eafl_details, saveCallback: () => datatable.refreshData() });
+                                                } else {
+                                                    alert( __wprm( 'An Affiliate Link with this ID cannot be found. Try deleting and adding it again.' ) );
+                                                }
+                                            }}
+                                        />
+                                        &nbsp;
+                                        <Icon
+                                            type="eafl-unlink"
+                                            title={ __wprm( 'Remove Link' ) }
+                                            onClick={() => {
+                                                if( confirm( __wprm( 'Are you sure you want to delete this link?' ) ) ) {
+                                                    Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { eafl: '' }).then(() => datatable.refreshData());
+                                                }
+                                            }}
+                                        />
+                                        <div className="wprm-manage-ingredients-eafl-details">
+                                            {
+                                                row.original.hasOwnProperty( 'eafl_details' )
+                                                ?
+                                                <Fragment>
+                                                    <div>#{row.value} - {row.original.eafl_details.name}</div>
+                                                    <div><a href={row.original.eafl_details.url} target="_blank">{row.original.eafl_details.url}</a></div>
+                                                </Fragment>
+                                                :
+                                                <div>#{row.value} - { __wprm( 'n/a' ) }</div>
+                                            }
+                                        </div>
+                                    </Fragment>
+                                    :
+                                    <Icon
+                                        type="eafl-link"
+                                        title={ __wprm( 'Set Affiliate Link' ) }
+                                        onClick={() => {
+                                            EAFL_Modal.open('insert', {
+                                                insertCallback: function(link) {
+                                                    Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { eafl: link.id }).then(() => datatable.refreshData());
+                                                },
+                                                selectedText: row.original.name,
+                                            });
+                                        }}
+                                    />
+                                }
+                            </div>
+                        )
+                    },
+                })
+            }
+
+            columns.push({
+                Header: __wprm( 'Link' ),
+                id: 'link',
+                accessor: 'link',
+                width: 300,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-ingredients-link-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Link' ) }
+                                onClick={() => {
+                                    const newLink = prompt( `${ __wprm( 'What do you want to be the new link for' ) } "${row.original.name}"?`, row.value );
+                                    if( false !== newLink ) {
+                                        if ( '' === newLink || 'http' === newLink.substring( 0, 4 ) || confirm( `"${newLink}" ${ __wprm( 'does not start with http:// or https:// as we would expect for a link. Are you sure you want to use this? Regular HTML code will not work here.' ) }` ) ) {
+                                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { link: newLink }).then(() => datatable.refreshData());   
+                                        }
+                                    }
+                                }}
+                            />
+                            {
+                                row.value
+                                ?
+                                <a href={ row.value } target="_blank">{ row.value }</a>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            },{
+                Header: __wprm( 'Link Nofollow' ),
+                id: 'link_nofollow',
+                accessor: 'link_nofollow',
+                width: 250,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Any Nofollow' ) }</option>
+                        {
+                            link_nofollow_options.map((option, index) => (
+                                <option value={option.value} key={index}>{ option.label }</option>
+                            ))
+                        }
+                    </select>
+                ),
+                Cell: row => {
+                    return (
+                        <div>
+                            {
+                                row.original.link
+                                ?
+                                <select
+                                    onChange={event => {
+                                        Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { link_nofollow: event.target.value }).then(() => datatable.refreshData());
+                                    }}
+                                    style={{ width: '100%', fontSize: '1em' }}
+                                    value={row.value}
+                                >
+                                    {
+                                        link_nofollow_options.map((option, index) => (
+                                            <option value={option.value} key={index}>{ option.label }</option>
+                                        ))
+                                    }
+                                </select>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( 'equipment' === datatable.props.options.id && wprm_admin.addons.premium ) {
+            columns.push({
+                Header: __wprm( 'Affiliate HTML' ),
+                id: 'affiliate_html',
+                accessor: 'affiliate_html',
+                width: 500,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-equipment-affiliate-html-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change HTML' ) }
+                                onClick={() => {
+                                    WPRM_Modal.open( 'input-fields', {
+                                        header: __wprm( 'Change Affiliate HTML' ),
+                                        fields: [{
+                                            label: 'HTML',
+                                            type: 'textarea',
+                                            value: row.value,
+                                        }],
+                                        insertCallback: ( args ) => {
+                                            const affiliate_html = args.fields[0].value;
+                                            Api.manage.updateTaxonomyMeta('equipment', row.original.term_id, { affiliate_html }).then(() => datatable.refreshData());
+                                        },
+                                    } );
+                                }}
+                            />
+                            <span className="wprm-manage-equipment-affiliate-html">{ row.value }</span>
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Affiliate HTML Preview' ),
+                id: 'affiliate_html_preview',
+                accessor: 'affiliate_html',
+                width: 250,
+                filterable: false,
+                sortable: false,
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-equipment-affiliate-html-preview-container">
+                            <div dangerouslySetInnerHTML={ { __html: row.value } } />
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Amazon Product ASIN' ),
+                id: 'amazon_asin',
+                accessor: 'amazon_asin',
+                width: 180,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Show All' ) }</option>
+                        <option value="yes">{ __wprm( 'Has Product' ) }</option>
+                        <option value="no">{ __wprm( 'Does not have Product' ) }</option>
+                    </select>
+                ),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-equipment-amazon-product-container">
+                            <Icon
+                                type="link"
+                                title={ __wprm( 'Set ASIN from Amazon Link' ) }
+                                onClick={() => {
+                                    let asin = false;
+
+                                    const getASINfromLink = ( link ) => {
+                                        const regex = /(?:[/dp/]|$)([A-Z0-9]{10})/g;
+                                        const match = regex.exec( link );
+
+                                        if ( match && match[1] ) {
+                                            return match[1];
+                                        }
+
+                                        return false;
+                                    }
+
+                                    // Warning that the link that's currently manually set will get overwritten.
+                                    if ( ! row.value && row.original.link ) {
+                                        // Check for ASIN in current URL.
+                                        asin = getASINfromLink( row.original.link );
+                                        
+                                        if ( ! asin ) {
+                                            if ( ! confirm( __wprm( 'Selecting an Amazon Product will overwrite the current link. Are you sure you want to continue?' ) ) ) {
+                                                return;
+                                            }
+                                        }
+                                    }
+
+                                    // No ASIN found in current URL, ask for one.
+                                    if ( ! asin ) {
+                                        const link = prompt( __wprm( 'Amazon Product URL' ), '' );
+
+                                        if ( link ) {
+                                            asin = getASINfromLink( link );
+                                        }
+                                    }
+
+                                    // ASIN found? Open modal.
+                                    if ( asin ) {
+                                        WPRM_Modal.open( 'amazon', {
+                                            term: row.original,
+                                            search: asin,
+                                            selectCallback: ( product ) => {
+                                                // Always fetch full product details to get availability status.
+                                                Api.amazon.getProducts( [ product.asin ] ).then(( data ) => {
+                                                    let amazon_status = 'NOT_FOUND';
+                                                    
+                                                    if ( data && data.products && data.products[ product.asin ] ) {
+                                                        amazon_status = 'UNKNOWN';
+                                                        const fullProduct = data.products[ product.asin ];
+                                                        if ( fullProduct.availability_type ) {
+                                                            // Always save just the type as a string.
+                                                            amazon_status = fullProduct.availability_type;
+                                                        }
+                                                    }
+                                                    
+                                                    // Save all product data including status in one call.
+                                                    Api.manage.updateTaxonomyMeta( 'equipment', row.original.term_id, {
+                                                        amazon_updated: Date.now(),
+                                                        amazon_image: product.image,
+                                                        amazon_image_width: product.image_width,
+                                                        amazon_image_height: product.image_height,
+                                                        amazon_name: product.name,
+                                                        amazon_asin: product.asin,
+                                                        amazon_status: amazon_status,
+                                                        link: product.link,
+                                                    } ).then(() => datatable.refreshData());
+                                                }).catch(() => {
+                                                    // On error, save the selected product without a status.
+                                                    Api.manage.updateTaxonomyMeta( 'equipment', row.original.term_id, {
+                                                        amazon_updated: Date.now(),
+                                                        amazon_image: product.image,
+                                                        amazon_image_width: product.image_width,
+                                                        amazon_image_height: product.image_height,
+                                                        amazon_name: product.name,
+                                                        amazon_asin: product.asin,
+                                                        amazon_status: '',
+                                                        link: product.link,
+                                                    } ).then(() => datatable.refreshData());
+                                                });
+                                            },
+                                        } );
+                                    } else {
+                                        alert( __wprm( 'No ASIN could be found in the URL you entered.' ) );
+                                    }
+                                }}
+                            />
+                            <Icon
+                                type="search"
+                                title={ __wprm( 'Search Products' ) }
+                                onClick={() => {
+                                    // Warning that the link that's currently manually set will get overwritten.
+                                    if ( ! row.value && row.original.link ) {
+                                        if ( ! confirm( __wprm( 'Selecting an Amazon Product will overwrite the current link. Are you sure you want to continue?' ) ) ) {
+                                            return;
+                                        }
+                                    }
+
+                                    WPRM_Modal.open( 'amazon', {
+                                        term: row.original,
+                                        selectCallback: ( product ) => {
+                                            // Always fetch full product details to get availability status.
+                                            Api.amazon.getProducts( [ product.asin ] ).then(( data ) => {
+                                                let amazon_status = 'NOT_FOUND';
+                                                
+                                                if ( data && data.products && data.products[ product.asin ] ) {
+                                                    amazon_status = 'UNKNOWN';
+                                                    const fullProduct = data.products[ product.asin ];
+                                                    if ( fullProduct.availability_type ) {
+                                                        // Always save just the type as a string.
+                                                        amazon_status = fullProduct.availability_type;
+                                                    }
+                                                }
+                                                
+                                                // Save all product data including status in one call.
+                                                Api.manage.updateTaxonomyMeta( 'equipment', row.original.term_id, {
+                                                    amazon_updated: Date.now(),
+                                                    amazon_image: product.image,
+                                                    amazon_image_width: product.image_width,
+                                                    amazon_image_height: product.image_height,
+                                                    amazon_name: product.name,
+                                                    amazon_asin: product.asin,
+                                                    amazon_status: amazon_status,
+                                                    link: product.link,
+                                                } ).then(() => datatable.refreshData());
+                                            }).catch(() => {
+                                                // On error, save the selected product without a status.
+                                                Api.manage.updateTaxonomyMeta( 'equipment', row.original.term_id, {
+                                                    amazon_updated: Date.now(),
+                                                    amazon_image: product.image,
+                                                    amazon_image_width: product.image_width,
+                                                    amazon_image_height: product.image_height,
+                                                    amazon_name: product.name,
+                                                    amazon_asin: product.asin,
+                                                    amazon_status: '',
+                                                    link: product.link,
+                                                } ).then(() => datatable.refreshData());
+                                            });
+                                        },
+                                    } );
+                                }}
+                            />
+                            <span className="wprm-manage-equipment-amazon-product">{ row.value }</span>
+                            {
+                                row.value
+                                &&
+                                <Icon
+                                    type="trash"
+                                    title={ __wprm( 'Remove Product' ) }
+                                    onClick={() => {
+                                        Api.manage.updateTaxonomyMeta( 'equipment', row.original.term_id, {
+                                            amazon_updated: Date.now(),
+                                            amazon_image: '',
+                                            amazon_image_width: '',
+                                            amazon_image_height: '',
+                                            amazon_name: '',
+                                            amazon_asin: '',
+                                            amazon_status: '',
+                                            link: '',
+                                        } ).then(() => datatable.refreshData());
+                                    }}
+                                />
+                            }
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Amazon Name' ),
+                id: 'amazon_name',
+                accessor: 'amazon_name',
+                width: 250,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-equipment-amazon-name-container">
+                            { row.value }
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Amazon Image' ),
+                id: 'amazon_image',
+                accessor: 'amazon_image',
+                width: 125,
+                sortable: false,
+                filterable: false,
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-equipment-amazon-image-container">
+                            {
+                                row.value
+                                ?
+                                <img src={ row.value } width="100" />
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Amazon Updated' ),
+                id: 'amazon_updated',
+                accessor: 'amazon_updated',
+                width: 160,
+                filterable: false,
+                Cell: row => {
+                    if ( ! row.value ) {
+                        return null;
+                    }
+
+                    const dt = new Date( parseInt( row.value ) );
+                    return dt.toLocaleString();
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Amazon Product Status' ),
+                id: 'amazon_status',
+                accessor: row => {
+                    // If no ASIN, return 'empty' for filtering.
+                    if ( ! row.amazon_asin ) {
+                        return 'empty';
+                    }
+                    
+                    // Status is stored as a plain string.
+                    return row.amazon_status || '';
+                },
+                width: 180,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Show All' ) }</option>
+                        <option value="IN_STOCK">{ __wprm( 'In Stock' ) }</option>
+                        <option value="IN_STOCK_SCARCE">{ __wprm( 'In Stock (Scarce)' ) }</option>
+                        <option value="OUT_OF_STOCK">{ __wprm( 'Out of Stock' ) }</option>
+                        <option value="UNAVAILABLE">{ __wprm( 'Unavailable' ) }</option>
+                        <option value="PREORDER">{ __wprm( 'Preorder' ) }</option>
+                        <option value="AVAILABLE_DATE">{ __wprm( 'Available Date' ) }</option>
+                        <option value="LEADTIME">{ __wprm( 'Leadtime' ) }</option>
+                        <option value="UNKNOWN">{ __wprm( 'Unknown' ) }</option>
+                        <option value="NOT_FOUND">{ __wprm( 'Not Found' ) }</option>
+                        <option value="empty">{ __wprm( 'No ASIN' ) }</option>
+                        <option value="">----------------</option>
+                        <option value="notification_statuses">{ __wprm( 'Notification statuses' ) }</option>
+                        <option value="not_in_stock">{ __wprm( 'Any status except "In Stock"' ) }</option>
+                    </select>
+                ),
+                Cell: row => {
+                    // If no ASIN is set, show empty.
+                    if ( ! row.original.amazon_asin ) {
+                        return null;
+                    }
+
+                    const status = row.original.amazon_status;
+                    if ( ! status ) {
+                        return <span className="wprm-manage-equipment-amazon-status-none">?</span>;
+                    }
+                    
+                    // Status is stored as a plain string.
+                    const statusType = status;
+                    
+                    // Map status types to user-friendly labels and CSS classes.
+                    const statusLabels = {
+                        'IN_STOCK': { label: __wprm( 'In Stock' ), className: 'status-in-stock' },
+                        'IN_STOCK_SCARCE': { label: __wprm( 'In Stock (Scarce)' ), className: 'status-in-stock' },
+                        'OUT_OF_STOCK': { label: __wprm( 'Out of Stock' ), className: 'status-out-of-stock' },
+                        'UNAVAILABLE': { label: __wprm( 'Unavailable' ), className: 'status-unavailable' },
+                        'PREORDER': { label: __wprm( 'Preorder' ), className: 'status-preorder' },
+                        'AVAILABLE_DATE': { label: __wprm( 'Available Date' ), className: 'status-preorder' },
+                        'LEADTIME': { label: __wprm( 'Leadtime' ), className: 'status-preorder' },
+                        'UNKNOWN': { label: __wprm( 'Unknown' ), className: 'status-unknown' },
+                        'NOT_FOUND': { label: __wprm( 'Not Found' ), className: 'status-not-found' },
+                    };
+                    
+                    const statusInfo = statusLabels[ statusType ] || { label: statusType, className: 'status-unknown' };
+                    
+                    return (
+                        <div className={ `wprm-manage-equipment-amazon-status ${ statusInfo.className }` }>
+                            <span className="wprm-manage-equipment-amazon-status-type">{ statusInfo.label }</span>
+                            { row.original.amazon_product_url && (
+                                <a
+                                    href={ row.original.amazon_product_url }
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="wprm-manage-equipment-amazon-status-link"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Icon type="link" title={ __wprm( 'View product on Amazon' ) }/>
+                                </a>
+                            ) }
+                        </div>
+                    );
+                },
+            });
+        }
+
+        // Products column - only show if products integration is available.
+        if ( wprm_admin.addons.elite && wprm_admin_manage.products_integrations_available && ( 'ingredient' === datatable.props.options.id || 'equipment' === datatable.props.options.id ) ) {
+            columns.push({
+                Header: __wprm( 'Product' ),
+                id: 'product',
+                accessor: 'product',
+                width: 300,
+                sortable: false,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Show All' ) }</option>
+                        <option value="yes">{ __wprm( 'Has Product' ) }</option>
+                        <option value="no">{ __wprm( 'Does not have Product' ) }</option>
+                    </select>
+                ),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-product-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Product' ) }
+                                onClick={() => {
+                                    WPRM_Modal.open( 'product', {
+                                        label: row.original.name,
+                                        taxonomy: datatable.props.options.id,
+                                        term: row.original.term_id,
+                                        product: row.value,
+                                        saveCallback: () => datatable.refreshData(),
+                                    } );
+                                }}
+                            />
+                            {
+                                row.value
+                                ?
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: '10px' }}>
+                                    {
+                                        row.value.image_url
+                                        ?
+                                        <img 
+                                            src={ row.value.image_url } 
+                                            alt={ row.value.name }
+                                            style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
+                                        />
+                                        :
+                                        null
+                                    }
+                                    <div>
+                                        <a href={ row.value.url } target="_blank">{ row.value.name } (#{ row.value.id })</a>
+                                        {
+                                            row.value.variation_id && row.value.variation_name
+                                            ?
+                                            <div style={{ fontSize: '0.9em', color: '#666', marginTop: '2px', marginLeft: '5px' }}>
+                                                { __wprm( 'Variation' ) }: { row.value.variation_name } (#{ row.value.variation_id })
+                                                {
+                                                    row.value.variation_image_url
+                                                    ?
+                                                    <img 
+                                                        src={ row.value.variation_image_url } 
+                                                        alt={ row.value.variation_name }
+                                                        style={{ width: '20px', height: '20px', objectFit: 'cover', borderRadius: '2px', marginLeft: '5px', verticalAlign: 'middle' }}
+                                                    />
+                                                    :
+                                                    null
+                                                }
+                                            </div>
+                                            :
+                                            null
+                                        }
+                                    </div>
+                                </div>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        if ( window.hasOwnProperty( 'wpupg_admin' ) ) {
+            columns.push({
+                Header: __wprm( 'Grid Link' ),
+                id: 'wpupg_custom_link',
+                accessor: 'wpupg_custom_link',
+                width: 300,
+                Filter: (props) => (<TextFilter {...props}/>),
+                Cell: row => {
+                    return (
+                        <div className="wprm-manage-ingredients-link-container">
+                            <Icon
+                                type="pencil"
+                                title={ __wprm( 'Change Link' ) }
+                                onClick={() => {
+                                    const newLink = prompt( `${ __wprm( 'What do you want to be the new grid link for' ) } "${row.original.name}"?`, row.value );
+                                    if( false !== newLink ) {
+                                        if ( '' === newLink || 'http' === newLink.substring( 0, 4 ) || confirm( `"${newLink}" ${ __wprm( 'does not start with http:// or https:// as we would expect for a link. Are you sure you want to use this? Regular HTML code will not work here.' ) }` ) ) {
+                                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { wpupg_custom_link: newLink }).then(() => datatable.refreshData());   
+                                        }
+                                    }
+                                }}
+                            />
+                            {
+                                row.value
+                                ?
+                                <a href={ row.value } target="_blank">{ row.value }</a>
+                                :
+                                null
+                            }
+                        </div>
+                    )
+                },
+            });
+
+            columns.push({
+                Header: __wprm( 'Grid Image' ),
+                id: 'wpupg_custom_image',
+                accessor: 'wpupg_custom_image',
+                width: 110,
+                sortable: false,
+                Filter: ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%', fontSize: '1em' }}
+                        value={filter ? filter.value : 'all'}
+                    >
+                        <option value="all">{ __wprm( 'Show All' ) }</option>
+                        <option value="yes">{ __wprm( 'Has Image' ) }</option>
+                        <option value="no">{ __wprm( 'Does not have Image' ) }</option>
+                    </select>
+                ),
+                Cell: row => {
+                    const selectImage = (e) => {
+                        e.preventDefault();
+                                
+                        Media.selectImage((attachment) => {
+                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { wpupg_custom_image: attachment.id }).then(() => datatable.refreshData());
+                        });
+                    };
+
+                    return (
+                        <div className="wprm-manage-image-container">
+                            {
+                                row.value
+                                ?
+                                <div className="wprm-manage-image-preview">
+                                    <Tooltip content={ __wprm( 'Edit Image' ) }>
+                                        <img
+                                            src={ row.original.wpupg_custom_image_url }
+                                            width="80"
+                                            onClick={ selectImage }
+                                        />
+                                    </Tooltip>
+                                    <Icon
+                                        type="trash"
+                                        title={ __wprm( 'Remove Image' ) }
+                                        onClick={ () => {
+                                            Api.manage.updateTaxonomyMeta(datatable.props.options.id, row.original.term_id, { wpupg_custom_image: 0 }).then(() => datatable.refreshData());
+                                        } }
+                                    />
+                                </div>
+                                :
+                                <Icon
+                                    type="photo"
+                                    title={ __wprm( 'Add Image' ) }
+                                    onClick={ selectImage }
+                                />
+                            }
+                        </div>
+                    )
+                },
+            });
+        }
+
+        return columns;
+    }
+};

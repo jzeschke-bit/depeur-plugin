@@ -1,0 +1,23 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-collection-column-nutrition {
+        padding: 0 5px 5px 5px;
+
+        .wprmprc-collection-column-nutrition-header {
+            font-weight: bold;
+        }
+
+        .wprmprc-collection-column-nutrition-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .wprmprc-collection-column-nutrition-field-unit {
+                font-size: 0.8em;
+                opacity: 0.8;
+                margin-left: 2px;
+            }
+        }
+    }
+}

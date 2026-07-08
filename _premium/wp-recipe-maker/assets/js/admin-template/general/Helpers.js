@@ -1,0 +1,204 @@
+import Shortcodes from './shortcodes';
+
+const { shortcodeGroups, getShortcodeId } = Shortcodes;
+
+const colorPropertyToIconPropertyMap = {
+    icon_color: [ 'icon' ],
+    header_icon_color: [ 'header_icon' ],
+    link_icon_color: [ 'link_icon' ],
+    cook_mode_icon_color: [ 'cook_mode_icon' ],
+    products_icon_color: [ 'products_icon' ],
+    header_collapsible_icon_color: [ 'header_icon_collapsed', 'header_icon_expanded' ],
+    container_icon_color: [ 'container_icon_collapsed', 'container_icon_expanded' ],
+};
+
+export default {
+    parseCSS(template) {
+        // Handle case where template doesn't have style property yet (new blank templates)
+        if ( !template.style || !template.style.css ) {
+            return template.css || '';
+        }
+
+        let css = template.style.css;
+
+        // Reconstruct CSS with new value and comments.
+        if ( template.style.properties ) {
+            for ( let property of Object.values(template.style.properties) ) {
+                let fields = '';
+                Object.entries(property).forEach(([field, value]) => {    
+                    if ( ! ['id', 'name', 'default', 'value', 'options'].includes( field ) ) {
+                        fields = ` ${field}=${value}`;
+                    }
+                });
+
+                const replacement = `${property.value}; /*wprm_${property.id}${fields}*/`;
+                css = css.replace( new RegExp( `%wprm_${property.id}%\s*;`, 'g' ), replacement );
+            }
+        }
+
+        return css;
+    },
+    getShortcodeName(id) {
+        // Check for custom name in shortcodeGroups first
+        for (const groupKey in shortcodeGroups) {
+            const group = shortcodeGroups[groupKey];
+            const entry = group.shortcodes.find(entry => getShortcodeId(entry) === id);
+            if (entry && entry.name) {
+                return entry.name;
+            }
+        }
+
+        // Fall back to auto-generated name
+        let name = id;
+
+        name = name.replace('wprm-layout-', '');
+        name = name.replace('wprm-recipe-', '');
+        name = name.replace('wprm-', '');
+
+        name = name.replace(/-/g, ' ');
+        name = name.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+            return letter.toUpperCase();
+        });
+
+        return name;
+    },
+    getShortcodeAttributes(shortcode) {
+        let shortcode_atts = {};
+        let attributes = shortcode.match(/(\w+=\"[^\"]*?\"|\w+=\'[^\']*?\'|\w+=\w*)/gmi);
+
+        if (attributes) {
+            for (let i = 0; i < attributes.length; i++) {
+                let attribute = attributes[i];
+                let property = attribute.substring(0, attribute.indexOf('='));
+                let value = attribute.substring(attribute.indexOf('=') + 1);
+
+                // Trim value if necessary.
+                if ('"' === value[0] || "'" === value[0] ) {
+                    value = value.substr(1, value.length-2);
+                }
+
+                shortcode_atts[property] = value;
+            }
+        }
+
+        return shortcode_atts;
+    },
+    getFullShortcode(shortcode, withContent = false) {
+        let fullShortcode = '[' + shortcode.id;
+
+        // Add shortcode attributes.
+        for (let attribute in shortcode.attributes) {
+            if ( shortcode.attributes.hasOwnProperty(attribute) ) {
+                let value = shortcode.attributes[attribute];
+                
+                // Replace " and ] with HTML entity to prevent breaking shortcode.
+                value = value.replace(/"/gm, '&quot;');
+                value = value.replace(/\]/gm, '&#93;');
+                fullShortcode += ' ' + attribute + '="' + value + '"';
+            }
+        }
+
+        // Close shortcode.
+        fullShortcode += ']';
+
+        if ( withContent && false !== shortcode.content ) {
+            fullShortcode += shortcode.content;
+            fullShortcode += '[/' + shortcode.id + ']';
+        }
+
+        return fullShortcode;
+    },
+    dependencyMet(object, properties) {
+        let dependencyMet = true;
+
+        if (properties && object.hasOwnProperty('dependency')) {
+            let dependencies = object.dependency;
+            
+            // Make sure dependencies is an array.
+            if ( ! Array.isArray( dependencies ) ) {
+                dependencies = [dependencies];
+            }
+
+            // Check all dependencies.
+            const dependencyCompare = object.hasOwnProperty( 'dependency_compare' ) ? object.dependency_compare : 'AND';
+            let firstDependencyChecked = true;
+
+            for ( let dependency of dependencies ) {
+                if ( properties.hasOwnProperty(dependency.id) ) {
+                    let thisDependencyMet = false;
+                    const thisDependencyValue = properties[dependency.id].value;
+                    const thisDependencyType = dependency.hasOwnProperty('type') ? dependency.type : 'match';
+
+                    if ( 'inverse' == thisDependencyType ) {
+                        if ( Array.isArray( dependency.value ) ) {
+                            if ( ! dependency.value.includes( thisDependencyValue ) ) {
+                                thisDependencyMet = true;
+                            }
+                        } else {
+                            if ( thisDependencyValue != dependency.value ) {
+                                thisDependencyMet = true;
+                            }
+                        }
+                    } else if ( 'includes' == thisDependencyType ) {
+                        if ( thisDependencyValue.includes( dependency.value ) ) {
+                            thisDependencyMet = true;
+                        }
+                    } else {
+                        if ( Array.isArray( dependency.value ) ) {
+                            if ( dependency.value.includes( thisDependencyValue ) ) {
+                                thisDependencyMet = true;
+                            }
+                        } else {
+                            if ( thisDependencyValue == dependency.value ) {
+                                thisDependencyMet = true;
+                            }
+                        }
+                    }
+
+                    // Combine multiple dependencies.
+                    if ( 'OR' === dependencyCompare ) {
+                        if ( firstDependencyChecked ) {
+                            dependencyMet = false;
+                            firstDependencyChecked = false;
+                        }
+
+                        dependencyMet = dependencyMet || thisDependencyMet;
+                    } else {
+                        dependencyMet = dependencyMet && thisDependencyMet;
+                    }
+                }
+            }
+        }
+
+        return dependencyMet;
+    },
+    isKeywordColorIcon(icon) {
+        if ( ! icon || 'string' !== typeof icon ) {
+            return false;
+        }
+
+        return !! (
+            wprm_admin_template.icons.hasOwnProperty(icon)
+            && icon.toLowerCase().endsWith('-color')
+        );
+    },
+    shouldHideColorProperty(property, properties) {
+        if ( ! property || 'color' !== property.type || ! properties ) {
+            return false;
+        }
+
+        const linkedIconProperties = colorPropertyToIconPropertyMap[ property.id ];
+
+        if ( ! linkedIconProperties ) {
+            return false;
+        }
+
+        return linkedIconProperties.every((iconPropertyId) => {
+            if ( ! properties.hasOwnProperty(iconPropertyId) ) {
+                return false;
+            }
+
+            return this.isKeywordColorIcon(properties[iconPropertyId].value);
+        });
+    },
+};

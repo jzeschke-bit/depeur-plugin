@@ -1,0 +1,35 @@
+.wprm-recipe-tag-term {
+    display: inline-flex;
+    align-items: center;
+
+    margin: 5px;
+
+    .wprm-recipe-tag-term-image {
+        display: flex;
+    }
+
+    &.wprm-recipe-tag-image-align-left {
+        flex-direction: row;
+        .wprm-recipe-tag-term-image {
+            margin-right: 5px;
+        }
+    }
+    &.wprm-recipe-tag-image-align-right {
+        flex-direction: row-reverse;
+        .wprm-recipe-tag-term-image {
+            margin-left: 5px;
+        }
+    }
+    &.wprm-recipe-tag-image-align-top {
+        flex-direction: column;
+        .wprm-recipe-tag-term-image {
+            margin-bottom: 5px;
+        }
+    }
+    &.wprm-recipe-tag-image-align-bottom {
+        flex-direction: column-reverse;
+        .wprm-recipe-tag-term-image {
+            margin-top: 5px;
+        }
+    }
+}

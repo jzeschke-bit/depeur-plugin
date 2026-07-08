@@ -1,0 +1,1023 @@
+@use "sass:color";
+
+$ai-purple: #8e44ad;
+$ai-purple-light: color.scale($ai-purple, $lightness: 92%);
+$border-color: #dcdcde;
+$card-bg: #fff;
+$selected-blue: #2271b1;
+
+.wprm-ai-generate-ideas {
+    margin-top: 20px;
+    max-width: 800px;
+}
+
+.wprm-ai-assistant-import-with-ai {
+    margin-top: 20px;
+    max-width: 800px;
+}
+
+.wprm-ai-assistant-tool-card {
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .wprm-admin-modal-ai-text-import-container {
+        padding: 24px 24px 20px;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .wprm-admin-modal-field-container {
+        display: block;
+        width: 100%;
+    }
+
+    .wprm-admin-modal-field-label {
+        display: block;
+        width: auto;
+        margin: 0 0 8px;
+        padding: 0;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .wprm-admin-modal-field {
+        width: 100%;
+        margin: 0;
+    }
+
+    textarea {
+        display: block;
+        width: 100%;
+        max-width: none;
+        margin-top: 0;
+        box-sizing: border-box;
+    }
+
+    .wprm-ai-generate-ideas-actions {
+        padding: 0 24px 24px;
+        margin-top: 0;
+    }
+}
+
+.wprm-ai-assistant-import-error {
+    margin: 0 24px 24px;
+}
+
+.wprm-ai-review {
+    margin-top: 20px;
+    max-width: 1100px;
+}
+
+.wprm-ai-review-overview,
+.wprm-ai-review-empty,
+.wprm-ai-review-card,
+.wprm-ai-review .wprm-ai-generate-ideas-generating {
+    margin-top: 20px;
+}
+
+.wprm-ai-review-overview,
+.wprm-ai-review-card {
+    padding: 24px;
+}
+
+.wprm-ai-review-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .wprm-ai-generate-ideas-actions {
+        padding: 0;
+        margin-top: 0;
+    }
+}
+
+.wprm-ai-review-empty {
+    padding: 24px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.wprm-ai-review-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+
+    h3 {
+        margin: 0 0 12px 0;
+        font-size: 20px;
+
+        .wprm-admin-icon {
+            cursor: pointer;
+            opacity: 0.4;
+            margin-left: 4px;
+            margin-top: 0;
+            vertical-align: text-bottom;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    p {
+        margin: 0;
+        color: #50575e;
+    }
+}
+
+.wprm-ai-review-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f0f6fc;
+    color: #0a4b78;
+    text-transform: capitalize;
+
+    &.is-ready_to_apply,
+    &.is-no_change {
+        background: #edf7ed;
+        color: #285c2d;
+    }
+
+    &.is-needs_review,
+    &.is-no_match,
+    &.is-error {
+        background: #fcf0f1;
+        color: #8a2424;
+    }
+
+    &.is-suggest_update,
+    &.is-processing,
+    &.is-queued {
+        background: #fff6e5;
+        color: #8c5200;
+    }
+}
+
+.wprm-ai-review-ingredients {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.wprm-ai-review-ingredient-group {
+    &:not(:first-child) {
+        margin-top: 12px;
+    }
+}
+
+.wprm-ai-review-group-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #50575e;
+
+    &.is-needs_review,
+    &.is-no_match,
+    &.is-error {
+        color: #8a2424;
+    }
+
+    &.is-approved {
+        color: #285c2d;
+    }
+
+    &.is-excluded {
+        color: #50575e;
+    }
+}
+
+.wprm-ai-review-ingredient {
+    border-top: 1px solid $border-color;
+
+    &:last-child {
+        border-bottom: 1px solid $border-color;
+    }
+
+    &.is-dirty {
+        background: #fff8e1;
+        margin-left: -8px;
+        margin-right: -8px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-left: 3px solid #f0b849;
+    }
+}
+
+.wprm-ai-review-ingredient-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    min-height: 36px;
+}
+
+.wprm-ai-review-status-dot {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 50%;
+    background: #f0f6fc;
+    border: 2px solid #0a4b78;
+
+    &.is-ready_to_apply,
+    &.is-no_change,
+    &.is-approved {
+        background: #edf7ed;
+        border-color: #285c2d;
+    }
+
+    &.is-needs_review,
+    &.is-no_match,
+    &.is-error {
+        background: #fcf0f1;
+        border-color: #8a2424;
+    }
+
+    &.is-suggest_update {
+        background: #fff6e5;
+        border-color: #8c5200;
+    }
+}
+
+.wprm-ai-review-ingredient-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.has-details {
+        cursor: pointer;
+
+        &:hover {
+            color: $ai-purple;
+        }
+    }
+}
+
+.wprm-ai-review-inline-match {
+    flex: 0 1 200px;
+    min-width: 120px;
+    font-size: 13px;
+}
+
+.wprm-ai-review-inline-amount {
+    flex: 0 0 60px;
+    width: 60px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.wprm-ai-review-inline-unit {
+    flex: 0 0 80px;
+    width: 80px;
+    font-size: 13px;
+}
+
+.wprm-ai-review-inline-exclude {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    color: #50575e;
+    border-radius: 4px;
+
+    .wprm-admin-icon {
+        display: flex;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &:hover {
+        color: #8a2424;
+        background: #fcf0f1;
+    }
+
+    &.is-excluded {
+        color: #8a2424;
+
+        &:hover {
+            color: #285c2d;
+            background: #edf7ed;
+        }
+    }
+}
+
+.wprm-ai-review-inline-toggle {
+    flex: 0 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 10px;
+    color: #50575e;
+    line-height: 1;
+
+    &:hover {
+        color: #1e1e1e;
+    }
+}
+
+.wprm-ai-review-ingredient-details {
+    padding: 4px 0 10px 22px;
+}
+
+.wprm-ai-review-help {
+    margin: 4px 0 0;
+    color: #50575e;
+    font-size: 12px;
+}
+
+.wprm-ai-review-save-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid $border-color;
+}
+
+.wprm-ai-review-comparison {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    overflow-x: auto;
+
+    &.is-single {
+        .wprm-ai-review-label {
+            max-width: 400px;
+        }
+    }
+}
+
+.wprm-ai-conversion-comparison {
+    .wprm-ai-review-label {
+        max-width: none;
+    }
+
+    thead tr {
+        font-weight: 600;
+        border-bottom: 2px solid $border-color;
+    }
+}
+
+.wprm-ai-review-label {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.wprm-ai-review-label-title {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #50575e;
+    margin-bottom: 8px;
+}
+
+.wprm-ai-review-label table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.wprm-ai-review-label tr {
+    border-top: 1px solid $border-color;
+}
+
+.wprm-ai-review-label tr.is-changed {
+    background: #fff8e1;
+}
+
+.wprm-ai-review-label td {
+    padding: 4px 6px;
+}
+
+.wprm-ai-review-label-name {
+    font-weight: 600;
+}
+
+.wprm-ai-review-label-value {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.wprm-ai-review-label-daily {
+    text-align: right;
+    white-space: nowrap;
+    color: #50575e;
+    font-size: 12px;
+    min-width: 40px;
+}
+
+.wprm-ai-review-details-toggle {
+    display: inline-block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: $selected-blue;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.wprm-ai-review-apply-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid $border-color;
+}
+
+.wprm-ai-unit-conversion-review-inline-decision {
+    flex: 0 1 160px;
+    min-width: 110px;
+    font-size: 13px;
+}
+
+.wprm-ai-unit-conversion-review-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 18px;
+    cursor: pointer;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+}
+
+.wprm-ai-unit-conversion-review-toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #c3c4c7;
+    border-radius: 18px;
+    transition: background 0.2s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 14px;
+        width: 14px;
+        left: 2px;
+        bottom: 2px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+    }
+
+    input:checked + & {
+        background: #285c2d;
+
+        &::before {
+            transform: translateX(16px);
+        }
+    }
+
+    input:disabled + & {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.wprm-ai-unit-conversion-review-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 2px;
+    color: #50575e;
+    font-size: 12px;
+}
+
+.wprm-ai-unit-conversion-review-warning {
+    color: #8a2424;
+    font-weight: 600;
+}
+
+// Header
+.wprm-ai-generate-ideas-header {
+    margin-bottom: 24px;
+
+    h2 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        line-height: 1.3;
+    }
+
+    p {
+        margin: 0;
+        color: #50575e;
+        max-width: 680px;
+    }
+}
+
+// Configure step
+.wprm-ai-generate-ideas-configure {
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.wprm-ai-generate-ideas-field {
+    margin-bottom: 20px;
+
+    > label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+}
+
+.wprm-ai-generate-ideas-field-header {
+    margin-bottom: 12px;
+
+    h3 {
+        margin: 0 0 6px 0;
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    p {
+        margin: 0;
+        color: #50575e;
+        max-width: 680px;
+    }
+}
+
+// Pill selectors
+.wprm-ai-generate-ideas-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.wprm-ai-pill {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid $border-color;
+    border-radius: 999px;
+    background: $card-bg;
+    color: #1e1e1e;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.4;
+
+    &:hover {
+        border-color: $ai-purple;
+        color: $ai-purple;
+        background: $ai-purple-light;
+    }
+
+    &.is-selected {
+        background: $ai-purple;
+        border-color: $ai-purple;
+        color: #fff;
+
+        &:hover {
+            background: color.adjust($ai-purple, $lightness: -8%);
+            border-color: color.adjust($ai-purple, $lightness: -8%);
+            color: #fff;
+        }
+    }
+}
+
+// Context option radio cards
+.wprm-ai-generate-ideas-context-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wprm-ai-context-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background: $card-bg;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+        border-color: #a7aaad;
+    }
+
+    &.is-selected {
+        border-color: $ai-purple;
+        box-shadow: 0 0 0 1px $ai-purple;
+    }
+
+    input[type="radio"] {
+        margin: 2px 0 0 0;
+        flex-shrink: 0;
+    }
+}
+
+.wprm-ai-context-option-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+        font-size: 13px;
+    }
+
+    span {
+        font-size: 12px;
+        color: #757575;
+        line-height: 1.4;
+    }
+}
+
+// List note
+.wprm-ai-generate-ideas-list-note {
+    margin: 0;
+    padding: 10px 14px;
+    background: $ai-purple-light;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #50575e;
+    line-height: 1.5;
+}
+
+// Example prompts
+.wprm-ai-generate-ideas-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.wprm-ai-example-prompt {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px dashed #c3c4c7;
+    border-radius: 6px;
+    background: #f6f7f7;
+    color: #50575e;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1.4;
+    text-align: left;
+
+    &:hover {
+        border-color: $ai-purple;
+        border-style: solid;
+        color: $ai-purple;
+        background: $ai-purple-light;
+    }
+}
+
+// Text inputs
+.wprm-ai-generate-ideas-textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 13px;
+    box-sizing: border-box;
+
+    resize: vertical;
+    min-height: 60px;
+
+    &:focus {
+        border-color: $selected-blue;
+        box-shadow: 0 0 0 1px $selected-blue;
+        outline: none;
+    }
+}
+
+// Action buttons
+.wprm-ai-generate-ideas-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.wprm-button-ai {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+.wprm-ai-assistant-icon {
+        width: 14px;
+        height: 14px;
+        flex: 0 0 14px;
+        color: currentColor;
+    }
+}
+
+// Generating step
+.wprm-ai-generate-ideas-generating {
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 48px 24px;
+    text-align: center;
+
+    .wprm-admin-loader {
+        width: 24px;
+        height: 24px;
+        border-width: 3px;
+        border-top-color: $ai-purple;
+        margin: 0 auto 16px;
+    }
+
+    p {
+        margin: 0 0 4px 0;
+        font-size: 15px;
+    }
+
+    .wprm-ai-generate-ideas-generating-note {
+        color: #757575;
+        font-size: 13px;
+    }
+}
+
+// Review step - context summary
+.wprm-ai-generate-ideas-context-summary {
+    background: #f6f7f7;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.wprm-ai-generate-ideas-context-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wprm-ai-generate-ideas-context-summary-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.wprm-ai-generate-ideas-context-summary-label {
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.wprm-ai-generate-ideas-context-summary-separator {
+    color: #a7aaad;
+}
+
+.wprm-ai-generate-ideas-context-summary-prompt {
+    color: #50575e;
+    font-style: italic;
+}
+
+.wprm-ai-generate-ideas-context-summary-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.wprm-ai-generate-ideas-context-recipes {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid $border-color;
+
+    p {
+        margin: 0 0 8px 0;
+        color: #50575e;
+        font-size: 13px;
+    }
+
+    ul {
+        margin: 0 0 0 16px;
+        padding: 0;
+        columns: 2;
+        column-gap: 24px;
+
+        li {
+            font-size: 13px;
+            margin-bottom: 2px;
+            color: #1e1e1e;
+        }
+    }
+}
+
+.wprm-ai-generate-ideas-review-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    > span {
+        font-size: 13px;
+        color: #50575e;
+        margin-right: 4px;
+    }
+}
+
+.wprm-ai-generate-ideas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wprm-ai-generate-ideas-card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background: #f9f9f9;
+    }
+
+    &.is-selected {
+        background: $ai-purple-light;
+    }
+}
+
+.wprm-ai-generate-ideas-card-check {
+    padding-top: 1px;
+
+    input[type="checkbox"] {
+        margin: 0;
+    }
+}
+
+.wprm-ai-generate-ideas-card-content {
+    flex: 1;
+    min-width: 0;
+
+    > strong {
+        font-size: 14px;
+        display: block;
+    }
+}
+
+.wprm-ai-generate-ideas-card-summary {
+    margin: 6px 0 0 0;
+    font-size: 13px;
+    color: #50575e;
+    line-height: 1.5;
+}
+
+.wprm-ai-generate-ideas-card-reason {
+    margin: 6px 0 0 0;
+    font-size: 12px;
+    color: $ai-purple;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.wprm-ai-generate-ideas-card-recipes {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+
+    .wprm-ai-generate-ideas-card-recipes-label {
+        font-weight: 600;
+        color: #1e1e1e;
+        margin-right: 4px;
+    }
+
+    .wprm-ai-generate-ideas-card-recipes-list {
+        color: #50575e;
+    }
+
+    &.wprm-ai-generate-ideas-card-suggestions {
+        .wprm-ai-generate-ideas-card-recipes-label {
+            color: $ai-purple;
+        }
+
+        .wprm-ai-generate-ideas-card-recipes-list {
+            color: #757575;
+            font-style: italic;
+        }
+    }
+}
+
+// Loading more
+.wprm-ai-generate-ideas-loading-more {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 16px 0;
+    color: #757575;
+    font-size: 13px;
+
+    .wprm-admin-loader {
+        border-top-color: $ai-purple;
+    }
+}
+
+// Imported step
+.wprm-ai-generate-ideas-imported {
+    background: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.wprm-ai-generate-ideas-imported-summary {
+    margin-bottom: 8px;
+
+    > p {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+    }
+}
+
+.wprm-ai-generate-ideas-duplicates {
+    background: #fcf0f1;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+
+    p {
+        margin: 0 0 6px 0;
+        font-size: 13px;
+    }
+
+    ul {
+        margin: 0 0 8px 16px;
+        padding: 0;
+
+        li {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+    }
+
+    .wprm-ai-generate-ideas-duplicates-note {
+        color: #757575;
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+}
+
+// Back link
+.wprm-ai-assistant-back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    text-decoration: none;
+    font-size: 13px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

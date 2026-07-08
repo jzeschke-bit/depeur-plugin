@@ -1,0 +1,141 @@
+:root {
+    --wprm-list-checkbox-size: 18px;
+    --wprm-list-checkbox-left-position: 0px;
+    --wprm-list-checkbox-top-position: 0px;
+    --wprm-list-checkbox-background: #ffffff;
+    --wprm-list-checkbox-borderwidth: 1px;
+    --wprm-list-checkbox-border-style: solid;
+    --wprm-list-checkbox-border-color: inherit;
+    --wprm-list-checkbox-border-radius: 0px;
+    --wprm-list-checkbox-check-width: 2px;
+    --wprm-list-checkbox-check-color: inherit;
+}
+
+.wprm-checkbox-container {
+    margin-left: -16px;
+}
+.rtl .wprm-checkbox-container {
+    margin-left: 0;
+    margin-right: -16px;
+}
+
+.wprm-checkbox-container input[type="checkbox"] {
+    width: 16px !important;
+    margin: 0 !important;
+    opacity: 0;
+}
+
+.wprm-checkbox-container label.wprm-checkbox-label {
+    position: relative;
+    display: inline !important;
+    margin: 0 !important;
+
+    left: 0;
+    padding-left: 26px;
+}
+
+.wprm-checkbox-container label::before,
+.wprm-checkbox-container label::after {
+    position: absolute;
+    content: "";
+    
+    display: inline-block;
+}
+
+.rtl ​.wprm-checkbox-container label::before {
+    right: var(--wprm-list-checkbox-left-position);
+}
+.rtl .wprm-checkbox-container label::after {
+    right: calc( var(--wprm-list-checkbox-left-position) + var(--wprm-list-checkbox-size) / 4 );
+}
+
+.wprm-checkbox-container label::before {
+    height: var(--wprm-list-checkbox-size);
+    width: var(--wprm-list-checkbox-size);
+
+    background-color: var(--wprm-list-checkbox-background);
+    
+    border-width: var(--wprm-list-checkbox-borderwidth);
+    border-style: var(--wprm-list-checkbox-border-style);
+    border-color: var(--wprm-list-checkbox-border-color);
+    border-radius: var(--wprm-list-checkbox-border-radius);
+
+    left: var(--wprm-list-checkbox-left-position);
+    top: var(--wprm-list-checkbox-top-position);
+}
+.wprm-checkbox-container label::after {
+    height: calc( var(--wprm-list-checkbox-size) / 4 );
+    width: calc( var(--wprm-list-checkbox-size) / 2 );
+
+    border-left: var(--wprm-list-checkbox-check-width) solid;
+    border-bottom: var(--wprm-list-checkbox-check-width) solid;
+    border-color: var(--wprm-list-checkbox-check-color);
+
+    transform: rotate(-45deg);
+    
+    left: calc( var(--wprm-list-checkbox-left-position) + var(--wprm-list-checkbox-size) / 4 );
+    top: calc( var(--wprm-list-checkbox-top-position) + var(--wprm-list-checkbox-size) / 4 );
+}
+
+.wprm-checkbox-container input[type="checkbox"] + label::after {
+    content: none;
+}
+.wprm-checkbox-container input[type="checkbox"]:checked + label::after {
+    content: "";
+}
+.wprm-checkbox-container input[type="checkbox"]:focus + label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+}
+
+
+
+// // Modern Template
+.wprm-recipe-equipment li,
+.wprm-recipe-ingredients li,
+.wprm-recipe-instructions li {
+    position: relative;
+
+    .wprm-checkbox-container {
+        display: inline-block;
+        position: absolute;
+        left: -32px;
+        top: 0.25em;
+        line-height: 0.9em;
+    }
+
+    &.wprm-checkbox-is-checked {
+        text-decoration: line-through;
+
+        .wprm-recipe-instruction-ingredient {
+            text-decoration: line-through;
+        }
+    }
+}
+
+.rtl {
+    .wprm-recipe-equipment li,
+    .wprm-recipe-ingredients li,
+    .wprm-recipe-instructions li {
+        .wprm-checkbox-container {
+            left: inherit;
+            right: -32px;
+        }
+    }
+}
+
+// Legacy Template
+.wprm-list-checkbox-container {
+    &:before {
+        display: none !important;
+    }
+
+    &.wprm-list-checkbox-checked {
+        text-decoration: line-through;
+    }
+
+    .wprm-list-checkbox {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

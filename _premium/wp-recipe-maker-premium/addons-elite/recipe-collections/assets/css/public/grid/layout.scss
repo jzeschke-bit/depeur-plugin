@@ -1,0 +1,35 @@
+@use "sass:meta";
+:root {
+    --wprm-collections-font-size: 16px;
+    --wprm-collections-column-size: 250px;
+
+    --wprm-collections-base-color: black;
+    --wprm-collections-header-color: --wprm-collections-base-color;
+    --wprm-collections-header-border: #cccccc;
+
+    --wprm-collections-item-background: white;
+    --wprm-collections-item-color: --wprm-collections-base-color;
+    --wprm-collections-item-border: #cccccc;
+    --wprm-collections-item-image-size: 75px;
+
+    --wprm-collections-servings-background: #eeeeee;
+    --wprm-collections-servings-color: --wprm-collections-base-color;
+
+    --wprm-collections-nutrition-background: #fafafa;
+    --wprm-collections-nutrition-color: --wprm-collections-base-color;
+    --wprm-collections-nutrition-border: #cccccc;
+
+    --wprm-collections-action-color: --wprm-collections-base-color;
+}
+
+@include meta.load-css('actions');
+@include meta.load-css('app');
+@include meta.load-css('collection');
+@include meta.load-css('edit-list');
+@include meta.load-css('group');
+@include meta.load-css('header');
+@include meta.load-css('item');
+@include meta.load-css('modal');
+@include meta.load-css('nutrition');
+@include meta.load-css('overview');
+@include meta.load-css('shopping-list');

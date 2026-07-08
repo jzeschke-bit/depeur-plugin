@@ -1,0 +1,41 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    color: variables.$color-text;
+
+    .wprmprc-container-header {
+        font-size: 1.3em;
+        line-height: 1.3em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .wprmprc-header-link {
+        text-decoration: underline;
+        opacity: variables.$link-opacity;
+    
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+    
+    .wprmprc-header-link-separator {
+        opacity: variables.$link-opacity;
+        font-size: 0.8em;
+        display: inline-block;
+        margin: 0 5px;
+    }
+    
+    .wprmprc-recipe {
+        font-size: 1.2em;
+    }
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+    .wprm-recipe-collections-layout-classic {
+        input {
+            font-size: 16px !important;
+        }
+    }
+  }

@@ -1,0 +1,95 @@
+.wprm-admin-modal-field-equipment-affiliate-edit-container {
+    padding: 10px;
+    overflow: scroll;
+
+    .wprm-admin-modal-field-equipment-affiliate-link-count {
+        font-size: 12px;
+        font-style: italic;
+        color: darkred;
+    }
+
+    .wprm-admin-modal-field-equipment-affiliate-link-container {
+        input {
+            margin: 5px 0;
+        }
+    }
+
+    .wprm-admin-modal-field-equipment-affiliate-link-container,
+    .wprm-admin-modal-field-equipment-affiliate-image-container,
+    .wprm-admin-modal-field-equipment-affiliate-html-container {
+        min-height: 39px;
+        margin-bottom: 20px;
+
+        .wprm-admin-modal-field-equipment-affiliate-name {
+            font-size: 16px;
+        }
+    }
+
+    .wprm-admin-modal-field-equipment-affiliate-image {
+        display: flex;
+        align-items: center;
+
+        .wprm-admin-icon {
+            margin-right: 5px;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 50px;
+        }
+    }
+}
+
+@media screen and (min-width: 782px) {
+    .wprm-admin-modal-field-equipment-affiliate-edit-container {
+        .wprm-admin-modal-field-equipment-affiliate-link-container {
+            input {
+                flex: 1;
+                margin: 0 5px;
+            }
+        }
+
+        .wprm-admin-modal-field-equipment-affiliate-html-container {
+            .wprm-admin-modal-field-equipment-affiliate-html {
+                flex: 1;
+                display: flex;
+
+                textarea {
+                    flex-basis: 70%;
+                }
+                .wprm-admin-modal-field-equipment-affiliate-html-preview {
+                    flex-basis: 30%;
+                    margin: 10px;
+                    margin-right: 0;
+                    overflow: hidden;
+                }
+            }
+        }
+
+        .wprm-admin-modal-field-equipment-affiliate-link-container,
+        .wprm-admin-modal-field-equipment-affiliate-image-container,
+        .wprm-admin-modal-field-equipment-affiliate-html-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+
+            .wprm-admin-modal-field-equipment-affiliate-name {
+                font-size: 14px;
+                flex: 0 0 200px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .wprm-admin-modal-field-equipment-affiliate-edit-container {
+        .wprm-admin-modal-field-equipment-affiliate-link-container,
+        .wprm-admin-modal-field-equipment-affiliate-image-container,
+        .wprm-admin-modal-field-equipment-affiliate-html-container {
+            .wprm-admin-modal-field-equipment-affiliate-name {
+                flex: 0 0 250px;
+            }
+        }
+    }
+}

@@ -1,0 +1,1692 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Recipe Maker Premium\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-22 09:54+0000\n"
+"PO-Revision-Date: 2020-09-28 11:45+0200\n"
+"Last-Translator: \n"
+"Language-Team: Español\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"X-Loco-Version: 2.4.0; wp-5.4.1\n"
+
+#: includes/class-wp-recipe-maker-premium.php:136
+msgid ""
+"The plugin has not been loaded because it requires the following plugin(s) "
+"to be activated:"
+msgstr ""
+"Este plugin no ha sido cargado porque requiere tener activados los "
+"siguientes plugins: "
+
+#: includes/class-wp-recipe-maker-premium.php:150
+msgid ""
+"The plugin has not been loaded because it requires at least the following "
+"plugin versions:"
+msgstr ""
+"Este plugin no ha sido activado porque requiere las versiones de los "
+"siguentes plugins:"
+
+#: includes/public/class-wprmp-nutrition.php:198
+msgid "Serving"
+msgstr "Ración"
+
+#: includes/public/class-wprmp-nutrition.php:205
+#: templates/public/nutrition-label.php:78
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:13
+msgid "Calories"
+msgstr "Calorías"
+
+#: includes/public/class-wprmp-nutrition.php:213
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:14
+msgid "Carbohydrates"
+msgstr "Carbohidratos"
+
+#: includes/public/class-wprmp-nutrition.php:221
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:15
+msgid "Protein"
+msgstr "Proteina"
+
+#: includes/public/class-wprmp-nutrition.php:229
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:16
+msgid "Fat"
+msgstr "Grasa"
+
+#: includes/public/class-wprmp-nutrition.php:237
+msgid "Saturated Fat"
+msgstr "Grasa saturada"
+
+#: includes/public/class-wprmp-nutrition.php:245
+msgid "Polyunsaturated Fat"
+msgstr "Grasa polinsaturada"
+
+#: includes/public/class-wprmp-nutrition.php:252
+msgid "Monounsaturated Fat"
+msgstr "Grasa monosaturada"
+
+#: includes/public/class-wprmp-nutrition.php:259
+msgid "Trans Fat"
+msgstr "Grasa Transgénica"
+
+#: includes/public/class-wprmp-nutrition.php:266
+msgid "Cholesterol"
+msgstr "Colesterol"
+
+#: includes/public/class-wprmp-nutrition.php:274
+msgid "Sodium"
+msgstr "Sodio"
+
+#: includes/public/class-wprmp-nutrition.php:282
+msgid "Potassium"
+msgstr "Potasio"
+
+#: includes/public/class-wprmp-nutrition.php:290
+msgid "Fiber"
+msgstr "Fibra"
+
+#: includes/public/class-wprmp-nutrition.php:298
+msgid "Sugar"
+msgstr "Azúcar"
+
+#: includes/public/class-wprmp-nutrition.php:306
+msgid "Vitamin A"
+msgstr "Vitamina A"
+
+#: includes/public/class-wprmp-nutrition.php:314
+msgid "Vitamin B1"
+msgstr "Vitamina B1"
+
+#: includes/public/class-wprmp-nutrition.php:322
+msgid "Vitamin B2"
+msgstr "Vitamina B2"
+
+#: includes/public/class-wprmp-nutrition.php:330
+msgid "Vitamin B3"
+msgstr "Vitamina B3"
+
+#: includes/public/class-wprmp-nutrition.php:338
+msgid "Vitamin B5"
+msgstr "Vitamina B5"
+
+#: includes/public/class-wprmp-nutrition.php:346
+msgid "Vitamin B6"
+msgstr "Vitamina B6"
+
+#: includes/public/class-wprmp-nutrition.php:354
+msgid "Vitamin B12"
+msgstr "Vitamina B12"
+
+#: includes/public/class-wprmp-nutrition.php:362
+msgid "Vitamin C"
+msgstr "Vitamina C"
+
+#: includes/public/class-wprmp-nutrition.php:370
+msgid "Vitamin D"
+msgstr "Vitamina D"
+
+#: includes/public/class-wprmp-nutrition.php:378
+msgid "Vitamin E"
+msgstr "Vitamina E"
+
+#: includes/public/class-wprmp-nutrition.php:386
+msgid "Vitamin K"
+msgstr "Vitamina K"
+
+#: includes/public/class-wprmp-nutrition.php:394
+msgid "Calcium"
+msgstr "Calcio"
+
+#: includes/public/class-wprmp-nutrition.php:402
+msgid "Copper"
+msgstr "Cobre"
+
+#: includes/public/class-wprmp-nutrition.php:410
+msgid "Folate"
+msgstr "Folato"
+
+#: includes/public/class-wprmp-nutrition.php:418
+msgid "Iron"
+msgstr "Hierro"
+
+#: includes/public/class-wprmp-nutrition.php:426
+msgid "Manganese"
+msgstr "Manganesio"
+
+#: includes/public/class-wprmp-nutrition.php:434
+msgid "Magnesium"
+msgstr "Magnesio"
+
+#: includes/public/class-wprmp-nutrition.php:442
+msgid "Phosphorus"
+msgstr "Fósforo"
+
+#: includes/public/class-wprmp-nutrition.php:450
+msgid "Selenium"
+msgstr "Selenio"
+
+#: includes/public/class-wprmp-nutrition.php:458
+msgid "Zinc"
+msgstr "Zinc"
+
+#: includes/public/class-wprmp-assets.php:83
+msgid "Click to Start Timer"
+msgstr "Hacer click para comenzar el temporizador"
+
+#: includes/public/class-wprmp-assets.php:94
+msgid "The image file is too large"
+msgstr "La imagen es muy grande"
+
+#: includes/public/class-wprmp-assets.php:95
+msgid "Drop an image"
+msgstr "Soltar una imagen"
+
+#: templates/public/nutrition-label.php:65
+#: addons-elite/recipe-collections/templates/translations.php:213
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:226
+msgid "Nutrition Facts"
+msgstr "Valores nutricionales"
+
+#: templates/public/nutrition-label.php:69
+msgid "Amount Per Serving"
+msgstr "Cantidad de la ración"
+
+#: templates/public/nutrition-label.php:80
+msgid "Calories from Fat"
+msgstr "Calorías provenientes de grasas"
+
+#: templates/public/nutrition-label.php:86
+msgid "% Daily Value"
+msgstr "% Diario recomendado"
+
+#: templates/admin/settings/license.php:21
+msgid "Warning: the license is currently inactive."
+msgstr "Cuidad: la licencia actualmente no está activa"
+
+#: templates/admin/settings/license.php:23
+msgid "Your license key has expired. Renew to keep getting updates."
+msgstr ""
+"Su licencia ha caducado.  Renueve para poder seguir recibiendo "
+"actualizaciones"
+
+#: templates/admin/settings/license.php:25
+msgid ""
+"Your license key is currently active. Fill in a blank key to deactivate."
+msgstr ""
+"Su licencia está actualmente activa.  Rellene el campo en blanco para "
+"desactivarla"
+
+#: templates/admin/settings/license.php:39
+msgid "License Key"
+msgstr "Código de licencia"
+
+#: templates/admin/settings/license.php:40
+msgid ""
+"You can find your license key by logging into your account on our website."
+msgstr ""
+"Puede encontrar la clave de su licencia accediendo a su cuenta en nuestra "
+"página."
+
+#: templates/admin/settings/license_invalid.php:17
+msgid "Activate your license key to receive automatic updates."
+msgstr "Active su licencia para recibir actualizaciones automáticas"
+
+#: templates/admin/settings/license_invalid.php:17
+msgid "Get a License"
+msgstr "Obtener licencia"
+
+#: templates/admin/settings/license_invalid.php:19
+msgid "Your license key"
+msgstr "Clave de su licencia"
+
+#: templates/admin/settings/license_invalid.php:20
+msgid "Activate now"
+msgstr "Activar ahora"
+
+#: templates/admin/settings/license_expired.php:17
+msgid "Renew your license key to keep receiving updates."
+msgstr "Renueve su licencia para seguir recibiendo actualizaciones."
+
+#: templates/admin/settings/license_expired.php:19
+msgid "Renew now"
+msgstr "Renovar ahora"
+
+#: addons-elite/recipe-collections/templates/translations.php:13
+msgid "Your Collections"
+msgstr "Sus colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:14
+msgid "Editing User"
+msgstr "Editar usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:15
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: addons-elite/recipe-collections/templates/translations.php:16
+msgid "Add Item"
+msgstr "Añadir item"
+
+#: addons-elite/recipe-collections/templates/translations.php:17
+msgid "Set a new amount for this ingredient:"
+msgstr "Poner una nueva cantidad para este ingrediente:"
+
+#: addons-elite/recipe-collections/templates/translations.php:18
+msgid "Set the number of servings"
+msgstr "Indicar número de raciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:19
+msgid "Save to my Collections"
+msgstr "Guardar a mis colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:20
+msgid "Add Column"
+msgstr "Añadir columna"
+
+#: addons-elite/recipe-collections/templates/translations.php:21
+msgid "Edit Columns"
+msgstr "Editar columnas"
+
+#: addons-elite/recipe-collections/templates/translations.php:22
+msgid "Add Group"
+msgstr "Añadir grupo"
+
+#: addons-elite/recipe-collections/templates/translations.php:23
+msgid "Edit Groups"
+msgstr "Editar grupos"
+
+#: addons-elite/recipe-collections/templates/translations.php:24
+msgid "Remove Items"
+msgstr "Quitar Items"
+
+#: addons-elite/recipe-collections/templates/translations.php:25
+msgid "Columns & Groups"
+msgstr "Columnas y grupos"
+
+#: addons-elite/recipe-collections/templates/translations.php:26
+msgid "Hide Nutrition Facts"
+msgstr "No mostar Valores Nutricionales"
+
+#: addons-elite/recipe-collections/templates/translations.php:27
+msgid "Show Nutrition Facts"
+msgstr "Mostrar Valores Nutricionales"
+
+#: addons-elite/recipe-collections/templates/translations.php:28
+msgid "Print Collection"
+msgstr "Imprimir colección"
+
+#: addons-elite/recipe-collections/templates/translations.php:29
+msgid "Print Recipes"
+msgstr "Imprimir recetas"
+
+#: addons-elite/recipe-collections/templates/translations.php:30
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:287
+msgid "Shopping List"
+msgstr "Lista de la compra"
+
+#: addons-elite/recipe-collections/templates/translations.php:31
+msgid "Stop Removing Items"
+msgstr "Dejar de remover items"
+
+#: addons-elite/recipe-collections/templates/translations.php:32
+msgid "Actions"
+msgstr "Acciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:33
+msgid "Drag and drop to add:"
+msgstr "Arraste y suelte para añadir"
+
+#: addons-elite/recipe-collections/templates/translations.php:34
+msgid "None"
+msgstr "Ninguno"
+
+#: addons-elite/recipe-collections/templates/translations.php:35
+msgid "Blue"
+msgstr "Blue"
+
+#: addons-elite/recipe-collections/templates/translations.php:36
+msgid "Red"
+msgstr "Rojo"
+
+#: addons-elite/recipe-collections/templates/translations.php:37
+msgid "Green"
+msgstr "Verde"
+
+#: addons-elite/recipe-collections/templates/translations.php:38
+msgid "Yellow"
+msgstr "Amarillo"
+
+#: addons-elite/recipe-collections/templates/translations.php:39
+msgid "Note"
+msgstr "Nota"
+
+#: addons-elite/recipe-collections/templates/translations.php:40
+msgid "Color"
+msgstr "Color"
+
+#: addons-elite/recipe-collections/templates/translations.php:41
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:181
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:280
+msgid "Name"
+msgstr "Nombre"
+
+#: addons-elite/recipe-collections/templates/translations.php:42
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:243
+msgid "Ingredients"
+msgstr "Ingredientes"
+
+#: addons-elite/recipe-collections/templates/translations.php:43
+msgid "cup"
+msgstr "taza"
+
+#: addons-elite/recipe-collections/templates/translations.php:44
+msgid "olive oil"
+msgstr "aceite de oliva"
+
+#: addons-elite/recipe-collections/templates/translations.php:45
+msgid "Add Ingredient"
+msgstr "Añadir ingrediente"
+
+#: addons-elite/recipe-collections/templates/translations.php:46
+msgid "Edit Ingredients"
+msgstr "Editar ingredientes"
+
+#: addons-elite/recipe-collections/templates/translations.php:47
+msgid "Nutrition Facts (per serving)"
+msgstr "Valores nutricionales (por ración)"
+
+#: addons-elite/recipe-collections/templates/translations.php:48
+msgid "Search Recipes"
+msgstr "Buscar recetas"
+
+#: addons-elite/recipe-collections/templates/translations.php:49
+msgid "Search Ingredients"
+msgstr "Buscar ingredientes"
+
+#: addons-elite/recipe-collections/templates/translations.php:50
+msgid "Add Custom Recipe"
+msgstr "Añadir receta personalizada"
+
+#: addons-elite/recipe-collections/templates/translations.php:51
+msgid "Add Note"
+msgstr "Añadir nota"
+
+#: addons-elite/recipe-collections/templates/translations.php:52
+msgid "Add from Collection"
+msgstr "Aladir desde colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:53
+msgid "Start typing to search..."
+msgstr "Comience a escribir para buscar..."
+
+#: addons-elite/recipe-collections/templates/translations.php:54
+msgid "Are you sure you want to delete all items in"
+msgstr "¿Está seguro que quiere borrar todos los items en "
+
+#: addons-elite/recipe-collections/templates/translations.php:55
+msgid "Stop Editing"
+msgstr "Dejar de editar"
+
+#: addons-elite/recipe-collections/templates/translations.php:56
+msgid "Collection"
+msgstr "Colección"
+
+#: addons-elite/recipe-collections/templates/translations.php:57
+msgid "Print Shopping List"
+msgstr "Imprimir la lista de la compra"
+
+#: addons-elite/recipe-collections/templates/translations.php:58
+msgid "Print Both"
+msgstr "Imprimir ambos"
+
+#: addons-elite/recipe-collections/templates/translations.php:59
+msgid "Your shopping list is empty."
+msgstr "Su carrito de la compra está vacío"
+
+#: addons-elite/recipe-collections/templates/translations.php:60
+msgid "Add Collection"
+msgstr "Añadir colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:61
+msgid "Edit Collections"
+msgstr "Editar colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:62
+msgid "Select a collection to add for this user"
+msgstr "Seleccionar una coleccion a añadir para este usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:63
+msgid "Add Saved Collection"
+msgstr "Añadir una coleccion guardada"
+
+#: addons-elite/recipe-collections/templates/translations.php:64
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-collection.php:172
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-manager.php:70
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-manager.php:205
+msgid "Recipes"
+msgstr "Recetas"
+
+#: addons-elite/recipe-collections/templates/translations.php:65
+msgid "A name is required for this saved nutrition ingredient."
+msgstr "Se requere un nombre para salvar este ingrediente nutricional"
+
+#: addons-elite/recipe-collections/templates/translations.php:66
+msgid "Save a new Custom Ingredient"
+msgstr "Guardar un nuevo ingrediente personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:67
+msgid "Amount"
+msgstr "Cantidad"
+
+#: addons-elite/recipe-collections/templates/translations.php:68
+msgid "Unit"
+msgstr "Unidad"
+
+#: addons-elite/recipe-collections/templates/translations.php:69
+msgid "Name (required)"
+msgstr "Nombre (requerido)"
+
+#: addons-elite/recipe-collections/templates/translations.php:70
+msgid "Save for Later & Use"
+msgstr "Guardar para usar después"
+
+#: addons-elite/recipe-collections/templates/translations.php:71
+msgid "Use"
+msgstr "Usar"
+
+#: addons-elite/recipe-collections/templates/translations.php:72
+msgid "Select a saved ingredient"
+msgstr "Seleccionar ingredientes salvados"
+
+#: addons-elite/recipe-collections/templates/translations.php:73
+msgid "Match this equation to get the correct amounts:"
+msgstr "Ajuste esta ecuación para conseguir los valores correctos:"
+
+#: addons-elite/recipe-collections/templates/translations.php:74
+msgid "Go Back"
+msgstr "Retroceder"
+
+#: addons-elite/recipe-collections/templates/translations.php:75
+msgid "Cancel Calculation"
+msgstr "Cancelar el cálculo"
+
+#: addons-elite/recipe-collections/templates/translations.php:76
+msgid "Go to Next Step"
+msgstr "Continuar al próximo paso"
+
+#: addons-elite/recipe-collections/templates/translations.php:77
+msgid "Use These Values"
+msgstr "Use estos valores"
+
+#: addons-elite/recipe-collections/templates/translations.php:78
+msgid "Nutrition Calculation"
+msgstr "Cálculo de nutrición"
+
+#: addons-elite/recipe-collections/templates/translations.php:79
+msgid "Recipe"
+msgstr "Receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:80
+msgid "n/a"
+msgstr "n/a"
+
+#: addons-elite/recipe-collections/templates/translations.php:81
+msgid "Values of all the checked ingredients will be added together and"
+msgstr "Todos los valores marcados serán agregados y"
+
+#: addons-elite/recipe-collections/templates/translations.php:82
+msgid "divided by"
+msgstr "dividido por"
+
+#: addons-elite/recipe-collections/templates/translations.php:83
+msgid "the number of servings for this recipe."
+msgstr "número de raciones en esta receta."
+
+#: addons-elite/recipe-collections/templates/translations.php:84
+msgid "Values of all the checked ingredients will be added together."
+msgstr "Todos los valores marcados serán agregados"
+
+#: addons-elite/recipe-collections/templates/translations.php:85
+msgid "API Ingredients"
+msgstr "API de Ingredientes "
+
+#: addons-elite/recipe-collections/templates/translations.php:86
+msgid "Custom Ingredients"
+msgstr "Ingredientes personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:87
+msgid "Recipe Nutrition Facts Preview"
+msgstr "Previsualización de los valores nutricionales"
+
+#: addons-elite/recipe-collections/templates/translations.php:88
+msgid ""
+"Changes to these values can be made after confirming with the blue button."
+msgstr ""
+"Para cambiar esos valores debe hacerse la confirmación haciendo click al "
+"botón azul"
+
+#: addons-elite/recipe-collections/templates/translations.php:89
+msgid "Select or search for a saved ingredient"
+msgstr "Seleccionar o buscar ingredientes guardados"
+
+#: addons-elite/recipe-collections/templates/translations.php:90
+msgid "No ingredients set for this recipe."
+msgstr "Ningún ingrediente se ha añadido a esta receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:91
+msgid "Used in Recipe"
+msgstr "Usado en la receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:92
+msgid "Used for Calculation"
+msgstr "Usado para cálculos"
+
+#: addons-elite/recipe-collections/templates/translations.php:93
+msgid "Nutrition Source"
+msgstr "Fuente de nutrición"
+
+#: addons-elite/recipe-collections/templates/translations.php:94
+msgid "API Match & Units"
+msgstr "API de unidades "
+
+#: addons-elite/recipe-collections/templates/translations.php:95
+msgid "API"
+msgstr "API"
+
+#: addons-elite/recipe-collections/templates/translations.php:96
+msgid "Saved/Custom"
+msgstr "Guardado/Personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:97
+msgid "no match found"
+msgstr "no se ha encontrado nada con este patrón"
+
+#: addons-elite/recipe-collections/templates/translations.php:98
+msgid "Units n/a"
+msgstr "Unidades n/a"
+
+#: addons-elite/recipe-collections/templates/translations.php:99
+msgid "Find a match for:"
+msgstr "Encontrar según este criterio:"
+
+#: addons-elite/recipe-collections/templates/translations.php:100
+msgid "Search"
+msgstr "Buscar"
+
+#: addons-elite/recipe-collections/templates/translations.php:101
+msgid "No ingredients found for"
+msgstr "Ningún ingrediente encontrado para"
+
+#: addons-elite/recipe-collections/templates/translations.php:102
+msgid "No ingredients found."
+msgstr "Ningún ingrediente encontrado."
+
+#: addons-elite/recipe-collections/templates/translations.php:103
+msgid "Results for"
+msgstr "Resultados para"
+
+#: addons-elite/recipe-collections/templates/translations.php:104
+msgid "This feature is only available in"
+msgstr "Esta funcionalidad esta sólo disponible en"
+
+#: addons-elite/recipe-collections/templates/translations.php:105
+msgid ""
+"You need to set up this feature on the WP Recipe Maker > Settings > Unit "
+"Conversion page first."
+msgstr ""
+"Necesitas ajustar esta funcionalidade en WP Recipe Maker > Ajustes > Primera "
+"página de unidades de conversión"
+
+#: addons-elite/recipe-collections/templates/translations.php:106
+msgid "Conversion"
+msgstr "Conversión"
+
+#: addons-elite/recipe-collections/templates/translations.php:107
+msgid "Converted"
+msgstr "Convertido"
+
+#: addons-elite/recipe-collections/templates/translations.php:108
+msgid "Default"
+msgstr "Por defecto"
+
+#: addons-elite/recipe-collections/templates/translations.php:109
+msgid "Convert All Automatically"
+msgstr "Convertir todo automáticamente"
+
+#: addons-elite/recipe-collections/templates/translations.php:110
+msgid "Convert"
+msgstr "Convertir"
+
+#: addons-elite/recipe-collections/templates/translations.php:111
+msgid "Keep Unit"
+msgstr "Conservar unidad"
+
+#: addons-elite/recipe-collections/templates/translations.php:112
+msgid "Automatically"
+msgstr "Automáticamente"
+
+#: addons-elite/recipe-collections/templates/translations.php:113
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:154
+msgid "Weight Units"
+msgstr "Unidades de peso"
+
+#: addons-elite/recipe-collections/templates/translations.php:114
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:168
+msgid "Volume Units"
+msgstr "Unidades de volumen"
+
+#: addons-elite/recipe-collections/templates/translations.php:115
+msgid "Convert..."
+msgstr "Convertir...."
+
+#: addons-elite/recipe-collections/templates/translations.php:116
+msgid "Ingredient Link Type"
+msgstr "Tipo de enlaces de los ingredientes"
+
+#: addons-elite/recipe-collections/templates/translations.php:117
+msgid ""
+"Global: the same link will be used for every recipe with this ingredient"
+msgstr ""
+"Global: el mismo enlace será usado para cada receta con este ingrediente"
+
+#: addons-elite/recipe-collections/templates/translations.php:118
+msgid "Custom: these links will only affect the recipe below"
+msgstr "Personalizar:  Estos enlaces sólo afectarán a esta receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:119
+msgid "Use Global Links"
+msgstr "Usar enlaces globales"
+
+#: addons-elite/recipe-collections/templates/translations.php:120
+msgid "Custom Links for this Recipe only"
+msgstr "Enlaces personalizados sólo para esta receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:121
+msgid "Edit Global Links"
+msgstr "Editar enlaces globales"
+
+#: addons-elite/recipe-collections/templates/translations.php:122
+msgid "other recipe(s) affected"
+msgstr "otra(s) receta(s) afectadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:123
+msgid "This can affect other recipes"
+msgstr "Esto puede afectar a otras recetas"
+
+#: addons-elite/recipe-collections/templates/translations.php:124
+msgid "Affiliate Link"
+msgstr "Enlace de afiliación"
+
+#: addons-elite/recipe-collections/templates/translations.php:125
+msgid "No link set"
+msgstr "No se ha puesto ningún enlace"
+
+#: addons-elite/recipe-collections/templates/translations.php:126
+msgid "Edit Link"
+msgstr "Editar enlace"
+
+#: addons-elite/recipe-collections/templates/translations.php:127
+msgid "Remove Link"
+msgstr "Remover enlace"
+
+#: addons-elite/recipe-collections/templates/translations.php:128
+msgid "Are you sure you want to delete this link?"
+msgstr "¿Está seguro que quiere borrar este enlace?"
+
+#: addons-elite/recipe-collections/templates/translations.php:129
+msgid "Set Affiliate Link"
+msgstr "Poner enlace afiliado"
+
+#: addons-elite/recipe-collections/templates/translations.php:130
+msgid "Editing Global Ingredient Links"
+msgstr "Editar enlaces de ingredientes globales"
+
+#: addons-elite/recipe-collections/templates/translations.php:131
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: addons-elite/recipe-collections/templates/translations.php:132
+msgid "All fields are required."
+msgstr "Se requieren todos los campos"
+
+#: addons-elite/recipe-collections/templates/translations.php:133
+msgid "Something went wrong. Make sure this key does not exist yet."
+msgstr "Un error ha ocurrido.  Asegúrese que esta clave no existe."
+
+#: addons-elite/recipe-collections/templates/translations.php:134
+msgid "Are you sure you want to close without saving changes?"
+msgstr "¿Está seguro que quiere salirse sin realizar cambios?"
+
+#: addons-elite/recipe-collections/templates/translations.php:135
+msgid "Editing Custom Field"
+msgstr "Editar campos campos personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:136
+msgid "Creating new Custom Field"
+msgstr "Creando un nuevo campo personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:137
+msgid "Type"
+msgstr "Tipo"
+
+#: addons-elite/recipe-collections/templates/translations.php:138
+msgid "Key"
+msgstr "Clave"
+
+#: addons-elite/recipe-collections/templates/translations.php:139
+msgid "my-custom-field"
+msgstr "mi-campo-personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:140
+msgid "My Custom Field"
+msgstr "Mi campo personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:141
+msgid "Save"
+msgstr "Guardar"
+
+#: addons-elite/recipe-collections/templates/translations.php:142
+msgid "A label and key are required."
+msgstr "Se requieren una etiqueta y campo clave"
+
+#: addons-elite/recipe-collections/templates/translations.php:143
+msgid "Editing Nutrient"
+msgstr "Editar nutrientes"
+
+#: addons-elite/recipe-collections/templates/translations.php:144
+msgid "Creating new Nutrient"
+msgstr "Creando un nuevo nutriente"
+
+#: addons-elite/recipe-collections/templates/translations.php:145
+msgid "Custom"
+msgstr "Personalizar"
+
+#: addons-elite/recipe-collections/templates/translations.php:146
+msgid "Calculated"
+msgstr "Calculado"
+
+#: addons-elite/recipe-collections/templates/translations.php:147
+msgid "my-custom-nutrient"
+msgstr "mi-nutriente-personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:148
+msgid "Label"
+msgstr "Etiqueta"
+
+#: addons-elite/recipe-collections/templates/translations.php:149
+msgid "My Custom Nutrient"
+msgstr "Mi nutriente customizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:150
+msgid "mg"
+msgstr "mg"
+
+#: addons-elite/recipe-collections/templates/translations.php:151
+msgid "Daily Need"
+msgstr "Valor diario"
+
+#: addons-elite/recipe-collections/templates/translations.php:152
+msgid "Calculation"
+msgstr "Cálculo"
+
+#: addons-elite/recipe-collections/templates/translations.php:153
+msgid "Learn more"
+msgstr "Más información"
+
+#: addons-elite/recipe-collections/templates/translations.php:154
+msgid "Decimal Precision"
+msgstr "Precisión decimal"
+
+#: addons-elite/recipe-collections/templates/translations.php:155
+msgid "Editing Custom Taxonomy"
+msgstr "Editar taxonomías personalizadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:156
+msgid "Creating new Custom Taxonomy"
+msgstr "Crear una nueva taxonomía personalizada"
+
+#: addons-elite/recipe-collections/templates/translations.php:157
+msgid "course"
+msgstr "plato"
+
+#: addons-elite/recipe-collections/templates/translations.php:158
+msgid "Singular Name"
+msgstr "Nombre singular"
+
+#: addons-elite/recipe-collections/templates/translations.php:159
+msgid "Plural Name"
+msgstr "Nombre plural"
+
+#: addons-elite/recipe-collections/templates/translations.php:160
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:229
+msgid "Courses"
+msgstr "Platos"
+
+#: addons-elite/recipe-collections/templates/translations.php:161
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: addons-elite/recipe-collections/templates/translations.php:162
+msgid "Editing Nutrition Ingredient"
+msgstr "Editar ingredientes nutricionales"
+
+#: addons-elite/recipe-collections/templates/translations.php:163
+msgid "Creating new Nutrition Ingredient"
+msgstr "Creando un nuevo ingrediente nutricional"
+
+#: addons-elite/recipe-collections/templates/translations.php:164
+msgid "Are you sure you want to overwrite the existing values?"
+msgstr "¿Está seguro que quiere sobreescribir los valores existentes?"
+
+#: addons-elite/recipe-collections/templates/translations.php:165
+msgid "Import values from recipe"
+msgstr "Importar valores de la receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:166
+msgid "Cancel import"
+msgstr "Cancelar la importación"
+
+#: addons-elite/recipe-collections/templates/translations.php:167
+msgid "Use this recipe"
+msgstr "Use esta receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:168
+msgid "Edit Taxonomy"
+msgstr "Editar taxonomías"
+
+#: addons-elite/recipe-collections/templates/translations.php:169
+msgid "Delete Taxonomy"
+msgstr "Borrar taxonomía"
+
+#: addons-elite/recipe-collections/templates/translations.php:170
+msgid "Are you sure you want to delete"
+msgstr "¿Está seguro que quiere borrar esto?"
+
+#: addons-elite/recipe-collections/templates/translations.php:171
+msgid "Sort:"
+msgstr "Orden:"
+
+#: addons-elite/recipe-collections/templates/translations.php:172
+msgid "Filter:"
+msgstr "Filtro"
+
+#: addons-elite/recipe-collections/templates/translations.php:173
+msgid "Edit Recipe Submission"
+msgstr "Editar envío de recetas"
+
+#: addons-elite/recipe-collections/templates/translations.php:174
+msgid "Approve Submission"
+msgstr "Enviar aprobación"
+
+#: addons-elite/recipe-collections/templates/translations.php:175
+msgid "Approve Submission & Add to new Post"
+msgstr "Aprobar y añadir un nuevo post"
+
+#: addons-elite/recipe-collections/templates/translations.php:176
+msgid "Delete Recipe Submission"
+msgstr "Borrar envío de receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:177
+msgid "ID"
+msgstr "ID"
+
+#: addons-elite/recipe-collections/templates/translations.php:178
+msgid "Date"
+msgstr "Fecha"
+
+#: addons-elite/recipe-collections/templates/translations.php:179
+msgid "User"
+msgstr "Usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:180
+msgid "Edit Nutrient"
+msgstr "Editar nutriente"
+
+#: addons-elite/recipe-collections/templates/translations.php:181
+msgid "Delete Custom Nutrient"
+msgstr "Borrar nutriente personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:182
+msgid "Active"
+msgstr "Activo"
+
+#: addons-elite/recipe-collections/templates/translations.php:183
+msgid "View and edit collections for this user"
+msgstr "Ver y editar las colecciones de este usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:184
+msgid "User ID"
+msgstr "ID de usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:185
+msgid "Display Name"
+msgstr "Mostrar nombre"
+
+#: addons-elite/recipe-collections/templates/translations.php:186
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:178
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:287
+msgid "Email"
+msgstr "Email"
+
+#: addons-elite/recipe-collections/templates/translations.php:187
+msgid "# Collections"
+msgstr "# Colecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:188
+msgid "Show All"
+msgstr "Mostrar todos"
+
+#: addons-elite/recipe-collections/templates/translations.php:189
+msgid "Has Saved Collections"
+msgstr "Tiene colecciones guardadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:190
+msgid "Does not have Saved Collections"
+msgstr "No hay colecciones guardadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:191
+msgid "# Items in Inbox"
+msgstr "#Items en el inbox"
+
+#: addons-elite/recipe-collections/templates/translations.php:192
+msgid "# Items in Collections"
+msgstr "#Items en Collecciones"
+
+#: addons-elite/recipe-collections/templates/translations.php:193
+msgid "Your Custom Fields"
+msgstr "Sus campos personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:194
+msgid "Recipe Taxonomy"
+msgstr "Taxonomía de la receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:195
+msgid "Recipe Taxonomies"
+msgstr "Taxonomías de la receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:196
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:273
+msgid "Custom Field"
+msgstr "Campo personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:197
+msgid "Custom Fields"
+msgstr "Campos personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:198
+msgid "Custom Nutrition Ingredient"
+msgstr "Personalizar ingrediente de nutrición"
+
+#: addons-elite/recipe-collections/templates/translations.php:199
+msgid "Custom Nutrition"
+msgstr "Nutrición personalizada"
+
+#: addons-elite/recipe-collections/templates/translations.php:200
+msgid "Custom Nutrient"
+msgstr "Nutriente personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:201
+msgid "Custom Nutrients"
+msgstr "Nutrientes personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:202
+msgid "Features"
+msgstr "Caracterísiticas"
+
+#: addons-elite/recipe-collections/templates/translations.php:203
+msgid "Saved Collection"
+msgstr "Colección guardada"
+
+#: addons-elite/recipe-collections/templates/translations.php:204
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:326
+msgid "Saved Collections"
+msgstr "Colecciones guardadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:205
+msgid "User Collection"
+msgstr "Coleccion de usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:206
+msgid "User Collections"
+msgstr "Colecciones de usuario"
+
+#: addons-elite/recipe-collections/templates/translations.php:207
+msgid "Recipe Submissions"
+msgstr "Recetas enviadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:208
+msgid "Recipe Submission"
+msgstr "Enviar receta"
+
+#: addons-elite/recipe-collections/templates/translations.php:209
+msgid "Edit Field"
+msgstr "Editar campo"
+
+#: addons-elite/recipe-collections/templates/translations.php:210
+msgid "Delete Field"
+msgstr "Borrar campo"
+
+#: addons-elite/recipe-collections/templates/translations.php:211
+msgid "Edit Custom Ingredient"
+msgstr "Editar ingredientes personalizados"
+
+#: addons-elite/recipe-collections/templates/translations.php:212
+msgid "Delete Custom Ingredient"
+msgstr "Borrar ingrediente personalizado"
+
+#: addons-elite/recipe-collections/templates/translations.php:214
+msgid "Edit Saved Collection"
+msgstr "Editar colecciones guardadas"
+
+#: addons-elite/recipe-collections/templates/translations.php:215
+msgid "Duplicate Saved Collection"
+msgstr "Duplicar una colección guardada"
+
+#: addons-elite/recipe-collections/templates/translations.php:216
+msgid "Delete Saved Collection"
+msgstr "Borrar colección guardada"
+
+#: addons-elite/recipe-collections/templates/translations.php:217
+msgid "# Items"
+msgstr "# Items"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:175
+msgid "Text"
+msgstr "Texto"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:176
+msgid "Rich Textarea"
+msgstr "Area de texto enriquecido"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:177
+msgid "Link"
+msgstr "Enlace"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:179
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:195
+msgid "Image"
+msgstr "Imagen"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:32
+msgid "New Recipe Submission"
+msgstr "Nuevo envío de receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:33
+msgid "There is a new Recipe Submission on your website!"
+msgstr "Existe una nueva receta enviada "
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:35
+msgid "Manage now"
+msgstr "Gestionar ahora"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-shortcode.php:53
+msgid "Submission blocked by reCAPTCHA."
+msgstr "El envío está bloqueado por el reCAPTCHA"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-shortcode.php:56
+msgid ""
+"Make sure the site and secret key are set correctly on the settings page."
+msgstr ""
+"Asegúrese que el sitio y la clave secreta están bien en la página de ajustes"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:55
+msgid "Recipe Submission Layout"
+msgstr "Plantilla para enviar recetas"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:167
+msgid "Header"
+msgstr "Encabezado"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:168
+msgid "My Header"
+msgstr "Mi encabezado"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:172
+msgid "Paragraph"
+msgstr "Párrafo"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:173
+msgid "My paragraph..."
+msgstr "Mi párrafo.."
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:176
+msgid "Submit"
+msgstr "Enviar"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:177
+msgid "Submit Recipe"
+msgstr "Enviar receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:180
+msgid "Recipe Name"
+msgstr "Nombre de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:187
+msgid "Recipe Summary"
+msgstr "Resumen de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:188
+msgid "Summary"
+msgstr "Resumen"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:194
+msgid "Recipe Image"
+msgstr "Imagen de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:200
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:201
+msgid "Recipe Servings"
+msgstr "Raciones"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:207
+msgid "Recipe Prep Time"
+msgstr "Tiempo de preparación"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:208
+msgid "Prep Time"
+msgstr "Tiempo de preparación"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:214
+msgid "Recipe Cook Time"
+msgstr "Tiempo de cocción de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:215
+msgid "Cook Time"
+msgstr "Tiempo de preparación"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:221
+msgid "Recipe Total Time"
+msgstr "Tiempo total de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:222
+msgid "Total Time"
+msgstr "Tiempo total"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:228
+msgid "Recipe Courses"
+msgstr "Tipos de platos"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:235
+msgid "Recipe Cuisines"
+msgstr "Tipo de cocinas"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:236
+msgid "Cuisines"
+msgstr "Cocinas"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:242
+msgid "Recipe Ingredients"
+msgstr "Ingredientes de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:249
+msgid "Recipe Instructions"
+msgstr "Instrucciones de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:250
+msgid "Instructions"
+msgstr "Instrucciones"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:256
+msgid "Recipe Notes"
+msgstr "Notas de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:257
+msgid "Notes"
+msgstr "Notas"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:264
+msgid "Recipe Custom Taxonomy"
+msgstr "Taxonomía personalizada de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:265
+msgid "Custom Taxonomy"
+msgstr "Personalizar taxonomía"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:272
+msgid "Recipe Custom Field"
+msgstr "Campo personalizado de la receta"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:279
+msgid "User Name"
+msgstr "Nombre de usuario"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:286
+msgid "User Email"
+msgstr "Correo de usuario"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-post-type.php:38
+msgctxt "post type general name"
+msgid "Collections"
+msgstr "Colecciones"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-post-type.php:39
+msgctxt "post type singular name"
+msgid "Collection"
+msgstr "Colección"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:14
+msgid "Pounds"
+msgstr "Libras"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:16
+msgctxt "singular unit for pounds"
+msgid "lb"
+msgstr "lb"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:17
+msgctxt "plural unit for pounds"
+msgid "lb"
+msgstr "lb"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:20
+msgid "Ounces"
+msgstr "Onzas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:22
+msgctxt "singular unit for ounces"
+msgid "oz"
+msgstr "oz"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:23
+msgctxt "plural unit for ounces"
+msgid "oz"
+msgstr "oz"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:26
+msgid "Kilograms"
+msgstr "Kilogramos"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:28
+msgctxt "singular unit for kilograms"
+msgid "kg"
+msgstr "kg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:29
+msgctxt "plural unit for kilograms"
+msgid "kg"
+msgstr "kg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:32
+msgid "Grams"
+msgstr "Gramos"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:34
+msgctxt "singular unit for grams"
+msgid "g"
+msgstr "g"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:35
+msgctxt "plural unit for grams"
+msgid "g"
+msgstr "g"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:38
+msgid "Milligrams"
+msgstr "Miligramos"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:40
+msgctxt "singular unit for milligrams"
+msgid "mg"
+msgstr "mg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:41
+msgctxt "plural unit for milligrams"
+msgid "mg"
+msgstr "mg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:44
+msgid "Cups"
+msgstr "Tazas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:46
+msgctxt "singular unit for cups"
+msgid "cup"
+msgstr "taza"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:47
+msgctxt "plural unit for cups"
+msgid "cups"
+msgstr "tazas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:50
+msgid "Gallons"
+msgstr "Galones"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:52
+msgctxt "singular unit for gallons"
+msgid "gal"
+msgstr "gal"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:53
+msgctxt "plural unit for gallons"
+msgid "gal"
+msgstr "gal"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:56
+msgid "Pints"
+msgstr "Pintas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:58
+msgctxt "singular unit for pints"
+msgid "pt"
+msgstr "pt"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:59
+msgctxt "plural unit for pints"
+msgid "pt"
+msgstr "pt"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:62
+msgid "Fluid Ounces"
+msgstr "Onzas fluidas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:64
+msgctxt "singular unit for fluid ounces"
+msgid "floz"
+msgstr "floz"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:65
+msgctxt "plural unit for fluid ounces"
+msgid "floz"
+msgstr "floz"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:68
+msgid "Liters"
+msgstr "Litros"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:70
+msgctxt "singular unit for liters"
+msgid "l"
+msgstr "l"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:71
+msgctxt "plural unit for liters"
+msgid "l"
+msgstr "l"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:74
+msgid "Deciliters"
+msgstr "Decilitros"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:76
+msgctxt "singular unit for deciliters"
+msgid "dl"
+msgstr "del"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:77
+msgctxt "plural unit for deciliters"
+msgid "dl"
+msgstr "dl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:80
+msgid "Centiliters"
+msgstr "Centilitros"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:82
+msgctxt "singular unit for centiliters"
+msgid "cl"
+msgstr "cl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:83
+msgctxt "plural unit for centiliters"
+msgid "cl"
+msgstr "cl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:86
+msgid "Milliliters"
+msgstr "Mililitros"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:88
+msgctxt "singular unit for milliliters"
+msgid "ml"
+msgstr "ml"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:89
+msgctxt "plural unit for milliliters"
+msgid "ml"
+msgstr "ml"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:92
+msgid "Tablespoons"
+msgstr "Cucharadas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:94
+msgctxt "singular unit for tablespoons"
+msgid "tbsp"
+msgstr "cda."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:95
+msgctxt "plural unit for tablespoons"
+msgid "tbsp"
+msgstr "cdas."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:98
+msgid "Teaspoons"
+msgstr "Cucharaditas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:100
+msgctxt "singular unit for teaspoons"
+msgid "tsp"
+msgstr "cdita."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:101
+msgctxt "plural unit for teaspoons"
+msgid "tsp"
+msgstr "cdita."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:115
+msgid "Enable Unit Conversion"
+msgstr "Habilitar Conversión de unidades"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:122
+msgid "Unit Systems"
+msgstr "Sistema de unidad"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:130
+msgid "Default Unit System"
+msgstr "Sistema unitario por defecto"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:131
+msgid "Name of the unit system you write your recipes in."
+msgstr "Nombre del sistema de unidad a usar en sus recetas"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:137
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:145
+msgid "Converted Unit System"
+msgstr "Sistema de unidad convertido"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:138
+msgid "Name of the unit system you want to convert to."
+msgstr "Nombre del sistema de unidade que desea convertir"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:146
+msgid "Units you want the ingredients to use after converting"
+msgstr "Unidades para los ingredientes que desea convertir"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:195
+msgid "Units"
+msgstr "Unidades"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:196
+msgid "How to recognize and display specific units. Use ; to separate aliases."
+msgstr ""
+"Como reconocer y mostrar unidades específicas. Use ; para separar alias."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:21
+msgid "Shortcode"
+msgstr "Codigo de la receta"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:22
+msgid ""
+"Add the [wprm-recipe-submission] shortcode to a regular WordPress page to "
+"display the Recipe Submission form."
+msgstr ""
+"Añadir el código corto [wprm-recipe-submission]  a una página de Wordpress "
+"para mostrar el formulario de envío de recetas"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:25
+msgid "Submission Form"
+msgstr "Formulario de envío"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:28
+msgid "Submission Form Layout"
+msgstr "Plantilla del formulario de envío"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:30
+msgid "Edit the Recipe Submission form layout"
+msgstr "Editar formato del formulario de envío de recetas"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:35
+msgid "Use reCAPTCHA"
+msgstr "Usar reCAPTCHA"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:36
+msgid "Use invisible reCAPTCHA to prevent spam submissions."
+msgstr "Usar el reCAPTCHA invisible para prevenir envios masivos tipo spam"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:42
+msgid "reCAPTCHA Site Key"
+msgstr "Clave de sitio del reCAPTCHA"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:43
+msgid "Get your free invisible reCAPTCHA keys from Google."
+msgstr "Obtenga sus códigos gratis de CAPTCHA invisible de Google"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:54
+msgid "reCAPTCHA Secret Key"
+msgstr "Clave secreta del reCAPTCHA"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:65
+msgid "After Submission"
+msgstr "Después del envío"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:69
+msgid "Send email to"
+msgstr "Enviar email a "
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:70
+msgid "Optional email address to notify when someone has submitted a recipe."
+msgstr ""
+"Correo electrónico opcional para notificar que alguien ha enviado una receta"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:76
+msgid "After successful submission"
+msgstr "Después de un envío exitoso"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:79
+msgid "Stay on page and show text"
+msgstr "Permanecer en la página y mostrar el texto"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:80
+msgid "Redirect to a different page"
+msgstr "Redireccionar a una página distinta"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:86
+msgid "Text to show after submission"
+msgstr "Texto a mostrar después del envío"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:88
+msgid "Thank you for submitting a recipe!"
+msgstr "Gracias por enviar esta receta"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:108
+msgid "Approval"
+msgstr "Aprobacion"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:112
+msgid "Automatically approve submissions for"
+msgstr "Aprobar automáticamente los envíos de"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:115
+msgid "Nobody"
+msgstr "Nadie"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:116
+msgid "Logged in Users"
+msgstr "Usuarios en línea"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:117
+msgid "Everyone"
+msgstr "Todo el mundo"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:123
+msgid "Automatically add to Post"
+msgstr "Añadir automáticamente el post"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:124
+msgid ""
+"Create and publish a new post with the recipe inside it upon automatic "
+"approval."
+msgstr ""
+"Crear y publicar un nuevo post con una receta después de la aprovación "
+"automática"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:34
+msgid ""
+"Add the Recipe Collections block or [wprm-recipe-collections] shortcode to a "
+"regular WordPress page to display the Recipe Collections feature."
+msgstr ""
+"Aladir el código de bloque de colecciones de receta [wprm-recipe-"
+"collections] a una página de WordPress para mostrar la funcionalidad de "
+"Colecciones de Recetas."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:68
+msgid "Collections"
+msgstr "Colecciones"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:75
+msgid "Inbox"
+msgstr "Bandeja de entrada"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:170
+msgid "Collection Items"
+msgstr "Items de la colección"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:196
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:227
+msgid "In each column, show the added totals for the nutrition facts."
+msgstr "En cada columna, mostrar los totales de los valores nutricionales"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:231
+msgid "Enable button to show nutrition facts"
+msgstr "Habilitar botón para mostrar valores nuticionales"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:237
+msgid "Button is enabled by default"
+msgstr "El botón está habilitado por defecto"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:238
+msgid "When disabled an extra click is required to show the nutrition facts."
+msgstr ""
+"Cuando está desahabilitado se requiere otro click para mostrar los valores "
+"nutricionales"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:262
+msgid "Nutrition fields to show"
+msgstr "Valores nutricionales a mostrar"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:327
+msgid "Create your own collections to display to your visitors."
+msgstr "Crear sus propias colecciones para mostrarlas a sus visitantes"
+
+#. Name of the plugin
+msgid "WP Recipe Maker Premium"
+msgstr "WP Recipe Maker Premium"
+
+#. Description of the plugin
+msgid "Premium addons for WP Recipe Maker."
+msgstr "Addons premium para WP Recipe Maker"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://bootstrapped.ventures/"
+msgstr "http://bootstrapped.ventures/"
+
+#. Author of the plugin
+msgid "Bootstrapped Ventures"
+msgstr "Bootstrapped Ventures"

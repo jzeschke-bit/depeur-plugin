@@ -1,0 +1,107 @@
+.wprm-admin-modal-field-equipment-affiliate-items {
+    width: 100%;
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        display: block;
+        margin-bottom: 10px;
+
+        td {
+            display: block;
+        }
+        
+        .wprm-admin-modal-field-equipment-affiliate-item-html textarea {
+            padding: 2px;
+            color: black;
+            cursor: not-allowed;
+        }
+    }
+
+    .wprm-admin-modal-field-equipment-affiliate-item-image {
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 30px;
+            margin: 3px 0;
+        }
+    }
+
+    .wprm-admin-modal-field-equipment-affiliate-item-none {
+        opacity: 0.5;
+    }
+}
+
+@media screen and (min-width: 550px) {
+    .wprm-admin-modal-field-equipment-affiliate-items {
+        thead {
+            display: table-header-group;
+
+            th {
+                text-align: left;
+                width: 50%;
+            }
+
+            th:first-child {
+                width: 155px;
+                min-width: 155px;
+            }
+
+            th:nth-child(3) {
+                width: 60px;
+                min-width: 60px;
+            }
+        }
+
+        tr {
+            display: table-row;
+            margin-bottom: 0;
+    
+            td {
+                display: table-cell;
+                width: 50%;
+
+                &[colspan="3"] {
+                    width: 100%;
+                }
+            }
+
+            td:first-child {
+                width: 155px;
+                min-width: 155px;
+                line-height: 30px;
+            }
+
+            td:nth-child(3) {
+                width: 60px;
+                min-width: 60px;
+            }
+
+            .wprm-admin-modal-field-equipment-affiliate-item-eafl,
+            .wprm-admin-modal-field-equipment-affiliate-item-link {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 782px) {
+    .wprm-admin-modal-field-equipment-affiliate-items {
+        thead {
+            th:first-child {
+                width: 175px;
+                min-width: 175px;
+            }
+        }
+        tr {
+            td:first-child {
+                width: 175px;
+                min-width: 175px;
+            }
+        }
+    }
+}

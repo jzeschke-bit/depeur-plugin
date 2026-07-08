@@ -1,0 +1,261 @@
+.wprm-user-rating {
+    &.wprm-user-rating-allowed {
+        .wprm-rating-star {
+            cursor: pointer;
+        }
+    }
+}
+
+.wprm-popup-modal-user-rating {
+    .wprm-popup-modal__container {
+        width: 95%;
+        max-width: 500px;
+    }
+
+    #wprm-user-ratings-modal-message {
+        display: none;
+    }
+
+    .wprm-user-ratings-modal-recipe-name {
+        text-align: center;
+        margin: 5px auto;
+        max-width: 350px;
+    }
+
+    .wprm-user-ratings-modal-stars-container {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .wprm-user-rating-modal-comment-suggestions-container {
+        display: none;
+
+        .wprm-user-rating-modal-comment-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -5px;
+        }
+
+        .wprm-user-rating-modal-comment-suggestion {
+            margin: 5px;
+            border: 1px dashed var( --wprm-popup-button-background );
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            cursor: pointer;
+
+            &:hover {
+                border-style: solid;
+            }
+        }
+    }
+
+    textarea, input {
+        box-sizing: border-box;
+    }
+
+    textarea {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+        resize: vertical;
+        min-height: 75px;
+        border-radius: 4px;
+        border: 1px solid #cecece;
+        font-family: inherit;
+        font-size: 0.9em;
+        line-height: 1.5;
+
+        &:focus::placeholder {
+            color: transparent;
+        }
+    }
+
+    .wprm-user-rating-modal-field {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        label {
+            width: auto;
+            min-width: 70px;
+            margin-right: 10px;
+        }
+        input {
+            flex: 1;
+            display: block;
+            width: 100%;
+            margin: 0;
+            border-radius: 4px;
+            border: 1px solid #cecece;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+    }
+
+    &.wprm-user-rating-modal-logged-in {
+        .wprm-user-rating-modal-comment-meta {
+            display: none;
+        }
+    }
+
+    button {
+        margin-right: 5px;
+
+        &:disabled,
+        &[disabled]{
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+
+    #wprm-user-rating-modal-errors {
+        display: inline-block;
+
+        font-size: 0.8em;
+        color: darkred;
+
+        div {
+            display: none;
+        }
+    }
+
+    #wprm-user-rating-modal-waiting,
+    #wprm-user-rating-modal-thank-you {
+        display: none;
+    }
+}
+
+fieldset.wprm-user-ratings-modal-stars {
+    position: relative;
+    display: inline-block; 
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+
+    legend {
+        position: absolute;
+        opacity: 0;
+        left: 0;
+    }
+
+    br {
+        display: none;
+    }
+
+    input[type=radio] {
+        float: left;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 16px;
+        height: 16px;
+        min-width: 0;
+        min-height: 0;
+        opacity: 0;
+        border: 0;
+        cursor: pointer;
+
+        &:first-child {
+            margin-left: -16px;
+        }
+    }
+    span {
+        position: absolute;
+        pointer-events: none;
+        width: 80px;
+        height: 16px;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        font-size: 0;
+
+        svg {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+    
+    input:checked + span,
+    input:hover + span {
+        opacity: 1;
+    }
+    
+    input:hover + span ~ span {
+        display: none;
+    }
+}
+
+.wprm-user-rating-summary {
+    display: flex;
+    align-items: center;
+
+    .wprm-user-rating-summary-stars {
+        margin-right: 10px;
+    }
+    .wprm-user-rating-summary-details {
+        margin-top: 2px;
+    }
+}
+
+.wprm-popup-modal-user-rating-summary {
+    .wprm-popup-modal-user-rating-summary-error {
+        display: none;
+    }
+
+    .wprm-popup-modal-user-rating-summary-ratings {
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
+    .wprm-popup-modal-user-rating-summary-rating {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .wprm-popup-modal-user-rating-summary-rating-stars {
+            margin: 0 5px;
+
+            svg {
+                width: 1em !important;
+                height: 1em !important;
+            }
+            width: 7em;
+        }
+        .wprm-popup-modal-user-rating-summary-rating-name {
+            margin: 0 5px;
+            flex: 1;
+            text-align: center;
+        }
+        .wprm-popup-modal-user-rating-summary-rating-date {
+            margin: 0 5px;
+            text-align: right;
+            width: 160px;
+        }
+    }
+}
+
+.rtl {
+    fieldset.wprm-user-ratings-modal-stars {
+        span {
+            left: inherit;
+            right: 0;
+
+            svg {
+                transform: scale(-1,1);
+            }
+        }
+    }
+}
+
+// Prevent input and textarea zooming in on iOS.
+@supports ( -webkit-touch-callout: none ) {
+    .wprm-popup-modal-user-rating {
+        textarea, .wprm-user-rating-modal-field input {
+            font-size: 16px;
+        }
+    }
+}

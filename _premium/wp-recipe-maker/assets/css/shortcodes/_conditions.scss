@@ -1,0 +1,22 @@
+// Hide by default/
+.wprm-condition-width {
+    display: none;
+}
+
+// Show until max width.
+.wprm-recipe.wprm-max-800 .wprm-condition-max-width-800,
+.wprm-recipe.wprm-max-700 .wprm-condition-max-width-700,
+.wprm-recipe.wprm-max-600 .wprm-condition-max-width-600,
+.wprm-recipe.wprm-max-500 .wprm-condition-max-width-500,
+.wprm-recipe.wprm-max-400 .wprm-condition-max-width-400 {
+  display: block;
+}
+
+// Show from min width.
+.wprm-recipe.wprm-min-800 .wprm-condition-min-width-800,
+.wprm-recipe.wprm-min-700 .wprm-condition-min-width-700,
+.wprm-recipe.wprm-min-600 .wprm-condition-min-width-600,
+.wprm-recipe.wprm-min-500 .wprm-condition-min-width-500,
+.wprm-recipe.wprm-min-400 .wprm-condition-min-width-400 {
+  display: block;
+}

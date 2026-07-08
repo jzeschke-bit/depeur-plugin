@@ -1,0 +1,44 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-overview {
+        border: 1px solid variables.$color-collection-border;
+        border-radius: variables.$border-radius;
+
+        background-color: variables.$color-collection;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .wprmprc-overview-header {
+        background-color: variables.$color-collection-border;
+        border-top-left-radius: calc(#{variables.$border-radius} - 1px);
+        border-top-right-radius: calc(#{variables.$border-radius} - 1px);
+
+        color: variables.$color-collection-text;
+        text-align: center;
+        padding: 10px 5px;
+        font-weight: bold;
+    }
+
+    .wprmprc-overview-collection {
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        &.wprmprc-overview-collection-view:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .wprmprc-overview-collection-name {
+            flex: 1;
+        }
+
+        .wprmprc-overview-collection-items {
+            flex: auto;
+            text-align: right;
+        }
+    }
+}

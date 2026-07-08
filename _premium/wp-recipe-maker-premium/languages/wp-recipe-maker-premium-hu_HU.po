@@ -1,0 +1,3844 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Recipe Maker Premium\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-15 10:18+0000\n"
+"PO-Revision-Date: 2026-01-29 09:09+0000\n"
+"Last-Translator: Pongrácz Roland\n"
+"Language-Team: Magyar\n"
+"Language: hu-HU\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.1; wp-6.8.3; php-8.4.13"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:170
+msgid "\"Grid\" is the default collection layout as of version 8.0.0"
+msgstr ""
+"A 8.0.0 verziótól kezdve a „Grid” az alapértelmezett gyűjteményelrendezés."
+
+#: templates/translations.php:210
+msgid "# Added"
+msgstr "# Hozzáadva"
+
+#: templates/translations.php:402
+msgid "# Collections"
+msgstr "# Gyűjtemények"
+
+#: templates/translations.php:445
+msgid "# Items"
+msgstr "# Elemek"
+
+#: templates/translations.php:407
+msgid "# Items in Collections"
+msgstr "# Elemek a gyűjteményekben"
+
+#: templates/translations.php:406
+msgid "# Items in Inbox"
+msgstr "# Elemek a Beérkezett üzenetek mappában"
+
+#: templates/translations.php:209
+msgid "# Users"
+msgstr "# Felhasználók"
+
+#: templates/public/nutrition-label-legacy.php:55
+msgid "% Daily Value"
+msgstr "Napi érték %-a"
+
+#: templates/nutrition-label/fda.php:54
+#: templates/nutrition-label/classic.php:50
+msgid "% Daily Value*"
+msgstr "Napi érték*"
+
+#: templates/translations.php:17
+#, php-format
+msgid "%d in %s"
+msgstr "%d %s-ben"
+
+#: templates/public/user-ratings-summary.php:73
+#, php-format
+msgid "%s from %s votes"
+msgstr "%s %s szavazatból"
+
+#: templates/public/user-ratings-summary.php:71
+#, php-format
+msgid "%s from 1 vote"
+msgstr "%s 1 szavazatból"
+
+#: templates/public/user-ratings-summary.php:76
+#, php-format
+msgid "%s rating without comment"
+msgid_plural "%s ratings without comment"
+msgstr[0] "%s értékelés komment nélkül"
+msgstr[1] "%s értékelés komment nélkül"
+
+#: templates/nutrition-label/fda.php:124
+#: templates/nutrition-label/classic.php:120
+msgid "* Percent Daily Values are based on a 2000 calorie diet."
+msgstr "* A napi értékek százalékos aránya 2000 kalóriás étrenden alapul."
+
+#: templates/translations.php:366
+msgid "A label and key are required."
+msgstr "Címke és kulcs szükséges."
+
+#: templates/translations.php:252
+msgid "A name is required for this saved nutrition ingredient."
+msgstr "Ehhez a mentett tápanyag-összetevőhöz név szükséges."
+
+#: templates/translations.php:81
+msgid "Actions"
+msgstr "Műveletek"
+
+#: templates/admin/settings/license_invalid.php:28
+msgid "Activate now"
+msgstr "Aktiválás most"
+
+#: templates/admin/settings/license_invalid.php:17
+msgid "Activate your license key to receive automatic updates."
+msgstr "Aktiválja licenckulcsát az automatikus frissítések fogadásához."
+
+#: templates/translations.php:397
+msgid "Active"
+msgstr "Aktív"
+
+#: templates/translations.php:26
+msgid "Add %d Products to Cart"
+msgstr "%d termék hozzáadása a kosárhoz"
+
+#: addons-elite/products/includes/public/class-wprmpp-modal.php:51
+msgid "Add 0 Products to Cart"
+msgstr "0 termék hozzáadása a kosárhoz"
+
+#: templates/translations.php:25
+msgid "Add 1 Product to Cart"
+msgstr "1 termék hozzáadása a kosárhoz"
+
+#: templates/translations.php:103
+msgid "Add a column to this collection"
+msgstr "Oszlop hozzáadása ehhez a gyűjteményhez"
+
+#: templates/translations.php:189
+msgid "Add a new collection"
+msgstr "Új gyűjtemény hozzáadása"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:487
+msgid "Add Button Behaviour"
+msgstr "Gomb viselkedésének hozzáadása"
+
+#: templates/translations.php:190
+msgid "Add Collection"
+msgstr "Gyűjtemény hozzáadása"
+
+#: templates/translations.php:72
+msgid "Add Column"
+msgstr "Oszlop hozzáadása"
+
+#: templates/translations.php:87
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:845
+msgid "Add Custom Recipe"
+msgstr "Egyéni recept hozzáadása"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:184
+msgid "Add directly in column (backwards compatibility)"
+msgstr "Közvetlenül az oszlopba hozzáadás (visszafelé kompatibilitás)"
+
+#: templates/translations.php:89
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:842
+msgid "Add from Collection"
+msgstr "Hozzáadás a gyűjteményből"
+
+#: templates/translations.php:74
+msgid "Add Group"
+msgstr "Csoport hozzáadása"
+
+#: templates/translations.php:304
+msgid "Add Image"
+msgstr "Kép hozzáadása"
+
+#: templates/translations.php:68
+msgid "Add Ingredient"
+msgstr "Hozzávaló hozzáadása"
+
+#: templates/translations.php:76
+msgid "Add Item"
+msgstr "Elem hozzáadása"
+
+#: templates/translations.php:120
+msgid "Add item to this collection group"
+msgstr "Elem hozzáadása ehhez a gyűjteménycsoporthoz"
+
+#: templates/translations.php:88
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:846
+msgid "Add Note"
+msgstr "Megjegyzés hozzáadása"
+
+#: templates/translations.php:192
+msgid "Add Pre-made Collection"
+msgstr "Előre elkészített gyűjtemény hozzáadása"
+
+#: addons-elite/products/includes/public/class-wprmpp-modal.php:47
+#: addons-elite/products/includes/public/class-wprmpp-modal.php:112
+msgid "Add Products to Cart"
+msgstr "Termékek hozzáadása a kosárhoz"
+
+#: templates/translations.php:195
+msgid "Add Saved Collection"
+msgstr "Mentett gyűjtemény hozzáadása"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:26
+msgid ""
+"Add the [wprm-recipe-submission] shortcode to a regular WordPress page to "
+"display the Recipe Submission form."
+msgstr ""
+"Add hozzá a [wprm-recipe-submission] rövidkódot egy normál WordPress "
+"oldalhoz a receptbeküldési űrlap megjelenítéséhez."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:35
+msgid ""
+"Add the Recipe Collections block or [wprm-recipe-collections] shortcode to a "
+"regular WordPress page to display the Recipe Collections feature."
+msgstr ""
+"Add hozzá a Receptgyűjtemények blokkot vagy a [wprm-recipe-collections] "
+"rövidkódot egy normál WordPress oldalhoz a Receptgyűjtemények funkció "
+"megjelenítéséhez."
+
+#: templates/translations.php:13
+msgid "Add to Cart"
+msgstr "Kosárba"
+
+#: templates/translations.php:130
+msgid "Add to Collection"
+msgstr "Hozzáadás a gyűjteményhez"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:474
+msgid "Add to Collection Button"
+msgstr "Hozzáadás a gyűjteményhez gomb"
+
+#: templates/translations.php:20
+msgid "Added!"
+msgstr "Hozzáadva!"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:180
+msgid "Adding Items Layout"
+msgstr "Elemek elrendezésének hozzáadása"
+
+#: templates/translations.php:23
+msgid "Adding to Cart..."
+msgstr "Kosárba helyezés..."
+
+#: templates/translations.php:19
+msgid "Adding..."
+msgstr "Hozzáadás..."
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-servings.php:68
+#: includes/public/shortcodes/recipe/class-wprmp-sc-servings.php:73
+#: includes/public/shortcodes/recipe/class-wprmp-sc-servings.php:88
+msgid "Adjust recipe servings"
+msgstr "Módosítsa a recept adagjait"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-servings.php:205
+msgid "Adjust servings by"
+msgstr "Adagok módosítása"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:315
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:435
+msgid "Advanced Adjustable Servings Unit"
+msgstr "Fejlett, állítható adagegység"
+
+#: templates/translations.php:331
+msgid "Affiliate Link"
+msgstr "Partnerlink"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:85
+msgid "After Submission"
+msgstr "Beküldés után"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:96
+msgid "After successful submission"
+msgstr "Sikeres beküldés után"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:184
+msgid "Agree to Terms"
+msgstr "Elfogadom a feltételeket"
+
+#: includes/public/class-wprmp-nutrition.php:612
+msgid "Alcohol"
+msgstr "Alkohol"
+
+#: templates/translations.php:339
+msgid "All fields are required."
+msgstr "Minden mező kitöltése kötelező."
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:285
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:289
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:293
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:297
+msgid "All Items"
+msgstr "Minden tétel"
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:281
+msgid "All Items used in Collections"
+msgstr "A gyűjteményekben használt összes elem"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:213
+#: includes/public/class-wprmp-nutrition-label-layout.php:256
+msgid "All other active Nutrients"
+msgstr "Minden más aktív tápanyag"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:944
+msgid "Allow Custom Recipes"
+msgstr "Egyéni receptek engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:945
+msgid "Allow custom recipes to be added to a collection."
+msgstr "Egyéni receptek gyűjteményhez való hozzáadásának engedélyezése."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:937
+msgid "Allow Ingredients"
+msgstr "Hozzávalók engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:930
+msgid "Allow Marking as Leftovers"
+msgstr "Maradékként való megjelölés engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:951
+msgid "Allow Notes"
+msgstr "Jegyzetek engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:952
+msgid "Allow notes to be added to a collection."
+msgstr "Jegyzetek gyűjteményhez adásának engedélyezése."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:938
+msgid ""
+"Allow nutrition ingredients to be added to a collection. These can be added "
+"on the WP Recipe Maker > Manage > Your Custom Fields > Custom Nutrition page."
+msgstr ""
+"Engedélyezd a tápanyag-összetevők hozzáadását egy gyűjteményhez. Ezek a WP "
+"Recipe Maker > Kezelés > Egyéni mezők > Egyéni tápanyagtartalom oldalon "
+"adhatók hozzá."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:853
+msgid "Allow recipes to be added to a collection by searching for them."
+msgstr ""
+"Receptek kereséssel történő hozzáadásának engedélyezése egy gyűjteményhez."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:852
+msgid "Allow Search Recipes"
+msgstr "Receptek keresésének engedélyezése"
+
+#: templates/admin/settings/license.php:45
+#: templates/admin/settings/license_invalid.php:24
+msgid ""
+"Allow the licensing API to collect usage data about your site, such as the "
+"PHP and WordPress versions."
+msgstr ""
+"Engedélyezze a licencelési API számára, hogy használati adatokat gyűjtsön a "
+"webhelyéről, például a PHP és a WordPress verzióiról."
+
+#: templates/admin/settings/license.php:44
+msgid "Allow Usage Data Tracking"
+msgstr "Használati adatok nyomon követésének engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:129
+msgid ""
+"Allow visitors to generate a shopping list without having go through the "
+"full collections feature."
+msgstr ""
+"Lehetővé teszi a látogatók számára, hogy bevásárlólistát generáljanak "
+"anélkül, hogy végig kellene menniük a teljes átvételi funkción."
+
+#: templates/translations.php:237 templates/translations.php:254
+msgid "Amount"
+msgstr "Összeg"
+
+#: templates/translations.php:233
+msgid "Amount Needed"
+msgstr "Szükséges összeg"
+
+#: templates/public/nutrition-label-legacy.php:34
+msgid "Amount Per 100g"
+msgstr "Mennyiség 100 grammonként"
+
+#: templates/public/nutrition-label-modern.php:52
+msgid "Amount per 100g"
+msgstr "Mennyiség 100 grammonként"
+
+#: templates/public/nutrition-label-legacy.php:37
+msgid "Amount Per Serving"
+msgstr "Adagonkénti mennyiség"
+
+#: templates/public/nutrition-label-modern.php:51
+#: templates/nutrition-label/fda.php:39
+#: templates/nutrition-label/classic.php:36
+msgid "Amount per Serving"
+msgstr "Adagonkénti mennyiség"
+
+#: templates/translations.php:282
+msgid "API"
+msgstr "API"
+
+#: includes/public/class-wprmp-amazon-api.php:217
+#: includes/public/class-wprmp-amazon-api-creators.php:391
+msgid ""
+"API credentials not set on the WP Recipe Maker > Settings > Amazon Products "
+"page."
+msgstr ""
+"Az API hitelesítő adatok nincsenek beállítva a WP Recipe Maker > Beállítások "
+"> Amazon termékek oldalon."
+
+#: templates/translations.php:272
+msgid "API Ingredients"
+msgstr "API összetevők"
+
+#: templates/settings/cook-mode.php:21
+msgid "Appearance"
+msgstr "Megjelenés"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:139
+msgid "Approval"
+msgstr "Jóváhagyás"
+
+#: templates/translations.php:388
+msgid "Approve Submission"
+msgstr "Beküldés jóváhagyása"
+
+#: templates/translations.php:389
+msgid "Approve Submission & Add to new Post"
+msgstr "Beküldés jóváhagyása és hozzáadás az új bejegyzéshez"
+
+#: templates/translations.php:341
+msgid "Are you sure you want to close without saving changes?"
+msgstr "Biztosan be szeretné zárni a változtatások mentése nélkül?"
+
+#: templates/translations.php:391
+msgid "Are you sure you want to delete"
+msgstr "Biztosan törölni szeretnéd?"
+
+#: templates/translations.php:138
+msgid "Are you sure you want to delete all items in"
+msgstr "Biztosan törölni szeretné az összes elemet a következőből:"
+
+#: templates/translations.php:185
+msgid "Are you sure you want to delete this group, and all of the items in it?"
+msgstr ""
+"Biztosan törölni szeretné ezt a csoportot és az összes benne lévő elemet?"
+
+#: templates/translations.php:300
+msgid "Are you sure you want to delete this link?"
+msgstr "Biztosan törölni szeretné ezt a linket?"
+
+#: templates/translations.php:102
+msgid "Are you sure you want to delete?"
+msgstr "Biztosan törölni szeretnéd?"
+
+#: templates/translations.php:170
+msgid ""
+"Are you sure you want to generate a new shopping list for this collection? "
+"You will only be able to access this shopping list again with the share link."
+msgstr ""
+"Biztosan új bevásárlólistát szeretne létrehozni ehhez a gyűjteményhez? Csak "
+"a megosztási linkkel férhet hozzá újra ehhez a bevásárlólistához."
+
+#: templates/translations.php:383
+msgid "Are you sure you want to overwrite the existing values?"
+msgstr "Biztosan felülírja a meglévő értékeket?"
+
+#: templates/translations.php:47
+msgid "Are you sure you want to remove all items from this collection?"
+msgstr "Biztosan eltávolítja az összes elemet ebből a gyűjteményből?"
+
+#: templates/translations.php:171
+msgid "Are you sure you want to remove all recipes from this shopping list?"
+msgstr "Biztosan eltávolítod az összes receptet erről a bevásárlólistáról?"
+
+#: includes/public/class-wprmp-amazon-queue.php:143
+msgid "ASIN not found"
+msgstr "ASIN nem található"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:184
+msgid "Assign Category to Post"
+msgstr "Kategória hozzárendelése bejegyzéshez"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:518
+msgid "At the bottom of the collection"
+msgstr "A gyűjtemény alján"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:517
+msgid "At the top of the collection"
+msgstr "A gyűjtemény tetején"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:283
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:403
+msgid "Australian"
+msgstr "ausztrál"
+
+#: templates/translations.php:317
+msgid "Automatically"
+msgstr "Automatikusan"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:172
+msgid "Automatically add to Post"
+msgstr "Automatikus hozzáadás a bejegyzéshez"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:143
+msgid "Automatically approve submissions for"
+msgstr "Beküldések automatikus jóváhagyása"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:154
+msgid "Automatically Publish Recipe"
+msgstr "Recept automatikus közzététele"
+
+#: templates/translations.php:202
+msgid "Average"
+msgstr "Átlagos"
+
+#: templates/translations.php:172
+msgid "Back"
+msgstr "Vissza"
+
+#: templates/translations.php:58
+msgid "Blue"
+msgstr "Kék"
+
+#. Author of the plugin
+msgid "Bootstrapped Ventures"
+msgstr "Bootstrapped Ventures"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:970
+msgid "Button is enabled by default"
+msgstr "A gomb alapértelmezés szerint engedélyezve van"
+
+#: includes/public/class-wprmp-nutrition.php:604
+msgid "Caffeine"
+msgstr "Koffein"
+
+#: includes/public/class-wprmp-nutrition.php:523
+msgid "Calcium"
+msgstr "Kalcium"
+
+#: templates/translations.php:251
+msgid "Calculate"
+msgstr "Számítás"
+
+#: templates/translations.php:370
+msgid "Calculated"
+msgstr "Számított"
+
+#: templates/translations.php:376
+msgid "Calculation"
+msgstr "Számítás"
+
+#: includes/public/class-wprmp-nutrition.php:310
+#: templates/public/nutrition-label-legacy.php:47
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:13
+msgid "Calories"
+msgstr "Kalória"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:48
+#: templates/public/nutrition-label-legacy.php:49
+#: templates/public/nutrition-label-modern.php:113
+msgid "Calories from Fat"
+msgstr "Zsírból származó kalóriák"
+
+#: templates/translations.php:94
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: templates/translations.php:261
+msgid "Cancel Calculation"
+msgstr "Számítás megszakítása"
+
+#: templates/translations.php:385
+msgid "Cancel import"
+msgstr "Importálás megszakítása"
+
+#: includes/public/class-wprmp-nutrition.php:319
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:14
+msgid "Carbohydrates"
+msgstr "Szénhidrátok"
+
+#: templates/translations.php:18
+msgid "Cart is empty"
+msgstr "A kosár üres"
+
+#: includes/public/api/class-wprmp-api-modal.php:73
+msgid "Categories are required."
+msgstr "A kategóriák megadása kötelező."
+
+#: templates/translations.php:430
+msgid "Category"
+msgstr "Kategória"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:305
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:425
+msgid "Celcius"
+msgstr "Celsius"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:86
+msgid "Centiliters"
+msgstr "Centiliter"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:319
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:439
+msgid "Centimeters"
+msgstr "Centiméter"
+
+#: templates/translations.php:222
+msgid "Change Amazon Product"
+msgstr "Amazon termék módosítása"
+
+#: templates/translations.php:431
+msgid "Change Category"
+msgstr "Kategória módosítása"
+
+#: templates/translations.php:196
+msgid "Change collection name"
+msgstr "Gyűjtemény nevének módosítása"
+
+#: templates/translations.php:46
+msgid "Change Collection Structure"
+msgstr "Gyűjtemény struktúrájának módosítása"
+
+#: templates/translations.php:53
+msgid "Change Description"
+msgstr "Változás leírása"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:80
+msgid "Change diameter of the baking form"
+msgstr "A sütőforma átmérőjének módosítása"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:103
+msgid "Change height of the baking form"
+msgstr "A sütőforma magasságának módosítása"
+
+#: templates/translations.php:106
+msgid "Change ingredient amount"
+msgstr "Hozzávalók mennyiségének módosítása"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:88
+msgid "Change length of the baking form"
+msgstr "A sütőforma hosszának módosítása"
+
+#: templates/translations.php:97
+msgid "Change Name"
+msgstr "Név módosítása"
+
+#: templates/translations.php:247
+msgid "Change Product"
+msgstr "Termék módosítása"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:195
+msgid "Change Recipe Structure Layout"
+msgstr "Receptszerkezet elrendezésének módosítása"
+
+#: templates/translations.php:114
+msgid "Change Servings"
+msgstr "Adagok módosítása"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-servings.php:203
+msgid "Change servings to..."
+msgstr "Adagok módosítása erre:..."
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:140
+msgid "Change shape of the baking form"
+msgstr "A sütőforma alakjának megváltoztatása"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:215
+msgid ""
+"Change the advanced adjustable servings unit when a visitor changes the unit "
+"system."
+msgstr ""
+"Módosítsa a speciálisan állítható adagegységet, amikor egy látogató "
+"módosítja a mértékegységrendszert."
+
+#: templates/settings/cook-mode.php:22
+msgid ""
+"Change the appearance of the Cook Mode modal on the WP Recipe Maker > "
+"Settings > Custom Style > Popup Modal page."
+msgstr ""
+"Módosítsd a Főzési mód modális ablak megjelenését a WP Recipe Maker > "
+"Beállítások > Egyéni stílus > Felugró modális oldalon."
+
+#: templates/translations.php:51
+msgid "Change the description for this collection"
+msgstr "A gyűjtemény leírásának módosítása"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:200
+msgid "Change the structure in a separate modal"
+msgstr "Változtassa meg a szerkezetet külön modális ablakban"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:159
+msgid "Change unit for the baking form values"
+msgstr "Sütőforma értékeinek mértékegységének módosítása"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:86
+msgid "Change width of the baking form"
+msgstr "A sütőforma szélességének módosítása"
+
+#: templates/translations.php:178
+msgid ""
+"Changes to the collection have been made since this shopping list was "
+"generated."
+msgstr "A bevásárlólista létrehozása óta változások történtek a gyűjteményben."
+
+#: templates/translations.php:275
+msgid ""
+"Changes to these values can be made after confirming with the blue button."
+msgstr "Ezek az értékek a kék gombbal történő megerősítés után módosíthatók."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:190
+msgid "Changes with Unit System"
+msgstr "Változások az egységrendszerben"
+
+#: templates/translations.php:266
+msgid "Check the API Status"
+msgstr "Ellenőrizze az API állapotát"
+
+#: includes/public/class-wprmp-nutrition.php:379
+msgid "Cholesterol"
+msgstr "Koleszterin"
+
+#: includes/public/class-wprmp-nutrition.php:628
+msgid "Choline"
+msgstr "Kolin"
+
+#: addons-elite/products/templates/admin/settings/products.php:33
+msgid ""
+"Choose which icon to display next to ingredients and equipment that have "
+"products linked."
+msgstr ""
+"Válassza ki, hogy melyik ikon jelenjen meg az olyan összetevők és "
+"berendezések mellett, amelyekhez termékek kapcsolódnak."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:173
+msgid "Classic - The original collections layout using columns"
+msgstr "Klasszikus – Az eredeti gyűjteményelrendezés oszlopok használatával"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:177
+msgid "Classic Editor"
+msgstr "Klasszikus szerkesztő"
+
+#: templates/translations.php:128
+msgid "Clear All Items"
+msgstr "Összes elem törlése"
+
+#: templates/translations.php:48
+msgid "Clear all items in this collection"
+msgstr "Az összes elem törlése ebben a gyűjteményben"
+
+#: templates/translations.php:245
+msgid "Clear amount"
+msgstr "Nettó összeg"
+
+#: templates/translations.php:324
+msgid "Clear converted values"
+msgstr "Átváltott értékek törlése"
+
+#: templates/translations.php:49
+msgid "Clear Items"
+msgstr "Töröld az elemeket"
+
+#: templates/translations.php:177
+msgid "Click the cart icon in the top right to generate a new shopping list."
+msgstr ""
+"Új bevásárlólista létrehozásához kattintson a jobb felső sarokban található "
+"kosár ikonra."
+
+#: templates/translations.php:175
+msgid "Click the cart icon in the top right to generate the shopping list."
+msgstr ""
+"A bevásárlólista létrehozásához kattintson a jobb felső sarokban található "
+"kosár ikonra."
+
+#: templates/translations.php:82
+msgid "Click to add:"
+msgstr "Kattintson a hozzáadáshoz:"
+
+#: templates/translations.php:137
+msgid "Click to confirm..."
+msgstr "Kattintson a megerősítéshez..."
+
+#: templates/translations.php:104
+msgid "Click to set name"
+msgstr "Kattintson a név beállításához"
+
+#: includes/public/class-wprmp-assets.php:134
+msgid "Click to Start Timer"
+msgstr "Kattints az időzítő indításához"
+
+#: templates/translations.php:131
+#: templates/public/cook-mode-popup-footer.php:44
+#: templates/public/cook-mode-popup-footer.php:45
+msgid "Close"
+msgstr "Közeli"
+
+#: templates/translations.php:27
+msgid "Close Modal"
+msgstr "Modális ablak bezárása"
+
+#: templates/settings/cook-mode.php:26 templates/settings/cook-mode.php:30
+msgid "Closing Screen"
+msgstr "Záróképernyő"
+
+#: templates/settings/cook-mode.php:51
+msgid "Closing Screen HTML"
+msgstr "Záróképernyő HTML-je"
+
+#: templates/settings/cook-mode.php:41
+msgid "Closing Screen Message"
+msgstr "Üzenet a képernyő bezárásához"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:153
+msgid "cm"
+msgstr "cm"
+
+#: templates/translations.php:164
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:85
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:194
+#: addons-elite/recipe-collections/templates/print/shopping-list-collection.php:22
+msgid "Collection"
+msgstr "Gyűjtemény"
+
+#: templates/translations.php:127
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:834
+msgid "Collection Items"
+msgstr "Gyűjteményi tételek"
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:277
+msgid "Collections (excludes inbox)"
+msgstr "Gyűjtemények (a beérkező levelek kivételével)"
+
+#: templates/translations.php:213
+msgid "Collections Usage"
+msgstr "Gyűjtemények használata"
+
+#: templates/translations.php:63
+msgid "Color"
+msgstr "Szín"
+
+#: templates/translations.php:125
+msgid "Columns"
+msgstr "Oszlopok"
+
+#: templates/translations.php:78
+msgid "Columns & Groups"
+msgstr "Oszlopok és csoportok"
+
+#: templates/translations.php:323
+msgid "Consider recalculating the conversion or marking it as OK."
+msgstr ""
+"Fontolja meg az átváltás újraszámítását vagy OK-ként való megjelölését."
+
+#: templates/translations.php:243
+msgid "Consider updating the product amount or marking it as OK."
+msgstr ""
+"Fontolja meg a termék mennyiségének frissítését vagy OK-ként való "
+"megjelölését."
+
+#: templates/translations.php:311
+msgid "Conversion"
+msgstr "Átalakítás"
+
+#: templates/translations.php:315
+msgid "Convert"
+msgstr "Megtérít"
+
+#: templates/translations.php:314
+msgid "Convert All Automatically"
+msgstr "Összes automatikus konvertálása"
+
+#: includes/admin/tools/class-wprmp-tools-amazon-html-links.php:38
+msgid "Convert Amazon HTML to Links"
+msgstr "Amazon HTML konvertálása linkekké"
+
+#: includes/admin/tools/class-wprmp-tools-amazon-html-products.php:38
+msgid "Convert Amazon HTML to Products"
+msgstr "Amazon HTML konvertálása termékekké"
+
+#: includes/admin/tools/class-wprmp-tools-amazon-links-products.php:38
+msgid "Convert Amazon Links to Products"
+msgstr "Amazon linkek konvertálása termékekké"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:186
+msgid ""
+"Convert any temperature shortcodes used inside of the recipe when a visitor "
+"changes the unit system."
+msgstr ""
+"Konvertálja át a receptben használt hőmérsékleti rövidkódokat, amikor egy "
+"látogató megváltoztatja a mértékegységrendszert."
+
+#: templates/translations.php:321
+msgid "Convert..."
+msgstr "Megtérít..."
+
+#: templates/translations.php:312
+msgid "Converted"
+msgstr "Átalakítva"
+
+#: includes/public/class-wprmp-cook-mode.php:91
+msgid "Cook Mode"
+msgstr "Főzési mód"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:239
+msgid "Cook Time"
+msgstr "Főzési idő"
+
+#: includes/public/class-wprmp-nutrition.php:532
+msgid "Copper"
+msgstr "Réz"
+
+#: templates/translations.php:42
+msgid "Copy Share Link"
+msgstr "Link megosztása"
+
+#: templates/translations.php:148
+msgid "Copy this link to allow others to edit this shopping list:"
+msgstr ""
+"Másolja ki ezt a linket, hogy mások is szerkeszthessék ezt a bevásárlólistát:"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:260
+msgid "Courses"
+msgstr "Tanfolyamok"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:173
+msgid ""
+"Create and publish a new post with the recipe inside it upon automatic "
+"approval."
+msgstr ""
+"Hozz létre és tegyél közzé egy új bejegyzést a recepttel az automatikus "
+"jóváhagyást követően."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:108
+msgid "Create your own collections to display to your visitors."
+msgstr ""
+"Hozz létre saját gyűjteményeket, amelyeket bemutathatsz a látogatóidnak."
+
+#: templates/translations.php:343
+msgid "Creating new Custom Field"
+msgstr "Új egyéni mező létrehozása"
+
+#: templates/translations.php:368
+msgid "Creating new Nutrient"
+msgstr "Új tápanyag létrehozása"
+
+#: templates/translations.php:382
+msgid "Creating new Nutrition Ingredient"
+msgstr "Új táplálkozási összetevő létrehozása"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:267
+msgid "Cuisines"
+msgstr "Konyhák"
+
+#: templates/translations.php:66
+msgid "cup"
+msgstr "csésze"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:264
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:384
+msgid "Cup Type"
+msgstr "Kupa típusa"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:44
+msgid "Cups"
+msgstr "Csészék"
+
+#: templates/translations.php:229
+msgid "Current Product"
+msgstr "Jelenlegi termék"
+
+#: templates/translations.php:350
+msgid "Currently supported integrations:"
+msgstr "Jelenleg támogatott integrációk:"
+
+#: templates/translations.php:369
+msgid "Custom"
+msgstr "Szokás"
+
+#: templates/translations.php:409
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:311
+msgid "Custom Field"
+msgstr "Egyéni mező"
+
+#: templates/translations.php:410
+msgid "Custom Fields"
+msgstr "Egyéni mezők"
+
+#: addons-elite/products/templates/admin/settings/products.php:42
+#: addons-elite/products/templates/admin/settings/products.php:52
+msgid "Custom Icon URL"
+msgstr "Egyéni ikon URL-címe"
+
+#: templates/translations.php:273
+msgid "Custom Ingredients"
+msgstr "Egyedi összetevők"
+
+#: templates/translations.php:329
+msgid "Custom Links for this Recipe only"
+msgstr "Csak ehhez a recepthez tartozó egyéni linkek"
+
+#: templates/translations.php:413
+msgid "Custom Nutrient"
+msgstr "Egyedi tápanyag"
+
+#: templates/translations.php:414
+msgid "Custom Nutrients"
+msgstr "Egyedi tápanyagok"
+
+#: templates/translations.php:412
+msgid "Custom Nutrition"
+msgstr "Egyedi táplálkozás"
+
+#: templates/translations.php:411
+msgid "Custom Nutrition Ingredient"
+msgstr "Egyedi táplálkozási összetevő"
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:289
+msgid "Custom Recipes"
+msgstr "Egyedi receptek"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:303
+msgid "Custom Taxonomy"
+msgstr "Egyéni taxonómia"
+
+#: templates/translations.php:327
+msgid "Custom: these links will only affect the recipe below"
+msgstr "Egyéni: ezek a linkek csak az alábbi receptre vonatkoznak"
+
+#: templates/translations.php:375
+msgid "Daily Need"
+msgstr "Napi szükséglet"
+
+#: templates/translations.php:393
+msgid "Date"
+msgstr "Dátum"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:80
+msgid "Deciliters"
+msgstr "Deciliter"
+
+#: templates/translations.php:378
+msgid "Decimal Precision"
+msgstr "Decimális pontosság"
+
+#: templates/translations.php:219
+msgid "Decrease serving size by 1"
+msgstr "Csökkentsd az adagot 1-gyel"
+
+#: templates/translations.php:122
+msgid "Decrease serving size by one"
+msgstr "Csökkentsd az adagot eggyel"
+
+#: templates/public/cook-mode-popup.php:56
+msgid "Decrease servings"
+msgstr "Csökkentsd az adagokat"
+
+#: templates/translations.php:433
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:838
+msgid "Default Add Item Selection"
+msgstr "Alapértelmezett elem hozzáadása kiválasztása"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:839
+msgid "Default selection when adding items to a collection (inbox excluded)."
+msgstr ""
+"Alapértelmezett kijelölés elemek gyűjteményhez adásakor (a beérkezett "
+"üzenetek kivételével)."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:905
+msgid "Default to 1 serving for the collection"
+msgstr "Alapértelmezés szerint 1 adag a gyűjteményhez"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:906
+msgid "Default to 2 servings for the collection"
+msgstr "Alapértelmezés szerint 2 adag a gyűjteményhez"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:907
+msgid "Default to 3 servings for the collection"
+msgstr "Alapértelmezés szerint 3 adag a gyűjteményhez"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:908
+msgid "Default to 4 servings for the collection"
+msgstr "Alapértelmezés szerint 4 adagot tartalmaz a gyűjtemény"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:159
+msgid "Default Unit System"
+msgstr "Alapértelmezett mértékegységrendszer"
+
+#: templates/translations.php:139
+msgid "Delete"
+msgstr "Töröl"
+
+#: templates/translations.php:101
+msgid "Delete Column"
+msgstr "Oszlop törlése"
+
+#: templates/translations.php:425
+msgid "Delete Custom Ingredient"
+msgstr "Egyéni összetevő törlése"
+
+#: templates/translations.php:396
+msgid "Delete Custom Nutrient"
+msgstr "Egyéni tápanyag törlése"
+
+#: templates/translations.php:423
+msgid "Delete Field"
+msgstr "Mező törlése"
+
+#: templates/translations.php:134
+msgid "Delete Group"
+msgstr "Csoport törlése"
+
+#: templates/translations.php:390
+msgid "Delete Recipe Submission"
+msgstr "Receptbeküldés törlése"
+
+#: templates/translations.php:429
+msgid "Delete Saved Collection"
+msgstr "Mentett gyűjtemény törlése"
+
+#: templates/translations.php:183
+msgid "Delete this ingredient from the shopping list"
+msgstr "Töröld ezt az összetevőt a bevásárlólistáról"
+
+#: templates/translations.php:186
+msgid "Delete this shopping list group"
+msgstr "Törölje ezt a bevásárlólista-csoportot"
+
+#: templates/translations.php:124
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:129
+msgid "Description"
+msgstr "Leírás"
+
+#: templates/translations.php:50
+msgid "Description for this collection:"
+msgstr "Leírás ehhez a gyűjteményhez:"
+
+#: templates/translations.php:162
+msgid "Deselect all"
+msgstr "Összes kijelölés törlése"
+
+#: templates/translations.php:400
+msgid "Display Name"
+msgstr "Megjelenített név"
+
+#: templates/translations.php:269
+msgid "divided by"
+msgstr "osztva"
+
+#: templates/translations.php:115
+msgid "Do not mark as leftovers"
+msgstr "Ne jelölje meg maradékként"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:501
+msgid "Do not offer a choice, put in the first column and first group"
+msgstr ""
+"Ne kínálj fel választási lehetőséget, tedd az első oszlopba és az első "
+"csoportba"
+
+#: templates/translations.php:405
+msgid "Does not have Saved Collections"
+msgstr "Nincsenek mentett gyűjtemények"
+
+#: addons-elite/products/templates/admin/settings/products.php:41
+msgid "Dollar Sign"
+msgstr "Dollárjel"
+
+#: templates/translations.php:129
+msgid "Done"
+msgstr "Kész"
+
+#: templates/translations.php:83
+msgid "Drag and drop to add:"
+msgstr "Húzd és vidd el a hozzáadáshoz:"
+
+#: templates/translations.php:100
+msgid "Duplicate"
+msgstr "Másolat"
+
+#: templates/translations.php:113
+msgid "Duplicate Item"
+msgstr "Duplikált elem"
+
+#: templates/translations.php:428
+msgid "Duplicate Saved Collection"
+msgstr "Mentett gyűjtemény duplikálása"
+
+#: templates/translations.php:336
+msgid "Edit Affiliate Fields"
+msgstr "Partneri mezők szerkesztése"
+
+#: templates/translations.php:193
+msgid "Edit Collections"
+msgstr "Gyűjtemények szerkesztése"
+
+#: templates/translations.php:73
+msgid "Edit Columns"
+msgstr "Oszlopok szerkesztése"
+
+#: templates/translations.php:424
+msgid "Edit Custom Ingredient"
+msgstr "Egyéni összetevő szerkesztése"
+
+#: templates/translations.php:111
+msgid "Edit Custom Recipe"
+msgstr "Egyéni recept szerkesztése"
+
+#: templates/translations.php:422
+msgid "Edit Field"
+msgstr "Mező szerkesztése"
+
+#: templates/translations.php:330
+msgid "Edit Global Links"
+msgstr "Globális linkek szerkesztése"
+
+#: templates/translations.php:75
+msgid "Edit Groups"
+msgstr "Csoportok szerkesztése"
+
+#: templates/translations.php:302
+msgid "Edit Image"
+msgstr "Kép szerkesztése"
+
+#: templates/translations.php:69
+msgid "Edit Ingredients"
+msgstr "Hozzávalók szerkesztése"
+
+#: templates/translations.php:96
+msgid "Edit Item"
+msgstr "Elem szerkesztése"
+
+#: templates/translations.php:298
+msgid "Edit Link"
+msgstr "Link szerkesztése"
+
+#: templates/translations.php:112
+msgid "Edit Note"
+msgstr "Megjegyzés szerkesztése"
+
+#: templates/translations.php:395
+msgid "Edit Nutrient"
+msgstr "Tápanyag szerkesztése"
+
+#: templates/translations.php:118
+msgid "Edit Recipe"
+msgstr "Recept szerkesztése"
+
+#: templates/translations.php:387
+msgid "Edit Recipe Submission"
+msgstr "Recept beküldésének szerkesztése"
+
+#: templates/translations.php:426
+msgid "Edit Saved Collection"
+msgstr "Mentett gyűjtemény szerkesztése"
+
+#: templates/translations.php:152
+msgid "Edit Shopping List"
+msgstr "Bevásárlólista szerkesztése"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:34
+msgid "Edit the Recipe Submission form layout"
+msgstr "A receptbeküldési űrlap elrendezésének szerkesztése"
+
+#: templates/translations.php:342
+msgid "Editing Custom Field"
+msgstr "Egyéni mező szerkesztése"
+
+#: templates/translations.php:289
+msgid "Editing Equipment Affiliate Fields"
+msgstr "Szerkesztőeszközök Partneri mezői"
+
+#: templates/translations.php:338
+msgid "Editing Global Ingredient Links"
+msgstr "Globális összetevőhivatkozások szerkesztése"
+
+#: templates/translations.php:367
+msgid "Editing Nutrient"
+msgstr "Tápanyag szerkesztése"
+
+#: templates/translations.php:381
+msgid "Editing Nutrition Ingredient"
+msgstr "Tápanyag-összetevő szerkesztése"
+
+#: templates/translations.php:354
+msgid "Editing Product"
+msgstr "Termék szerkesztése"
+
+#: templates/translations.php:92
+msgid "Editing User"
+msgstr "Felhasználó szerkesztése"
+
+#: templates/translations.php:401
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:179
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:325
+msgid "Email"
+msgstr "Email"
+
+#: templates/translations.php:191
+msgid "Empty Collection"
+msgstr "Üres gyűjtemény"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:214
+msgid "Enable Advanced Adjustable Servings Conversion"
+msgstr "Speciális, állítható adagok konverziójának engedélyezése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:964
+msgid "Enable button to show nutrition facts"
+msgstr "Tápanyagtartalom megjelenítésének engedélyezése gomb"
+
+#: templates/translations.php:434
+msgid ""
+"Enable to make this a default collection for new users. Does not affect "
+"those who have used the collections feature before."
+msgstr ""
+"Engedélyezze, hogy ez legyen az alapértelmezett gyűjtemény az új "
+"felhasználók számára. Ez nem érinti azokat, akik korábban már használták a "
+"gyűjtemények funkciót."
+
+#: templates/translations.php:442
+msgid ""
+"Enable to make this saved collection show up after clicking on \"Add Pre-"
+"made Collection\". Can be used to give users easy access to the meal plans "
+"you create."
+msgstr ""
+"Engedélyezze, hogy ez a mentett gyűjtemény megjelenjen az „Előre elkészített "
+"gyűjtemény hozzáadása” gombra kattintás után. Használható arra, hogy a "
+"felhasználók könnyen hozzáférhessenek az Ön által létrehozott étkezési "
+"tervekhez."
+
+#: templates/translations.php:440
+msgid ""
+"Enable to make this saved collection show up as an option after clicking "
+"\"Add Collection\". This would usually be an empty collection with a "
+"specific structure like \"Empty Week Plan\"."
+msgstr ""
+"Engedélyezze, hogy ez a mentett gyűjtemény megjelenjen opcióként a "
+"„Gyűjtemény hozzáadása” gombra kattintás után. Ez általában egy üres "
+"gyűjtemény lenne egy adott struktúrával, például az „Üres heti terv”."
+
+#: templates/translations.php:438
+msgid ""
+"Enable to mark this collection as fixed. Fixed saved collections will always "
+"show up in the collections list of a user and cannot be edited by them."
+msgstr ""
+"Engedélyezze a gyűjtemény javítottként való megjelöléséhez. A javított "
+"mentett gyűjtemények mindig megjelennek a felhasználó gyűjteménylistájában, "
+"és a felhasználó nem szerkesztheti őket."
+
+#: templates/translations.php:436
+msgid ""
+"Enable to push this collection to everyone using the collections feature. "
+"Will affect both new and existing users and add this collection to their "
+"list."
+msgstr ""
+"Engedélyezze a gyűjtemény feltöltését mindenkihez, aki a gyűjtemények "
+"funkciót használja. Ez mind az új, mind a meglévő felhasználókat érinti, és "
+"hozzáadja a gyűjteményt a listájukhoz."
+
+#: addons-pro/translate/templates/admin/settings/translate.php:22
+msgid "Enable Translation API"
+msgstr "Fordítási API engedélyezése"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:121
+msgid "Enable Unit Conversion"
+msgstr "Mértékegység-átváltás engedélyezése"
+
+#: templates/translations.php:250
+msgid "Enter calculation (e.g., 1/16, 2 * 3.5 + 1, etc.):"
+msgstr "Számítási képlet megadása (pl. 1/16, 2 * 3,5 + 1 stb.):"
+
+#: addons-elite/products/templates/admin/settings/products.php:53
+msgid ""
+"Enter the URL to your custom icon image. Should be a direct link to an image "
+"file (PNG, JPG, SVG, etc.)."
+msgstr ""
+"Add meg az egyéni ikonképed URL-címét. Közvetlen hivatkozásnak kell lennie "
+"egy képfájlra (PNG, JPG, SVG stb.)."
+
+#: templates/public/cook-mode-popup.php:169
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:274
+msgid "Equipment"
+msgstr "Felszerelés"
+
+#: templates/translations.php:242
+msgid "Equipment changed since product amount was set"
+msgstr "A berendezés megváltozott a termék mennyiségének beállítása óta"
+
+#: templates/translations.php:225
+msgid "Error"
+msgstr "Hiba"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:253
+msgid "Estimated Cost"
+msgstr "Becsült költség"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:148
+msgid "Everyone"
+msgstr "Mindenki"
+
+#: templates/translations.php:265
+msgid "Experiencing issues?"
+msgstr "Problémákat tapasztal?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:304
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:424
+msgid "Fahrenheit"
+msgstr "Fahrenheit"
+
+#: templates/translations.php:24
+msgid "Failed to add products to cart. Please try again."
+msgstr "Nem sikerült a termékeket a kosárba helyezni. Kérjük, próbálja újra."
+
+#: includes/public/api/class-wprmp-api-modal.php:85
+msgid "Failed to get AI suggestions."
+msgstr "Nem sikerült lekérni a mesterséges intelligencia javaslatait."
+
+#: includes/public/class-wprmp-nutrition.php:337
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:16
+msgid "Fat"
+msgstr "Zsír"
+
+#: templates/translations.php:415
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:576
+msgid "Features"
+msgstr "Jellemzők"
+
+#: includes/public/class-wprmp-nutrition.php:406
+msgid "Fiber"
+msgstr "Rost"
+
+#: templates/translations.php:207
+msgid "Filter:"
+msgstr "Szűrő:"
+
+#: templates/translations.php:286
+msgid "Find a match for:"
+msgstr "Találat a következőhöz:"
+
+#: templates/translations.php:223
+msgid "Find Amazon Product:"
+msgstr "Amazon termék keresése:"
+
+#: templates/translations.php:309
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:136
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:163
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:222
+msgid "First Unit System"
+msgstr "Első egységrendszer"
+
+#: templates/translations.php:437
+msgid "Fixed"
+msgstr "Rögzített"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:68
+msgid "Fluid Ounces"
+msgstr "Folyékony unciák"
+
+#: includes/public/class-wprmp-nutrition.php:541
+msgid "Folate"
+msgstr "Folát"
+
+#: includes/public/class-wprmp-nutrition.php:620
+msgid "Folic Acid"
+msgstr "Folsav"
+
+#: addons-elite/products/templates/admin/settings/products.php:21
+msgid "Frontend Display"
+msgstr "Előlapi kijelző"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:50
+msgid "Gallons"
+msgstr "Gallon"
+
+#: templates/translations.php:155
+msgid "Generate a shopping list for these recipes"
+msgstr "Hozz létre egy bevásárlólistát ezekhez a receptekhez"
+
+#: templates/translations.php:174
+msgid "Generate empty shopping list"
+msgstr "Üres bevásárlólista létrehozása"
+
+#: templates/admin/reports.php:19
+msgid "Generate Recipe Collections Usage Report"
+msgstr "Receptgyűjtemények használati jelentésének generálása"
+
+#: templates/translations.php:156
+msgid "Generate Shopping List"
+msgstr "Bevásárlólista generálása"
+
+#: templates/admin/settings/license_invalid.php:17
+msgid "Get a License"
+msgstr "Szerezz engedélyt"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:63
+msgid "Get your free invisible reCAPTCHA keys from Google."
+msgstr "Szerezd meg ingyenes, láthatatlan reCAPTCHA kulcsaidat a Google-tól."
+
+#: templates/translations.php:326
+msgid ""
+"Global: the same link will be used for every recipe with this ingredient"
+msgstr ""
+"Globális: ugyanaz a link lesz használva minden recepthez, amely tartalmazza "
+"ezt az összetevőt"
+
+#: templates/translations.php:95
+msgid "Go Back"
+msgstr "Vissza"
+
+#: addons-elite/products/includes/public/class-wprmpp-modal.php:56
+msgid "Go to Cart"
+msgstr "Kosárba"
+
+#: templates/translations.php:262
+msgid "Go to Next Step"
+msgstr "Ugrás a következő lépésre"
+
+#: templates/translations.php:197
+msgid "Go to Shopping List"
+msgstr "Ugrás a bevásárlólistára"
+
+#: addons-pro/translate/templates/admin/settings/translate.php:38
+msgid "Google Cloud Platform API key with access to the Cloud Translation API."
+msgstr ""
+"Google Cloud Platform API-kulcs a Cloud Translation API-hoz való "
+"hozzáféréssel."
+
+#: addons-pro/translate/templates/admin/settings/translate.php:37
+msgid "Google Translate API Key"
+msgstr "Google Fordító API-kulcs"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:32
+msgid "Grams"
+msgstr "Grammok"
+
+#: templates/translations.php:60
+msgid "Green"
+msgstr "Zöld"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:174
+msgid "Grid - Large images, presented in a grid"
+msgstr "Rács - Nagy képek, rácsban megjelenítve"
+
+#: templates/translations.php:167
+msgid "Group"
+msgstr "Csoport"
+
+#: templates/translations.php:126
+msgid "Groups"
+msgstr "Csoportok"
+
+#: templates/translations.php:404
+msgid "Has Saved Collections"
+msgstr "Mentett gyűjteményekkel rendelkezik"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:171
+msgid "Header"
+msgstr "Fejléc"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:105
+msgid "height"
+msgstr "magasság"
+
+#: templates/translations.php:38
+msgid "Hide Nutrition Facts"
+msgstr "Tápanyagtartalom elrejtése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:528
+msgid "Hide the button"
+msgstr "A gomb elrejtése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:1023
+msgid "Highlight nutrition facts per item"
+msgstr "Tápértéktáblázat kiemelése tételenként"
+
+#: templates/settings/cook-mode.php:43
+msgid "Hope you enjoyed cooking this recipe!"
+msgstr "Remélem, élvezted ennek a receptnek az elkészítését!"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:463
+msgid "How to recognize and display specific units. Use ; to separate aliases."
+msgstr ""
+"Hogyan ismerjük fel és jelenítsük meg a meghatározott mértékegységeket? "
+"Használjunk ; karaktert az álnevek elválasztására."
+
+#: templates/translations.php:293
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:180
+msgid "HTML Code"
+msgstr "HTML-kód"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:100
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:121
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:152
+msgid "HTML code and the following placeholders can be used:"
+msgstr "HTML kód és a következő helyőrzők használhatók:"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://bootstrapped.ventures/"
+msgstr "https://bootstrapped.ventures/"
+
+#: addons-elite/products/templates/admin/settings/products.php:69
+msgid "Icon Color"
+msgstr "Ikon színe"
+
+#: templates/translations.php:392
+msgid "ID"
+msgstr "azonosító"
+
+#: templates/translations.php:181
+msgid "Ignore"
+msgstr "Figyelmen kívül hagyás"
+
+#: templates/translations.php:180
+msgid "Ignore this warning"
+msgstr "Figyelmen kívül hagyja ezt a figyelmeztetést"
+
+#: templates/translations.php:335
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:180
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:207
+msgid "Image"
+msgstr "Kép"
+
+#: templates/translations.php:292
+msgid "Images"
+msgstr "Képek"
+
+#: templates/translations.php:294
+msgid ""
+"Images and HTML code only show up when the Equipment block is set to the "
+"\"Images\" display style in the Template Editor."
+msgstr ""
+"A képek és a HTML-kód csak akkor jelenik meg, ha a Sablonszerkesztőben a "
+"Felszerelés blokk megjelenítési stílusa „Képek”."
+
+#: templates/translations.php:384
+msgid "Import values from recipe"
+msgstr "Értékek importálása receptből"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:960
+msgid "In each column, show the added totals for the nutrition facts."
+msgstr ""
+"Minden oszlopban tüntesse fel a tápértéktáblázathoz hozzáadott összegeket."
+
+#: templates/translations.php:232
+msgid "In Recipe"
+msgstr "Receptben"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:483
+msgid "Inbox"
+msgstr "Beérkezett üzenetek"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:154
+msgid "inch"
+msgstr "hüvelyk"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:320
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:440
+msgid "Inches"
+msgstr "Hüvelyk"
+
+#: templates/translations.php:160
+msgid "Include ingredient notes"
+msgstr "Hozzávalók megjegyzéseinek hozzáadása"
+
+#: templates/translations.php:220
+msgid "Increase serving size by 1"
+msgstr "Növeld az adagot 1-gyel"
+
+#: templates/translations.php:123
+msgid "Increase serving size by one"
+msgstr "Növeld az adagot eggyel"
+
+#: templates/public/cook-mode-popup.php:58
+msgid "Increase servings"
+msgstr "Növelje az adagokat"
+
+#: templates/translations.php:241
+msgid "Ingredient changed since produc amount was set"
+msgstr "Az összetevő megváltozott a termelési mennyiség beállítása óta"
+
+#: templates/translations.php:322
+msgid "Ingredient changed since unit conversion was calculated"
+msgstr "Az összetevő megváltozott a mértékegység-átváltás kiszámítása óta"
+
+#: templates/translations.php:325
+msgid "Ingredient Link Type"
+msgstr "Hozzávaló link típusa"
+
+#: templates/translations.php:320
+msgid ""
+"Ingredient was added after unit conversion was calculated. Consider "
+"calculating the conversion for this ingredient."
+msgstr ""
+"Az összetevőt a mértékegység-átváltás kiszámítása után adták hozzá. Fontolja "
+"meg az összetevő átváltásának kiszámítását."
+
+#: templates/translations.php:65 templates/public/cook-mode-popup.php:104
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:281
+msgid "Ingredients"
+msgstr "Hozzávalók"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:199
+msgid "Inline icons for changing the structure (backwards compatibility)"
+msgstr ""
+"Beágyazott ikonok a struktúra módosításához (visszafelé kompatibilitás)"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:288
+msgid "Instructions"
+msgstr "Utasítás"
+
+#: includes/public/class-wprmp-amazon-api.php:236
+#: includes/public/class-wprmp-amazon-api-creators.php:419
+msgid ""
+"Invalid Amazon API credentials. Check your credentials and try again later."
+msgstr ""
+"Érvénytelen Amazon API hitelesítő adatok. Ellenőrizze a hitelesítő adatokat, "
+"és próbálja újra később."
+
+#: includes/public/class-wprmp-amazon-api.php:239
+#: includes/public/class-wprmp-amazon-api-creators.php:422
+msgid "Invalid Amazon Partner Tag."
+msgstr "Érvénytelen Amazon Partner címke."
+
+#: includes/public/class-wprmp-nutrition.php:550
+msgid "Iron"
+msgstr "Vas"
+
+#: addons-pro/translate/templates/admin/settings/translate.php:46
+msgid ""
+"ISO-639-1 code for the source language you write in. Leave blank to let "
+"Google automatically detect the source language."
+msgstr ""
+"A forrásnyelv ISO-639-1 kódja, amelyen írsz. Hagyd üresen, hogy a Google "
+"automatikusan felismerje a forrásnyelvet."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:375
+msgid "Item Image Position"
+msgstr "Elemkép pozíciója"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:268
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:388
+msgid "Japanese"
+msgstr "japán"
+
+#: templates/translations.php:316
+msgid "Keep Unit"
+msgstr "Egység megtartása"
+
+#: templates/translations.php:345
+msgid "Key"
+msgstr "Kulcsfontosságú"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:26
+msgid "Kilograms"
+msgstr "Kilogramm"
+
+#: templates/translations.php:372
+msgid "Label"
+msgstr "Címke"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:137
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:144
+msgid "Label to show for this unit system."
+msgstr "Az egységrendszerhez megjelenítendő címke."
+
+#: templates/translations.php:211
+msgid "Last 31 Days"
+msgstr "Utolsó 31 nap"
+
+#: templates/translations.php:212
+msgid "Last 7 Days"
+msgstr "Utolsó 7 nap"
+
+#: templates/translations.php:217
+msgid "Last X Days"
+msgstr "Utolsó X nap"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:169
+msgid "Layout Style"
+msgstr "Elrendezési stílus"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:196
+msgid "Layout to use for changing the recipe structure"
+msgstr "A receptstruktúra módosításához használandó elrendezés"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:181
+msgid "Layout to use when adding items to a collection"
+msgstr ""
+"Elrendezés, amelyet akkor kell használni, amikor elemeket adunk egy "
+"gyűjteményhez"
+
+#: templates/translations.php:377
+#: templates/admin/settings/license_different.php:19
+msgid "Learn more"
+msgstr "Tudj meg többet"
+
+#: templates/translations.php:351
+msgid "Learn more about our Products feature"
+msgstr "Tudjon meg többet a Termékek funkciónkról"
+
+#: templates/translations.php:121
+msgid "Leftovers"
+msgstr "Maradék"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:931
+msgid ""
+"Leftovers will count towards the nutrition facts, but the ingredients for "
+"this recipe will not be added to the shopping list."
+msgstr ""
+"A maradék beleszámít a tápértéktáblázatba, de a recept hozzávalói nem "
+"kerülnek fel a bevásárlólistára."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:502
+msgid "Let user choose a column only, put in the first group of that column"
+msgstr ""
+"A felhasználó csak egy oszlopot válasszon, majd az adott oszlop első "
+"csoportjába helyezze."
+
+#: templates/admin/settings/license.php:53
+msgid "License Key"
+msgstr "Licenckulcs"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:860
+msgid ""
+"Limit recipes shown in search results by type. Does not affect searches by "
+"editors."
+msgstr ""
+"A keresési eredményekben megjelenő receptek típus szerinti korlátozása. Ez "
+"nem befolyásolja a szerkesztők szerinti kereséseket."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:859
+msgid "Limit Search Recipes by Type"
+msgstr "Receptek keresésének korlátozása típus szerint"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:201
+#: includes/public/class-wprmp-nutrition-label-layout.php:260
+msgid "Line"
+msgstr "Vonal"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:178
+msgid "Link"
+msgstr "Link"
+
+#: templates/translations.php:349
+msgid ""
+"Link your ingredients and equipment to the eCommerce products on your own "
+"site to help visitors find and purchase the exact items they need for your "
+"recipes."
+msgstr ""
+"Kapcsold össze az alapanyagaidat és eszközeidet a saját webhelyeden "
+"található e-kereskedelmi termékekkel, hogy a látogatók megtalálhassák és "
+"megvásárolhassák pontosan azokat a termékeket, amelyekre a receptjeidhez "
+"szükségük van."
+
+#: templates/translations.php:184
+msgid "List"
+msgstr "Lista"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:74
+msgid "Liters"
+msgstr "Liter"
+
+#: templates/translations.php:84
+msgid "Load more..."
+msgstr "Továbbiak betöltése..."
+
+#: templates/translations.php:14
+msgid "Loading cart..."
+msgstr "Kosár betöltése..."
+
+#: templates/translations.php:380
+msgid "Loading..."
+msgstr "Terhelés..."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:147
+msgid "Logged in Users"
+msgstr "Bejelentkezett felhasználók"
+
+#: includes/public/class-wprmp-nutrition.php:568
+msgid "Magnesium"
+msgstr "Magnézium"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-shortcode.php:62
+msgid ""
+"Make sure the site and secret key are set correctly on the settings page."
+msgstr ""
+"Győződjön meg arról, hogy a webhely és a titkos kulcs helyesen van beállítva "
+"a beállítások oldalon."
+
+#: templates/translations.php:119
+msgid ""
+"Make sure to \"Reload Recipes in Collection\" after saving the collection to "
+"see these changes reflected."
+msgstr ""
+"A mentés után mindenképpen kattints a „Receptek újratöltése a gyűjteményben” "
+"gombra, hogy ezek a változtatások megjelenjenek."
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:36
+msgid "Manage now"
+msgstr "Kezelés most"
+
+#: includes/public/class-wprmp-nutrition.php:559
+msgid "Manganese"
+msgstr "Mangán"
+
+#: templates/translations.php:116
+msgid "Mark as leftovers"
+msgstr "Megjelölés maradékként"
+
+#: templates/translations.php:246
+msgid "Mark as OK"
+msgstr "Megjelölés rendben lévőként"
+
+#: templates/translations.php:281
+msgid "Match & Units"
+msgstr "Mérkőzés és egységek"
+
+#: templates/translations.php:260
+msgid "Match this equation to get the correct amounts:"
+msgstr "Párosítsd a következő egyenleteket a helyes mennyiségek eléréséhez:"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:39
+msgid "Max File Size for Images"
+msgstr "Képek maximális fájlmérete"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:47
+msgid "Max File Size for Videos"
+msgstr "Videók maximális fájlmérete"
+
+#: templates/translations.php:204
+msgid "Maximum (1 user)"
+msgstr "Maximum (1 felhasználó)"
+
+#: templates/translations.php:203
+msgid "Median"
+msgstr "Középső"
+
+#: templates/translations.php:201
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:271
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:282
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:294
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:391
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:402
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:414
+msgid "Metric"
+msgstr "Metrika"
+
+#: templates/translations.php:374
+msgid "mg"
+msgstr "mg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:38
+msgid "Milligrams"
+msgstr "Milligramm"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:92
+msgid "Milliliters"
+msgstr "Milliliter"
+
+#: includes/public/class-wprmp-nutrition.php:363
+msgid "Monounsaturated Fat"
+msgstr "Egyszeresen telítetlen zsír"
+
+#: templates/translations.php:133
+msgid "Move Down"
+msgstr "Lejjebb mozgatás"
+
+#: templates/translations.php:98
+msgid "Move Left"
+msgstr "Balra mozgatás"
+
+#: templates/translations.php:99
+msgid "Move Right"
+msgstr "Jobbra mozgatás"
+
+#: templates/translations.php:132
+msgid "Move Up"
+msgstr "Feljebb mozgatás"
+
+#: templates/translations.php:347
+msgid "My Custom Field"
+msgstr "Saját egyéni mezőm"
+
+#: templates/translations.php:373
+msgid "My Custom Nutrient"
+msgstr "Saját tápanyagom"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:172
+msgid "My Header"
+msgstr "Fejlécem"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:177
+msgid "My paragraph..."
+msgstr "A bekezdésem..."
+
+#: templates/translations.php:346
+msgid "my-custom-field"
+msgstr "my-custom-field"
+
+#: templates/translations.php:371
+msgid "my-custom-nutrient"
+msgstr "saját-egyéni-tápanyag"
+
+#: templates/translations.php:267
+msgid "n/a"
+msgstr "nincs adat"
+
+#: templates/translations.php:64 templates/translations.php:239
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:193
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:318
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:125
+msgid "Name"
+msgstr "Név"
+
+#: templates/translations.php:256
+msgid "Name (required)"
+msgstr "Név (kötelező)"
+
+#: templates/admin/settings/license_invalid.php:17
+msgid "Need help activing?"
+msgstr "Segítségre van szüksége az aktiváláshoz?"
+
+#: includes/public/class-wprmp-nutrition.php:636
+msgid "Net Carbohydrates"
+msgstr "Nettó szénhidrátok"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:33
+msgid "New Recipe Submission"
+msgstr "Új recept beküldése"
+
+#: templates/public/cook-mode-popup-footer.php:42
+msgid "Next"
+msgstr "Következő"
+
+#: templates/public/cook-mode-popup-footer.php:41
+msgid "Next step"
+msgstr "Következő lépés"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:189
+msgid "No Conversion"
+msgstr "Nincs konverzió"
+
+#: templates/translations.php:200
+msgid "No data found."
+msgstr "Nincsenek adatok."
+
+#: templates/translations.php:333
+msgid "No equipment set for this recipe."
+msgstr "Ehhez a recepthez nincs beállítva felszerelés."
+
+#: templates/translations.php:337
+msgid "No HTML set"
+msgstr "Nincs beállítva HTML"
+
+#: templates/translations.php:287
+msgid "No ingredients found for"
+msgstr "Nem található összetevő a következőhöz:"
+
+#: templates/translations.php:288 templates/public/cook-mode-popup.php:161
+msgid "No ingredients found."
+msgstr "Nem található összetevő."
+
+#: templates/translations.php:277
+msgid "No ingredients set for this recipe."
+msgstr "Ehhez a recepthez nincsenek hozzávalók beállítva."
+
+#: templates/public/cook-mode-popup.php:447
+msgid "No instructions found."
+msgstr "Nem található utasítás."
+
+#: templates/translations.php:332
+msgid "No link set"
+msgstr "Nincs beállítva link"
+
+#: templates/translations.php:284
+msgid "no match found"
+msgstr "nincs találat"
+
+#: templates/translations.php:249
+msgid "No product set"
+msgstr "Nincs termék beállítva"
+
+#: templates/translations.php:357
+msgid "No product set yet"
+msgstr "Még nincs beállítva termék"
+
+#: addons-elite/products/includes/public/class-wprmpp-modal.php:213
+msgid "No products are available for this recipe."
+msgstr "Ehhez a recepthez nem állnak rendelkezésre termékek."
+
+#: templates/translations.php:365
+msgid "No products found"
+msgstr "Nincsenek termékek"
+
+#: templates/translations.php:226
+msgid "No products found for"
+msgstr "Nincsenek termékek a következőhöz:"
+
+#: templates/translations.php:227
+msgid "No products found."
+msgstr "Nem található termék."
+
+#: templates/translations.php:173
+msgid "No recipes have been added to the shopping list yet."
+msgstr "Még nem kerültek fel receptek a bevásárlólistára."
+
+#: templates/translations.php:169
+msgid ""
+"No recipes have been selected for the shopping list. Do you want to generate "
+"an empty shopping list that you can fill manually?"
+msgstr ""
+"Nincsenek receptek kiválasztva a bevásárlólistához. Szeretne egy üres "
+"bevásárlólistát létrehozni, amelyet manuálisan kitölthet?"
+
+#: includes/public/class-wprmp-amazon-api.php:242
+#: includes/public/class-wprmp-amazon-api-creators.php:425
+msgid ""
+"No response due to too many requests. Consider slowing down. The API also "
+"returns this error if you do not have 3 qualifying sales within the previous "
+"period."
+msgstr ""
+"Nincs válasz a túl sok kérés miatt. Fontolja meg a lassítást. Az API ezt a "
+"hibát akkor is visszaadja, ha az előző időszakban nem volt 3 jogosult "
+"eladása."
+
+#: templates/translations.php:361
+msgid "No variation selected"
+msgstr "Nincs kiválasztva változat"
+
+#: templates/translations.php:352
+msgid "No variations available"
+msgstr "Nincsenek elérhető változatok"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:146
+msgid "Nobody"
+msgstr "Senki"
+
+#: templates/translations.php:57
+msgid "None"
+msgstr "Egyik sem"
+
+#: templates/translations.php:62
+msgid "Note"
+msgstr "Jegyzet"
+
+#: templates/translations.php:240
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:297
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:295
+msgid "Notes"
+msgstr "Megjegyzések"
+
+#: templates/translations.php:231
+msgid "Nothing to add products to yet."
+msgstr "Még nincs mit hozzáadni a termékekhez."
+
+#: templates/translations.php:215
+msgid ""
+"Number of users that have this recipe in one of their collections at least "
+"once"
+msgstr ""
+"Azon felhasználók száma, akiknek ez a recept legalább egyszer szerepel "
+"valamelyik gyűjteményükben"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:209
+#: includes/public/class-wprmp-nutrition-label-layout.php:250
+msgid "Nutrient"
+msgstr "Tápláló"
+
+#: templates/translations.php:264
+msgid "Nutrition Calculation"
+msgstr "Tápanyag-számítás"
+
+#: templates/translations.php:135
+#: templates/public/nutrition-label-legacy.php:28
+#: templates/nutrition-label/fda.php:18
+#: templates/nutrition-label/classic.php:18
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:142
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:959
+msgid "Nutrition Facts"
+msgstr "Tápanyagtartalom"
+
+#: templates/translations.php:71
+msgid "Nutrition Facts (per serving)"
+msgstr "Tápanyagtartalom (adagonként)"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:1033
+msgid "Nutrition fields to highlight"
+msgstr "Kiemelt táplálkozási területek"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:995
+msgid "Nutrition fields to show"
+msgstr "Megjelenítendő táplálkozási mezők"
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:293
+msgid "Nutrition Ingredients"
+msgstr "Tápanyag-összetevők"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:60
+msgid "Nutrition Label Layout"
+msgstr "Tápértékcímke elrendezése"
+
+#: templates/translations.php:280
+msgid "Nutrition Source"
+msgstr "Tápanyagforrás"
+
+#: templates/public/cook-mode-popup-footer.php:35
+msgid "of"
+msgstr "a"
+
+#: templates/translations.php:67
+msgid "olive oil"
+msgstr "olívaolaj"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:378
+msgid "On the side"
+msgstr "Az oldalán"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:379
+msgid "On top"
+msgstr "Tetején"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:864
+msgid "Only show published recipes from selected types"
+msgstr "Csak a kiválasztott típusok közzétett receptjeinek megjelenítése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:185
+msgid "Open modal to select the item to add"
+msgstr "Nyissa meg a modális ablakot a hozzáadni kívánt elem kiválasztásához"
+
+#: templates/translations.php:31
+msgid "Open the shopping list"
+msgstr "Nyissa meg a bevásárlólistát"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:90
+msgid "Optional email address to notify when someone has submitted a recipe."
+msgstr ""
+"Opcionális e-mail cím, amely értesíti Önt, ha valaki beküldött egy receptet."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:100
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:121
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:152
+msgid "Optional loading message to show while the feature loads."
+msgstr ""
+"Opcionális betöltési üzenet, amely a funkció betöltése közben jelenik meg."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:40
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:48
+msgid ""
+"Optional maximum file size for uploads. Cannot be bigger than the PHP file "
+"size limit:"
+msgstr ""
+"Opcionális maximális fájlméret feltöltéshez. Nem lehet nagyobb, mint a PHP "
+"fájlméret-korlát:"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:919
+msgid ""
+"Optionally alter the recipe search in combination with the WP Extended "
+"Search plugin."
+msgstr ""
+"Opcionálisan módosíthatja a receptkeresést a WP Extended Search bővítménnyel "
+"kombinálva."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:185
+msgid ""
+"Optionally assign a specific category to the automatically created post."
+msgstr ""
+"Opcionálisan hozzárendelhet egy adott kategóriát az automatikusan "
+"létrehozott bejegyzéshez."
+
+#: templates/translations.php:379
+msgid "Order"
+msgstr "Rendelés"
+
+#: templates/translations.php:313
+msgid "Original"
+msgstr "Eredeti"
+
+#: templates/translations.php:307
+msgid "Original Unit System for this recipe"
+msgstr "Eredeti mértékegységrendszer ehhez a recepthez"
+
+#: templates/translations.php:296
+msgid "other recipe(s) affected"
+msgstr "más érintett recept(ek)"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:20
+msgid "Ounces"
+msgstr "Uncia"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:176
+msgid "Paragraph"
+msgstr "Bekezdés"
+
+#: includes/public/class-wprmp-nutrition.php:577
+msgid "Phosphorus"
+msgstr "Foszfor"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:62
+msgid "Pints"
+msgstr "Pintek"
+
+#: templates/settings/cook-mode.php:43
+msgid "Please rate this recipe to help others find it."
+msgstr "Kérlek értékeld ezt a receptet, hogy mások is megtalálhassák."
+
+#: templates/translations.php:22
+msgid "Please select at least one product to add to cart."
+msgstr "Kérjük, válasszon ki legalább egy terméket a kosárba helyezéshez."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:89
+msgctxt "plural unit for centiliters"
+msgid "cl"
+msgstr "cl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:47
+msgctxt "plural unit for cups"
+msgid "cups"
+msgstr "csészék"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:83
+msgctxt "plural unit for deciliters"
+msgid "dl"
+msgstr "dl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:71
+msgctxt "plural unit for fluid ounces"
+msgid "floz"
+msgstr "úszómedence"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:53
+msgctxt "plural unit for gallons"
+msgid "gal"
+msgstr "lány"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:35
+msgctxt "plural unit for grams"
+msgid "g"
+msgstr "g"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:29
+msgctxt "plural unit for kilograms"
+msgid "kg"
+msgstr "kg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:77
+msgctxt "plural unit for liters"
+msgid "l"
+msgstr "l"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:41
+msgctxt "plural unit for milligrams"
+msgid "mg"
+msgstr "mg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:95
+msgctxt "plural unit for milliliters"
+msgid "ml"
+msgstr "ml"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:23
+msgctxt "plural unit for ounces"
+msgid "oz"
+msgstr "uncia"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:65
+msgctxt "plural unit for pints"
+msgid "pt"
+msgstr "rész"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:17
+msgctxt "plural unit for pounds"
+msgid "lb"
+msgstr "font"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:59
+msgctxt "plural unit for quarts"
+msgid "qt"
+msgstr "negyedév"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:101
+msgctxt "plural unit for tablespoons"
+msgid "tbsp"
+msgstr "evőkanál"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:107
+msgctxt "plural unit for teaspoons"
+msgid "tsp"
+msgstr "teáskanál"
+
+#: includes/public/class-wprmp-nutrition.php:355
+msgid "Polyunsaturated Fat"
+msgstr "Többszörösen telítetlen zsír"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-post-type.php:38
+msgctxt "post type general name"
+msgid "Collections"
+msgstr "Gyűjtemények"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-post-type.php:39
+msgctxt "post type singular name"
+msgid "Collection"
+msgstr "Gyűjtemény"
+
+#: includes/public/class-wprmp-nutrition.php:397
+msgid "Potassium"
+msgstr "Kálium"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:14
+msgid "Pounds"
+msgstr "Font"
+
+#: templates/translations.php:161
+msgid "Preferred Unit System"
+msgstr "Előnyben részesített mértékegységrendszer"
+
+#. Description of the plugin
+msgid "Premium addons for WP Recipe Maker."
+msgstr "Prémium kiegészítők a WP Recipe Makerhez."
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:232
+msgid "Prep Time"
+msgstr "Előkészítési idő"
+
+#: templates/public/cook-mode-popup-footer.php:31
+msgid "Previous"
+msgstr "Előző"
+
+#: templates/public/cook-mode-popup-footer.php:30
+msgid "Previous step"
+msgstr "Előző lépés"
+
+#: templates/translations.php:35
+msgid "Print"
+msgstr "Nyomtatás"
+
+#: templates/translations.php:36
+msgid "Print Collection"
+msgstr "Nyomtatott gyűjtemény"
+
+#: templates/translations.php:37
+msgid "Print Recipes"
+msgstr "Receptek nyomtatása"
+
+#: templates/translations.php:34
+msgid "Print recipes in this collection"
+msgstr "Receptek nyomtatása ebben a gyűjteményben"
+
+#: templates/translations.php:145
+msgid "Print recipes in this shopping list"
+msgstr "Receptek nyomtatása ebből a bevásárlólistából"
+
+#: templates/translations.php:146
+msgid "Print Shopping List"
+msgstr "Bevásárlólista nyomtatása"
+
+#: templates/translations.php:33
+msgid "Print this collection"
+msgstr "Nyomtassa ki ezt a gyűjteményt"
+
+#: templates/translations.php:144
+msgid "Print this shpopping list"
+msgstr "Nyomtasd ki ezt a bevásárlólistát"
+
+#: templates/translations.php:235
+msgid "Product"
+msgstr "Termék"
+
+#: addons-elite/products/templates/admin/settings/products.php:32
+msgid "Product Icon"
+msgstr "Termék ikon"
+
+#: templates/translations.php:356
+msgid "Product ID"
+msgstr "Termékazonosító"
+
+#: templates/translations.php:358
+msgid "Product Name"
+msgstr "Termék neve"
+
+#: templates/translations.php:359
+msgid "Product Variation"
+msgstr "Termékváltozat"
+
+#: includes/public/class-wprmp-nutrition.php:328
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:15
+msgid "Protein"
+msgstr "Fehérje"
+
+#: templates/translations.php:435
+msgid "Push to All"
+msgstr "Küldés mindenkinek"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:148
+msgid "QR Codes"
+msgstr "QR-kódok"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:56
+msgid "Quarts"
+msgstr "Quarts"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:128
+msgid "Quick Access Shopping List"
+msgstr "Gyors hozzáférésű bevásárlólista"
+
+#: templates/translations.php:441
+msgid "Quick Add"
+msgstr "Gyors hozzáadás"
+
+#: templates/translations.php:244
+msgid "Recalculate proportionally"
+msgstr "Arányos újraszámítás"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:74
+msgid "reCAPTCHA Secret Key"
+msgstr "reCAPTCHA titkos kulcs"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:62
+msgid "reCAPTCHA Site Key"
+msgstr "reCAPTCHA webhelykulcs"
+
+#: templates/translations.php:141
+msgid "Recipe"
+msgstr "Recept"
+
+#: templates/admin/reports.php:16
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:34
+msgid "Recipe Collections"
+msgstr "Receptgyűjtemények"
+
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:38
+#: templates/admin/menu/reports/recipe-collections.php:14
+msgid "Recipe Collections Report"
+msgstr "Receptgyűjtemények jelentése"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:238
+msgid "Recipe Cook Time"
+msgstr "Recept főzési ideje"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:252
+msgid "Recipe Cost"
+msgstr "Recept ára"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:259
+msgid "Recipe Courses"
+msgstr "Recepttanfolyamok"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:266
+msgid "Recipe Cuisines"
+msgstr "Receptkonyhák"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:310
+msgid "Recipe Custom Field"
+msgstr "Recept egyéni mező"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:302
+msgid "Recipe Custom Taxonomy"
+msgstr "Recept egyéni taxonómiája"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:273
+msgid "Recipe Equipment"
+msgstr "Receptfelszerelés"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:491
+msgid "Recipe gets added to the default \"Inbox\" collection"
+msgstr ""
+"A recept bekerül az alapértelmezett „Beérkezett üzenetek” gyűjteménybe."
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:206
+msgid "Recipe Image"
+msgstr "Receptkép"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:133
+msgid "Recipe Images"
+msgstr "Receptképek"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:280
+msgid "Recipe Ingredients"
+msgstr "Recept hozzávalói"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:287
+msgid "Recipe Instructions"
+msgstr "Recept utasítások"
+
+#: includes/public/api/class-wprmp-api-modal.php:69
+msgid "Recipe is required."
+msgstr "Recept megadása kötelező."
+
+#: templates/translations.php:208
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:192
+msgid "Recipe Name"
+msgstr "Recept neve"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:294
+msgid "Recipe Notes"
+msgstr "Receptjegyzetek"
+
+#: templates/translations.php:274
+msgid "Recipe Nutrition Facts Preview"
+msgstr "Recept tápértéktáblázatának áttekintése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:513
+msgid "Recipe Placement"
+msgstr "Recept elhelyezése"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:231
+msgid "Recipe Prep Time"
+msgstr "Recept előkészítési ideje"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:224
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:225
+msgid "Recipe Servings"
+msgstr "Receptadagok"
+
+#: templates/translations.php:421
+msgid "Recipe Submission"
+msgstr "Recept beküldése"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:57
+msgid "Recipe Submission Layout"
+msgstr "Receptbeküldési elrendezés"
+
+#: templates/translations.php:420
+msgid "Recipe Submissions"
+msgstr "Receptbeküldések"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:199
+msgid "Recipe Summary"
+msgstr "Receptösszefoglaló"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:245
+msgid "Recipe Total Time"
+msgstr "Recept teljes ideje"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:874
+msgid "Recipe Types"
+msgstr "Recepttípusok"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:218
+msgid "Recipe Video Embed"
+msgstr "Receptvideó beágyazása"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:212
+msgid "Recipe Video Upload"
+msgstr "Receptvideó feltöltése"
+
+#: templates/translations.php:198
+#: includes/admin/reports/class-wprmp-reports-recipe-collections.php:285
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-collection.php:291
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-manager.php:93
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-manager.php:366
+msgid "Recipes"
+msgstr "Receptek"
+
+#: templates/translations.php:214
+msgid "Recipes used in Collections"
+msgstr "Gyűjteményekben használt receptek"
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:137
+msgid "rectangle"
+msgstr "téglalap"
+
+#: templates/translations.php:59
+msgid "Red"
+msgstr "Piros"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:100
+msgid "Redirect to a different page"
+msgstr "Átirányítás egy másik oldalra"
+
+#: templates/translations.php:143
+msgid "Regenerate Shopping List"
+msgstr "Bevásárlólista újragenerálása"
+
+#: templates/translations.php:179
+msgid "Regenerate the shopping list to include these changes."
+msgstr ""
+"Generálja újra a bevásárlólistát, hogy tartalmazzák ezeket a változtatásokat."
+
+#: templates/translations.php:142
+msgid "Regenerate this shopping list"
+msgstr "Bevásárlólista újragenerálása"
+
+#: templates/translations.php:334
+msgid "Regular Link"
+msgstr "Normál link"
+
+#: templates/translations.php:291
+msgid "Regular Links"
+msgstr "Normál linkek"
+
+#: templates/translations.php:427
+msgid "Reload Recipes"
+msgstr "Receptek újratöltése"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:178
+msgid "Remember Preferred Unit System"
+msgstr "Emlékezz a preferált mértékegységrendszerre"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:179
+msgid ""
+"Remember the unit system a visitor picks and automatically show other "
+"recipes in that unit system (if it exists)."
+msgstr ""
+"Emlékezz a látogató által kiválasztott mértékegységre, és automatikusan "
+"jeleníts meg más recepteket abban a mértékegységrendszerben (ha létezik)."
+
+#: templates/translations.php:166
+msgid "remove"
+msgstr "eltávolít"
+
+#: templates/translations.php:158
+msgid "Remove All"
+msgstr "Összes eltávolítása"
+
+#: templates/translations.php:79
+msgid "Remove All Items"
+msgstr "Összes elem eltávolítása"
+
+#: templates/translations.php:157
+msgid "Remove all recipes from this shopping list"
+msgstr "Az összes recept eltávolítása erről a bevásárlólistáról"
+
+#: templates/translations.php:303
+msgid "Remove Image"
+msgstr "Kép eltávolítása"
+
+#: templates/translations.php:117
+msgid "Remove Item"
+msgstr "Elem eltávolítása"
+
+#: templates/translations.php:77
+msgid "Remove Items"
+msgstr "Elemek eltávolítása"
+
+#: templates/translations.php:299
+msgid "Remove Link"
+msgstr "Link eltávolítása"
+
+#: templates/admin/settings/license_expired.php:19
+msgid "Renew now"
+msgstr "Megújítás most"
+
+#: templates/admin/settings/license_expired.php:17
+msgid "Renew your license key to keep receiving updates."
+msgstr "Újítsa meg licenckulcsát, hogy továbbra is frissítéseket kapjon."
+
+#: templates/translations.php:228
+msgid "Results for"
+msgstr "Eredmények a következőhöz:"
+
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:176
+msgid "Rich Textarea"
+msgstr "Rich Text terület"
+
+#: templates/translations.php:182
+msgid ""
+"Right click and copy this link to allow others to edit this shopping list."
+msgstr ""
+"Kattintson jobb gombbal, és másolja ki ezt a linket, hogy mások is "
+"szerkeszthessék ezt a bevásárlólistát."
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-advanced-adjustable-servings.php:136
+msgid "round"
+msgstr "kerek"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:201
+msgid "Round to nearest integer"
+msgstr "Kerekítés a legközelebbi egész számra"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:203
+msgid "Round to nearest multiple of 10"
+msgstr "Kerekítés a 10 legközelebbi többszörösére"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:202
+msgid "Round to nearest multiple of 5"
+msgstr "Kerekítés az 5 legközelebbi többszörösére"
+
+#: includes/public/class-wprmp-nutrition.php:346
+msgid "Saturated Fat"
+msgstr "Telített zsír"
+
+#: templates/translations.php:348
+msgid "Save"
+msgstr "Megtakarítás"
+
+#: templates/translations.php:253
+msgid "Save a new Custom Ingredient"
+msgstr "Új egyéni összetevő mentése"
+
+#: templates/translations.php:295
+msgid "Save Changes"
+msgstr "Változtatások mentése"
+
+#: templates/translations.php:444
+msgid "Save Collection Link"
+msgstr "Gyűjtemény linkjének mentése"
+
+#: templates/translations.php:257
+msgid "Save for Later & Use"
+msgstr "Mentés későbbre és használatra"
+
+#: templates/translations.php:56
+msgid "Save to my Collections"
+msgstr "Mentés a gyűjteményeim közé"
+
+#: templates/translations.php:416
+msgid "Saved Collection"
+msgstr "Mentett gyűjtemény"
+
+#: templates/translations.php:417
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:107
+msgid "Saved Collections"
+msgstr "Mentett gyűjtemények"
+
+#: templates/translations.php:283
+msgid "Saved/Custom"
+msgstr "Mentett/Egyéni"
+
+#: templates/translations.php:224
+msgid "Search"
+msgstr "Keresés"
+
+#: templates/translations.php:364
+msgid "Search for products"
+msgstr "Termékek keresése"
+
+#: templates/translations.php:86
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:844
+msgid "Search Ingredients"
+msgstr "Összetevők keresése"
+
+#: templates/translations.php:85
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:843
+msgid "Search Recipes"
+msgstr "Receptek keresése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:900
+msgid "Search Recipes Servings"
+msgstr "Receptek keresése Adagok"
+
+#: templates/admin/menu/tools/amazon-conversion.php:16
+msgid "Searching %d equipment"
+msgid_plural "Searching %d equipment"
+msgstr[0] "%d eszköz keresése"
+msgstr[1] "%d eszköz keresése"
+
+#: templates/admin/menu/reports/recipe-collections.php:18
+msgid "Searching %d user"
+msgid_plural "Searching %d users"
+msgstr[0] "%d felhasználó keresése"
+msgstr[1] "%d felhasználó keresése"
+
+#: templates/translations.php:310
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:143
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:164
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:342
+msgid "Second Unit System"
+msgstr "Második egységrendszer"
+
+#: templates/translations.php:28
+msgid "Select a collection"
+msgstr "Válasszon egy gyűjteményt"
+
+#: templates/translations.php:194
+msgid "Select a collection to add for this user"
+msgstr ""
+"Válasszon ki egy gyűjteményt, amelyet ehhez a felhasználóhoz szeretne "
+"hozzáadni"
+
+#: templates/translations.php:29
+msgid "Select a column"
+msgstr "Válasszon ki egy oszlopot"
+
+#: templates/translations.php:30
+msgid "Select a group"
+msgstr "Válasszon ki egy csoportot"
+
+#: templates/translations.php:259
+msgid "Select a saved ingredient"
+msgstr "Válasszon ki egy mentett hozzávalót"
+
+#: templates/translations.php:353
+msgid "Select a variation"
+msgstr "Válasszon egy változatot"
+
+#: templates/translations.php:163
+msgid "Select all"
+msgstr "Összes kijelölése"
+
+#: templates/translations.php:221
+msgid "Select Amazon Product"
+msgstr "Válasszon Amazon terméket"
+
+#: templates/translations.php:276
+msgid "Select or start typing to search for a saved ingredient"
+msgstr "Válasszon ki vagy kezdjen el gépelni egy mentett összetevő kereséséhez"
+
+#: templates/translations.php:230
+msgid "Select Product"
+msgstr "Termék kiválasztása"
+
+#: templates/translations.php:176
+msgid ""
+"Select recipes and click the cart icon in the top right to generate the "
+"shopping list."
+msgstr ""
+"Válassz recepteket, és kattints a kosár ikonra a jobb felső sarokban a "
+"bevásárlólista létrehozásához."
+
+#: includes/public/class-wprmp-nutrition.php:586
+msgid "Selenium"
+msgstr "Szelén"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:89
+msgid "Send email to"
+msgstr "E-mail küldése ide:"
+
+#: includes/public/class-wprmp-nutrition.php:302
+msgid "Serving"
+msgstr "Szolgáló"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:205
+#: includes/public/class-wprmp-nutrition-label-layout.php:245
+msgid "Serving Size"
+msgstr "Adagméret"
+
+#: includes/public/class-wprmp-nutrition-label-layout.php:244
+#: templates/public/cook-mode-popup.php:54
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:137
+msgid "Servings"
+msgstr "Adagok"
+
+#: templates/translations.php:109 includes/public/class-wprmp-print.php:99
+msgid "servings"
+msgstr "adagok"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:901
+msgid "Servings to use when searching for recipes in the collections feature."
+msgstr ""
+"Adagok, amelyeket a gyűjteményekben található receptek keresésekor kell "
+"használni."
+
+#: templates/translations.php:52
+msgid "Set a description for this collection"
+msgstr "Adjon meg egy leírást ehhez a gyűjteményhez"
+
+#: templates/translations.php:105
+msgid "Set a new amount for this ingredient:"
+msgstr "Állítson be egy új mennyiséget ehhez az összetevőhöz:"
+
+#: templates/translations.php:301
+msgid "Set Affiliate Link"
+msgstr "Partnerlink beállítása"
+
+#: templates/translations.php:54
+msgid "Set Description"
+msgstr "Leírás készlet"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:155
+msgid "Set recipe status to Publish upon automatic approval."
+msgstr ""
+"A recept állapotát automatikus jóváhagyáskor Közzététel értékre kell "
+"állítani."
+
+#: templates/translations.php:108
+msgid "Set serving size"
+msgstr "Adagméret beállítása"
+
+#: templates/translations.php:107
+msgid "Set the number of servings"
+msgstr "Adagok számának beállítása"
+
+#: templates/translations.php:355
+msgid "Setting Product"
+msgstr "Termék beállítása"
+
+#: templates/translations.php:149
+msgid "Share Edit Link"
+msgstr "Megosztás Szerkesztés Link"
+
+#: templates/translations.php:40
+msgid "Share This Collection"
+msgstr "Ossza meg ezt a gyűjteményt"
+
+#: templates/translations.php:41
+msgid "Shared Collection"
+msgstr "Megosztott gyűjtemény"
+
+#: templates/translations.php:199
+msgid "Shared collection not found."
+msgstr "A megosztott gyűjtemény nem található."
+
+#: templates/translations.php:93
+msgid "Shared Collection:"
+msgstr "Megosztott gyűjtemény:"
+
+#: templates/translations.php:153
+msgid "Shop this list with Instacart"
+msgstr "Vásárolj ezen a listán az Instacart segítségével"
+
+#: templates/translations.php:154
+msgid "Shop with Instacart"
+msgstr "Vásároljon az Instacarttal"
+
+#: addons-elite/products/templates/admin/settings/products.php:39
+msgid "Shopping Basket"
+msgstr "Kosár"
+
+#: addons-elite/products/templates/admin/settings/products.php:40
+msgid "Shopping Basket (simple)"
+msgstr "Bevásárlókosár (egyszerű)"
+
+#: addons-elite/products/templates/admin/settings/products.php:36
+msgid "Shopping Cart"
+msgstr "Bevásárlókocsi"
+
+#: addons-elite/products/templates/admin/settings/products.php:37
+msgid "Shopping Cart (alternate)"
+msgstr "Bevásárlókosár (alternatív)"
+
+#: addons-elite/products/templates/admin/settings/products.php:38
+msgid "Shopping Cart (with plus icon)"
+msgstr "Bevásárlókosár (plusz ikonnal)"
+
+#: templates/translations.php:32
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:108
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:198
+#: addons-elite/recipe-collections/templates/print/shopping-list.php:18
+msgid "Shopping List"
+msgstr "Bevásárlólista"
+
+#: templates/translations.php:159
+msgid "Shopping List Options"
+msgstr "Bevásárlólista beállításai"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:25
+msgid "Shortcode"
+msgstr "Rövid kód"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:331
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:451
+msgid "Should fractions be used for this unit system?"
+msgstr "Törteket kell használni ehhez a mértékegységrendszerhez?"
+
+#: templates/settings/cook-mode.php:34
+msgid "Show a message"
+msgstr "Üzenet megjelenítése"
+
+#: templates/settings/cook-mode.php:35
+msgid "Show a message (set custom HTML)"
+msgstr "Üzenet megjelenítése (egyéni HTML beállítása)"
+
+#: templates/translations.php:403
+msgid "Show All"
+msgstr "Összes megjelenítése"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:863
+msgid "Show all published recipes from all types"
+msgstr "Az összes közzétett recept megjelenítése minden típusból"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:191
+msgid "Show Both at Once"
+msgstr "Mindkettő megjelenítése egyszerre"
+
+#: addons-elite/recipe-collections/includes/public/class-wprmprc-print.php:202
+msgid "Show Checked Items"
+msgstr "Kijelölt elemek megjelenítése"
+
+#: addons-elite/products/templates/admin/settings/products.php:25
+msgid "Show Individual Products"
+msgstr "Egyedi termékek megjelenítése"
+
+#: templates/translations.php:39
+msgid "Show Nutrition Facts"
+msgstr "Tápanyagtartalom megjelenítése"
+
+#: templates/settings/cook-mode.php:62
+msgid "Show User Rating Stars"
+msgstr "Felhasználói értékelési csillagok megjelenítése"
+
+#: templates/settings/cook-mode.php:63
+msgid ""
+"Show voteable stars on the closing screen, which will open the User Rating "
+"Modal when clicked."
+msgstr ""
+"Szavazható csillagok megjelenítése a záróképernyőn, amelyre kattintva "
+"megnyílik a Felhasználói értékelési modul."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:88
+msgctxt "singular unit for centiliters"
+msgid "cl"
+msgstr "cl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:46
+msgctxt "singular unit for cups"
+msgid "cup"
+msgstr "csésze"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:82
+msgctxt "singular unit for deciliters"
+msgid "dl"
+msgstr "dl"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:70
+msgctxt "singular unit for fluid ounces"
+msgid "floz"
+msgstr "úszómedence"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:52
+msgctxt "singular unit for gallons"
+msgid "gal"
+msgstr "lány"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:34
+msgctxt "singular unit for grams"
+msgid "g"
+msgstr "g"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:28
+msgctxt "singular unit for kilograms"
+msgid "kg"
+msgstr "kg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:76
+msgctxt "singular unit for liters"
+msgid "l"
+msgstr "l"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:40
+msgctxt "singular unit for milligrams"
+msgid "mg"
+msgstr "mg"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:94
+msgctxt "singular unit for milliliters"
+msgid "ml"
+msgstr "ml"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:22
+msgctxt "singular unit for ounces"
+msgid "oz"
+msgstr "uncia"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:64
+msgctxt "singular unit for pints"
+msgid "pt"
+msgstr "rész"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:16
+msgctxt "singular unit for pounds"
+msgid "lb"
+msgstr "font"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:58
+msgctxt "singular unit for quarts"
+msgid "qt"
+msgstr "negyedév"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:100
+msgctxt "singular unit for tablespoons"
+msgid "tbsp"
+msgstr "evőkanál"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:106
+msgctxt "singular unit for teaspoons"
+msgid "tsp"
+msgstr "teáskanál"
+
+#: includes/public/class-wprmp-nutrition.php:388
+msgid "Sodium"
+msgstr "Nátrium"
+
+#: templates/translations.php:340
+msgid "Something went wrong. Make sure this key does not exist yet."
+msgstr ""
+"Valami hiba történt. Győződjön meg róla, hogy ez a kulcs még nem létezik."
+
+#: templates/translations.php:136
+msgid "Something went wrong. Please contact support."
+msgstr ""
+"Valami hiba történt. Kérjük, vegye fel a kapcsolatot az ügyfélszolgálattal."
+
+#: templates/translations.php:168
+msgid "Something went wrong. Please try again later."
+msgstr "Valami hiba történt. Kérjük, próbáld újra később."
+
+#: templates/translations.php:21 templates/translations.php:55
+#: templates/public/user-ratings-summary-popup.php:15
+msgid "Something went wrong. Please try again."
+msgstr "Valami hiba történt. Próbáld újra."
+
+#: templates/translations.php:206
+msgid "Sort:"
+msgstr "Fajta:"
+
+#: addons-pro/translate/templates/admin/settings/translate.php:45
+msgid "Source Language"
+msgstr "Forrásnyelv"
+
+#: templates/public/cook-mode-popup-footer.php:23
+msgid "Start Cooking"
+msgstr "Kezdje el a főzést"
+
+#: templates/translations.php:151
+msgid "Start editing this shopping list"
+msgstr "Kezdje el szerkeszteni ezt a bevásárlólistát"
+
+#: templates/translations.php:188
+msgid "Start editing to manually fill it"
+msgstr "Kezdje el a szerkesztést a manuális kitöltéshez"
+
+#: templates/translations.php:45
+msgid "Start Sharing Collection"
+msgstr "Gyűjtemény megosztásának indítása"
+
+#: templates/translations.php:90
+msgid "Start typing to search..."
+msgstr "Kezdj el gépelni a kereséshez..."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:99
+msgid "Stay on page and show text"
+msgstr "Maradj az oldalon, és jelenítsd meg a szöveget"
+
+#: templates/public/cook-mode-popup-footer.php:35
+msgid "step"
+msgstr "lépés"
+
+#: templates/translations.php:140
+msgid "Stop Editing"
+msgstr "Szerkesztés leállítása"
+
+#: templates/translations.php:150
+msgid "Stop editing this shopping list"
+msgstr "Bevásárlólista szerkesztésének leállítása"
+
+#: templates/translations.php:80
+msgid "Stop Removing Items"
+msgstr "Elemek eltávolításának leállítása"
+
+#: templates/translations.php:44
+msgid "Stop Sharing Collection"
+msgstr "Gyűjtemény megosztásának leállítása"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-shortcode.php:59
+msgid "Submission blocked by reCAPTCHA."
+msgstr "A reCAPTCHA blokkolta a beküldést."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:29
+msgid "Submission Form"
+msgstr "Beküldési űrlap"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:32
+msgid "Submission Form Layout"
+msgstr "Beküldési űrlap elrendezése"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:188
+msgid "Submit"
+msgstr "Küldés"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:189
+msgid "Submit Recipe"
+msgstr "Recept beküldése"
+
+#: includes/public/class-wprmp-nutrition.php:415
+msgid "Sugar"
+msgstr "Cukor"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:200
+msgid "Summary"
+msgstr "Összefoglalás"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:277
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:397
+msgid "Tablespoon Type"
+msgstr "Evőkanál típusa"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:98
+msgid "Tablespoons"
+msgstr "Evőkanál"
+
+#: templates/admin/reports.php:21
+msgid ""
+"Take note that this can only take collections created by logged in users "
+"into account."
+msgstr ""
+"Vegye figyelembe, hogy ez csak a bejelentkezett felhasználók által "
+"létrehozott gyűjteményeket tudja figyelembe venni."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:530
+msgid "Take the user to a specific page on click"
+msgstr "A felhasználót egy adott oldalra irányítja kattintáskor"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:289
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:409
+msgid "Teaspoon Type"
+msgstr "Teáskanál típusa"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:104
+msgid "Teaspoons"
+msgstr "Teáskanál"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:185
+msgid "Temperature Conversion"
+msgstr "Hőmérséklet-átváltás"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:197
+msgid "Temperature Conversion Precision"
+msgstr "Hőmérséklet-átváltási pontosság"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:300
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:420
+msgid "Temperature Unit"
+msgstr "Hőmérséklet egység"
+
+#: templates/translations.php:439
+msgid "Template"
+msgstr "Sablon"
+
+#: templates/translations.php:70
+#: includes/public/class-wprmp-nutrition-label-layout.php:197
+#: includes/public/class-wprmp-nutrition-label-layout.php:239
+#: addons-pro/custom-fields/includes/public/class-wprmpcf-manager.php:175
+msgid "Text"
+msgstr "Szöveg"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:106
+msgid "Text to show after submission"
+msgstr "Beküldés után megjelenítendő szöveg"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:108
+msgid "Thank you for submitting a recipe!"
+msgstr "Köszönöm, hogy beküldtél egy receptet!"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:529
+msgid "The button does not do anything"
+msgstr "A gomb nem csinál semmit"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:475
+msgid ""
+"The button shown in the recipe template to allow users to easily add recipes "
+"to collections."
+msgstr ""
+"A receptsablonban megjelenő gomb, amellyel a felhasználók könnyen "
+"hozzáadhatnak recepteket a gyűjteményekhez."
+
+#: templates/translations.php:234
+msgid ""
+"The exact amount of the product needed in the recipe. Can be decimal numbers "
+"like 0.05 if you only need a small portion of the actual product. When empty "
+"or 0, the product will not be shown."
+msgstr ""
+"A receptben szükséges termék pontos mennyisége. Lehet tizedes tört, például "
+"0,05, ha csak a tényleges termék kis részére van szüksége. Ha üres vagy 0, a "
+"termék nem jelenik meg."
+
+#: templates/translations.php:290
+msgid "The fields you set here will affect all recipes using this equipment."
+msgstr ""
+"Az itt beállított mezők az eszközt használó összes receptre vonatkoznak."
+
+#: includes/public/class-wprmp-assets.php:145
+msgid "The file is too large. Maximum size:"
+msgstr "A fájl túl nagy. Maximális méret:"
+
+#: templates/admin/settings/license_different.php:17
+#: templates/admin/settings/license.php:32
+msgid ""
+"The license key you have activated is for a different WP Recipe Maker Bundle."
+" Make sure the correct plugin file is installed."
+msgstr ""
+"Az aktivált licenckulcs egy másik WP Recipe Maker csomaghoz tartozik. "
+"Győződjön meg arról, hogy a megfelelő bővítményfájl telepítve van."
+
+#: templates/translations.php:43
+msgid ""
+"The link copied to your clipboard will allow others to access (but not edit) "
+"this collection."
+msgstr ""
+"A vágólapra másolt link lehetővé teszi mások számára, hogy hozzáférjenek (de "
+"ne szerkeszthessék) ezt a gyűjteményt."
+
+#: templates/translations.php:147
+msgid ""
+"The link copied to your clipboard will allow others to edit this shopping "
+"list."
+msgstr ""
+"A vágólapra másolt link lehetővé teszi mások számára a bevásárlólista "
+"szerkesztését."
+
+#: templates/translations.php:270
+msgid "the number of servings for this recipe."
+msgstr "az adagok száma ennél a receptnél."
+
+#: includes/class-wp-recipe-maker-premium.php:150
+msgid ""
+"The plugin has not been loaded because it requires at least the following "
+"plugin versions:"
+msgstr ""
+"A bővítmény nem lett betöltve, mert legalább a következő bővítményverziókat "
+"igényli:"
+
+#: includes/class-wp-recipe-maker-premium.php:136
+msgid ""
+"The plugin has not been loaded because it requires the following plugin(s) "
+"to be activated:"
+msgstr ""
+"A bővítmény nem lett betöltve, mert a következő bővítmény(ek) aktiválása "
+"szükséges hozzá:"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-emailer.php:34
+msgid "There is a new Recipe Submission on your website!"
+msgstr "Új receptbeküldés érhető el a weboldaladon!"
+
+#: templates/translations.php:297
+msgid "This can affect other recipes"
+msgstr "Ez befolyásolhatja más recepteket is"
+
+#: templates/translations.php:305
+msgid "This feature is only available in"
+msgstr "Ez a funkció csak a következő országokban érhető el:"
+
+#: includes/public/class-wprmp-amazon-api.php:231
+#: includes/public/class-wprmp-amazon-api-creators.php:413
+msgid "This key does not have access to the Amazon API."
+msgstr "Ennek a kulcsnak nincs hozzáférése az Amazon API-hoz."
+
+#: templates/translations.php:205
+msgid "Total (all users)"
+msgstr "Összesen (minden felhasználó)"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:246
+msgid "Total Time"
+msgstr "Teljes idő"
+
+#: templates/translations.php:216
+msgid ""
+"Total times that this recipe can be found in a collection (could be multiple "
+"times per user)"
+msgstr ""
+"A recept összes előfordulásának száma egy gyűjteményben (felhasználónként "
+"többször is előfordulhat)"
+
+#: templates/translations.php:218
+msgid ""
+"Total times that this recipe can be found in a collection, having been added "
+"to that collection during this timeframe"
+msgstr ""
+"Azon alkalmak száma, amikor ez a recept egy gyűjteményben megtalálható, "
+"miután ebben az időszakban hozzáadták az adott gyűjteményhez"
+
+#: includes/public/class-wprmp-nutrition.php:371
+msgid "Trans Fat"
+msgstr "Transzzsír"
+
+#: templates/translations.php:344
+msgid "Type"
+msgstr "Típus"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:875
+msgid "Types to show in the search results. Select at least one."
+msgstr ""
+"A keresési eredményekben megjelenítendő típusok. Válasszon ki legalább egyet."
+
+#: templates/translations.php:15
+msgid "Unable to load cart"
+msgstr "Nem sikerült betölteni a kosarat"
+
+#: templates/translations.php:238 templates/translations.php:255
+msgid "Unit"
+msgstr "Egység"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:151
+msgid "Unit Conversion"
+msgstr "Mértékegység-átváltás"
+
+#: templates/public/cook-mode-popup.php:66
+msgid "Unit System"
+msgstr "Egységrendszer"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:160
+msgid "Unit system you usually write your recipes in."
+msgstr "A mértékegységrendszer, amelyben általában a recepteket írod."
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:128
+#: addons-pro/translate/templates/admin/settings/translate.php:29
+msgid "Unit Systems"
+msgstr "Egységrendszerek"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:462
+msgid "Units"
+msgstr "Egységek"
+
+#: templates/translations.php:285
+msgid "Units n/a"
+msgstr "Egységek n/a"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:223
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:343
+msgid "Units you want the ingredients to use in this unit system"
+msgstr ""
+"Az összetevőkben használni kívánt mértékegységek ebben a "
+"mértékegységrendszerben"
+
+#: includes/public/class-wprmp-amazon-api.php:208
+#: includes/public/class-wprmp-amazon-api-creators.php:382
+msgid "Unknown Amazon API error."
+msgstr "Ismeretlen Amazon API hiba."
+
+#: templates/translations.php:165
+msgid "Unnamed"
+msgstr "Névtelen"
+
+#: templates/translations.php:363
+msgid "Unset Product"
+msgstr "Termék beállítása törlése"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:269
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:281
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:293
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:389
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:401
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:413
+msgid "US Customary"
+msgstr "Amerikai szokások"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:270
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:390
+msgid "US Legal"
+msgstr "Amerikai jogi"
+
+#: templates/translations.php:258
+msgid "Use"
+msgstr "Használat"
+
+#: templates/translations.php:308
+msgid "Use Default"
+msgstr "Alapértelmezett használata"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:330
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:450
+msgid "Use Fractions"
+msgstr "Törtek használata"
+
+#: templates/translations.php:328
+msgid "Use Global Links"
+msgstr "Globális linkek használata"
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:56
+msgid "Use invisible reCAPTCHA to prevent spam submissions."
+msgstr ""
+"Használjon láthatatlan reCAPTCHA-t a spam beküldések megakadályozására."
+
+#: addons-elite/recipe-submission/templates/admin/settings/recipe-submission.php:55
+msgid "Use reCAPTCHA"
+msgstr "Használja a reCAPTCHA-t"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:904
+msgid "Use servings as set for the recipe"
+msgstr "A receptben megadott adagokat használja"
+
+#: templates/translations.php:263
+msgid "Use These Values"
+msgstr "Használja ezeket az értékeket"
+
+#: templates/translations.php:386
+msgid "Use this recipe"
+msgstr "Használd ezt a receptet"
+
+#: templates/translations.php:279
+msgid "Used for Calculation"
+msgstr "Számításhoz használt"
+
+#: templates/translations.php:278
+msgid "Used in Recipe"
+msgstr "Receptben használt"
+
+#: templates/translations.php:394
+msgid "User"
+msgstr "Felhasználó"
+
+#: templates/translations.php:418
+msgid "User Collection"
+msgstr "Felhasználói gyűjtemény"
+
+#: templates/translations.php:419
+msgid "User Collections"
+msgstr "Felhasználói gyűjtemények"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:324
+msgid "User Email"
+msgstr "Felhasználó e-mail címe"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:492
+msgid "User gets to choose a collection to add the recipe to"
+msgstr ""
+"A felhasználó kiválaszthatja, hogy melyik gyűjteményhez szeretné hozzáadni a "
+"receptet."
+
+#: templates/translations.php:399
+msgid "User ID"
+msgstr "Felhasználói azonosító"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:317
+msgid "User Name"
+msgstr "Felhasználónév"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:503
+msgid "User picks both the column and group to add the recipe to"
+msgstr ""
+"A felhasználó kiválasztja mind az oszlopot, mind a csoportot, amelyhez a "
+"receptet hozzá szeretné adni."
+
+#: templates/translations.php:268
+msgid "Values of all the checked ingredients will be added together and"
+msgstr "Az összes ellenőrzött összetevő értékeit összeadjuk, és"
+
+#: templates/translations.php:271
+msgid "Values of all the checked ingredients will be added together."
+msgstr "Az összes ellenőrzött összetevő értékeit összeadjuk."
+
+#: templates/translations.php:248
+msgid "Variation"
+msgstr "Variáció"
+
+#: templates/translations.php:360
+msgid "Variation ID"
+msgstr "Változatazonosító"
+
+#: templates/translations.php:362
+msgid "Variation Name"
+msgstr "Változat neve"
+
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:213
+#: addons-elite/recipe-submission/includes/public/class-wprmprs-layout.php:219
+msgid "Video"
+msgstr "Videó"
+
+#: templates/translations.php:398
+msgid "View and edit collections for this user"
+msgstr "A felhasználó gyűjteményeinek megtekintése és szerkesztése"
+
+#: templates/translations.php:110
+msgid "View Recipe"
+msgstr "Recept megtekintése"
+
+#: includes/public/class-wprmp-nutrition.php:424
+msgid "Vitamin A"
+msgstr "A-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:433
+msgid "Vitamin B1"
+msgstr "B1-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:478
+msgid "Vitamin B12"
+msgstr "B12-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:442
+msgid "Vitamin B2"
+msgstr "B2-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:451
+msgid "Vitamin B3"
+msgstr "B3-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:460
+msgid "Vitamin B5"
+msgstr "B5-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:469
+msgid "Vitamin B6"
+msgstr "B6-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:487
+msgid "Vitamin C"
+msgstr "C-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:496
+msgid "Vitamin D"
+msgstr "D-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:505
+msgid "Vitamin E"
+msgstr "E-vitamin"
+
+#: includes/public/class-wprmp-nutrition.php:514
+msgid "Vitamin K"
+msgstr "K-vitamin"
+
+#: templates/translations.php:319
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:245
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:365
+msgid "Volume Units"
+msgstr "Térfogategységek"
+
+#: templates/translations.php:236
+msgid ""
+"Warning: changing the product can affect other recipes using this ingredient "
+"or equipment."
+msgstr ""
+"Figyelmeztetés: a termék megváltoztatása befolyásolhatja az adott "
+"összetevővel vagy eszközzel készült más recepteket."
+
+#: templates/admin/settings/license.php:27
+msgid "Warning: the license is currently inactive."
+msgstr "Figyelem: a licenc jelenleg inaktív."
+
+#: templates/translations.php:318
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:231
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:351
+msgid "Weight Units"
+msgstr "Súlyegységek"
+
+#: templates/translations.php:443
+msgid "What do you want the new order to be?"
+msgstr "Milyennek szeretnéd látni az új rendet?"
+
+#: templates/translations.php:432
+msgid "What do you want to be the category group for"
+msgstr "Minek a kategóriacsoportját szeretnéd használni?"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:488
+msgid "What happens when clicking the \"Add to Collection\" button."
+msgstr "Mi történik, ha a „Hozzáadás a gyűjteményhez” gombra kattintok?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:316
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:436
+msgid "What length unit does this unit system use?"
+msgstr "Milyen hosszúságmértékegységet használ ez a mértékegységrendszer?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:198
+msgid "What precision to use when converting temperatures."
+msgstr "Milyen pontosságot kell használni a hőmérsékletek átváltásakor?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:301
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:421
+msgid "What temperature unit does this unit system use?"
+msgstr "Milyen hőmérsékleti mértékegységet használ ez a rendszer?"
+
+#: templates/settings/cook-mode.php:31
+msgid ""
+"What to display on the closing screen, after the recipe has been cooked."
+msgstr "Mit jelenítsen meg a záróképernyőn a recept elkészítése után?"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:525
+msgid ""
+"What to do with the \"Add to Collection\" button when the visitor is not "
+"logged in."
+msgstr ""
+"Mi a teendő a „Hozzáadás a gyűjteményhez” gombbal, ha a látogató nincs "
+"bejelentkezve?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:265
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:385
+msgid "What type of cup does this unit system use?"
+msgstr "Milyen típusú poharat használ ez az egységrendszer?"
+
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:278
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:290
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:398
+#: addons-pro/unit-conversion/templates/admin/settings/unit-conversion.php:410
+msgid "What type of tablespoon does this unit system use?"
+msgstr "Milyen típusú evőkanál használható ebben a mértékegységrendszerben?"
+
+#: addons-elite/products/templates/admin/settings/products.php:26
+msgid ""
+"When a product is set, show an icon next to the ingredient or equipment name "
+"in the recipe that allows visitors to view that product and add it to their "
+"cart."
+msgstr ""
+"Amikor egy termék be van állítva, jelenítsen meg egy ikont a receptben "
+"szereplő összetevő vagy eszköz neve mellett, amely lehetővé teszi a "
+"látogatók számára, hogy megtekintsék a terméket és hozzáadják a kosarukhoz."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:971
+msgid "When disabled an extra click is required to show the nutrition facts."
+msgstr ""
+"Letiltás esetén egy külön kattintás szükséges a tápértékadatok "
+"megjelenítéséhez."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:524
+msgid "When not logged in"
+msgstr "Amikor nincs bejelentkezve"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:514
+msgid "Where the recipe gets added after clicking the button."
+msgstr "Ahova a recept hozzáadódik a gombra kattintás után."
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:498
+msgid "Where to add the Recipe"
+msgstr "Hová kell hozzáadni a receptet"
+
+#: addons-elite/recipe-collections/templates/admin/settings/recipe-collections.php:918
+msgid "WP Extended Search ID"
+msgstr "WP kibővített keresési azonosító"
+
+#. Name of the plugin
+msgid "WP Recipe Maker Premium"
+msgstr "WP Receptkészítő Prémium"
+
+#: includes/public/class-wprmp-import-slickstream.php:46
+msgid "WPRM Import from SlickStream"
+msgstr "WPRM importálása a SlickStreamből"
+
+#: templates/translations.php:61
+msgid "Yellow"
+msgstr "Sárga"
+
+#: templates/admin/settings/license.php:54
+msgid ""
+"You can find your license key by logging into your account on our website."
+msgstr ""
+"A licenckulcsot a weboldalunkon található fiókjába bejelentkezve találja meg."
+
+#: templates/translations.php:306
+msgid ""
+"You need to set up this feature on the WP Recipe Maker > Settings > Unit "
+"Conversion page first."
+msgstr ""
+"Ezt a funkciót először a WP Recipe Maker > Beállítások > Mértékegység-"
+"átváltás oldalon kell beállítanod."
+
+#: templates/translations.php:16
+msgid "your cart"
+msgstr "a kosarad"
+
+#: templates/translations.php:91
+msgid "Your Collections"
+msgstr "Gyűjtemények"
+
+#: templates/translations.php:408
+msgid "Your Custom Fields"
+msgstr "Egyéni mezők"
+
+#: templates/admin/settings/license_invalid.php:19
+msgid "Your license key"
+msgstr "A licenckulcs"
+
+#: templates/admin/settings/license.php:30
+msgid "Your license key has expired. Renew to keep getting updates."
+msgstr ""
+"A licenckulcsa lejárt. Újítsa meg, hogy továbbra is frissítéseket kapjon."
+
+#: templates/admin/settings/license.php:35
+msgid ""
+"Your license key is currently active. Fill in a blank key to deactivate."
+msgstr ""
+"A licenckulcsa jelenleg aktív. A deaktiváláshoz töltse ki az üres kulcs "
+"mezőt."
+
+#: includes/public/shortcodes/recipe/class-wprmp-sc-private-notes.php:82
+msgid "Your own private notes about this recipe"
+msgstr "Saját privát megjegyzéseid erről a receptről"
+
+#: templates/translations.php:187
+msgid "Your shopping list is empty."
+msgstr "A bevásárlólistád üres."
+
+#: includes/public/class-wprmp-nutrition.php:595
+msgid "Zinc"
+msgstr "Cink"

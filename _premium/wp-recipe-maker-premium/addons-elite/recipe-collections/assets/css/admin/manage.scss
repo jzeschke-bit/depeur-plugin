@@ -1,0 +1,30 @@
+@use '../public/classic/_variables';
+@use '../public/classic/layout';
+@use '../public/grid/layout' as layout2;
+
+#wprm-recipe-collections-manage-app {
+    .wprmprc-container-header-container {
+        justify-content: center;
+        .wprmprc-container-header {
+            display: none;
+        }
+        .wprmprc-container-header-actions {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.wprmprc-admin-collection-actions {
+    margin-bottom: 10px;
+
+    .button {
+        margin-right: 10px;
+    }
+}
+
+.wprmprc-admin-collection-name {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: variables.$border-radius;
+}

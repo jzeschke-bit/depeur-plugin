@@ -1,0 +1,317 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Recipe Maker Premium\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-14 22:00+0000\n"
+"PO-Revision-Date: 2016-11-14 22:09+0000\n"
+"Last-Translator: Anders <anders@landenstad.se>\n"
+"Language-Team: Swedish\n"
+"Language: sv-SE\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: includes/class-wp-recipe-maker-premium.php:92
+msgid ""
+"The plugin has not been loaded because it requires the following plugin(s) "
+"to be activated:"
+msgstr ""
+"Tillägget har inte laddats eftersom det kräver följande tillägg som ska "
+"aktiveras:"
+
+#: includes/class-wp-recipe-maker-premium.php:106
+msgid ""
+"The plugin has not been loaded because it requires at least the following "
+"plugin versions:"
+msgstr ""
+"Tillägget har inte laddats eftersom det kräver åtminstone följande "
+"tilläggsgsversioner:"
+
+#: includes/admin/class-wprmp-license.php:244
+msgid "Activate your license key to receive automatic updates."
+msgstr "Aktivera din licensnyckel för att få automatiska uppdateringar."
+
+#: includes/admin/class-wprmp-modal.php:66
+msgid "Label Shortcode"
+msgstr "Kortkod för etikett"
+
+#: includes/public/class-wprmp-timer.php:60
+msgid "Click to Start Timer"
+msgstr "Klicka för att starta timer"
+
+#: templates/public/nutrition-label.php:55
+msgid "Amount Per Serving"
+msgstr "Storlek per portion"
+
+#: templates/admin/settings/ingredients.php:19
+msgid ""
+"Options for the ingredient links that can be added on the WP Recipe Maker > "
+"Manage > Ingredients page."
+msgstr ""
+"Alternativ för ingredienslänkar som kan läggas på WP recept Maker> Hantera> "
+"Ingredienser."
+
+#: templates/admin/settings/ingredients.php:31
+msgid "Open ingredient links in a new tab"
+msgstr "Öppna ingredienslänkar i en ny flik"
+
+#: templates/admin/settings/ingredients.php:43
+msgid "Add the nofollow attribute to ingredient links"
+msgstr "Lägg nofollowattributet för ingredienslänkar"
+
+#: templates/admin/settings/license.php:19
+msgid ""
+"Activate your license key to get notified of updates for the premium addon."
+msgstr ""
+"Aktivera licensnyckeln för att få meddelande om uppdateringar för "
+"premiumtillägg."
+
+#: templates/admin/settings/license.php:32
+msgid "Warning: the license is currently inactive."
+msgstr "Varning: licensen är för närvarande inaktiv."
+
+#: templates/admin/settings/license.php:34
+msgid ""
+"Your license key is currently active. Fill in a blank key to deactivate."
+msgstr "Din licensnyckel är aktiv. Fyll i en tom nyckel för att avaktivera."
+
+#: templates/admin/modal/tabs/nutrition-label-shortcode.php:15
+#, php-format
+msgid "The %s shortcode can be used to add the nutrition label shortcode."
+msgstr ""
+"%s kortkod kan användas för att lägga till i näringsdeklarationens kortkod."
+
+#: templates/admin/modal/tabs/nutrition-label-shortcode.php:20
+msgid "Show the nutrition label for the first recipe found on the page."
+msgstr "Visa näringsvärdesdeklarationen för första recept på sidan."
+
+#: includes/admin/class-wprmp-license.php:106
+msgid "License"
+msgstr "Licens"
+
+#: includes/admin/class-wprmp-license.php:245
+msgid "Activate now"
+msgstr "Aktivera nu"
+
+#: includes/admin/class-wprmp-license.php:246
+msgid "Get a License"
+msgstr "Skaffa en licens"
+
+#: includes/admin/class-wprmp-modal.php:54
+#: templates/public/nutrition-label.php:51
+msgid "Nutrition Facts"
+msgstr "Näringsinnehåll"
+
+#: includes/admin/class-wprmp-modal.php:62
+msgid "Nutrition Label"
+msgstr "Näringsdeklaration"
+
+#: templates/admin/manage.php:21
+#: includes/admin/manage/class-wprmp-manage.php:120
+#: includes/admin/manage/class-wprmp-manage.php:120
+msgid "Manage"
+msgstr "Hantera"
+
+#: templates/admin/manage.php:25
+msgid "Recipes"
+msgstr "Recept"
+
+#: templates/admin/manage.php:27
+#: includes/admin/manage/class-wprmp-manage-ingredients.php:56
+msgid "Ingredients"
+msgstr "Ingredienser"
+
+#: templates/public/nutrition-label.php:59
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:19
+msgid "Calories"
+msgstr "Kalorier"
+
+#: templates/public/nutrition-label.php:61
+msgid "Calories from Fat"
+msgstr "Kalorier från fett"
+
+#: templates/public/nutrition-label.php:67
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:67
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:72
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:75
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:78
+msgid "% Daily Value"
+msgstr "% dagligt intag"
+
+#: templates/public/nutrition-label.php:71
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:30
+msgid "Total Fat"
+msgstr "Totalt fett"
+
+#: templates/public/nutrition-label.php:76
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:33
+msgid "Saturated Fat"
+msgstr "Mättat fett"
+
+#: templates/public/nutrition-label.php:82
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:44
+msgid "Trans Fat"
+msgstr "Transfett"
+
+#: templates/public/nutrition-label.php:87
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:38
+msgid "Polyunsaturated Fat"
+msgstr "Fleromättat fett"
+
+#: templates/public/nutrition-label.php:92
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:41
+msgid "Monounsaturated Fat"
+msgstr "Enkelomättat fett"
+
+#: templates/public/nutrition-label.php:98
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:49
+msgid "Cholesterol"
+msgstr "Kolesterol"
+
+#: templates/public/nutrition-label.php:104
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:52
+msgid "Sodium"
+msgstr "Natrium"
+
+#: templates/public/nutrition-label.php:110
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:55
+msgid "Potassium"
+msgstr "Kalium"
+
+#: templates/public/nutrition-label.php:116
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:22
+msgid "Total Carbohydrates"
+msgstr "Totalt Kolhydrater"
+
+#: templates/public/nutrition-label.php:122
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:60
+msgid "Dietary Fiber"
+msgstr "Kostfiber"
+
+#: templates/public/nutrition-label.php:128
+msgid "Sugars"
+msgstr "Socker"
+
+#: templates/public/nutrition-label.php:133
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:27
+msgid "Protein"
+msgstr "Protein"
+
+#: templates/public/nutrition-label.php:142
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:66
+msgid "Vitamin A"
+msgstr "Vitamin A"
+
+#: templates/public/nutrition-label.php:148
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:71
+msgid "Vitamin C"
+msgstr "Vitamin C"
+
+#: templates/public/nutrition-label.php:154
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:74
+msgid "Calcium"
+msgstr "Kalcium"
+
+#: templates/public/nutrition-label.php:160
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:77
+msgid "Iron"
+msgstr "Järn"
+
+#: templates/public/nutrition-label.php:165
+msgid "Percent Daily Values are based on a 2000 calorie diet."
+msgstr "Procentuella dygnsvärdet baseras på 2000 kaloriintag ."
+
+#: templates/admin/settings/ingredients.php:17
+msgid "Ingredient Links"
+msgstr "Ingredienslänkar"
+
+#: templates/admin/settings/ingredients.php:25
+msgid "Open in New Tab"
+msgstr "Öppna i en ny TAB"
+
+#: templates/admin/settings/ingredients.php:37
+msgid "Use Nofollow"
+msgstr "Använd nofollow"
+
+#: templates/admin/settings/ingredients.php:49
+#: templates/admin/settings/license.php:42
+msgid "Save Changes"
+msgstr "Spara ändringar"
+
+#: templates/admin/settings/license.php:17
+msgid "Premium License"
+msgstr "Premiumlicens"
+
+#: templates/admin/settings/license.php:25
+msgid "Premium License Key"
+msgstr "Premium licensnyckel"
+
+#: templates/admin/modal/tabs/nutrition-label-shortcode.php:24
+msgid "Show the nutrition label for the recipe with ID 123."
+msgstr "Visa näringsdeklarationen för receptet med ID 123"
+
+#: templates/admin/modal/tabs/nutrition-label-shortcode.php:29
+msgid "Recipe"
+msgstr "Recept"
+
+#: templates/admin/modal/tabs/nutrition-label-shortcode.php:31
+msgid "First recipe on page"
+msgstr "Förts receptet på sidan"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:16
+msgid "Serving Size"
+msgstr "Portionsstorlek"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:17
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:23
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:28
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:31
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:34
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:39
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:42
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:45
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:61
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:64
+msgid "g"
+msgstr "g"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:20
+msgid "kcal"
+msgstr "kcal"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:50
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:53
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:56
+msgid "mg"
+msgstr "mg"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:63
+msgid "Sugar"
+msgstr "Socker"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:83
+msgid "Important"
+msgstr "Viktigt"
+
+#: templates/admin/modal/tabs/recipe-nutrition-facts.php:84
+msgid "Nutrition facts should be for 1 serving of the recipe."
+msgstr "Näringsvärde bör avse en portionsstorlek av receptet."
+
+#. Name of the plugin
+msgid "WP Recipe Maker Premium"
+msgstr "WP Recipe Maker Premium"
+
+#. Description of the plugin
+msgid "Premium addon for WP Recipe Maker."
+msgstr "Premium tillägg för WP Recipe Maker."
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://bootstrapped.ventures/"
+msgstr "http://bootstrapped.ventures/"
+
+#. Author of the plugin
+msgid "Bootstrapped Ventures"
+msgstr "Bootstrapped Ventures"

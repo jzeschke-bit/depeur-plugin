@@ -1,0 +1,482 @@
+.wprm-template-property {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wprm-template-property {
+    padding: 3px 0;
+
+    .wprm-template-property-header {
+        width: 100%;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: 200;
+        margin-top: 30px;
+    }
+
+    &:first-child {
+        .wprm-template-property-header {
+            margin-top: 0;
+        }
+    }
+
+    .wprm-template-property-label {
+        font-weight: 500;
+        padding: 4px 0;
+    }
+
+    // Open dropdown menus to top to prevent scroll/overflow issues.
+    .Select-menu-outer {
+        position: absolute !important;
+        top: auto !important;
+        bottom: calc(100% - 1px) !important;
+        border-bottom-left-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        border-top-left-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+    }
+    
+    .is-open .Select-control {
+        border-top-right-radius: 0 !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-right-radius: 5px !important;
+        border-bottom-left-radius: 5px !important;
+    }
+    
+    .wprm-template-property-value {
+        &.wprm-template-property-value-font {
+            width: 100%;
+
+            input {
+                width: 100%;
+            }
+            .wprm-template-property-input {
+                margin-top: 5px;
+            }
+        }
+        &.wprm-template-property-value-text {
+            width: 100%;
+
+            input {
+                width: 100%;
+            }
+        }
+
+        &.wprm-template-property-value-align,
+        &.wprm-template-property-value-border,
+        &.wprm-template-property-value-float,
+        &.wprm-template-property-value-dropdown {
+            width: 100%;
+        }
+
+        &.wprm-template-property-value-icon {
+            a {
+                font-size: 0.9em;
+            }
+
+            .wprm-template-property-icon-select {
+                max-width: 16px;
+                max-height: 16px;
+                width: 100%;
+            }
+
+            .wprm-template-property-icon-selected-container {
+                display: flex;
+
+                .wprm-template-property-icon-select {
+                    display: flex;
+                    margin-right: 5px;
+                }
+            }
+
+            .wprm-template-property-icon-select-container {
+                width: 100%;
+
+                .wprm-template-property-icon-select-container-icons {
+                    margin-top: 5px;
+                }
+
+                .wprm-template-property-icon-select {
+                    display: inline-block;
+                    cursor: pointer;
+                    margin: 2px;
+                }
+            }
+
+        }
+
+        &.wprm-template-property-value-color {
+            .wprm-template-property-input {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .wprm-template-property-input-color-variable-icon {
+                cursor: pointer;
+                line-height: 14px;
+
+                svg {
+                    height: 14px;
+                    width: 14px;
+                }
+            }
+        }
+
+        &.wprm-template-property-value-toggle {
+            .wprm-template-property-input {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        &.wprm-template-property-value-font_size,
+        &.wprm-template-property-value-size {
+            display: flex;
+            align-items: center;
+
+            input {
+                width: 60px;
+            }
+
+            .wprm-template-property-value-size-unit {
+                margin-left: 5px;
+                cursor: pointer;
+                color: #999;
+
+                &.wprm-template-property-value-size-unit-selected {
+                    color: #444;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        &.wprm-template-property-value-percentage {
+            display: flex;
+            align-items: center;
+
+            input {
+                width: 60px;
+            }
+
+            .wprm-template-property-number-suffix {
+                margin-left: 5px;
+            }
+        }
+
+        &.wprm-template-property-value-image_size {
+            width: 100%;
+
+            label {
+                font-size: 0.8em;
+                font-style: italic;
+                margin-bottom: 3px;
+            }
+
+            .Select-menu-outer {
+                position: relative;
+            }
+
+            .wprm-template-property-input-width-height {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                input {
+                    width: 40%;
+                    max-width: 75px;
+
+                    &:first-child {
+                        margin-right: 5px;
+                    }
+                    &:last-child {
+                        margin-left: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Icon Picker Modal (rendered as portal, so styles must be at root level).
+.wprm-icon-picker-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wprm-icon-picker-modal {
+    background: #fff;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 640px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.wprm-icon-picker-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+
+    h3 {
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+}
+
+.wprm-icon-picker-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0 4px;
+    line-height: 1;
+
+    &:hover {
+        color: #333;
+    }
+}
+
+.wprm-icon-picker-modal-search {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+
+    input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        box-sizing: border-box;
+
+        &:focus {
+            border-color: #007cba;
+            outline: none;
+            box-shadow: 0 0 0 1px #007cba;
+        }
+    }
+}
+
+.wprm-icon-picker-modal-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 0 20px 16px;
+}
+
+.wprm-icon-picker-modal-category {
+    &:first-child {
+        .wprm-icon-picker-modal-category-label {
+            margin-top: 12px;
+        }
+    }
+}
+
+.wprm-icon-picker-modal-category-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 20px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+}
+
+.wprm-icon-picker-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+}
+
+.wprm-icon-picker-modal-no-results {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    margin: 0;
+}
+
+.wprm-icon-picker-modal-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 4px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+
+    &:hover {
+        background-color: #f0f0f0;
+        border-color: #ddd;
+    }
+
+    &.wprm-icon-picker-modal-icon-selected {
+        border-color: #007cba;
+        background-color: #e6f3fa;
+    }
+
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+.wprm-icon-picker-modal-icon-name {
+    font-size: 10px;
+    color: #555;
+    text-align: center;
+    line-height: 1.2;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+.wprm-icon-picker-modal-footer {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    border-top: 1px solid #e0e0e0;
+
+    button {
+        cursor: pointer;
+    }
+}
+
+// Accordion styles for property grouping
+.wprm-template-property-accordion {
+    .wprm-template-property-accordion-section {
+        margin-bottom: 0;
+        overflow: visible; // Allow dropdowns to overflow sections
+
+        &:last-child {
+            .wprm-template-property-accordion-content {
+                border-bottom: none;
+            }
+        }
+
+        &.is-expanded {
+            border-left: 1px solid #888;
+            padding-left: 5px;
+            margin-left: -5px;
+
+            .wprm-template-property-accordion-header-text {
+                .wprm-template-property-header {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .wprm-template-property-accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 8px 0;
+        margin-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        user-select: none;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        .wprm-template-property-accordion-header-text {
+            flex: 1;
+            min-width: 0;
+
+            .wprm-template-property-header {
+                margin-top: 0;
+                margin-bottom: 0;
+                font-size: 1.11em;
+                font-weight: 200;
+                color: #333;
+                text-align: left;
+            }
+        }
+
+        .wprm-template-property-accordion-icon {
+            flex-shrink: 0;
+            margin-left: 8px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 0.7;
+
+            .wprm-template-icon {
+                display: flex;
+                align-items: center;
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
+
+        &:hover .wprm-template-property-accordion-icon {
+            opacity: 1;
+        }
+    }
+
+    .wprm-template-property-accordion-content {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+
+        &.expanded {
+            max-height: none; // Use none instead of large pixel value for instant display
+            opacity: 1;
+            // Allow overflow when expanded so dropdowns can extend beyond
+            overflow: visible;
+            padding-bottom: 10px;
+        }
+
+        &.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden; // Keep hidden when collapsed
+        }
+
+        // Inner wrapper for content
+        .wprm-template-property-accordion-content-inner {
+            // Ensure properties inside maintain their styling
+            .wprm-template-property {
+                position: relative; // Ensure dropdowns are positioned relative to property
+
+                &:first-child {
+                    padding-top: 4px;
+                }
+
+                // Ensure dropdown menus can overflow the accordion content
+                .Select-menu-outer {
+                    z-index: 1000; // Ensure dropdown appears above other content
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,140 @@
+#wprmp-nutrition-label-layout {
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    .wprmp-nutrition-label-editor:not(.wprmp-nutrition-label-editor-new) {
+        display: flex;
+
+        .wprmp-nutrition-label-editor-side {
+            width: 100%;
+            max-width: 350px;
+        }
+        .wprmp-nutrition-label-editor-main {
+            margin-left: 10px;
+        }
+    }
+
+    .wprmp-nutrition-label-editor-side-section {
+        background-color: white;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .wprmp-nutrition-label-editor-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .wprmp-nutrition-label-editor-mode {
+        margin-top: 5px;
+    }
+
+    .wprmp-nutrition-label-editor-new-layouts {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        .wprmp-nutrition-label-editor-new-layout {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .wprmp-nutrition-label-editor-new-layout-name {
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .wprmp-nutrition-label-editor-preview-seperated {
+        margin: 5px 0;
+        padding: 5px;
+        border-left: 3px solid #0073aa !important;
+    }
+
+    // Sortable.
+    .wprmp-nutrition-label-editor-sortable-helper {
+        border-width: 0 !important;
+        background: none !important;
+
+        .wprmp-nutrition-label-editor-sortable-element {
+            background-color: white;
+        }
+    }
+    .wprmp-nutrition-label-editor-sortable-element {
+        cursor: move;
+    }
+
+    // Selected.
+    .wprmp-nutrition-label-editor-preview-selected {
+        cursor: pointer;
+        border: 2px solid #0073aa;
+    }
+
+    // Edit.
+    .wprmp-nutrition-label-editor-property-label {
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
+    .wprmp-nutrition-label-editor-property-value {
+        select,
+        input {
+            width: 100%;
+        }
+        
+        input[type="number"] {
+            width: 60px;
+        }
+    }
+    .wprmp-nutrition-label-editor-remove {
+        margin-top: 20px;
+
+        a { 
+            color: darkred;
+        }
+    }
+}
+
+@media all and (max-width: 640px) {
+	#wprmp-nutrition-label-layout {
+        .wprmp-nutrition-label-editor:not(.wprmp-nutrition-label-editor-new) {
+            display: block;
+
+            .wprmp-nutrition-label-editor-side,
+            .wprmp-nutrition-label-editor-main {
+                margin: 10px auto;
+            }
+        }
+
+        .wprmp-nutrition-label-editor-preview {
+            margin: 0 auto;
+        }
+    }
+}
+
+.rtl #wprmp-nutrition-label-layout {
+    .wprmp-nutrition-label-editor:not(.wprmp-nutrition-label-editor-new) {
+        .wprmp-nutrition-label-editor-main {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+    }
+}

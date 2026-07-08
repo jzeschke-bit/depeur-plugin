@@ -1,0 +1,109 @@
+.wprm-nutrition-label-layout {
+    box-sizing: border-box;
+
+    // Text.
+    .wprmp-nutrition-label-block-text-title {
+        font-weight: bolder;
+        font-size: 1.8em;
+        line-height: 1.1em;
+    }
+    .wprmp-nutrition-label-block-text-subtitle {
+        line-height: 1em;
+    }
+    .wprmp-nutrition-label-block-text-disclaimer {
+        font-size: 0.9em;
+        opacity: 0.7;
+    }
+    .wprmp-nutrition-label-block-text-daily {
+        font-weight: bold;
+        text-align: right;
+    }
+    .wprmp-nutrition-label-block-text-bold {
+        font-weight: bold;
+    }
+    // Line.
+    .wprmp-nutrition-label-block-line {
+        height: 5px;
+        font-size: 1px;
+    }
+    // Serving Size.
+    .wprmp-nutrition-label-block-serving {
+        display: flex;
+    }
+    .wprmp-nutrition-label-block-serving-big {
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    // Nutrient.
+    .wprmp-nutrition-label-block-nutrient,
+    .wprmp-nutrition-label-block-nutrient-name-value-unit-container,
+    .wprmp-nutrition-label-block-nutrient-value-unit-container,
+    .wprmp-nutrition-label-block-nutrient-daily-container {
+        display: flex;
+    }
+    .wprmp-nutrition-label-block-nutrient {
+        justify-content: space-between;
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+    .wprmp-nutrition-label-block-nutrient-daily-container {
+        font-weight: bold;
+    }
+    // Different nutrient styles.
+    .wprmp-nutrition-label-block-nutrient-calories {
+        font-weight: bold;
+        font-size: 1.4em;
+        border-top: none;
+
+        .wprmp-nutrition-label-block-nutrient-daily-container,
+        .wprmp-nutrition-label-block-nutrient-extra-container {
+            font-size: 1.4em;
+            margin-top: -0.1em;
+        }
+    }
+    .wprmp-nutrition-label-block-nutrient-main {
+        .wprmp-nutrition-label-block-nutrient-name {
+            font-weight: bold;
+        }
+    }
+    .wprmp-nutrition-label-block-nutrient-child {
+        margin-left: 14px;
+    }
+    .wprmp-nutrition-label-block-nutrient-subchild {
+        margin-left: 28px;
+    }
+    .wprmp-nutrition-label-block-nutrient-child-line {
+        padding-left: 14px;
+    }
+    .wprmp-nutrition-label-block-nutrient-subchild-line {
+        padding-left: 28px;
+    }
+    .wprmp-nutrition-label-block-nutrient-other {
+        .wprmp-nutrition-label-block-nutrient-daily-container {
+            font-weight: normal;
+        }
+    }
+}
+
+.rtl .wprm-nutrition-label-layout {
+    .wprmp-nutrition-label-block-text-daily {
+        text-align: left;
+    }
+    .wprmp-nutrition-label-block-nutrient-child {
+        margin-left: 0;
+        margin-right: 14px;
+    }
+    .wprmp-nutrition-label-block-nutrient-subchild {
+        margin-left: 0;
+        margin-right: 28px;
+    }
+    .wprmp-nutrition-label-block-nutrient-child-line {
+        padding-left: 0;
+        padding-right: 14px;
+    }
+    .wprmp-nutrition-label-block-nutrient-subchild-line {
+        padding-left: 0;
+        padding-right: 28px;
+    }
+}

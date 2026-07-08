@@ -1,0 +1,240 @@
+.wprm-popup-modal-collections {
+    input,
+    textarea {
+        box-sizing: border-box;
+    }
+
+    .wprm-popup-modal__container {
+        width: 95%;
+        max-width: 950px;
+
+        &.wprm-popup-modal__container-collections-edit {
+            max-width: 450px;
+        }
+
+        &.wprm-popup-modal__container-collections-history {
+            max-width: 550px;
+        }
+    }
+
+    .wprm-popup-modal__content {
+        padding-top: 10px;
+        min-height: 200px;
+    }
+
+    .wprmprc-collection-modal-add-item-modes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        margin: -5px;
+        margin-bottom: 10px;
+
+        .wprmprc-collection-modal-add-item-mode {
+            margin: 5px;
+            border: 1px solid var(--wprm-popup-content);
+
+            background-color: var(--wprm-popup-background);
+            color: var(--wprm-popup-content);
+
+            &.active {
+                background-color: var(--wprm-popup-button-background);
+                color: var(--wprm-popup-button-text);
+            }
+        }
+    }
+
+    .wprmprc-collection-action-select-collection {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+
+    .wprmprc-collection-action-search-recipe,
+    .wprmprc-collection-action-search-ingredient {
+        max-width: 350px;
+        margin: 0 auto;
+        position: relative;
+
+        input {
+            margin: 0;
+            padding: 3px 5px;
+            line-height: 1.5;
+            font-size: 1em;
+            background-color: var(--wprm-popup-background);
+            color: var(--wprm-popup-content);
+            border: 1px solid var(--wprm-popup-content);
+            border-radius: 5px;
+            width: 100%;
+            height: auto;
+
+            & + div {
+                position: absolute;
+                right: 0.5em;
+                top: 0.3em;
+                margin-top: 0 !important;
+            }
+        }
+    }
+
+    // Don't show servings or actions for modal items.
+    .wprmprc-collection-item-actions,
+    .wprmprc-collection-item-servings {
+        display: none !important;
+    }
+    
+    .wprmprc-collection-modal-items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        margin: 10px -5px;
+
+        .wprmprc-collection-modal-item {
+            cursor: pointer;
+        }
+        .wprmprc-collection-modal-item,
+        .wprmprc-collection-modal-item-placeholder {
+            min-width: 250px;
+            flex: 1;
+            margin: 5px;
+        }
+    }
+
+    .wprmprc-collection-modal-actions {
+        text-align: center;
+    }
+
+    .wprmprc-collection-modal-add-container {
+        max-width: 450px;
+        margin: 0 auto;
+
+        .wprmprc-collection-modal-add-preview {
+            max-width: 350px;
+            margin: 0 auto;
+
+            .wprmprc-collection-item-main {
+                min-height: 20px;
+            }
+        }
+
+        .wprmprc-collection-modal-actions {
+            margin-top: 20px;
+        }
+    }
+}
+
+.wprm-recipe-collections-edit-structure-modal-content {
+    .wprm-recipe-collections-edit-description,
+    .wprm-recipe-collections-edit-clear {
+        margin-bottom: 20px;
+        padding-right: 10px;
+    
+        label {
+            font-weight: bold;
+        }
+        input {
+            display: block;
+            margin: 5px 0 0 0;
+            padding: 3px 5px;
+            font-size: 1em;
+            color: black;
+            background: white;
+            border: 1px solid #666;
+            border-radius: 5px;
+            width: 100%;
+            height: auto;
+            max-width: none;
+            min-width: none;
+        }
+    }
+
+    .wprm-recipe-collections-edit-clear {
+        margin-top: 20px;
+        margin-bottom: 40px;
+
+        input {
+            width: auto;
+            cursor: pointer;
+        }
+    }
+    
+    .wprm-recipe-collections-edit-structure-container {
+        display: flex;
+        flex-wrap: wrap;
+    
+        .wprm-recipe-collections-edit-structure {
+            flex: 1;
+            min-width: 250px;
+    
+            .wprmprc-edit-list-item-header {
+                font-weight: bold;
+                padding-left: 0;
+            }
+
+            .wprmprc-edit-list-item {
+                input {
+                    width: 100%;
+                }
+            }
+
+            .wprmprc-edit-list-actions {
+                padding-left: 0;
+            }
+        }
+    }
+}
+
+.wprm-recipe-collections-history-modal-content {
+    .wprm-recipe-collections-history-modal-description {
+        margin-bottom: 15px;
+        font-size: 0.95em;
+    }
+
+    .wprm-recipe-collections-history-modal-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .wprm-recipe-collections-history-modal-item {
+        width: 100%;
+        padding: 8px 10px;
+        border: 0;
+        border-left: 3px solid transparent;
+        border-bottom: 1px solid #eee;
+        background: transparent;
+        text-align: left;
+        font-size: 1em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .wprm-recipe-collections-history-modal-item-time {
+            min-width: 68px;
+            font-size: 0.85em;
+            opacity: 0.55;
+            font-family: monospace;
+            flex: 0 0 auto;
+        }
+
+        .wprm-recipe-collections-history-modal-item-label {
+            flex: 1 1 auto;
+        }
+
+        &:hover {
+            background: #f5f5f5;
+        }
+
+        &:disabled {
+            opacity: 1;
+            cursor: default;
+        }
+
+        &.wprm-recipe-collections-history-modal-item-active {
+            border-left-color: var(--wprm-popup-button-background);
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+    }
+}

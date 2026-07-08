@@ -1,0 +1,474 @@
+- generic [ref=e2]:
+  - navigation "Hauptmenü":
+    - link "Zum Hauptinhalt springen" [ref=e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Zur Werkzeugleiste springen" [ref=e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Dashboard" [ref=e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=e10]: 
+          - generic [ref=e11]: Dashboard
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Start" [ref=e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=e15]:
+            - link "Aktualisierungen 5" [ref=e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Aktualisierungen
+              - generic [ref=e17]: "5"
+      - listitem [ref=e18]:
+        - link "Cocktails" [ref=e19] [cursor=pointer]:
+          - /url: edit.php?post_type=cocktails
+          - generic [ref=e20]: 
+          - generic [ref=e21]: Cocktails
+        - list [ref=e22]:
+          - listitem [ref=e23]:
+            - link "Alle cocktails" [ref=e24] [cursor=pointer]:
+              - /url: edit.php?post_type=cocktails
+          - listitem [ref=e25]:
+            - link "Neue cocktails hinzufügen" [ref=e26] [cursor=pointer]:
+              - /url: post-new.php?post_type=cocktails
+          - listitem [ref=e27]:
+            - link "Schlagwörter" [ref=e28] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag&post_type=cocktails
+          - listitem [ref=e29]:
+            - link "Anlässe" [ref=e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=anlass&post_type=cocktails
+          - listitem [ref=e31]:
+            - link "Arten" [ref=e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=art&post_type=cocktails
+          - listitem [ref=e33]:
+            - link "Herkunft" [ref=e34] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=herkunft&post_type=cocktails
+      - listitem [ref=e35]
+      - listitem [ref=e37]:
+        - link "Beiträge" [ref=e38] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=e39]: 
+          - generic [ref=e40]: Beiträge
+        - list [ref=e41]:
+          - listitem [ref=e42]:
+            - link "Alle Beiträge" [ref=e43] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=e44]:
+            - link "Beitrag hinzufügen" [ref=e45] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=e46]:
+            - link "Kategorien" [ref=e47] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=e48]:
+            - link "Schlagwörter" [ref=e49] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=e50]:
+        - link "Equipment" [ref=e51] [cursor=pointer]:
+          - /url: edit.php?post_type=bar-equipment
+          - generic [ref=e52]: 
+          - generic [ref=e53]: Equipment
+        - list [ref=e54]:
+          - listitem [ref=e55]:
+            - link "Alle Equipment Einträge" [ref=e56] [cursor=pointer]:
+              - /url: edit.php?post_type=bar-equipment
+          - listitem [ref=e57]:
+            - link "Neue Bar Equipment hinzufügen" [ref=e58] [cursor=pointer]:
+              - /url: post-new.php?post_type=bar-equipment
+      - listitem [ref=e59]:
+        - link "Trinkspiele" [ref=e60] [cursor=pointer]:
+          - /url: edit.php?post_type=trinkspiele
+          - generic [ref=e61]: 
+          - generic [ref=e62]: Trinkspiele
+        - list [ref=e63]:
+          - listitem [ref=e64]:
+            - link "Alle Trinkspiele" [ref=e65] [cursor=pointer]:
+              - /url: edit.php?post_type=trinkspiele
+          - listitem [ref=e66]:
+            - link "Trinkspiel hinzufügen" [ref=e67] [cursor=pointer]:
+              - /url: post-new.php?post_type=trinkspiele
+      - listitem [ref=e68]:
+        - link "Medien" [ref=e69] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=e70]: 
+          - generic [ref=e71]: Medien
+        - list [ref=e72]:
+          - listitem [ref=e73]:
+            - link "Mediathek" [ref=e74] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=e75]:
+            - link "Mediendatei hinzufügen" [ref=e76] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=e77]:
+        - link "Seiten" [ref=e78] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=e79]: 
+          - generic [ref=e80]: Seiten
+        - list [ref=e81]:
+          - listitem [ref=e82]:
+            - link "Alle Seiten" [ref=e83] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=e84]:
+            - link "Seite hinzufügen" [ref=e85] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=e86]:
+        - link "Kommentare 2 Kommentare in der Moderation" [ref=e87] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=e88]: 
+          - generic [ref=e89]:
+            - text: Kommentare
+            - generic [ref=e90]:
+              - text: "2"
+              - generic [ref=e91]: 2 Kommentare in der Moderation
+      - listitem [ref=e92]:
+        - link "Rank Math SEO" [ref=e93] [cursor=pointer]:
+          - /url: admin.php?page=rank-math
+          - generic [ref=e95]: Rank Math SEO
+        - list [ref=e96]:
+          - listitem [ref=e97]:
+            - link "Dashboard" [ref=e98] [cursor=pointer]:
+              - /url: admin.php?page=rank-math
+          - listitem [ref=e99]:
+            - link "Inhalt-KI" [ref=e100] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-content-ai-page
+          - listitem [ref=e101]:
+            - link "Link Genius Neu!" [ref=e102] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-links-page
+          - listitem [ref=e103]:
+            - link "Allgemeine Einstellungen" [ref=e104] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-options-general
+          - listitem [ref=e105]:
+            - link "Titel & Meta" [ref=e106] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-options-titles
+          - listitem [ref=e107]:
+            - link "Sitemap-Einstellungen" [ref=e108] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-options-sitemap
+          - listitem [ref=e109]:
+            - link "SEO-Analysator" [ref=e110] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-seo-analysis
+          - listitem [ref=e111]:
+            - link "Status & Werkzeuge" [ref=e112] [cursor=pointer]:
+              - /url: admin.php?page=rank-math-status
+          - listitem [ref=e113]:
+            - link "Hilfe und Support " [ref=e114] [cursor=pointer]:
+              - /url: https://rankmath.com/kb/?utm_source=Plugin&utm_medium=Sidebar%20Help%20Link&utm_campaign=WP
+              - text: Hilfe und Support
+              - generic [ref=e115]: 
+      - listitem [ref=e116]:
+        - link "WP Recipe Maker" [ref=e117] [cursor=pointer]:
+          - /url: admin.php?page=wprecipemaker
+          - generic [ref=e118]: 
+          - generic [ref=e119]: WP Recipe Maker
+        - list [ref=e120]:
+          - listitem [ref=e121]:
+            - link "Dashboard 194 neue Neuigkeiten" [ref=e122] [cursor=pointer]:
+              - /url: admin.php?page=wprecipemaker
+              - text: Dashboard
+              - generic [ref=e123]:
+                - text: "194"
+                - generic [ref=e124]: 194 neue Neuigkeiten
+          - listitem [ref=e125]:
+            - link "Manage" [ref=e126] [cursor=pointer]:
+              - /url: admin.php?page=wprm_manage
+          - listitem [ref=e127]:
+            - link "AI Assistant" [ref=e128] [cursor=pointer]:
+              - /url: admin.php?page=wprm_ai_assistant
+              - generic [ref=e129]: AI Assistant
+          - listitem [ref=e130]:
+            - link "Importiere Rezepte" [ref=e131] [cursor=pointer]:
+              - /url: admin.php?page=wprm_import_overview
+          - listitem [ref=e132]:
+            - link "Einstellungen" [ref=e133] [cursor=pointer]:
+              - /url: admin.php?page=wprm_settings
+          - listitem [ref=e134]:
+            - link "Template Editor" [ref=e135] [cursor=pointer]:
+              - /url: admin.php?page=wprm_template_editor
+          - listitem [ref=e136]:
+            - link "Reports" [ref=e137] [cursor=pointer]:
+              - /url: admin.php?page=wprm_reports
+          - listitem [ref=e138]:
+            - link "Tools" [ref=e139] [cursor=pointer]:
+              - /url: admin.php?page=wprm_tools
+          - listitem [ref=e140]:
+            - link "FAQ & Unterstützung" [ref=e141] [cursor=pointer]:
+              - /url: admin.php?page=wprm_faq
+      - listitem [ref=e142]:
+        - link "Depeur Food" [ref=e143] [cursor=pointer]:
+          - /url: admin.php?page=depeur-food-settings
+          - generic [ref=e144]: 
+          - generic [ref=e145]: Depeur Food
+      - listitem [ref=e146]
+      - listitem [ref=e148]:
+        - link "Design" [ref=e149] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=e150]: 
+          - generic [ref=e151]: Design
+        - list [ref=e152]:
+          - listitem [ref=e153]:
+            - link "Themes" [ref=e154] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=e155]:
+            - link "Design" [ref=e156] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=e157]:
+            - link "Anpassen" [ref=e158] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2Fadmin.php%3Fpage%3Ddepeur-food-settings%26tab%3Dexample-module
+          - listitem [ref=e159]:
+            - link "Widgets" [ref=e160] [cursor=pointer]:
+              - /url: widgets.php
+          - listitem [ref=e161]:
+            - link "Schriften" [ref=e162] [cursor=pointer]:
+              - /url: font-library.php
+          - listitem [ref=e163]:
+            - link "Menüs" [ref=e164] [cursor=pointer]:
+              - /url: nav-menus.php
+          - listitem [ref=e165]:
+            - link "Kadence" [ref=e166] [cursor=pointer]:
+              - /url: themes.php?page=kadence
+          - listitem [ref=e167]:
+            - link "Theme-Datei-Editor" [ref=e168] [cursor=pointer]:
+              - /url: theme-editor.php
+      - listitem [ref=e169]:
+        - link "Plugins 5" [ref=e170] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=e171]: 
+          - generic [ref=e172]:
+            - text: Plugins
+            - generic [ref=e173]: "5"
+        - list [ref=e174]:
+          - listitem [ref=e175]:
+            - link "Installierte Plugins" [ref=e176] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=e177]:
+            - link "Plugin hinzufügen" [ref=e178] [cursor=pointer]:
+              - /url: plugin-install.php
+          - listitem [ref=e179]:
+            - link "Plugin-Datei-Editor" [ref=e180] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=e181]:
+        - link "Benutzer" [ref=e182] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=e183]: 
+          - generic [ref=e184]: Benutzer
+        - list [ref=e185]:
+          - listitem [ref=e186]:
+            - link "Alle Benutzer" [ref=e187] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=e188]:
+            - link "Benutzer hinzufügen" [ref=e189] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=e190]:
+            - link "Profil" [ref=e191] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=e192]:
+        - link "Werkzeuge" [ref=e193] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=e194]: 
+          - generic [ref=e195]: Werkzeuge
+        - list [ref=e196]:
+          - listitem [ref=e197]:
+            - link "Verfügbare Werkzeuge" [ref=e198] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=e199]:
+            - link "Import" [ref=e200] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=e201]:
+            - link "Export" [ref=e202] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=e203]:
+            - link "Website-Zustand" [ref=e204] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=e205]:
+            - link "Personenbezogene Daten exportieren" [ref=e206] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=e207]:
+            - link "Personenbezogene Daten löschen" [ref=e208] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=e209]:
+            - link "Plugin Check" [ref=e210] [cursor=pointer]:
+              - /url: tools.php?page=plugin-check
+          - listitem [ref=e211]:
+            - link "Plugin Check Namer" [ref=e212] [cursor=pointer]:
+              - /url: tools.php?page=plugin-check-namer
+          - listitem [ref=e213]:
+            - link "Scheduled Actions" [ref=e214] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+      - listitem [ref=e215]:
+        - link "Einstellungen" [ref=e216] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=e217]: 
+          - generic [ref=e218]: Einstellungen
+        - list [ref=e219]:
+          - listitem [ref=e220]:
+            - link "Allgemein" [ref=e221] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=e222]:
+            - link "Konnektoren" [ref=e223] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=e224]:
+            - link "Schreiben" [ref=e225] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=e226]:
+            - link "Lesen" [ref=e227] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=e228]:
+            - link "Diskussion" [ref=e229] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=e230]:
+            - link "Medien" [ref=e231] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=e232]:
+            - link "Permalinks" [ref=e233] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=e234]:
+            - link "Datenschutz" [ref=e235] [cursor=pointer]:
+              - /url: options-privacy.php
+          - listitem [ref=e236]:
+            - link "Plugin Check" [ref=e237] [cursor=pointer]:
+              - /url: options-general.php?page=plugin-check-settings
+      - listitem [ref=e238]:
+        - link "Depeur Suite" [ref=e239] [cursor=pointer]:
+          - /url: admin.php?page=depeur-wp-suite
+          - generic [ref=e240]: 
+          - generic [ref=e241]: Depeur Suite
+        - list [ref=e242]:
+          - listitem [ref=e243]:
+            - link "Dashboard" [ref=e244] [cursor=pointer]:
+              - /url: admin.php?page=depeur-wp-suite
+          - listitem [ref=e245]:
+            - link "Module" [ref=e246] [cursor=pointer]:
+              - /url: admin.php?page=depeur-wp-suite-modules
+          - listitem [ref=e247]:
+            - link "Einstellungen" [ref=e248] [cursor=pointer]:
+              - /url: admin.php?page=depeur-wp-suite-settings
+          - listitem [ref=e249]:
+            - link "Support" [ref=e250] [cursor=pointer]:
+              - /url: admin.php?page=depeur-wp-suite-support
+      - listitem [ref=e251]:
+        - link "ACF" [ref=e252] [cursor=pointer]:
+          - /url: edit.php?post_type=acf-field-group
+          - generic [ref=e253]: 
+          - generic [ref=e254]: ACF
+        - list [ref=e255]:
+          - listitem [ref=e256]:
+            - link "Feldgruppen" [ref=e257] [cursor=pointer]:
+              - /url: edit.php?post_type=acf-field-group
+          - listitem [ref=e258]:
+            - link "Inhaltstypen" [ref=e259] [cursor=pointer]:
+              - /url: edit.php?post_type=acf-post-type
+          - listitem [ref=e260]:
+            - link "Taxonomien" [ref=e261] [cursor=pointer]:
+              - /url: edit.php?post_type=acf-taxonomy
+          - listitem [ref=e262]:
+            - link "Optionsseiten" [ref=e263] [cursor=pointer]:
+              - /url: edit.php?post_type=acf-field-group&page=acf_options_preview
+          - listitem [ref=e264]:
+            - link "Werkzeuge" [ref=e265] [cursor=pointer]:
+              - /url: edit.php?post_type=acf-field-group&page=acf-tools
+      - listitem [ref=e266]
+      - listitem [ref=e268]:
+        - link "Kadence" [ref=e269] [cursor=pointer]:
+          - /url: admin.php?page=kadence-blocks-home
+          - generic [ref=e271]: Kadence
+        - list [ref=e272]:
+          - listitem [ref=e273]:
+            - link "Zu Hause" [ref=e274] [cursor=pointer]:
+              - /url: admin.php?page=kadence-blocks-home
+          - listitem [ref=e275]:
+            - link "Einstellungen" [ref=e276] [cursor=pointer]:
+              - /url: admin.php?page=kadence-blocks
+          - listitem [ref=e277]:
+            - link "Formulare" [ref=e278] [cursor=pointer]:
+              - /url: edit.php?post_type=kadence_form
+          - listitem [ref=e279]:
+            - link "Form Entries" [ref=e280] [cursor=pointer]:
+              - /url: admin.php?page=kadence-blocks-entries
+          - listitem [ref=e281]:
+            - link "Navigations" [ref=e282] [cursor=pointer]:
+              - /url: edit.php?post_type=kadence_navigation
+          - listitem [ref=e283]:
+            - link "Headers" [ref=e284] [cursor=pointer]:
+              - /url: edit.php?post_type=kadence_header
+          - listitem [ref=e285]:
+            - link "Queries" [ref=e286] [cursor=pointer]:
+              - /url: edit.php?post_type=kadence_query
+          - listitem [ref=e287]:
+            - link "Query Cards" [ref=e288] [cursor=pointer]:
+              - /url: edit.php?post_type=kadence_query_card
+          - listitem [ref=e289]:
+            - link "Custom Icons" [ref=e290] [cursor=pointer]:
+              - /url: edit.php?post_type=kb_icon
+      - listitem [ref=e291]:
+        - link "Smush Pro" [ref=e292] [cursor=pointer]:
+          - /url: admin.php?page=smush
+          - generic [ref=e294]:
+            - text: Smush
+            - generic [ref=e295]: Pro
+        - list [ref=e296]:
+          - listitem [ref=e297]:
+            - link "Dashboard" [ref=e298] [cursor=pointer]:
+              - /url: admin.php?page=smush
+          - listitem [ref=e299]:
+            - link "Lazy Load & Preload" [ref=e300] [cursor=pointer]:
+              - /url: admin.php?page=smush-lazy-preload
+          - listitem [ref=e301]:
+            - link "CDN" [ref=e302] [cursor=pointer]:
+              - /url: admin.php?page=smush-cdn
+          - listitem [ref=e303]:
+            - link "Directory Smush" [ref=e304] [cursor=pointer]:
+              - /url: admin.php?page=smush-directory
+          - listitem [ref=e305]:
+            - link "Settings" [ref=e306] [cursor=pointer]:
+              - /url: admin.php?page=smush-settings
+      - listitem [ref=e307]:
+        - button "Hauptmenü reduzieren" [expanded] [ref=e308] [cursor=pointer]:
+          - generic [ref=e310]: Menü reduzieren
+  - generic [ref=e311]:
+    - generic [ref=e312]:
+      - navigation "Werkzeugleiste":
+        - menu:
+          - group [ref=e313]:
+            - menuitem "Über WordPress" [ref=e314] [cursor=pointer]:
+              - generic [ref=e316]: Über WordPress
+          - group [ref=e317]:
+            - menuitem "depeur-food-suite" [ref=e318] [cursor=pointer]
+          - group [ref=e319]:
+            - menuitem "5 Aktualisierungen verfügbar" [ref=e320] [cursor=pointer]:
+              - generic [ref=e322]: "5"
+              - generic [ref=e323]: 5 Aktualisierungen verfügbar
+          - group [ref=e324]:
+            - menuitem "⌘K Befehlspalette öffnen" [ref=e325] [cursor=pointer]:
+              - generic [ref=e327]:
+                - text: ⌘K
+                - generic [ref=e328]: Befehlspalette öffnen
+          - group [ref=e329]:
+            - menuitem "2 Kommentare in der Moderation" [ref=e330] [cursor=pointer]:
+              - generic [ref=e332]: "2"
+              - generic [ref=e333]: 2 Kommentare in der Moderation
+          - group [ref=e334]:
+            - menuitem "Neu" [ref=e335] [cursor=pointer]:
+              - generic [ref=e337]: Neu
+          - group [ref=e338]:
+            - menuitem "Rank Math SEO" [ref=e339] [cursor=pointer]:
+              - img [ref=e341]
+              - text: Rank Math SEO
+        - menu [ref=e345]:
+          - group [ref=e346]:
+            - menuitem "Willkommen, admin" [ref=e347] [cursor=pointer]
+    - main [ref=e348]:
+      - generic [ref=e350]:
+        - heading "Depeur Food – Einstellungen" [level=1] [ref=e351]
+        - heading "Allgemein Beispiel-Modul" [level=2] [ref=e352]:
+          - link "Allgemein" [ref=e353] [cursor=pointer]:
+            - /url: http://localhost:8889/wp-admin/admin.php?page=depeur-food-settings&tab=core
+          - link "Beispiel-Modul" [ref=e354] [cursor=pointer]:
+            - /url: http://localhost:8889/wp-admin/admin.php?page=depeur-food-settings&tab=example-module
+        - paragraph [ref=e355]: Triviales Vorlagen-Modul. Demonstriert die Modul-Mechanik (Discovery, Laden, Settings-Anmeldung) und hat keine echte Funktion.
+        - generic [ref=e356]:
+          - text: Beispiel aktiv
+          - checkbox "Beispiel aktiv" [checked] [ref=e357] [cursor=pointer]
+          - paragraph [ref=e358]: Reiner Demonstrations-Schalter ohne Wirkung – zeigt nur, wie ein Modul ein Feld anmeldet.
+          - paragraph [ref=e359]:
+            - button "Einstellungen speichern" [ref=e360] [cursor=pointer]
+  - contentinfo [ref=e361]:
+    - paragraph
+    - paragraph

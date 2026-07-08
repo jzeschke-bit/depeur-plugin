@@ -1,0 +1,32 @@
+.wprm-recipe-advanced-servings-container {
+	margin: 5px 0;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+
+	a.wprm-recipe-advanced-servings-input,
+	a.wprm-recipe-advanced-servings-reset {
+		text-decoration: none;
+	}
+
+	.wprm-recipe-advanced-servings-input-unit {
+		margin-left: 3px;
+	}
+
+	.wprm-recipe-advanced-servings-input-shape {
+		margin-left: 5px;
+	}
+
+	.wprm-recipe-advanced-servings-reset {
+		font-size: 0.8em;
+	}
+}
+
+// Template editor.
+.wprm-main-container-preview {
+	.wprm-recipe-advanced-servings-container {
+		a {
+			cursor: pointer;
+		}
+	}
+}

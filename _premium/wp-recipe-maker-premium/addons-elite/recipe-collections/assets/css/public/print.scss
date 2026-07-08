@@ -1,0 +1,109 @@
+.wprm-print {
+    .wprmprc-container-header-container,
+    .wprmprc-collection-description {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .wprmprc-collection {
+        padding: 0 20px;
+
+        .wprmprc-collection-column-width {
+            flex: 1;
+            flex-basis: 300px;
+        }
+    }
+
+    .wprm-recipe-collections-layout-grid {
+        .wprmprc-collection-item {
+            .wprmprc-collection-item-servings {
+                justify-content: center;
+
+                .wprmprc-collection-item-servings-value:hover {
+                    cursor: default;
+                }
+            }
+
+            &:hover {
+                .wprmprc-collection-item-servings {
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+
+    .wprm-recipe-collections-layout-classic,
+    .wprm-recipe-collections-layout-grid {
+        .wprmprc-shopping-list {
+            max-width: 650px;
+            margin: 0 auto;
+    
+            .wprmprc-shopping-list-list-ingredient-name-container {
+                word-break: break-all;
+                margin-right: 5px;
+            }
+
+            .wprmprc-shopping-list-warning {
+                display: none;
+            }
+    
+            .wprmprc-shopping-list-collection,
+            .wprmprc-shopping-list-list,
+            .wprmprc-shopping-list-item {
+                border: none;
+            }
+            .wprmprc-shopping-list-collection-header,
+            .wprmprc-shopping-list-list-header {
+                background: none;
+                color: black;
+            }
+    
+            // Prevent cut off print on Chrome.
+            .wprmprc-shopping-list-collection,
+            .wprmprc-shopping-list-list {
+                display: block;
+            }
+
+            .wprmprc-shopping-list-list {
+                .wprmprc-shopping-list-item,
+                .wprmprc-shopping-list-list-ingredient,
+                .wprmprc-shopping-list-list-ingredient .wprmprc-shopping-list-list-ingredient-name-container {
+                    display: inline-flex;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+// Legacy. TODO: remove?
+.wprmprc-print {
+    display: none;
+}
+@media print {
+    body.wprmprc-printing > *:not(.wprmprc-print) {
+        display: none !important;
+    }
+    
+    body.wprmprc-printing .wprmprc-print {
+        display: block;
+        margin: 20px;
+
+        // Fix Firefox print problem for display: flex elements.
+        .wprmprc-collection,
+        .wprmprc-collection-column,
+        .wprmprc-collection-column-groups,
+        .wprmprc-collection-group,
+        .wprmprc-shopping-list-collection,
+        .wprmprc-shopping-list-list {
+            display: block;
+        }
+
+        .wprmprc-header-link,
+        .wprmprc-header-link-separator,
+        .wprmprc-icon,
+        .wprmprc-collection-actions {
+            display: none !important;
+        }
+    }
+}

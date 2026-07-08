@@ -1,0 +1,229 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-collection-item {
+        margin: 0 5px 10px 5px;
+        border: 1px dashed variables.$color-item-border;
+        border-radius: variables.$border-radius;
+        background-color: variables.$color-item;
+
+        display: flex;
+
+        &.wprmprc-collection-item-color-blue { background-color: #DEF3FD; }
+        &.wprmprc-collection-item-color-red { background-color: #FDDFDF; }
+        &.wprmprc-collection-item-color-yellow { background-color: #FCF7DE; }
+        &.wprmprc-collection-item-color-green { background-color: #DEFDE0; }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .wprmprc-collection-item-actions {
+            border: 1px solid variables.$color-item-border;
+            border-top-left-radius: variables.$border-radius;
+            border-bottom-left-radius: variables.$border-radius;
+            border-right: none;
+
+            margin: -1px 0 -1px -1px;
+
+            background-color: variables.$color-item-action;
+
+            min-height: 50px;
+            width: 25px;
+
+            display: flex;
+            flex-direction: column;
+
+            .wprmprc-collection-item-action {
+                flex: 1;
+                text-align: center;
+                width: 100%;
+
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                justify-content: center;
+
+                opacity: variables.$link-opacity;
+                &:hover {
+                    opacity: 1;
+                }
+
+                &.wprmprc-collection-item-action-add,
+                &.wprmprc-collection-item-action-delete {
+                    .wprmprc-icon svg {
+                        width: 14px;
+                    }
+                    
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .wprmprc-collection-item-details {
+            flex: 1;
+            display: flex;
+
+            .wprmprc-collection-item-name {
+                white-space: pre-line;
+                flex: 1;
+                padding: 5px;
+            }
+        
+            .wprmprc-collection-item-image {
+                padding: 5px;
+                font-size: 0;
+        
+                img {
+                    border-radius: variables.$border-radius;
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
+                    max-width: 50px;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+
+        .wprmprc-collection-item-servings {
+            border: 1px solid variables.$color-item-border;
+            border-top-right-radius: variables.$border-radius;
+            border-bottom-right-radius: variables.$border-radius;
+            border-left: none;
+
+            margin: -1px -1px -1px 0;
+
+            background-color: variables.$color-item-action;
+
+            min-height: 50px;
+            width: 25px;
+
+            display: flex;
+            flex-direction: column;
+
+            .wprmprc-collection-item-servings-minus,
+            .wprmprc-collection-item-servings-plus {
+                flex: 1;
+                opacity: 0;
+
+                svg circle {
+                    display: none;
+                }
+
+                &:hover {
+                    opacity: 1 !important;
+                    cursor: pointer;
+                }
+            }
+
+            &:hover {
+                .wprmprc-collection-item-servings-minus,
+                .wprmprc-collection-item-servings-plus {
+                    opacity: variables.$link-opacity;
+                    cursor: pointer;
+                }
+            }
+
+            .wprmprc-collection-item-servings-value {
+                flex: 1;
+                text-align: center;
+
+                &.wprmprc-collection-item-servings-value-click {
+                    cursor: pointer;
+                }
+            }
+
+            .wprmprc-collection-item-servings-minus,
+            .wprmprc-collection-item-servings-plus,
+            .wprmprc-collection-item-servings-value {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        // Clickable recipes.
+        &.wprmprc-collection-item {
+            .wprmprc-collection-item-details-allow-click {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        /*
+        * Different items styles.
+        */
+
+        &.wprmprc-collection-item-large {
+            .wprmprc-collection-item-details {
+                flex-direction: column-reverse;
+                align-items: center;
+
+                .wprmprc-collection-item-name {
+                    text-align: center;
+                }
+
+                .wprmprc-collection-item-image {
+                    padding-bottom: 0;
+
+                    img {
+                        max-width: 100px;
+                    }
+                }
+            }
+        }
+
+        &.wprmprc-collection-item-overlay.wprmprc-collection-item-has-image {
+            .wprmprc-collection-item-details {
+                max-height: 100px;
+                position: relative;
+                background-color: #EFEFEF;
+
+                .wprmprc-collection-item-name {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50% , -50%);
+                    text-align: center;
+                }
+
+                .wprmprc-collection-item-image {
+                    overflow: hidden;
+                    height: 100px;
+                    width: 100%;
+
+                    padding: 0;
+                    border-top-left-radius: variables.$border-radius;
+                    border-bottom-left-radius: variables.$border-radius;
+
+                    opacity: 0.2;
+
+                    img {
+                        position: relative;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        max-width: 300px;
+                    }
+                }
+
+                &:hover {
+                    .wprmprc-collection-item-image {                
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .wprmprc-collection-item-actions + .wprmprc-collection-item-details {
+                .wprmprc-collection-item-image {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+    }
+}

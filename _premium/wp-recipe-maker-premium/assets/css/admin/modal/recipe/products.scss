@@ -1,0 +1,55 @@
+.wprm-admin-modal-field-products {
+    width: 100%;
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        display: block;
+        margin-bottom: 10px;
+
+        td:first-child {
+            display: block;
+        }
+
+        td:nth-child(2) {
+            width: 175px;
+        }
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .wprm-admin-modal-field-products {    
+        thead {
+            display: table-header-group;
+
+            th {
+                text-align: left;
+            }
+        }
+
+        tr {
+            display: table-row;
+            margin-bottom: 0;
+    
+            td:first-child {
+                display: table-cell;
+                width: 155px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 782px) {
+    .wprm-admin-modal-field-products {    
+        tr {
+            td:first-child {
+                width: 175px;
+            }
+            td:nth-child(2) {
+                width: 195px;
+            }
+        }
+    }
+}

@@ -1,0 +1,389 @@
+@use 'variables';
+
+.wprm-recipe-collections-layout-classic {
+    .wprmprc-shopping-list-meta {
+        font-style: italic;
+        margin-bottom: 20px;
+    }
+
+    .wprmprc-shopping-list-none {
+        .wprmprc-shopping-list-none-link {
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
+    .wprmprc-shopping-list {
+
+        &.wprmprc-print {
+            .wprmprc-shopping-list-collection,
+            .wprmprc-shopping-list-list,
+            .wprmprc-shopping-list-item {
+                border: none;
+            }
+            .wprmprc-shopping-list-collection-header,
+            .wprmprc-shopping-list-list-header {
+                background: none;
+                color: black;
+            }
+
+            .wprmprc-shopping-list-item-unused,
+            .wprmprc-shopping-list-item-servings-adjust-minus,
+            .wprmprc-shopping-list-item-servings-adjust-plus {
+                display: none;
+            }
+        }
+
+        .wprmprc-shopping-list-collection,
+        .wprmprc-shopping-list-list {
+            border: 1px solid variables.$color-collection-border;
+            border-radius: variables.$border-radius;
+
+            background-color: variables.$color-collection;
+
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 20px;
+        }
+
+        .wprmprc-shopping-list-options-container {
+            padding: 5px;
+
+            .wprmprc-shopping-list-options-system-container {
+                margin-top: 10px;
+            }
+
+            .wprmprc-shopping-list-options-option {
+                display: flex;
+                align-items: center;
+
+                input {
+                    width: 1.2em;
+                    height: 1.2em;
+                    min-width: 0;
+                    min-height: 0;
+                }
+
+                input, label {
+                    margin: 0;
+                    padding: 0;
+                }
+                label {
+                    padding-left: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .wprmprc-shopping-list-list {
+            margin-bottom: 0;
+        }
+
+        .wprmprc-shopping-list-collection-header,
+        .wprmprc-shopping-list-list-header {
+            background-color: variables.$color-collection-border;
+            border-top-left-radius: calc(#{variables.$border-radius} - 1px);
+            border-top-right-radius: calc(#{variables.$border-radius} - 1px);
+
+            color: variables.$color-collection-text;
+            text-align: center;
+            padding: 10px 5px;
+            font-weight: bold;
+        }
+
+        .wprmprc-shopping-list-column-header,
+        .wprmprc-shopping-list-select-all-container {
+            padding: 5px;
+            font-size: 1em;
+            min-height: 50px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .wprmprc-shopping-list-column-name {
+                margin: 0;
+                padding: 0;
+                padding-left: 10px;
+
+                font-size: 1.2em;
+                font-weight: bold;
+
+                flex: auto;
+            }
+
+            label {
+                margin: 0;
+                padding: 0;
+                padding-left: 10px;
+                cursor: pointer;
+            }
+        }
+
+        .wprmprc-shopping-list-select-all-container {
+            label {
+                font-weight: normal;
+            }
+        }
+
+        .wprmprc-shopping-list-item {
+            margin: 0 5px 10px 5px;
+            border: 1px dashed variables.$color-item-border;
+            border-radius: variables.$border-radius;
+            background-color: variables.$color-item;
+
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            &.wprmprc-shopping-list-item-color-blue { background-color: #DEF3FD; }
+            &.wprmprc-shopping-list-item-color-red { background-color: #FDDFDF; }
+            &.wprmprc-shopping-list-item-color-yellow { background-color: #FCF7DE; }
+            &.wprmprc-shopping-list-item-color-green { background-color: #DEFDE0; }
+
+            &.wprmprc-shopping-list-item-unused {
+                opacity: 0.5;
+
+                .wprmprc-shopping-list-item-servings-adjust-minus {
+                    visibility: hidden;
+                }
+            }
+
+            .wprmprc-shopping-list-item-servings-adjust {
+                min-width: 100px;
+                width: 20%;
+                margin: 5px auto;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .wprmprc-shopping-list-item-servings-adjust-minus,
+                .wprmprc-shopping-list-item-servings-adjust-plus {
+                    padding: 5px;
+                    opacity: variables.$link-opacity;
+
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 1;
+                    }
+                }
+
+                .wprmprc-shopping-list-item-servings-adjust-servings-container {
+                    flex: 1;
+                    text-align: center;
+
+                    .wprmprc-shopping-list-item-servings-adjust-servings {
+                        font-size: 1.1em;
+
+                        &.wprmprc-shopping-list-item-servings-adjust-servings-adjustable {
+                            cursor: pointer;
+                        }
+                    }
+                    .wprmprc-shopping-list-item-servings-adjust-servings-unit {
+                        font-size: 0.8em;
+                        margin-top: -5px;
+                    }
+                }
+            }
+
+            .wprmprc-shopping-list-item-details {
+                flex: 1;
+                display: flex;
+                align-items: center;
+
+                .wprmprc-shopping-list-item-name {
+                    white-space: pre-line;
+                    flex: 1;
+                    padding: 5px 5px 5px 20px;
+
+                    &.wprmprc-shopping-list-item-name-allow-click {
+                        cursor: pointer;
+                    }
+                }
+                .wprmprc-shopping-list-item-remove {
+                    margin: 0 5px;
+                    font-size: 0.8em;
+                }
+                .wprmprc-shopping-list-item-image {
+                    padding: 5px;
+                    font-size: 0;
+                    width: 60px;
+            
+                    img {
+                        border-radius: variables.$border-radius;
+                        border: 0;
+                        margin: 0;
+                        padding: 0;
+                        max-width: 50px;
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+        }
+
+        .wprmprc-shopping-list-list {
+            .wprmprc-shopping-list-list-ingredients-none {
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+
+                .wprmprc-shopping-list-list-ingredients-none-link {
+                    display: block;
+                    margin-top: 10px;
+                    cursor: pointer;
+                    text-decoration: underline;
+                }
+            }
+
+            .wprmprc-shopping-list-list-ingredient-group-container {
+                padding: 5px;
+                margin: 5px 0;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                .wprmprc-shopping-list-list-ingredient-group {
+                    font-weight: bold;
+                }
+            }
+
+            .wprmprc-shopping-list-list-ingredient {
+                display: flex;
+                align-items: flex-start;
+
+                &.wprmprc-shopping-list-list-ingredient-checked {
+                    opacity: 0.7;
+                    text-decoration: line-through;
+                }
+
+                .wprmprc-shopping-list-list-ingredient-checkbox {
+                    width: 16px;
+                    margin: 1px 5px 0 0;
+                    opacity: variables.$link-opacity;
+
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 1;
+                    }
+                }
+                
+                .wprmprc-shopping-list-list-ingredient-name-container {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+
+                    .wprmprc-shopping-list-list-ingredient-name {
+                        flex: auto;
+                        margin: 0 0 0 5px;
+                    }
+                }
+
+                .wprmprc-shopping-list-list-ingredient-variations {
+                    flex: 1;
+                }
+
+                .wprmprc-shopping-list-list-ingredient-name {
+                    padding-right: 5px;
+                }
+            }
+        }
+
+        .wprmprc-shopping-list-actions {
+            .wprmprc-shopping-list-action {
+                max-width: 250px;
+                margin: 0 auto;
+
+                margin-bottom: 10px;
+                padding: 5px;
+                border: 1px solid variables.$color-action-border;
+                border-radius: variables.$border-radius;
+                background-color:variables.$color-action;
+                text-align: center;
+            
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            
+                &:not(.wprmprc-shopping-list-action-disabled):hover {
+                    cursor: pointer;
+                    background-color: variables.$color-action-border;
+                    color: white;
+                }
+
+                &.wprmprc-shopping-list-action-disabled {
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+
+    .wprmprc-shopping-list-editing {
+        .wprmprc-shopping-list-list-ingredient-group-container {
+            .wprmprc-shopping-list-editing-actions {
+                display: flex;
+
+                .wprmprc-shopping-list-editing-delete,
+                .wprmprc-shopping-list-editing-handle {
+                    width: 30px;
+                    text-align: center;
+                    opacity: variables.$link-opacity;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+                .wprmprc-shopping-list-editing-delete:hover {
+                    cursor: pointer;
+                }
+            }
+            input {
+                margin: 2px 0;
+                padding: 3px 5px;
+                font-size: 1em;
+                color: black;
+                background: white;
+                border: 1px solid white;
+                border-radius: variables.$border-radius;
+                width: 100%;
+                height: auto;
+
+                &:hover, &:focus {
+                    border-color: variables.$color-action-border;
+                }
+            }
+
+            .wprmprc-shopping-list-list-ingredient-group {
+                display: flex;
+                align-items: center;
+
+                margin-top: 10px;
+
+                input {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .wprmprc-shopping-list-list-ingredients-draggingover,
+    .wprmprc-shopping-list-list-ingredient-group-ingredients-draggingover {
+        background-color: variables.$color-item-dropzone;
+
+        .wprmprc-shopping-list-list-ingredient-group-container,
+        .wprmprc-shopping-list-list-ingredient {
+            background-color: white;
+        }
+
+        .wprmprc-shopping-list-list-ingredient-group-container {
+            input:hover {
+                border-color: white !important;
+            }
+        }
+    }
+}
