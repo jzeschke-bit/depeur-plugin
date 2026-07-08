@@ -1,6 +1,6 @@
 # BRIEF — Theme→Plugin Ein-Durchlauf-Umbau: `kadence-child` (sauber) + Modul `category-pages`
 
-**Status:** v0.1 ENTWURF (2026-07-08) · Schema 1.1 · Klassifikation: geschäftslogik-tragend + Frontend-Rewrite + neuer Security-Pfad (AJAX/REST) → § 12-pflichtig. **Code erst nach Freigabe.**
+**Status:** v1.0 FREIGEGEBEN (2026-07-08) · Schema 1.1 · Klassifikation: geschäftslogik-tragend + Frontend-Rewrite + neuer Security-Pfad (AJAX/REST) → § 12-pflichtig. Offene Entscheidungen OE-1..3 durch Jonas geklärt (§ 10). Code freigegeben.
 
 Quellen: `_references/legacy-themes/alkipedia/` (14 Dateien) + zwei Deep-Read-Specs (`scratchpad/spec-category-engine.md`, `spec-presentation.md`) + `_references/acf-discovery.md`.
 
@@ -35,8 +35,9 @@ Das Alt-Theme `alkipedia 3.0` durch ein **frisches, dünnes `kadence-child`** er
 
 ## 4. Modul `category-pages` (Namespace `Depeur\Food\Modules\CategoryPages`)
 
-### 4.1 Konfigurations-Ansatz — **A: Meta-Box je Seite** (Empfehlung)
-Eine normale `page` bekommt ein „Kategorie-Seite"-Panel (Felder via `Field_Provisioner`, wie die anderen Module). Migrationsnah (heutige Seiten sind Pages), kein CPT nötig. Global-Defaults im Settings-Tab. *(Alternative B — eigener CPT `df_category_page` — nur, wenn eine zentrale Verwaltungsliste gewünscht ist; mehr Migrationsaufwand. → offene Entscheidung § 10.)*
+### 4.1 Konfigurations-Ansatz — **A: Meta-Box je Seite + zentrale Admin-Liste** (ENTSCHIEDEN, OE-1)
+Eine normale `page` bekommt ein **opt-in** „Kategorie-Seite"-Panel (Felder via `Field_Provisioner`). Ein einzelnes Toggle „Diese Seite ist eine Kategorie-Seite" schaltet die restlichen Felder erst frei (minimalistisch, kein Feld-Wust per Default). Zusätzlich eine **zentrale Admin-Übersichts-Seite** („Depeur Food → Kategorie-Seiten"), die alle markierten Seiten auflistet → CPT-*Komfort* (ein Ort) ohne CPT-*Permalink-Problem*.
+**Begründung gegen CPT (B):** Ein root-Permalink-CPT (ohne `/slug/`-Präfix) ist möglich, aber fragil (Rewrite-Kollisionen mit Page-/Post-Regeln, 404-Gefahr, Flush-Zwang). Seiten liefern saubere Root-Permalinks nativ — genau Jonas' harte Anforderung. Global-Defaults im Settings-Tab.
 
 ### 4.2 Rendering-Naht (statt `$wp_query`-Global-Fake)
 Der fragilste Legacy-Teil (is_single/is_archive manuell umschalten, `$wp_query` für Pagination ersetzen) wird **nicht** portiert. Stattdessen: das Modul liefert **Shortcodes/Template-Tags**, die die Query selbst fahren und Grid + Pagination als HTML zurückgeben:
@@ -81,7 +82,7 @@ Child ruft **nur** Shortcodes/Template-Tags des Plugins; keine direkten Klassen-
 ## 6. Ergänzungen an bestehenden Modulen
 - **schema-engine:** `publishingPrinciples` am `publisher` ergänzen (aus rank-math.php).
 - **language-selector:** nichts Neues (deckt hreflang + Switcher bereits ab); nur die Theme-Registrierungen entfallen.
-- **favorites:** Archiv bereits abgedeckt (`[df_favorites_archive]`).
+- **favorites (OE-3 — exakte Kadence-Optik):** Der List-/Archiv-Pfad liefert künftig **server-gerenderte Kadence-Loop-Karten** für die localStorage-IDs statt eigener JS-Karten. Konkret: `df-favorites.js` postet die IDs an einen Endpoint, der die Posts per `kadence_loop_entry` (guarded `function_exists`/`did_action`, Fallback = bisherige Plugin-Karten) rendert und das HTML zurückgibt. Merkliste bleibt clientseitig (localStorage); nur das Rendering der angeforderten IDs läuft server-seitig → Optik 1:1 wie die Archiv-Karten.
 
 ## 7. Sicherheit (nicht verhandelbar beim Neubau)
 - „Was koche ich heute"-Endpoint: **REST + Nonce** (schließt die nonce-lose Legacy-Lücke) + Result-Cap.
@@ -105,12 +106,12 @@ Child ruft **nur** Shortcodes/Template-Tags des Plugins; keine direkten Klassen-
 - Multi-Tax stur AND → AND/OR konfigurierbar.
 - `rezept_{post_tags,categories,cocktail_tags,trinkspiel_tags,equipment_tags}` = Dead-Code (0 Werte) → nicht nachbauen; real steuert `rezept_tag`.
 
-## 10. Offene Entscheidungen (vor/während Code klären)
-- **OE-1:** Konfig-Ansatz **A (Meta-Box je Page)** vs. B (CPT `df_category_page`). Empfehlung A.
-- **OE-2:** Seite-1-Verhalten der Rezeptkategorie beibehalten (Page-Content + 4-Posts-Vorschau, ab Seite 2 reines Grid) — ja/vereinfachen?
-- **OE-3:** Favoriten-Archiv — reicht der Shortcode auf einer normalen Kadence-Seite (kein Sondertemplate)? Und: Plugin-JS-Karten vs. exakte Kadence-Loop-Optik (Design-Frage ans favorites-JS).
-- **OE-4:** WPRM-/Rank-Math-/Social-Warfare-Kosmetik (style.css) — vorerst im Child lassen oder aufräumen?
-- **OE-5:** Child-Theme im selben Repo (`themes/kadence-child/`) vs. eigenes Repo.
+## 10. Entscheidungen
+- **OE-1 ✓ (Jonas):** **Ansatz A** — Meta-Box je Page (opt-in Toggle) **+ zentrale Admin-Liste**. Kein CPT (Permalink-Fragilität). Siehe § 4.1.
+- **OE-2 ✓ (Jonas):** Rezeptkategorie **Seite-1-Legacy-Verhalten beibehalten** (Page-Content + 4-Posts-Vorschau, ab Seite 2 reines Grid).
+- **OE-3 ✓ (Jonas):** Favoriten-Archiv **exakte Kadence-Loop-Optik** → server-gerenderte Karten (§ 6).
+- **OE-4 (offen, nicht-blockierend):** WPRM-/Rank-Math-/Social-Warfare-Kosmetik vorerst im Child lassen; späteres Aufräumen. Default: mitnehmen, entrümpeln wenn Zeit.
+- **OE-5 (Default):** Child-Theme im selben Repo unter `themes/kadence-child/` (versioniert neben dem Plugin). Umzug in eigenes Repo jederzeit später möglich.
 
 ## 11. Smoke/Verifikation
 `php -l`/phpcs/Autoloader-Smoke je Datei; Engine-Query gegen bekannte Terms; REST-Nonce (403 ohne Nonce); neues Child auf Staging → drei Seiten + Archive rendern, Favoriten-Herzen da, Schema einmalig (kein Doppel nach rank-math.php-Wegfall), hreflang einmalig (kein Doppel nach LanguageLink-Wegfall), „Cocktails kein 404".
