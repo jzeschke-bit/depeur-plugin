@@ -49,13 +49,71 @@ final class Shortcodes {
 	public const TAG_ARCHIVE = 'df_favorites_archive';
 
 	/**
-	 * Registriert die Shortcodes.
+	 * Registriert die Shortcodes – inkl. der Legacy-Aliase.
+	 *
+	 * Die Theme-Templates (Karten/„Ähnliche Beiträge", Overlay überm Beitragsbild) und alte
+	 * Inhalte rufen weiterhin die Legacy-Tags auf (`thumbnail_favorite_button` etc.). Ohne
+	 * diese Aliase liefen sie nach dem Ablösen des Alt-Plugins leer → Button verschwindet.
+	 * Die Aliase rendern dasselbe df-Markup (CSS/JS/REST identisch), sind also 1:1-Ersatz.
 	 *
 	 * @since 0.2.0
 	 */
 	public function __construct() {
 		add_shortcode( self::TAG_BUTTON, array( $this, 'render_button' ) );
 		add_shortcode( self::TAG_ARCHIVE, array( $this, 'render_archive' ) );
+
+		// Legacy-Aliase (my-favorite-posts-plugin) für Theme-Templates/Bestandsinhalte.
+		add_shortcode( 'thumbnail_favorite_button', array( $this, 'render_legacy_thumbnail' ) );
+		add_shortcode( 'inline_favorite_button', array( $this, 'render_legacy_inline' ) );
+		add_shortcode( 'wprm-favorite-button', array( $this, 'render_legacy_wprm' ) );
+		add_shortcode( 'favorite_posts_archive', array( $this, 'render_archive' ) );
+	}
+
+	/**
+	 * Legacy-Alias `[thumbnail_favorite_button post_id="…"]` → Overlay-Button überm Bild.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array|string $atts Shortcode-Attribute.
+	 * @return string
+	 */
+	public function render_legacy_thumbnail( $atts ): string {
+		$atts = shortcode_atts( array( 'post_id' => get_the_ID() ), $atts, 'thumbnail_favorite_button' );
+		return self::button_markup( absint( $atts['post_id'] ), 'thumbnail', false );
+	}
+
+	/**
+	 * Legacy-Alias `[inline_favorite_button post_id="…"]` → Inline-Herz im Textfluss.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array|string $atts Shortcode-Attribute.
+	 * @return string
+	 */
+	public function render_legacy_inline( $atts ): string {
+		$atts = shortcode_atts( array( 'post_id' => get_the_ID() ), $atts, 'inline_favorite_button' );
+		return self::button_markup( absint( $atts['post_id'] ), 'inline', false );
+	}
+
+	/**
+	 * Legacy-Alias `[wprm-favorite-button id="…"]` (WPRM nutzt die Recipe-ID).
+	 *
+	 * Der Favorit gehört zum angezeigten Beitrag, nicht zum WPRM-Recipe-CPT: darum zielt der
+	 * Button primär auf `post_id`/den Loop-Post; nur wenn beide fehlen, dient `id` als
+	 * Fallback. So rendert der Button im Karten-/Roundup-Kontext auf den richtigen Beitrag.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array|string $atts Shortcode-Attribute.
+	 * @return string
+	 */
+	public function render_legacy_wprm( $atts ): string {
+		$atts    = shortcode_atts( array( 'id' => 0, 'post_id' => get_the_ID() ), $atts, 'wprm-favorite-button' );
+		$post_id = absint( $atts['post_id'] );
+		if ( $post_id < 1 || ! in_array( get_post_type( $post_id ), Like_Counter::post_types(), true ) ) {
+			$post_id = absint( $atts['id'] );
+		}
+		return self::button_markup( $post_id, 'thumbnail', false );
 	}
 
 	/**
