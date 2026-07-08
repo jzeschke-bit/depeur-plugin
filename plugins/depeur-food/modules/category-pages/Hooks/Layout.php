@@ -1,0 +1,90 @@
+<?php
+/**
+ * Layout — schaltet die Sidebar auf den Folgeseiten (Seite 2+) einer Kategorie-Seite ab.
+ *
+ * Auf Seite 1 bleibt das normale Seiten-Layout (mit Sidebar); ab Seite 2 wird das
+ * Kadence-Layout per Request auf „fullwidth" gezwungen. Umgesetzt über den Read-Filter des
+ * Kadence-Post-Meta `_kad_post_layout` (nicht persistiert, nur für diesen Request) plus
+ * `kadence_sidebar_id` als Rückfallebene. Greift nur für das geflaggte, aktuell abgefragte
+ * Page-Objekt.
+ *
+ * Hinweis: Der genaue Kadence-Hebel ist versionsabhängig; falls die Sidebar auf Seite 2
+ * bestehen bleibt, ist hier der einzige anzupassende Ort (Meta-Key / Filtername).
+ *
+ * @package Depeur\Food\Modules\CategoryPages\Hooks
+ * @license GPL-2.0-or-later
+ */
+
+namespace Depeur\Food\Modules\CategoryPages\Hooks;
+
+// Kein direkter Aufruf.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Erzwingt Fullwidth (keine Sidebar) auf Kategorie-Folgeseiten.
+ *
+ * @since 0.3.0
+ */
+final class Layout {
+
+	/**
+	 * Kadence-Post-Meta, das das Seiten-Layout bestimmt.
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const KADENCE_LAYOUT_META = '_kad_post_layout';
+
+	/**
+	 * Verdrahtet die Layout-Umschaltung nach dem Query-Parsing.
+	 *
+	 * @since 0.3.0
+	 */
+	public function __construct() {
+		add_action( 'template_redirect', array( $this, 'maybe_disable_sidebar' ) );
+	}
+
+	/**
+	 * Schaltet ab Seite 2 einer geflaggten Kategorie-Seite auf Fullwidth.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function maybe_disable_sidebar(): void {
+		if ( is_admin() || ! is_singular( 'page' ) || ! is_main_query() ) {
+			return;
+		}
+		if ( max( 1, (int) get_query_var( 'paged' ) ) < 2 ) {
+			return;
+		}
+		$page_id = (int) get_queried_object_id();
+		if ( $page_id < 1 || ! get_post_meta( $page_id, 'df_catpage_enabled', true ) ) {
+			return;
+		}
+
+		add_filter( 'get_post_metadata', array( $this, 'force_fullwidth' ), 10, 3 );
+		add_filter( 'kadence_sidebar_id', '__return_false' );
+	}
+
+	/**
+	 * Liefert für das abgefragte Page-Objekt das Layout `fullwidth` (Read-Filter).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param mixed  $value     Bisheriger (Kurzschluss-)Wert.
+	 * @param int    $object_id Objekt-ID des Meta-Reads.
+	 * @param string $meta_key  Meta-Key.
+	 * @return mixed 'fullwidth' für den Layout-Key des abgefragten Objekts, sonst unverändert.
+	 */
+	public function force_fullwidth( $value, $object_id, $meta_key ) {
+		if ( self::KADENCE_LAYOUT_META === $meta_key && (int) $object_id === (int) get_queried_object_id() ) {
+			// Array zurückgeben: der Core-Kurzschluss liefert bei single=true selbst $check[0].
+			return array( 'fullwidth' );
+		}
+
+		return $value;
+	}
+}

@@ -171,6 +171,15 @@ final class Category_Page {
 
 		ob_start();
 		echo '<div class="df-category-page">';
+
+		// Optionale H2 über der Vorschau (nur Seite 1, Legacy „Weitere … die dir gefallen könnten").
+		if ( $paged <= 1 ) {
+			$heading = trim( (string) get_post_meta( $page_id, 'df_catpage_related_heading', true ) );
+			if ( '' !== $heading ) {
+				echo '<h2 class="df-category-page__heading">' . esc_html( $heading ) . '</h2>';
+			}
+		}
+
 		echo '<div class="post-archive grid-cols ' . esc_attr( $columns ) . '">';
 		while ( $query->have_posts() ) {
 			$query->the_post();
@@ -231,8 +240,8 @@ final class Category_Page {
 				'current'   => $paged,
 				'total'     => $max_pages,
 				'mid_size'  => 2,
-				'prev_text' => '«',
-				'next_text' => '»',
+				'prev_text' => __( 'Zurück', 'depeur-food' ),
+				'next_text' => __( 'Weiter', 'depeur-food' ),
 			)
 		);
 
@@ -240,7 +249,13 @@ final class Category_Page {
 			return '';
 		}
 
-		return '<nav class="df-category-page__pagination">' . $links . '</nav>';
+		// Standard-Pagination-Markup (nav.pagination > .nav-links) — greift die Kadence-/
+		// Core-Paginierungs-Styles ab, statt eines nackten Link-Blocks.
+		return sprintf(
+			'<nav class="navigation pagination df-category-page__pagination" role="navigation" aria-label="%s"><div class="nav-links">%s</div></nav>',
+			esc_attr__( 'Beiträge-Navigation', 'depeur-food' ),
+			$links
+		);
 	}
 
 	/**

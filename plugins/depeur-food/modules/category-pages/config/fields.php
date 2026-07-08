@@ -66,7 +66,19 @@ return array(
 			'key'      => 'field_df_catpage_title',
 			'label'    => 'Custom-Titel (H1 / SEO)',
 			'acf'      => array(
-				'instructions'      => 'Optionaler Titel; leer = Seitentitel.',
+				'instructions'      => 'Überschreibt den Seitentitel (H1 + SEO-Titel) auf allen Seiten dieser Kategorie-Seite. Leer = Seitentitel.',
+				'conditional_logic' => $df_catpage_when_enabled,
+			),
+		),
+		array(
+			'name'     => 'df_catpage_related_heading',
+			'acf_type' => 'text',
+			'object'   => array( 'post' ),
+			'subtypes' => array( 'post' => array( 'page' ) ),
+			'key'      => 'field_df_catpage_related_heading',
+			'label'    => 'Überschrift über der Vorschau (Seite 1, H2)',
+			'acf'      => array(
+				'instructions'      => 'Optionale H2 über dem Vorschau-Raster auf Seite 1, z. B. „Weitere Cocktail-Rezepte, die dir gefallen könnten".',
 				'conditional_logic' => $df_catpage_when_enabled,
 			),
 		),

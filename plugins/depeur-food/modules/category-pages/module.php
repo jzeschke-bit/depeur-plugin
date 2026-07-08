@@ -25,5 +25,11 @@ new \Depeur\Food\Modules\CategoryPages\Provisioning\Fields();
 // Frontend: kuratiertes Raster als Shortcode + Auto-Render geflaggter Seiten.
 new \Depeur\Food\Modules\CategoryPages\Frontend\Category_Page();
 
+// Custom-Titel (H1 + SEO) für geflaggte Kategorie-Seiten.
+new \Depeur\Food\Modules\CategoryPages\Frontend\Title();
+
 // Enge `/page/N/`-Rewrites für geflaggte Kategorie-Seiten (+ deferred Flush).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Rewrite();
+
+// Sidebar ab Seite 2 abschalten (Kadence-Fullwidth-Layout).
+new \Depeur\Food\Modules\CategoryPages\Hooks\Layout();
