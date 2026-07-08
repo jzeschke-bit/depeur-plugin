@@ -3,10 +3,10 @@
  * Layout — schaltet die Sidebar auf den Folgeseiten (Seite 2+) einer Kategorie-Seite ab.
  *
  * Auf Seite 1 bleibt das normale Seiten-Layout (mit Sidebar); ab Seite 2 wird das
- * Kadence-Layout per Request auf „fullwidth" gezwungen. Umgesetzt über den Read-Filter des
- * Kadence-Post-Meta `_kad_post_layout` (nicht persistiert, nur für diesen Request) plus
- * `kadence_sidebar_id` als Rückfallebene. Greift nur für das geflaggte, aktuell abgefragte
- * Page-Objekt.
+ * Kadence-Layout per Request auf „normal" gezwungen — das ist Kadence-„NORMAL": KEINE
+ * Sidebar, aber die normale, geboxte Content-Breite (NICHT „fullwidth"/edge-to-edge).
+ * Umgesetzt über den Read-Filter des Kadence-Post-Meta `_kad_post_layout` (nicht persistiert,
+ * nur für diesen Request). Greift nur für das geflaggte, aktuell abgefragte Page-Objekt.
  *
  * Hinweis: Der genaue Kadence-Hebel ist versionsabhängig; falls die Sidebar auf Seite 2
  * bestehen bleibt, ist hier der einzige anzupassende Ort (Meta-Key / Filtername).
@@ -38,6 +38,14 @@ final class Layout {
 	private const KADENCE_LAYOUT_META = '_kad_post_layout';
 
 	/**
+	 * Ziel-Layout ab Seite 2: Kadence-„NORMAL" = kein Sidebar, normale Content-Breite.
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const TARGET_LAYOUT = 'normal';
+
+	/**
 	 * Verdrahtet die Layout-Umschaltung nach dem Query-Parsing.
 	 *
 	 * @since 0.3.0
@@ -65,24 +73,23 @@ final class Layout {
 			return;
 		}
 
-		add_filter( 'get_post_metadata', array( $this, 'force_fullwidth' ), 10, 3 );
-		add_filter( 'kadence_sidebar_id', '__return_false' );
+		add_filter( 'get_post_metadata', array( $this, 'force_layout' ), 10, 3 );
 	}
 
 	/**
-	 * Liefert für das abgefragte Page-Objekt das Layout `fullwidth` (Read-Filter).
+	 * Liefert für das abgefragte Page-Objekt das Kadence-Layout `normal` (Read-Filter).
 	 *
 	 * @since 0.3.0
 	 *
 	 * @param mixed  $value     Bisheriger (Kurzschluss-)Wert.
 	 * @param int    $object_id Objekt-ID des Meta-Reads.
 	 * @param string $meta_key  Meta-Key.
-	 * @return mixed 'fullwidth' für den Layout-Key des abgefragten Objekts, sonst unverändert.
+	 * @return mixed Layout-Array für den Layout-Key des abgefragten Objekts, sonst unverändert.
 	 */
-	public function force_fullwidth( $value, $object_id, $meta_key ) {
+	public function force_layout( $value, $object_id, $meta_key ) {
 		if ( self::KADENCE_LAYOUT_META === $meta_key && (int) $object_id === (int) get_queried_object_id() ) {
 			// Array zurückgeben: der Core-Kurzschluss liefert bei single=true selbst $check[0].
-			return array( 'fullwidth' );
+			return array( self::TARGET_LAYOUT );
 		}
 
 		return $value;

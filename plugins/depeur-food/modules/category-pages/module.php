@@ -31,5 +31,5 @@ new \Depeur\Food\Modules\CategoryPages\Frontend\Title();
 // Enge `/page/N/`-Rewrites für geflaggte Kategorie-Seiten (+ deferred Flush).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Rewrite();
 
-// Sidebar ab Seite 2 abschalten (Kadence-Fullwidth-Layout).
+// Sidebar ab Seite 2 abschalten (Kadence-„NORMAL"-Layout: kein Sidebar, normale Breite).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Layout();
