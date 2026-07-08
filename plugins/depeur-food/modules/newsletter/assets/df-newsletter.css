@@ -79,7 +79,10 @@
     padding: 40px 0;
     max-width: 95%;
     width: 900px;
-    z-index: 1;
+    /* Hoch angesetzt (Legacy war 1), damit das genestete Overlay über der Seite
+       INKL. Sidebar liegt und dort z. B. die App-Box wirklich mit abgedunkelt wird.
+       Die interne Stapelung (Overlay 998 < Formular 999) bleibt davon unberührt. */
+    z-index: 9999;
 }
 
 .df-newsletter-container {
@@ -106,12 +109,24 @@
 }
 
 .df-newsletter__overlay {
-    /* Vollbild-„Spotlight"-Abdunkelung deaktiviert: sie dimmte beim Reinscrollen die
-       ganze Seite, konnte aber Sidebar-Elemente (z. B. die App-Box) wegen der
-       Theme-Stacking-Contexts nicht mit abdunkeln → die blieben hell und wirkten
-       fälschlich „hervorgehoben". Das Formular ist als weiße Karte mit Schatten
-       auffällig genug; die Seite muss dafür nicht abgedunkelt werden. */
-    display: none;
+    /* Vollbild-„Spotlight"-Abdunkelung (bewusstes Design: Seite beim Reinscrollen dimmen,
+       damit das Formular in den Fokus rückt und z. B. die Sidebar-App-Box aus dem Fokus
+       fällt). Fixed = viewport-weit; es gibt KEINEN transformierten Vorfahren, der das
+       einschränken würde (verifiziert an der Live-Seite). Dass die Sidebar früher hell
+       blieb, lag allein an der Stapelung: der Wrapper `.df-newsletter` deckelte mit
+       z-index:1 dieses Overlay unter die eigene Stacking-Context-Ebene, sodass später im
+       DOM stehende Sidebar-Elemente darüber malten. Fix = Wrapper-z-index hoch (s. o.),
+       nicht das Overlay abschalten. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 998;
 }
 
 .df-newsletter.in-view .df-newsletter__overlay,
