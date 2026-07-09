@@ -80,6 +80,9 @@ final class Plugin {
 		if ( is_admin() ) {
 			AdminMenu::register();
 
+			// Modul-Verwaltungsseite (Aktivieren/Deaktivieren per UI, Task 4b).
+			ModulesPage::register();
+
 			// Save-Handler der Settings-Seite an admin_init hängen – muss vor dem
 			// Rendern laufen, damit der PRG-Redirect nach dem Speichern greift.
 			add_action( 'admin_init', array( SettingsPage::class, 'maybe_handle_save' ) );
