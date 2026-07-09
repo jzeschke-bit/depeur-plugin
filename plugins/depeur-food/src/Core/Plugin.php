@@ -73,6 +73,9 @@ final class Plugin {
 		// Aktive Module laden (modules/ ist in dieser Phase leer → lädt nichts).
 		ModuleManager::init();
 
+		// Gemeinsame Frontend-Styles (Loop_Grid: gleich hohe Karten).
+		Frontend_Assets::register();
+
 		// Admin-spezifische Verdrahtung nur im Backend.
 		if ( is_admin() ) {
 			AdminMenu::register();

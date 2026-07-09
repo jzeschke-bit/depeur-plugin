@@ -1,0 +1,35 @@
+/**
+ * df-loop-grid.css — gleich hohe Karten in allen Loop_Grid-Rastern.
+ *
+ * Gilt für die vom Core-Helfer Loop_Grid ausgegebenen Raster (`.post-archive.grid-cols`) —
+ * also Kategorie-Seiten, „Was koche ich heute" und das Favoriten-Archiv. Die Grid-Zellen sind
+ * bereits gleich hoch; hier wird zusätzlich die weiße Karte (article.loop-entry) auf die volle
+ * Zellenhöhe gezogen und der Footer („Mehr lesen") ans Kartenende gesetzt, damit alle Boxen
+ * gleich groß wirken. Die Spalten-/Gap-Definition bleibt bei Kadence.
+ *
+ * @package Depeur\Food
+ */
+
+/* Grid-Item (li) füllt die gestreckte Zellenhöhe und trägt die Karte als Flex-Kind. */
+.post-archive.grid-cols > .entry-list-item {
+	display: flex;
+}
+
+/* Weiße Karte über die volle Höhe + interne Vertikal-Verteilung. */
+.post-archive.grid-cols .loop-entry {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+.post-archive.grid-cols .entry-content-wrap {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
+/* „Mehr lesen"/Footer konsistent ans Kartenende. */
+.post-archive.grid-cols .entry-footer {
+	margin-top: auto;
+}
