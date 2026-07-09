@@ -73,6 +73,9 @@ final class Cleanup_Page {
 	public function __construct() {
 		// Prio 20: nach dem Core-Menü (AdminMenu::register), damit MENU_SLUG existiert.
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
+		// Verschlankung: aus dem Sidebar-Menü ausblenden (nur über den Migrations-Assistenten
+		// erreichbar). Prio 999 = nach allen Registrierungen. Seite bleibt über ?page= aufrufbar.
+		add_action( 'admin_menu', array( $this, 'hide_from_menu' ), 999 );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 
 		// Diesen Schritt im zentralen Migrations-Assistenten (Core) anmelden. Kopplung nur über
@@ -139,6 +142,21 @@ final class Cleanup_Page {
 			self::PAGE_SLUG,
 			array( $this, 'render' )
 		);
+	}
+
+	/**
+	 * Blendet die Unterseite aus dem Sidebar-Menü aus (bleibt über ?page= erreichbar).
+	 *
+	 * Verschlankung: nur über den Migrations-Assistenten (dessen „Öffnen"-Link) erreichbar.
+	 * remove_submenu_page entfernt nur den sichtbaren Eintrag; Callback + $_registered_pages
+	 * bleiben bestehen, die Seite ist also weiter aufrufbar.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
+	public function hide_from_menu(): void {
+		remove_submenu_page( AdminMenu::MENU_SLUG, self::PAGE_SLUG );
 	}
 
 	/**

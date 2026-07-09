@@ -114,6 +114,9 @@ final class Migration_Page {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
+		// Verschlankung: aus dem Sidebar-Menü ausblenden (Prio 999 = nach allen Registrierungen).
+		// Die Seite bleibt über ?page= erreichbar — der Migrations-Assistent verlinkt sie.
+		add_action( 'admin_menu', array( $this, 'hide_from_menu' ), 999 );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
 		add_action( 'admin_post_' . self::ACTION_DELETE_BACKUPS, array( $this, 'handle_delete_backups' ) );
@@ -192,6 +195,22 @@ final class Migration_Page {
 			self::PAGE_SLUG,
 			array( $this, 'render' )
 		);
+	}
+
+	/**
+	 * Blendet die Unterseite aus dem Sidebar-Menü aus (bleibt über ?page= erreichbar).
+	 *
+	 * Verschlankung: Die Migrations-Tools sollen nicht einzeln im Menü stehen, sondern nur über
+	 * den Migrations-Assistenten (dessen „Öffnen"-Link) erreichbar sein. remove_submenu_page
+	 * entfernt nur den sichtbaren Eintrag; Callback + $_registered_pages bleiben bestehen, die
+	 * Seite ist also weiter aufrufbar.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function hide_from_menu(): void {
+		remove_submenu_page( AdminMenu::MENU_SLUG, self::PAGE_SLUG );
 	}
 
 	/**
