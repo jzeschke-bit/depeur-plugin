@@ -1,25 +1,26 @@
 <?php
 /**
- * Schema — korrektes Schema.org-Markup für die Folgeseiten (Seite 2+) einer Kategorie-Seite.
+ * Schema — kontextuell korrektes Schema.org-Markup für die Folgeseiten (Seite 2+) einer Kategorie-Seite.
  *
  * DAS PROBLEM: Kategorie-Seiten sind technisch `page`-Singles. Auf Seite 1 stehen im Inhalt zwei
- * WPRM-Blöcke → Rank Math/WPRM geben dort (gewollt) Recipe- + ItemList-Schema aus. Ab Seite 2 ist
- * dieser Inhalt NICHT mehr gerendert (nur das Raster), das Recipe-/ItemList-Schema blieb aber stehen.
+ * WPRM-Snippets → dort (gewollt) ein Recipe-Schema UND eine WPRM-Roundup-ItemList ANDERER Rezepte.
+ * Ab Seite 2 ist dieser Inhalt nicht mehr gerendert, das WPRM-Schema blieb aber stehen.
  *
- * DIE LÖSUNG (zweigleisig, weil zwei Quellen die JSON-LD erzeugen):
- *   1) Rank Math (Filter rank_math/json_ld): auf Seite 2+ die WebPage in eine CollectionPage
- *      umtypen (behält @id/Verknüpfungen) und etwaige Recipe/ItemList/Article aus dem Rank-Math-
- *      Graph entfernen.
- *   2) WPRM gibt sein Recipe-Schema in einem EIGENEN <script> aus (nicht über Rank Math). Das
- *      erreicht der obige Filter nicht → zusätzlich der Filter wprm_recipe_metadata: auf Seite 2+
- *      liefern wir ein leeres Metadaten-Array zurück, wodurch WPRM kein Recipe/ItemList/HowTo/
- *      Nutrition-Schema mehr ausgibt.
+ * ZIEL: Ab Seite 2 ein passendes Archiv-Schema:
+ *   - eine CollectionPage MIT einer ItemList der TATSÄCHLICH auf dieser Seite gezeigten Beiträge
+ *     (Best Practice für eine paginierte Sammlung),
+ *   - OHNE die von Seite 1 stammenden WPRM-Sachen (Recipe + WPRM-Roundup-ItemList anderer Rezepte).
  *
- * ERGEBNIS ab Seite 2: eine schlichte CollectionPage (Name „… – Seite N", Beschreibung, URL,
- * isPartOf, inLanguage) — bewusst OHNE ItemList (eine CollectionPage genügt). SEITE 1 bleibt
- * unverändert (normales Rank-Math-/WPRM-Schema).
+ * DREI ZUGRIFFE (weil mehrere Quellen JSON-LD erzeugen):
+ *   1) rank_math/json_ld: WebPage → CollectionPage umtypen + unsere ItemList als mainEntity setzen;
+ *      etwaige Recipe/ItemList/Article aus dem Rank-Math-Graph entfernen.
+ *   2) wprm_recipe_metadata: WPRMs Recipe-<script> auf Seite 2+ leeren.
+ *   3) Output-Sicherheitsnetz: WPRMs Roundup-ItemList ist ein SEPARATES <script> ohne
+ *      zuverlässigen Filter → auf Seite 2+ stray Recipe/ItemList-<script> aus der fertigen Seite
+ *      entfernen. UNSERE CollectionPage (mit eingebetteter ItemList) wird dabei geschützt, weil ihr
+ *      Script „CollectionPage" enthält — WPRMs Roundup-Script nicht.
  *
- * Rank Math ist Voraussetzung für Teil 1, WPRM für Teil 2 — fehlt eines, passiert dort nichts.
+ * SEITE 1 bleibt unverändert.
  *
  * @package Depeur\Food\Modules\CategoryPages\Frontend
  * @license GPL-2.0-or-later
@@ -33,14 +34,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Wandelt das Schema paginierter Kategorie-Seiten in eine schlichte CollectionPage um.
+ * Wandelt das Schema paginierter Kategorie-Seiten in eine CollectionPage mit ItemList um.
  *
  * @since 0.3.0
  */
 final class Schema {
 
 	/**
-	 * Entity-Typen, die auf Folgeseiten NICHT gehören (Inhalt der Seite 1) → werden entfernt.
+	 * Top-Level-Entity-Typen im Rank-Math-Graph, die auf Folgeseiten NICHT gehören → entfernt.
+	 * (Unsere eigene ItemList sitzt EINGEBETTET in der CollectionPage, nicht als Top-Level-Entität,
+	 * und ist davon nicht betroffen.)
 	 *
 	 * @since 0.3.0
 	 * @var string[]
@@ -48,21 +51,23 @@ final class Schema {
 	private const STRIP_TYPES = array( 'Recipe', 'ItemList', 'HowTo', 'HowToStep', 'NutritionInformation', 'Article', 'BlogPosting', 'NewsArticle' );
 
 	/**
-	 * Verdrahtet beide Schema-Quellen.
+	 * Verdrahtet die drei Zugriffe.
 	 *
 	 * @since 0.3.0
 	 */
 	public function __construct() {
-		// Quelle 1: Rank-Math-Graph. Prio 99 = nach Rank Math/WPRM.
+		// 1) Rank-Math-Graph. Prio 99 = nach Rank Math/WPRM.
 		add_filter( 'rank_math/json_ld', array( $this, 'transform' ), 99, 1 );
 
-		// Quelle 2: WPRMs eigenes Recipe-<script>. Prio 99 = nach der Autor-Anreicherung
-		// (schema-engine, Prio 10), damit unser „leer" auf Seite 2+ gewinnt.
+		// 2) WPRMs Recipe-<script>. Prio 99 = nach der Autor-Anreicherung (schema-engine, Prio 10).
 		add_filter( 'wprm_recipe_metadata', array( $this, 'maybe_suppress_wprm' ), 99, 1 );
+
+		// 3) Output-Sicherheitsnetz gegen WPRMs separates Roundup-ItemList-<script>.
+		add_action( 'template_redirect', array( $this, 'maybe_buffer' ) );
 	}
 
 	/**
-	 * Ersetzt auf Seite 2+ einer geflaggten Kategorie-Seite das Rank-Math-Schema durch CollectionPage.
+	 * Ersetzt auf Seite 2+ das Rank-Math-Schema durch eine CollectionPage mit ItemList.
 	 *
 	 * @since 0.3.0
 	 *
@@ -78,10 +83,11 @@ final class Schema {
 			return $data; // Seite 1 / keine Kategorie-Seite → unverändert.
 		}
 
-		$paged = max( 1, (int) get_query_var( 'paged' ) );
-		$name  = $this->collection_name( $page_id, $paged );
-		$desc  = $this->collection_description( $page_id );
-		$url   = $this->paged_url( $page_id, $paged );
+		$paged     = max( 1, (int) get_query_var( 'paged' ) );
+		$name      = $this->collection_name( $page_id, $paged );
+		$desc      = $this->collection_description( $page_id );
+		$url       = $this->paged_url( $page_id, $paged );
+		$item_list = $this->build_item_list( $page_id, $paged );
 
 		$webpage_found = false;
 		foreach ( $data as $key => $entity ) {
@@ -90,7 +96,7 @@ final class Schema {
 			}
 			$types = (array) $entity['@type'];
 
-			// Recipe/ItemList/Article der Einzelseite entfernen (gehören nur auf Seite 1).
+			// Top-Level Recipe/ItemList/Article der Einzelseite entfernen (gehören nur auf Seite 1).
 			if ( array_intersect( $types, self::STRIP_TYPES ) ) {
 				unset( $data[ $key ] );
 				continue;
@@ -98,8 +104,9 @@ final class Schema {
 
 			// Die WebPage in eine CollectionPage umtypen + anreichern (behält @id/Verknüpfungen).
 			if ( in_array( 'WebPage', $types, true ) ) {
-				$entity['@type'] = 'CollectionPage';
-				$entity['name']  = $name;
+				$entity['@type']      = 'CollectionPage';
+				$entity['name']       = $name;
+				$entity['mainEntity'] = $item_list;
 				if ( '' !== $desc ) {
 					$entity['description'] = $desc;
 				}
@@ -108,7 +115,7 @@ final class Schema {
 			}
 		}
 
-		// Fallback: gab es keine WebPage-Entität, eine schlichte CollectionPage anhängen.
+		// Fallback: gab es keine WebPage-Entität, eine eigenständige CollectionPage anhängen.
 		if ( ! $webpage_found ) {
 			$collection = array(
 				'@type'      => 'CollectionPage',
@@ -117,6 +124,7 @@ final class Schema {
 				'name'       => $name,
 				'isPartOf'   => array( '@id' => home_url( '/' ) . '#website' ),
 				'inLanguage' => get_bloginfo( 'language' ),
+				'mainEntity' => $item_list,
 			);
 			if ( '' !== $desc ) {
 				$collection['description'] = $desc;
@@ -128,25 +136,111 @@ final class Schema {
 	}
 
 	/**
-	 * Unterdrückt WPRMs Recipe-Schema-Ausgabe auf Seite 2+ einer geflaggten Kategorie-Seite.
-	 *
-	 * Ein leeres Metadaten-Array veranlasst WPRM, kein Recipe/ItemList/HowTo/Nutrition-Schema
-	 * auszugeben. Auf allen anderen Seiten (inkl. Seite 1) bleibt die Ausgabe unverändert.
+	 * Unterdrückt WPRMs Recipe-Schema-Ausgabe auf Seite 2+ (leeres Metadaten-Array).
 	 *
 	 * @since 0.3.0
 	 *
 	 * @param mixed $metadata WPRM-Metadaten-Array.
-	 * @return mixed Leeres Array auf Folgeseiten, sonst das unveränderte Array.
+	 * @return mixed Leeres Array auf Folgeseiten, sonst unverändert.
 	 */
 	public function maybe_suppress_wprm( $metadata ) {
 		return $this->subpage_id() > 0 ? array() : $metadata;
 	}
 
 	/**
-	 * Liefert die Seiten-ID, WENN gerade Seite 2+ einer geflaggten Kategorie-Seite gerendert wird.
+	 * Startet auf Seite 2+ einen Output-Puffer, der stray WPRM-Recipe/ItemList-<script> entfernt.
 	 *
-	 * Gemeinsame Wächter-Logik für beide Filter — identisch zu Hooks\Layout (dort verifiziert,
-	 * dass is_singular/paged/df_catpage_enabled auf diesen Seiten korrekt greifen).
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function maybe_buffer(): void {
+		if ( $this->subpage_id() > 0 ) {
+			ob_start( array( $this, 'strip_stray_jsonld' ) );
+		}
+	}
+
+	/**
+	 * Entfernt aus der fertigen Seite JSON-LD-<script>, die Recipe/ItemList enthalten — außer der
+	 * eigenen CollectionPage (deren Script „CollectionPage" enthält und geschützt bleibt).
+	 *
+	 * WOFÜR: WPRMs Roundup-ItemList (Rezepte von Seite 1) kommt als separates Script ohne
+	 * zuverlässigen Filter. Unsere CollectionPage-ItemList (die gezeigten Beiträge) sitzt dagegen
+	 * im Rank-Math-Script MIT „CollectionPage" und wird daher NICHT entfernt.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $html Gepufferte Seiten-Ausgabe.
+	 * @return string Bereinigte Ausgabe.
+	 */
+	public function strip_stray_jsonld( $html ) {
+		if ( ! is_string( $html ) || '' === $html ) {
+			return $html;
+		}
+
+		$result = preg_replace_callback(
+			'#<script\b[^>]*type=(["\'])application/ld\+json\1[^>]*>(.*?)</script>#is',
+			static function ( $matches ) {
+				$json = $matches[2];
+
+				// Unsere CollectionPage (mit eingebetteter ItemList) niemals anfassen.
+				if ( false !== strpos( $json, '"CollectionPage"' ) ) {
+					return $matches[0];
+				}
+
+				// Stray Recipe/ItemList (WPRM Seite-1-Reste) entfernen.
+				if ( preg_match( '#"@type"\s*:\s*"(?:Recipe|ItemList)"#', $json ) ) {
+					return '';
+				}
+
+				return $matches[0];
+			},
+			$html
+		);
+
+		// Sicherheit: bei einem preg-Fehler (z. B. Backtrack-Limit) NULL → niemals die Seite leeren.
+		return is_string( $result ) ? $result : $html;
+	}
+
+	/**
+	 * Baut die ItemList der auf dieser Seite gezeigten Beiträge (nummeriert, mit URL/Name/Bild).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $page_id Seiten-ID.
+	 * @param int $paged   Aktuelle Seite.
+	 * @return array ItemList-Struktur (mainEntity der CollectionPage).
+	 */
+	private function build_item_list( int $page_id, int $paged ): array {
+		$ids      = Category_Page::post_ids_for( $page_id, $paged );
+		$elements = array();
+
+		foreach ( $ids as $index => $id ) {
+			$id      = (int) $id;
+			$element = array(
+				'@type'    => 'ListItem',
+				'position' => $index + 1,
+				'url'      => (string) get_permalink( $id ),
+				'name'     => wp_strip_all_tags( (string) get_the_title( $id ) ),
+			);
+
+			$image = get_the_post_thumbnail_url( $id, 'medium_large' );
+			if ( $image ) {
+				$element['image'] = (string) $image;
+			}
+
+			$elements[] = $element;
+		}
+
+		return array(
+			'@type'           => 'ItemList',
+			'numberOfItems'   => count( $elements ),
+			'itemListElement' => $elements,
+		);
+	}
+
+	/**
+	 * Liefert die Seiten-ID, WENN gerade Seite 2+ einer geflaggten Kategorie-Seite gerendert wird.
 	 *
 	 * @since 0.3.0
 	 *
