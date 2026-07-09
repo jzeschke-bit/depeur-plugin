@@ -177,6 +177,11 @@ final class Migration_Assistant {
 			'shortcodes' => array( 'df_category_page', 'df_recipe_filter' ),
 			'note'       => 'Multi-Taxonomie-Engine, Auto-Render geflaggter Seiten, Rezept-Filter.',
 		),
+		'archive-types'     => array(
+			'label'      => 'Archiv-Inhaltstypen (CPTs in Tag-/Autor-/…-Archiven)',
+			'shortcodes' => array(), // Reines Query-Modul, kein Shortcode.
+			'note'       => 'Speist unterstützte Typen in Standard-Archive ein (Alt-Theme-Verhalten).',
+		),
 	);
 
 	/**

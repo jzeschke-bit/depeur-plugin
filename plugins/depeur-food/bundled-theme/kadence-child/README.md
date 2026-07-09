@@ -35,6 +35,7 @@ Das Theme ruft sie nur noch per Shortcode/Hook auf oder profitiert automatisch d
 | Multi-Taxonomie-Query, Pagination-Rewrites, „Seite 1 = Content + Vorschau" | `category-pages` → `[df_category_page]` (+ Auto-Render geflaggter Seiten) | Shortcode / Auto-Render, keine Theme-Templates nötig |
 | „Was koche ich heute" (Tag-Filter + AJAX) | `category-pages` → `[df_recipe_filter]` (REST) | Shortcode |
 | Tag-Gruppen (`tag_group` Term-Meta, Admin-Spalte) | `category-pages` (Step 5, teils offen) | — |
+| CPTs in Standard-Archiven (`pre_get_posts`: Tag/Autor/…) | `archive-types` | automatisch (post-type-agnostisch, ADR-4) |
 | Schema-Anreicherung (Autor, Rank Math, WPRM) | `schema-engine` | automatisch |
 | Newsletter-Inserter + App-Promo (+ Grau-Overlay) | `newsletter` → `[df_newsletter]`, `[df_app_promo]` | automatisch / Shortcode |
 | Gleich hohe Loop-Karten (equal-height) | Core `Frontend_Assets` → `assets/df-loop-grid.css` | automatisch (frontend-weit) |
@@ -48,12 +49,6 @@ Newsletter-Overlay, equal-height-Karten. Die liefert das Plugin.
 
 Ehrlich dokumentiert, damit nichts still verloren geht:
 
-- **CPTs auf Tag-/Autor-Archiven** — das Alt-Theme injizierte via `pre_get_posts`
-  (`alkipedia_add_cpt_to_tag_archives`, `wpse107459_add_cpt_author`) Cocktails o. Ä. in
-  Standard-Tag-/Autor-Archive. Das ist **Query-Logik** und gehört damit ins Plugin
-  (post-type-agnostisch), **nicht** in dieses Theme. → Kandidat für ein kleines
-  Plugin-Modul oder eine Erweiterung von `category-pages`. Bis dahin zeigen Standard-
-  `/tag/<slug>/`-Archive nur `post`.
 - **`rest_allow_anonymous_comments`** (Alt-Theme) — bewusst weggelassen; nur nötig, falls
   anonyme Kommentare über REST gebraucht werden.
 - **Weitere Template-Part-Overrides** (`entry_author.php`, `entry_tags.php`) — das CSS dafür
