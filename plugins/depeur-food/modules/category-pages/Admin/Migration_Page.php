@@ -84,6 +84,22 @@ final class Migration_Page {
 	private const NONCE_DELETE_BACKUPS = 'depeur_food_catpage_del_backups_nonce';
 
 	/**
+	 * admin-post-Action (Legacy-ACF-Gruppe löschen).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const ACTION_DELETE_GROUP = 'depeur_food_catpage_del_group';
+
+	/**
+	 * Nonce-Name (Legacy-ACF-Gruppe löschen).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const NONCE_DELETE_GROUP = 'depeur_food_catpage_del_group_nonce';
+
+	/**
 	 * Capability.
 	 *
 	 * @since 0.3.0
@@ -101,6 +117,7 @@ final class Migration_Page {
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
 		add_action( 'admin_post_' . self::ACTION_DELETE_BACKUPS, array( $this, 'handle_delete_backups' ) );
+		add_action( 'admin_post_' . self::ACTION_DELETE_GROUP, array( $this, 'handle_delete_group' ) );
 	}
 
 	/**
@@ -256,6 +273,49 @@ final class Migration_Page {
 					</p>
 				</form>
 			<?php endif; ?>
+
+			<?php $legacy_groups = Legacy_Migration::legacy_acf_groups(); ?>
+			<?php if ( ! empty( $legacy_groups ) ) : ?>
+				<hr style="margin: 2em 0;" />
+				<h2><?php esc_html_e( 'Alte ACF-Gruppe entfernen', 'depeur-food' ); ?></h2>
+				<p class="description" style="max-width: 65em;">
+					<?php esc_html_e( 'Nach erfolgreicher, verifizierter Migration wird die alte ACF-Feldgruppe mit den rezept_*-Feldern nicht mehr gebraucht. Löschen entfernt nur die Editor-UI (Gruppen-Definition); ein Backup der Gruppe wird vorher angelegt, und die rezept_*-Werte auf den Seiten bleiben erhalten.', 'depeur-food' ); ?>
+				</p>
+				<table class="widefat striped" style="max-width: 65em;">
+					<thead>
+						<tr>
+							<th scope="col"><?php esc_html_e( 'Gruppe', 'depeur-food' ); ?></th>
+							<th scope="col"><?php esc_html_e( 'Key', 'depeur-food' ); ?></th>
+							<th scope="col"><?php esc_html_e( 'Felder', 'depeur-food' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $legacy_groups as $group ) : ?>
+							<tr>
+								<td><?php echo esc_html( (string) $group['title'] ); ?></td>
+								<td><code><?php echo esc_html( (string) $group['key'] ); ?></code></td>
+								<td><?php echo (int) $group['field_count']; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top: 1em;">
+					<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_DELETE_GROUP ); ?>" />
+					<?php wp_nonce_field( self::ACTION_DELETE_GROUP, self::NONCE_DELETE_GROUP ); ?>
+					<p>
+						<button type="submit" class="button button-link-delete"
+							onclick="return confirm('<?php echo esc_js( __( 'Alte ACF-Gruppe(n) löschen? (Backup wird angelegt)', 'depeur-food' ) ); ?>');">
+							<?php
+							printf(
+								/* translators: %d: Anzahl der ACF-Gruppen. */
+								esc_html__( '%d ACF-Gruppe(n) löschen', 'depeur-food' ),
+								(int) count( $legacy_groups )
+							);
+							?>
+						</button>
+					</p>
+				</form>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -358,6 +418,33 @@ final class Migration_Page {
 	}
 
 	/**
+	 * Verarbeitet das Löschen der Legacy-ACF-Gruppe(n): Cap → Nonce → Backup → löschen.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function handle_delete_group(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Keine Berechtigung.', 'depeur-food' ), '', array( 'response' => 403 ) );
+		}
+
+		check_admin_referer( self::ACTION_DELETE_GROUP, self::NONCE_DELETE_GROUP );
+
+		$result = Legacy_Migration::delete_legacy_acf_groups();
+		if ( is_wp_error( $result ) ) {
+			$this->redirect( 'group_failed' );
+		}
+
+		$this->redirect(
+			'group_deleted',
+			array(
+				'deleted' => (int) $result['deleted'],
+			)
+		);
+	}
+
+	/**
 	 * PRG-Redirect zurück auf die Seite.
 	 *
 	 * @since 0.3.0
@@ -443,6 +530,23 @@ final class Migration_Page {
 				(int) $deleted
 			);
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $msg ) . '</p></div>';
+			return;
+		}
+
+		if ( 'group_deleted' === $status ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Anzeige-Read nach eigenem PRG-Redirect.
+			$deleted = isset( $_GET['deleted'] ) ? absint( wp_unslash( $_GET['deleted'] ) ) : 0;
+			$msg     = sprintf(
+				/* translators: %d: Anzahl gelöschter ACF-Gruppen. */
+				esc_html__( '%d alte ACF-Gruppe(n) gelöscht (Backup wurde angelegt).', 'depeur-food' ),
+				(int) $deleted
+			);
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $msg ) . '</p></div>';
+			return;
+		}
+
+		if ( 'group_failed' === $status ) {
+			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'ACF-Gruppen-Löschung fehlgeschlagen (Backup nicht möglich?).', 'depeur-food' ) . '</p></div>';
 		}
 	}
 }

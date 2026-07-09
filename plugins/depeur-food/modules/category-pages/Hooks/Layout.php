@@ -1,6 +1,6 @@
 <?php
 /**
- * Layout — schaltet die Sidebar auf den Folgeseiten (Seite 2+) einer Kategorie-Seite ab.
+ * Layout — schaltet Sidebar + Beitragsbild auf den Folgeseiten (Seite 2+) einer Kategorie-Seite ab.
  *
  * Auf Seite 1 bleibt das normale Seiten-Layout (mit Sidebar); ab Seite 2 wird das
  * Kadence-Layout per Request auf „normal" gezwungen — das ist Kadence-„NORMAL": KEINE
@@ -46,6 +46,14 @@ final class Layout {
 	private const TARGET_LAYOUT = 'normal';
 
 	/**
+	 * Kadence-Post-Meta „Beitragsbild anzeigen".
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const KADENCE_FEATURE_META = '_kad_post_feature';
+
+	/**
 	 * Verdrahtet die Layout-Umschaltung nach dem Query-Parsing.
 	 *
 	 * @since 0.3.0
@@ -87,9 +95,17 @@ final class Layout {
 	 * @return mixed Layout-Array für den Layout-Key des abgefragten Objekts, sonst unverändert.
 	 */
 	public function force_layout( $value, $object_id, $meta_key ) {
-		if ( self::KADENCE_LAYOUT_META === $meta_key && (int) $object_id === (int) get_queried_object_id() ) {
-			// Array zurückgeben: der Core-Kurzschluss liefert bei single=true selbst $check[0].
+		if ( (int) $object_id !== (int) get_queried_object_id() ) {
+			return $value;
+		}
+
+		// Array zurückgeben: der Core-Kurzschluss liefert bei single=true selbst $check[0].
+		if ( self::KADENCE_LAYOUT_META === $meta_key ) {
 			return array( self::TARGET_LAYOUT );
+		}
+		// Beitragsbild (Hero) ab Seite 2 ausblenden (Kadence-Wert „hide").
+		if ( self::KADENCE_FEATURE_META === $meta_key ) {
+			return array( 'hide' );
 		}
 
 		return $value;

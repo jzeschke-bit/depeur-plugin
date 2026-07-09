@@ -248,7 +248,7 @@ final class Legacy_Migration {
 	 * @return array<int, array{name: string, size: int}>
 	 */
 	public static function list_backups(): array {
-		$files = self::backup_files();
+		$files = self::backup_files( 'rezeptkategorie-*.json' );
 		if ( empty( $files ) ) {
 			return array();
 		}
@@ -274,7 +274,7 @@ final class Legacy_Migration {
 	 * @return int
 	 */
 	public static function delete_backups(): int {
-		$files = self::backup_files();
+		$files = self::backup_files( 'rezeptkategorie-*.json' );
 		if ( empty( $files ) ) {
 			return 0;
 		}
@@ -299,19 +299,235 @@ final class Legacy_Migration {
 	}
 
 	/**
-	 * Liefert die Pfade aller Migrations-Backup-Dateien.
+	 * Erkennt die Legacy-ACF-Gruppe(n) mit den Rezeptkategorie-Feldern (`rezept_*`).
 	 *
 	 * @since 0.3.0
 	 *
+	 * @return array<int, array{id:int,key:string,title:string,field_count:int,legacy_fields:array<int,string>}>
+	 */
+	public static function legacy_acf_groups(): array {
+		$posts = get_posts(
+			array(
+				'post_type'        => 'acf-field-group',
+				'post_status'      => array( 'publish', 'acf-disabled' ),
+				'numberposts'      => -1,
+				'suppress_filters' => false,
+			)
+		);
+
+		$groups = array();
+		foreach ( $posts as $post ) {
+			$names  = self::acf_field_names( (int) $post->ID );
+			$legacy = array_values(
+				array_filter(
+					$names,
+					static function ( $name ) {
+						return 0 === strpos( $name, 'rezept' );
+					}
+				)
+			);
+			if ( empty( $legacy ) ) {
+				continue;
+			}
+			$groups[] = array(
+				'id'            => (int) $post->ID,
+				'key'           => (string) $post->post_name,
+				'title'         => (string) $post->post_title,
+				'field_count'   => count( $names ),
+				'legacy_fields' => $legacy,
+			);
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * Löscht die Legacy-ACF-Gruppe(n) samt Feld-Posts — mit Backup davor.
+	 *
+	 * Nur die GRUPPEN-Definition (Editor-UI) wird entfernt; die `rezept_*`-Meta-WERTE auf den
+	 * Seiten bleiben unangetastet (Sicherheit + spätere Re-Migration).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array{deleted:int,backup:string}|WP_Error
+	 */
+	public static function delete_legacy_acf_groups() {
+		$groups = self::legacy_acf_groups();
+		if ( empty( $groups ) ) {
+			return array(
+				'deleted' => 0,
+				'backup'  => '',
+			);
+		}
+
+		$ids    = array_map( 'intval', wp_list_pluck( $groups, 'id' ) );
+		$backup = self::backup_acf_groups( $ids );
+		if ( is_wp_error( $backup ) ) {
+			return $backup;
+		}
+
+		$deleted = 0;
+		foreach ( $ids as $group_id ) {
+			self::delete_acf_fields( $group_id );
+			if ( wp_delete_post( $group_id, true ) ) {
+				++$deleted;
+			}
+		}
+
+		return array(
+			'deleted' => $deleted,
+			'backup'  => basename( (string) $backup ),
+		);
+	}
+
+	/**
+	 * Liefert die Feld-Namen (post_excerpt) einer ACF-Gruppe.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $group_id Gruppen-Post-ID.
 	 * @return array<int, string>
 	 */
-	private static function backup_files(): array {
+	private static function acf_field_names( int $group_id ): array {
+		$fields = get_posts(
+			array(
+				'post_type'        => 'acf-field',
+				'post_parent'      => $group_id,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'suppress_filters' => false,
+			)
+		);
+		$names = array();
+		foreach ( $fields as $field ) {
+			$name = (string) $field->post_excerpt; // ACF speichert den Feld-Namen im Excerpt.
+			if ( '' !== $name ) {
+				$names[] = $name;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Löscht die Feld-Posts einer Gruppe/eines Feldes rekursiv.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $parent_id Eltern-Post-ID.
+	 * @return void
+	 */
+	private static function delete_acf_fields( int $parent_id ): void {
+		$fields = get_posts(
+			array(
+				'post_type'        => 'acf-field',
+				'post_parent'      => $parent_id,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'fields'           => 'ids',
+				'suppress_filters' => false,
+			)
+		);
+		foreach ( $fields as $field_id ) {
+			self::delete_acf_fields( (int) $field_id );
+			wp_delete_post( (int) $field_id, true );
+		}
+	}
+
+	/**
+	 * Sichert die ACF-Gruppen (Post + Feld-Posts rekursiv) als JSON.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param array<int> $ids Gruppen-IDs.
+	 * @return string|WP_Error
+	 */
+	private static function backup_acf_groups( array $ids ) {
+		$data = array(
+			'generated' => current_time( 'mysql' ),
+			'site'      => home_url(),
+			'note'      => 'ACF-Gruppen-Backup vor Löschung (Rezeptkategorie-Legacy).',
+			'groups'    => array(),
+		);
+		foreach ( $ids as $group_id ) {
+			$group = get_post( (int) $group_id );
+			if ( ! $group instanceof \WP_Post ) {
+				continue;
+			}
+			$data['groups'][] = array(
+				'post'   => self::acf_post_array( $group ),
+				'meta'   => get_post_meta( (int) $group_id ),
+				'fields' => self::export_acf_fields( (int) $group_id ),
+			);
+		}
+
+		return self::write_backup( $data, 'rezeptkategorie-acfgroup' );
+	}
+
+	/**
+	 * Exportiert die Feld-Posts (rekursiv) einer Gruppe/eines Feldes.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $parent_id Eltern-Post-ID.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function export_acf_fields( int $parent_id ): array {
+		$fields = get_posts(
+			array(
+				'post_type'        => 'acf-field',
+				'post_parent'      => $parent_id,
+				'post_status'      => 'any',
+				'numberposts'      => -1,
+				'suppress_filters' => false,
+			)
+		);
+		$out = array();
+		foreach ( $fields as $field ) {
+			$out[] = array(
+				'post'   => self::acf_post_array( $field ),
+				'meta'   => get_post_meta( (int) $field->ID ),
+				'fields' => self::export_acf_fields( (int) $field->ID ),
+			);
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Reduziert einen ACF-Post auf restore-relevante Felder.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param \WP_Post $post Der Post.
+	 * @return array<string, mixed>
+	 */
+	private static function acf_post_array( \WP_Post $post ): array {
+		return array(
+			'post_title'   => $post->post_title,
+			'post_name'    => $post->post_name,
+			'post_content' => $post->post_content,
+			'post_excerpt' => $post->post_excerpt,
+			'post_status'  => $post->post_status,
+			'post_type'    => $post->post_type,
+			'menu_order'   => (int) $post->menu_order,
+		);
+	}
+
+	/**
+	 * Liefert die Pfade der Backup-Dateien zu einem Namens-Glob.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $glob Dateinamen-Glob (z. B. 'rezeptkategorie-migration-*.json').
+	 * @return array<int, string>
+	 */
+	private static function backup_files( string $glob ): array {
 		$uploads = wp_upload_dir();
 		if ( ! empty( $uploads['error'] ) ) {
 			return array();
 		}
-		$pattern = trailingslashit( $uploads['basedir'] ) . self::BACKUP_SUBDIR . '/rezeptkategorie-migration-*.json';
-		$files   = glob( $pattern );
+		$files = glob( trailingslashit( $uploads['basedir'] ) . self::BACKUP_SUBDIR . '/' . $glob );
 
 		return is_array( $files ) ? $files : array();
 	}
@@ -357,7 +573,8 @@ final class Legacy_Migration {
 	 * @return string
 	 */
 	private static function latest_backup_path(): string {
-		$files = self::backup_files();
+		// Nur Migrations-Backups sind zum Restore geeignet (ACF-Gruppen-Backups nicht).
+		$files = self::backup_files( 'rezeptkategorie-migration-*.json' );
 		if ( empty( $files ) ) {
 			return '';
 		}
@@ -500,10 +717,11 @@ final class Legacy_Migration {
 	 *
 	 * @since 0.3.0
 	 *
-	 * @param array<string, mixed> $data Zu sichernde Struktur.
+	 * @param array<string, mixed> $data   Zu sichernde Struktur.
+	 * @param string               $prefix Datei-Präfix (ohne Zeitstempel/Endung).
 	 * @return string|WP_Error
 	 */
-	private static function write_backup( array $data ) {
+	private static function write_backup( array $data, string $prefix = 'rezeptkategorie-migration' ) {
 		$uploads = wp_upload_dir();
 		if ( ! empty( $uploads['error'] ) ) {
 			return new WP_Error( 'df_migrate_uploads', (string) $uploads['error'] );
