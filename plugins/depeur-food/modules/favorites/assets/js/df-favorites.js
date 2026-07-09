@@ -278,6 +278,12 @@
 			} );
 	}
 
+	// Öffentlicher Hook: andere Module (z. B. der Rezept-Filter) hydrieren damit die
+	// Herz-Buttons frisch nachgeladener Karten (Zustand aus localStorage).
+	window.dfFavoritesHydrate = function ( root ) {
+		hydrateButtons( root || document );
+	};
+
 	/**
 	 * Initialisierung: Migration, Button-Hydration, Archive, Klick-Delegation.
 	 */
