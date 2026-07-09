@@ -74,6 +74,53 @@ final class Cleanup_Page {
 		// Prio 20: nach dem Core-Menü (AdminMenu::register), damit MENU_SLUG existiert.
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
+
+		// Diesen Schritt im zentralen Migrations-Assistenten (Core) anmelden. Kopplung nur über
+		// den Hook-STRING (kein Core-Klassen-Import nötig) — s. Migration_Assistant::STEPS_FILTER.
+		add_filter( 'depeur_food/migration/steps', array( $this, 'register_migration_step' ) );
+	}
+
+	/**
+	 * Meldet den ACF-Aufräum-Schritt im Migrations-Assistenten an.
+	 *
+	 * Status: „offen", solange löschbare Duplikat-Gruppen (covered) existieren; sonst „erledigt".
+	 * one_time=true — dies ist ein reines Einmal-Werkzeug; nach Abschluss der Migration darf der
+	 * Assistent das Modul acf-cleanup automatisch deaktivieren (Menü-Ballast weg).
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array<int, array<string, mixed>> $steps Bisherige Schritte.
+	 * @return array<int, array<string, mixed>> Ergänzte Schritte.
+	 */
+	public function register_migration_step( array $steps ): array {
+		$report  = Scanner::report();
+		$covered = isset( $report['covered'] ) && is_array( $report['covered'] ) ? count( $report['covered'] ) : 0;
+
+		if ( $covered > 0 ) {
+			$status      = 'todo';
+			$status_text = sprintf(
+				/* translators: %d: Anzahl löschbarer ACF-Duplikat-Gruppen. */
+				_n( '%d ACF-Duplikat-Gruppe entfernbar', '%d ACF-Duplikat-Gruppen entfernbar', $covered, 'depeur-food' ),
+				$covered
+			);
+		} else {
+			$status      = 'done';
+			$status_text = __( 'Keine löschbaren ACF-Duplikate.', 'depeur-food' );
+		}
+
+		$steps[] = array(
+			'id'           => 'acf-cleanup',
+			'title'        => __( 'ACF-Duplikate aufräumen', 'depeur-food' ),
+			'description'  => __( 'Entfernt vom Plugin überschattete ACF-Feldgruppen-Duplikate (mit Backup). Reines Einmal-Werkzeug.', 'depeur-food' ),
+			'status'       => $status,
+			'status_text'  => $status_text,
+			'action_url'   => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
+			'action_label' => __( 'Öffnen', 'depeur-food' ),
+			'module'       => 'acf-cleanup',
+			'one_time'     => true,
+		);
+
+		return $steps;
 	}
 
 	/**

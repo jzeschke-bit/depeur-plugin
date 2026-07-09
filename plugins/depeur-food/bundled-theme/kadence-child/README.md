@@ -64,16 +64,22 @@ Ehrlich dokumentiert, damit nichts still verloren geht:
 
 ## 4) Installation / Aktivierung
 
-1. Ordner `kadence-child/` nach `wp-content/themes/kadence-child/` deployen.
-2. Voraussetzung: Parent-Theme **Kadence** installiert (nicht zwingend aktiv).
-3. Voraussetzung: Plugin `depeur-food` aktiv mit Modulen `favorites`, `language-selector`,
-   `schema-engine`, `newsletter`, `category-pages`. Prüfen über die Seite
-   **Depeur Food → Migrations-Assistent** (Readiness-Check).
-4. Child-Theme aktivieren. Danach **Permalinks neu speichern** (Rewrites), falls
-   Kategorie-Seiten mit Pagination genutzt werden.
+Dieses Theme wird **im Plugin mitgeliefert** (Ordner `plugins/depeur-food/bundled-theme/kadence-child/`).
+Es muss NICHT manuell hochgeladen werden — der Migrations-Assistent installiert es.
+
+1. Voraussetzung: Parent-Theme **Kadence** installiert (nicht zwingend aktiv).
+2. Voraussetzung: Plugin `depeur-food` aktiv mit Modulen `favorites`, `language-selector`,
+   `schema-engine`, `newsletter`, `category-pages`.
+3. **Depeur Food → Migrations-Assistent**, Abschnitt „4. Theme installieren & aktivieren":
+   - **„Child-Theme installieren"** kopiert die Dateien nach `wp-content/themes/kadence-child/`.
+   - **„Child-Theme aktivieren"** schaltet um und übernimmt Menüs/Logo (`theme_mods`) vom Alt-Theme.
+4. Danach **Seiten-Cache leeren** (RunCache/Cloudflare). Bei Bedarf Permalinks neu speichern.
 
 > **Live-Vorsicht:** Neuer `<link>` aufs Child-CSS steckt in gecachtem HTML — bei
 > RunCache/Cloudflare den Seiten-Cache leeren, sonst lädt der Browser das alte Theme-CSS.
+
+> **Manuell (Fallback):** Ordner `bundled-theme/kadence-child/` nach `wp-content/themes/kadence-child/`
+> kopieren (Trailing-Slash am rsync-Quellpfad!), dann normal aktivieren.
 
 ---
 

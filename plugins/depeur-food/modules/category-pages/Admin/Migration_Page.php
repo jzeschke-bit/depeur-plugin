@@ -118,6 +118,62 @@ final class Migration_Page {
 		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
 		add_action( 'admin_post_' . self::ACTION_DELETE_BACKUPS, array( $this, 'handle_delete_backups' ) );
 		add_action( 'admin_post_' . self::ACTION_DELETE_GROUP, array( $this, 'handle_delete_group' ) );
+
+		// Diesen Schritt im zentralen Migrations-Assistenten (Core) anmelden. Kopplung nur über
+		// den Hook-STRING (kein Core-Klassen-Import nötig) — s. Migration_Assistant::STEPS_FILTER.
+		add_filter( 'depeur_food/migration/steps', array( $this, 'register_migration_step' ) );
+	}
+
+	/**
+	 * Meldet den Rezeptkategorie-Migrationsschritt im Migrations-Assistenten an.
+	 *
+	 * Status: „offen", solange Alt-Seiten noch nicht migriert sind ODER die alte ACF-Gruppe noch
+	 * existiert; sonst „erledigt". one_time=false — das Modul category-pages trägt die LIVE-
+	 * Kategorie-Seiten und bleibt nach der Migration aktiv (nicht deaktivieren).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param array<int, array<string, mixed>> $steps Bisherige Schritte.
+	 * @return array<int, array<string, mixed>> Ergänzte Schritte.
+	 */
+	public function register_migration_step( array $steps ): array {
+		$rows = Legacy_Migration::scan();
+		$open = 0;
+		foreach ( $rows as $row ) {
+			if ( empty( $row['already'] ) ) {
+				++$open;
+			}
+		}
+		$acf_groups = Legacy_Migration::legacy_acf_groups();
+
+		if ( $open > 0 ) {
+			$status      = 'todo';
+			$status_text = sprintf(
+				/* translators: %d: Anzahl offener Alt-Seiten. */
+				_n( '%d Alt-Seite noch nicht migriert', '%d Alt-Seiten noch nicht migriert', $open, 'depeur-food' ),
+				$open
+			);
+		} elseif ( ! empty( $acf_groups ) ) {
+			$status      = 'todo';
+			$status_text = __( 'Seiten migriert — alte ACF-Gruppe kann noch entfernt werden.', 'depeur-food' );
+		} else {
+			$status      = 'done';
+			$status_text = __( 'Keine offenen Alt-Rezeptkategorie-Seiten.', 'depeur-food' );
+		}
+
+		$steps[] = array(
+			'id'           => 'rezeptkategorie',
+			'title'        => __( 'Alte Rezeptkategorie-Seiten migrieren', 'depeur-food' ),
+			'description'  => __( 'Überträgt Alt-Seiten (ACF-Terms → Kategorie-Seiten-Felder) inkl. Backup und entfernt die alte ACF-Gruppe.', 'depeur-food' ),
+			'status'       => $status,
+			'status_text'  => $status_text,
+			'action_url'   => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
+			'action_label' => __( 'Öffnen', 'depeur-food' ),
+			'module'       => 'category-pages',
+			'one_time'     => false,
+		);
+
+		return $steps;
 	}
 
 	/**
