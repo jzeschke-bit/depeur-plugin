@@ -112,6 +112,15 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
 	color: var(--global-palette9);
 }
 
+/* WOFÜR: Auch die Tag-Links UNTER Single-Beiträgen (Kadence „Post Tags:") bekommen das „#".
+   WARUM: Ersetzt das Alt-Theme-Template-Part entry_tags.php durch eine reine CSS-Lösung — kein
+   Kadence-Template-Override nötig, kein Update-Drift. Reines Präfix per ::before.
+   PRÜFEN: Falls Kadence die Tag-Ausgabe unter Beiträgen umbaut, hier den Selektor nachziehen. */
+.entry-tags .tags-links a::before {
+	content: "#";
+	margin-right: 1px;
+}
+
 
 /* ============================================================================
    3) AUTHOR-BOX (Autoren-Kasten unter Single-Beiträgen)

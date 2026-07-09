@@ -34,4 +34,7 @@ new \Depeur\Food\Modules\Favorites\Integrations\Wprm( basename( __DIR__ ) );
 // Settings-Tab + Diagnose – nur im Admin. Slug = Ordnername (basename).
 if ( is_admin() ) {
 	new \Depeur\Food\Modules\Favorites\Admin\Settings( basename( __DIR__ ) );
+
+	// Likes-Rangliste (macht den internen Zähler sichtbar).
+	new \Depeur\Food\Modules\Favorites\Admin\Likes_Dashboard();
 }

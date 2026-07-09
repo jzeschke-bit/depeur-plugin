@@ -51,9 +51,10 @@ Ehrlich dokumentiert, damit nichts still verloren geht:
 
 - **`rest_allow_anonymous_comments`** (Alt-Theme) — bewusst weggelassen; nur nötig, falls
   anonyme Kommentare über REST gebraucht werden.
-- **Weitere Template-Part-Overrides** (`entry_author.php`, `entry_tags.php`) — das CSS dafür
-  ist in `style.css` schon vorhanden. Die Template-Parts selbst werden erst ergänzt, wenn
-  das Grundgerüst freigegeben ist (siehe Abschnitt 5).
+
+**Bereits ergänzt:** `template-parts/content/entry_author.php` (Jobtitel-Zeile aus User-Meta
+`author_jobtitle`). Die `#`-Optik der Single-Post-Tags läuft rein per CSS
+(`.entry-tags .tags-links a::before`) — dafür ist KEIN `entry_tags.php`-Override nötig.
 
 ---
 
