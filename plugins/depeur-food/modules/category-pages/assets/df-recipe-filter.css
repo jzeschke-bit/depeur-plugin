@@ -1,0 +1,72 @@
+/**
+ * df-recipe-filter.css — „Was koche ich heute" Filter-UI.
+ *
+ * Bubble-/Pill-Filter gruppiert nach Tag-Gruppen + Ergebnis-Raster + „Mehr laden".
+ * Nutzt die Kadence-Palette-Variablen (--global-palette*), damit es sich ins Theme einfügt.
+ * Das Ergebnis-Raster selbst (.post-archive) stylen Kadence/Loop-Entry.
+ *
+ * @package Depeur\Food\Modules\CategoryPages
+ */
+
+.df-recipe-filter__form {
+	margin: 0 0 2em 0;
+}
+
+.df-recipe-filter__group {
+	border: 0;
+	padding: 0;
+	margin: 0 0 1.25em 0;
+}
+
+.df-recipe-filter__legend {
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin: 0 0 0.5em 0;
+	font-weight: 700;
+	font-size: 1rem;
+	color: var(--global-palette3, #2c1a1a);
+}
+
+.df-recipe-filter__bubbles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+}
+
+.df-recipe-filter__bubble {
+	display: inline-block;
+	padding: 0.4em 1em;
+	border: 1px solid var(--global-palette6, #d8d8d8);
+	border-radius: 999px;
+	background: var(--global-palette9, #fff);
+	color: var(--global-palette4, #482d2d);
+	font-size: 0.95rem;
+	line-height: 1.3;
+	cursor: pointer;
+	transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.df-recipe-filter__bubble:hover {
+	border-color: var(--global-palette-btn-bg, #f76a0c);
+	color: var(--global-palette-btn-bg, #f76a0c);
+}
+
+.df-recipe-filter__bubble.is-active {
+	background: var(--global-palette-btn-bg, #f76a0c);
+	border-color: var(--global-palette-btn-bg, #f76a0c);
+	color: var(--global-palette-btn-color, #fff);
+}
+
+.df-recipe-filter__title {
+	margin: 0 0 1em 0;
+}
+
+.df-recipe-filter__more {
+	margin-top: 1.5em;
+	text-align: center;
+}
+
+.df-recipe-filter__more-btn[hidden] {
+	display: none;
+}

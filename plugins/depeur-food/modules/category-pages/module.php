@@ -28,6 +28,11 @@ new \Depeur\Food\Modules\CategoryPages\Frontend\Category_Page();
 // Custom-Titel (H1 + SEO) für geflaggte Kategorie-Seiten.
 new \Depeur\Food\Modules\CategoryPages\Frontend\Title();
 
+// „Was koche ich heute": Filter-Shortcode + REST-Endpoint + Assets.
+new \Depeur\Food\Modules\CategoryPages\Frontend\Recipe_Filter();
+new \Depeur\Food\Modules\CategoryPages\Rest\Filter_Controller();
+new \Depeur\Food\Modules\CategoryPages\Frontend\Assets();
+
 // Enge `/page/N/`-Rewrites für geflaggte Kategorie-Seiten (+ deferred Flush).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Rewrite();
 
