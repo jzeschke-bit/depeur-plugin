@@ -53,6 +53,52 @@ final class Theme_Installer {
 	public const PARENT_SLUG = 'kadence';
 
 	/**
+	 * Option, in der wir den Child-theme_mods-Stand VOR einer Übernahme sichern.
+	 *
+	 * Dient doppelt: (1) Sicherheitsnetz zum Zurücksetzen, (2) „schon einmal migriert"-Sentinel,
+	 * damit die automatische Übernahme beim Theme-Wechsel nur EINMAL läuft und danach manuelle
+	 * Anpassungen nicht überschreibt.
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	public const MODS_BACKUP_OPTION = 'depeur_food_thememods_backup';
+
+	/**
+	 * Verdrahtet den Theme-Wechsel-Listener (greift bei JEDER Aktivierung, auch über Design → Themes).
+	 *
+	 * WOFÜR: Kadence speichert seine Customizer-Einstellungen (Header/Footer/Farben/Layout/…) in
+	 * `theme_mods_{stylesheet}` — also PRO Theme. Beim Wechsel auf ein anderes (Child-)Theme sind
+	 * sie sonst „weg". Dieser Listener überträgt sie vom vorherigen Theme aufs Child. Wird aus
+	 * Plugin::init immer registriert (Theme-Wechsel passieren im Admin, der Hook ist billig).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public static function register(): void {
+		add_action( 'after_switch_theme', array( __CLASS__, 'on_after_switch' ), 10, 2 );
+	}
+
+	/**
+	 * Läuft NACH jedem Theme-Wechsel: überträgt Customizer-Einstellungen aufs Child (einmalig).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string         $old_name  Name des vorherigen Themes.
+	 * @param \WP_Theme|null $old_theme WP_Theme-Objekt des vorherigen Themes.
+	 * @return void
+	 */
+	public static function on_after_switch( $old_name, $old_theme = null ): void {
+		// Nur reagieren, wenn JETZT unser Child aktiv ist.
+		if ( self::CHILD_SLUG !== get_stylesheet() ) {
+			return;
+		}
+		$from = ( $old_theme instanceof \WP_Theme ) ? $old_theme->get_stylesheet() : '';
+		self::migrate_theme_mods_once( $from );
+	}
+
+	/**
 	 * Absoluter Pfad zum im Plugin gebündelten Theme (Quelle der Kopie).
 	 *
 	 * @since 0.3.0
@@ -244,8 +290,9 @@ final class Theme_Installer {
 			);
 		}
 
-		// Theme-Einstellungen des Alt-Themes übernehmen (nicht-destruktiv, s. Methode).
-		self::maybe_migrate_theme_mods();
+		// Customizer-Einstellungen des Alt-Themes übernehmen (einmalig, vor dem Umschalten, damit
+		// der Quell-Stand feststeht). switch_theme() selbst würde danach nur nav_menu_locations setzen.
+		self::migrate_theme_mods_once( get_stylesheet() );
 
 		switch_theme( self::CHILD_SLUG );
 
@@ -256,33 +303,108 @@ final class Theme_Installer {
 	}
 
 	/**
-	 * Übernimmt theme_mods (Menü-Positionen, Custom-Logo, …) vom aktiven Alt-Theme aufs Child.
+	 * Überträgt die Customizer-Einstellungen (theme_mods) EINMALIG von $from aufs Child.
 	 *
-	 * WOFÜR: In WordPress sind theme_mods PRO Stylesheet gespeichert (Option theme_mods_{slug}).
-	 * Beim Theme-Wechsel würden Menü-Zuordnungen und Logo sonst „verschwinden". Da beide Themes
-	 * Kadence-Kinder sind (gleiche registrierten Menü-Positionen), lassen sich die Mods 1:1 kopieren.
-	 * NICHT-DESTRUKTIV: Es wird nur kopiert, wenn das Ziel noch KEINE eigenen Mods hat (verhindert
-	 * Überschreiben bei einer erneuten Aktivierung). Kadence' eigene Design-Optionen liegen ohnehin
-	 * stylesheet-unabhängig und wandern automatisch mit.
+	 * WOFÜR: Kadence legt Header/Footer/Farben/Layout/Menüs/Logo in `theme_mods_{stylesheet}` ab —
+	 * pro Theme. Ohne Übernahme steht das neue Child auf Kadence-Standardwerten (der „Fail"). Diese
+	 * Methode kopiert die Mods des Quell-Themes 1:1 aufs Child (beide sind Kadence-Kinder, gleiche
+	 * registrierten Slots → kompatibel).
+	 *
+	 * EINMALIG: Läuft nur, solange noch KEIN Sicherungs-/Sentinel-Eintrag existiert
+	 * (MODS_BACKUP_OPTION). So wird bei einem späteren erneuten Wechsel eine inzwischen im
+	 * Customizer angepasste Child-Konfiguration NICHT überschrieben. Für ein bewusstes erneutes
+	 * Übernehmen gibt es import_customizer_from() (Force + Backup).
 	 *
 	 * @since 0.3.0
 	 *
+	 * @param string $from Stylesheet des Quell-Themes.
 	 * @return void
 	 */
-	private static function maybe_migrate_theme_mods(): void {
-		$from = get_stylesheet(); // Das aktuell (noch) aktive Theme.
-		if ( self::CHILD_SLUG === $from ) {
-			return; // Bereits das Child aktiv → nichts zu übernehmen.
+	public static function migrate_theme_mods_once( string $from ): void {
+		// Schon einmal migriert? → nichts tun (Sentinel = Backup-Option existiert).
+		if ( is_array( get_option( self::MODS_BACKUP_OPTION ) ) ) {
+			return;
+		}
+		self::copy_theme_mods( $from );
+	}
+
+	/**
+	 * Übernimmt die Customizer-Einstellungen von $from aufs Child — ERZWUNGEN, mit Backup.
+	 *
+	 * Für den manuellen „Einstellungen übernehmen"-Button im Migrations-Assistenten: kopiert immer
+	 * (auch wenn das Child schon Mods hat) und sichert vorher den bisherigen Child-Stand.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $from Stylesheet des Quell-Themes.
+	 * @return true|\WP_Error
+	 */
+	public static function import_customizer_from( string $from ) {
+		if ( ! array_key_exists( $from, self::mod_sources() ) ) {
+			return new \WP_Error(
+				'depeur_food_bad_source',
+				__( 'Ungültige Quelle: dieses Theme hat keine gespeicherten Einstellungen.', 'depeur-food' )
+			);
 		}
 
-		$target_key = 'theme_mods_' . self::CHILD_SLUG;
-		if ( ! empty( get_option( $target_key ) ) ) {
-			return; // Ziel hat schon Einstellungen → nicht anfassen.
+		return self::copy_theme_mods( $from );
+	}
+
+	/**
+	 * Kern-Kopie: sichert den aktuellen Child-Stand in MODS_BACKUP_OPTION und schreibt $from → Child.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $from Stylesheet des Quell-Themes.
+	 * @return true|\WP_Error
+	 */
+	private static function copy_theme_mods( string $from ) {
+		if ( '' === $from || self::CHILD_SLUG === $from ) {
+			return new \WP_Error( 'depeur_food_bad_source', __( 'Keine gültige Quelle angegeben.', 'depeur-food' ) );
 		}
 
 		$source = get_option( 'theme_mods_' . $from );
-		if ( is_array( $source ) && ! empty( $source ) ) {
-			update_option( $target_key, $source );
+		if ( ! is_array( $source ) || empty( $source ) ) {
+			return new \WP_Error( 'depeur_food_empty_source', __( 'Die Quelle hat keine gespeicherten Einstellungen.', 'depeur-food' ) );
 		}
+
+		// Backup des bisherigen Child-Standes (Sicherheitsnetz + Einmalig-Sentinel).
+		update_option(
+			self::MODS_BACKUP_OPTION,
+			array(
+				'from' => $from,
+				'mods' => get_option( 'theme_mods_' . self::CHILD_SLUG ),
+			),
+			false
+		);
+
+		update_option( 'theme_mods_' . self::CHILD_SLUG, $source );
+
+		return true;
+	}
+
+	/**
+	 * Liefert die Themes, die als Customizer-Quelle taugen (haben gespeicherte theme_mods).
+	 *
+	 * WOFÜR: Für die Auswahl im Assistenten („von welchem Alt-Theme übernehmen?"). Schließt das
+	 * Child selbst aus; nimmt nur Themes mit nicht-leeren theme_mods (sonst gäbe es nichts zu holen).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array<string, string> Map stylesheet ⇒ Anzeigename.
+	 */
+	public static function mod_sources(): array {
+		$out = array();
+		foreach ( wp_get_themes() as $stylesheet => $theme ) {
+			if ( self::CHILD_SLUG === $stylesheet ) {
+				continue;
+			}
+			$mods = get_option( 'theme_mods_' . $stylesheet );
+			if ( is_array( $mods ) && ! empty( $mods ) ) {
+				$out[ (string) $stylesheet ] = (string) $theme->get( 'Name' );
+			}
+		}
+
+		return $out;
 	}
 }

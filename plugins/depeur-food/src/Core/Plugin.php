@@ -76,6 +76,10 @@ final class Plugin {
 		// Gemeinsame Frontend-Styles (Loop_Grid: gleich hohe Karten).
 		Frontend_Assets::register();
 
+		// Customizer-Einstellungen beim Theme-Wechsel aufs kadence-child übertragen
+		// (after_switch_theme greift auch bei Aktivierung über Design → Themes).
+		Theme_Installer::register();
+
 		// Admin-spezifische Verdrahtung nur im Backend.
 		if ( is_admin() ) {
 			AdminMenu::register();

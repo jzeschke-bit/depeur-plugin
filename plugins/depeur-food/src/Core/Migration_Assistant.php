@@ -88,6 +88,22 @@ final class Migration_Assistant {
 	private const NONCE_ACTIVATE = 'depeur_food_activate_theme_nonce';
 
 	/**
+	 * admin-post-Action „Customizer-Einstellungen übernehmen".
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const ACTION_IMPORT_MODS = 'depeur_food_import_thememods';
+
+	/**
+	 * Nonce-Name der Customizer-Übernahme.
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const NONCE_IMPORT_MODS = 'depeur_food_import_thememods_nonce';
+
+	/**
 	 * admin-post-Action „Migration abschließen" (deaktiviert Einmal-Module).
 	 *
 	 * @since 0.3.0
@@ -198,6 +214,9 @@ final class Migration_Assistant {
 		// Button-Aktionen: Theme installieren/aktualisieren + aktivieren (Cap → Nonce → PRG).
 		add_action( 'admin_post_' . self::ACTION_INSTALL, array( __CLASS__, 'handle_install' ) );
 		add_action( 'admin_post_' . self::ACTION_ACTIVATE, array( __CLASS__, 'handle_activate' ) );
+
+		// Customizer-Einstellungen (theme_mods) manuell vom Alt-Theme übernehmen.
+		add_action( 'admin_post_' . self::ACTION_IMPORT_MODS, array( __CLASS__, 'handle_import_mods' ) );
 
 		// Abschluss: deaktiviert die einmaligen Migrations-Module (Cap → Nonce → PRG).
 		add_action( 'admin_post_' . self::ACTION_FINISH, array( __CLASS__, 'handle_finish' ) );
@@ -668,7 +687,48 @@ final class Migration_Assistant {
 					<?php esc_html_e( 'Hinweis: Oben sind noch nicht alle Punkte grün. Du kannst trotzdem aktivieren, solltest aber danach genau gegenprüfen.', 'depeur-food' ); ?>
 				</p>
 			<?php endif; ?>
+
+			<?php self::render_mods_import(); ?>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Rendert den Block „Kadence-Customizer-Einstellungen übernehmen".
+	 *
+	 * WOFÜR: Kadence speichert seine Design-Einstellungen pro Theme (theme_mods). Wer das Child
+	 * bereits (z. B. über Design → Themes) aktiviert hat, steht evtl. auf Standardwerten. Hier holt
+	 * man die Einstellungen eines Alt-Themes gezielt aufs Child — mit Backup des aktuellen Standes.
+	 * Nützlich als Reparatur, falls die automatische Übernahme beim Wechsel nicht griff.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	private static function render_mods_import(): void {
+		$sources = Theme_Installer::mod_sources();
+		if ( empty( $sources ) ) {
+			return; // Keine Quelle mit gespeicherten Einstellungen vorhanden.
+		}
+		?>
+		<hr style="margin: 1em 0;" />
+		<p style="margin-bottom: 0.3em;">
+			<strong><?php esc_html_e( 'Kadence-Customizer-Einstellungen übernehmen', 'depeur-food' ); ?></strong><br />
+			<span class="description">
+				<?php esc_html_e( 'Kopiert die Design-Einstellungen (Header/Footer/Farben/Layout/Menüs/Logo) eines Alt-Themes aufs Child. Der aktuelle Child-Stand wird vorher gesichert.', 'depeur-food' ); ?>
+			</span>
+		</p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+			onsubmit="return confirm('<?php echo esc_js( __( 'Einstellungen des gewählten Alt-Themes jetzt aufs Child kopieren? Der aktuelle Stand wird gesichert.', 'depeur-food' ) ); ?>');">
+			<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_IMPORT_MODS ); ?>" />
+			<?php wp_nonce_field( self::ACTION_IMPORT_MODS, self::NONCE_IMPORT_MODS ); ?>
+			<select name="from" style="min-width: 18em; margin-right: 0.5em;">
+				<?php foreach ( $sources as $stylesheet => $name ) : ?>
+					<option value="<?php echo esc_attr( $stylesheet ); ?>"><?php echo esc_html( $name . ' (' . $stylesheet . ')' ); ?></option>
+				<?php endforeach; ?>
+			</select>
+			<?php submit_button( __( 'Einstellungen übernehmen', 'depeur-food' ), 'secondary', 'submit', false ); ?>
+		</form>
 		<?php
 	}
 
@@ -692,6 +752,7 @@ final class Migration_Assistant {
 			'installed' => array( 'success', __( 'Child-Theme installiert.', 'depeur-food' ) ),
 			'updated'   => array( 'success', __( 'Child-Theme aktualisiert.', 'depeur-food' ) ),
 			'activated' => array( 'success', __( 'Child-Theme aktiviert. Bitte den Seiten-Cache leeren.', 'depeur-food' ) ),
+			'mods_imported' => array( 'success', __( 'Customizer-Einstellungen übernommen. Bitte den Seiten-Cache leeren.', 'depeur-food' ) ),
 			'finished'  => array( 'success', '' === $msg ? __( 'Migration abgeschlossen.', 'depeur-food' ) : $msg ),
 			'nochange'  => array( 'info', __( 'Nichts abzuschließen — keine einmaligen Migrations-Module aktiv.', 'depeur-food' ) ),
 			'error'     => array( 'error', '' === $msg ? __( 'Aktion fehlgeschlagen.', 'depeur-food' ) : $msg ),
@@ -753,6 +814,30 @@ final class Migration_Assistant {
 			self::redirect( 'error', $result->get_error_message() );
 		}
 		self::redirect( 'activated' );
+	}
+
+	/**
+	 * Handler „Customizer-Einstellungen übernehmen": Cap → Nonce → Quelle prüfen → kopieren → PRG.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public static function handle_import_mods(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Keine Berechtigung.', 'depeur-food' ), '', array( 'response' => 403 ) );
+		}
+		check_admin_referer( self::ACTION_IMPORT_MODS, self::NONCE_IMPORT_MODS );
+
+		$from = isset( $_POST['from'] ) ? sanitize_text_field( wp_unslash( $_POST['from'] ) ) : '';
+
+		// import_customizer_from() validiert die Quelle zusätzlich gegen die Liste gültiger Themes.
+		$result = Theme_Installer::import_customizer_from( $from );
+
+		if ( is_wp_error( $result ) ) {
+			self::redirect( 'error', $result->get_error_message() );
+		}
+		self::redirect( 'mods_imported' );
 	}
 
 	/**
