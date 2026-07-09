@@ -633,7 +633,6 @@ final class Migration_Assistant {
 
 		$installed = Theme_Installer::is_installed();
 		$active    = Theme_Installer::is_active();
-		$update    = Theme_Installer::needs_update();
 		$bundled_v = Theme_Installer::bundled_version();
 		?>
 		<div style="max-width: 75em; padding: 1em 1.25em; background: #fff; border: 1px solid #dcdcde; border-left: 4px solid #2271b1; margin-bottom: 1.5em;">
@@ -654,22 +653,26 @@ final class Migration_Assistant {
 				<p style="color: #46b450;"><strong><?php esc_html_e( '✓ Das Child-Theme ist aktiv.', 'depeur-food' ); ?></strong></p>
 			<?php endif; ?>
 
+			<?php if ( $installed ) : ?>
+				<p class="description" style="max-width: 60em;">
+					<?php esc_html_e( 'Wichtig: Ein Plugin-Update aktualisiert NICHT automatisch die installierte Theme-Kopie. Nach Änderungen am Theme hier „Theme-Dateien aktualisieren" klicken — das kopiert die gebündelten Dateien neu (Customizer-Einstellungen bleiben erhalten).', 'depeur-food' ); ?>
+				</p>
+			<?php endif; ?>
+
 			<p>
-				<?php // Button „Installieren" bzw. „Aktualisieren" — beide nutzen dieselbe Aktion. ?>
-				<?php if ( ! $installed || $update ) : ?>
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display: inline-block; margin-right: 0.5em;">
-						<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_INSTALL ); ?>" />
-						<?php wp_nonce_field( self::ACTION_INSTALL, self::NONCE_INSTALL ); ?>
-						<?php
-						submit_button(
-							$installed ? __( 'Child-Theme aktualisieren', 'depeur-food' ) : __( 'Child-Theme installieren', 'depeur-food' ),
-							'primary',
-							'submit',
-							false
-						);
-						?>
-					</form>
-				<?php endif; ?>
+				<?php // Installieren bzw. Dateien neu kopieren — immer verfügbar (dieselbe Aktion). ?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display: inline-block; margin-right: 0.5em;">
+					<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_INSTALL ); ?>" />
+					<?php wp_nonce_field( self::ACTION_INSTALL, self::NONCE_INSTALL ); ?>
+					<?php
+					submit_button(
+						$installed ? __( 'Theme-Dateien aktualisieren', 'depeur-food' ) : __( 'Child-Theme installieren', 'depeur-food' ),
+						'primary',
+						'submit',
+						false
+					);
+					?>
+				</form>
 
 				<?php // Button „Aktivieren" — nur wenn installiert und noch nicht aktiv. ?>
 				<?php if ( $installed && ! $active ) : ?>
