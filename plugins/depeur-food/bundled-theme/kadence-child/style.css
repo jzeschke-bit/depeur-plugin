@@ -5,7 +5,7 @@ Template:       kadence
 Author:         Depeur UG
 Author URI:     https://depeur.de
 Description:    Schlankes Kadence-Child. Trägt NUR Präsentation (CSS + wenige Template-Part-Overrides). Alle Fach-/Query-Logik liegt im Plugin depeur-food (Module favorites, language-selector, schema-engine, newsletter, category-pages). Ablöse des Alt-Themes „Alkipedia 3.0".
-Version:        0.2.0
+Version:        0.2.1
 License:        GNU General Public License v3.0 (or later)
 License URI:    https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain:    kadence-child
@@ -246,6 +246,19 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
 .category-related {
 	padding-top: 1em;
 	padding-bottom: 1em;
+}
+
+/* WOFÜR: Die „Ähnliche Beiträge"-Box (Kadence entry-related) hat auf Desktop ein seitliches
+   Padding, das sie ggü. der Autoren-Box zu weit links wirken lässt. Nur auf Desktop das
+   horizontale Padding entfernen, damit beide Boxen bündig sitzen.
+   PRÜFEN: Selektor trifft die gängigen Kadence-/Alt-Theme-Container. Sollte es nicht greifen
+   (anderer Kadence-Aufbau), per Browser-Inspect die echte Klasse ermitteln und hier ersetzen. */
+@media screen and (min-width: 1025px) {
+	.entry-related,
+	.entry-related-inner-content {
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 
 /* WOFÜR: Kadence-Hero-Header-Innenabstände.

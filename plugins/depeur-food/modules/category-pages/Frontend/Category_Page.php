@@ -371,8 +371,7 @@ final class Category_Page {
 	/**
 	 * Berechnet das Anzeige-Fenster (offset/limit) für eine Seite — Seite 1 = `first`, ab Seite 2 = `per`.
 	 *
-	 * Eine Quelle der Wahrheit für die Paginierungs-Arithmetik, genutzt von render() UND
-	 * post_ids_for() (damit Grid und Schema exakt dieselben Beiträge sehen).
+	 * Eine Quelle der Wahrheit für die Paginierungs-Arithmetik von render().
 	 *
 	 * @since 0.3.0
 	 *
@@ -392,50 +391,5 @@ final class Category_Page {
 			'offset' => $offset,
 			'limit'  => $limit,
 		);
-	}
-
-	/**
-	 * Liefert die Beitrags-IDs, die auf einer bestimmten Kategorie-Seiten-Seite angezeigt werden.
-	 *
-	 * Nutzt dieselbe Term-Auflösung, Query-Erstellung und Fenster-Arithmetik wie render() — damit
-	 * z. B. das CollectionPage-Schema (Frontend\Schema) exakt die gezeigten Beiträge auflistet.
-	 * Reine ids-Abfrage (leichtgewichtig).
-	 *
-	 * @since 0.3.0
-	 *
-	 * @param int $page_id Seiten-ID.
-	 * @param int $paged   Aktuelle Seite (>= 1).
-	 * @return int[] Beitrags-IDs in Anzeige-Reihenfolge (leer, wenn nichts kuratiert/gefunden).
-	 */
-	public static function post_ids_for( int $page_id, int $paged ): array {
-		$grouped = Term_Resolver::resolve( $page_id );
-		$grouped = self::maybe_fallback( $page_id, $grouped );
-		if ( empty( $grouped ) ) {
-			return array();
-		}
-
-		$window = self::page_window( $page_id, $paged );
-		if ( $window['limit'] < 1 ) {
-			return array();
-		}
-
-		$args = array_merge(
-			Query_Builder::build( $grouped, self::query_options( $page_id ) ),
-			array(
-				'post_type'           => depeur_food()->get_supported_post_types(),
-				'post_status'         => 'publish',
-				'ignore_sticky_posts' => true,
-				'posts_per_page'      => $window['limit'],
-				'offset'              => $window['offset'],
-				'fields'              => 'ids',
-				'no_found_rows'       => true,
-			)
-		);
-
-		$query = new WP_Query( $args );
-		$ids   = array_map( 'intval', (array) $query->posts );
-		wp_reset_postdata();
-
-		return $ids;
 	}
 }

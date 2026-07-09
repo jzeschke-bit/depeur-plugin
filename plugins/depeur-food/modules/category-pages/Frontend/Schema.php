@@ -4,20 +4,22 @@
  *
  * DAS PROBLEM: Kategorie-Seiten sind technisch `page`-Singles. Auf Seite 1 stehen im Inhalt zwei
  * WPRM-Blöcke → Rank Math/WPRM geben dort (gewollt) Recipe- + ItemList-Schema aus. Ab Seite 2 ist
- * dieser Inhalt NICHT mehr gerendert (nur das Raster), Rank Math hält die Seite aber weiter für
- * ein einzelnes `page`/Recipe → es blieb fälschlich das Recipe/ItemList-Schema stehen.
+ * dieser Inhalt NICHT mehr gerendert (nur das Raster), das Recipe-/ItemList-Schema blieb aber stehen.
  *
- * DAS ALT-VERHALTEN (das wir wiederherstellen): Auf Seite 2+ gehört ein CollectionPage-Schema —
- * die Seite ist dort eine paginierte Sammlung/Archivansicht. Das Alt-Theme erzwang das über den
- * fragilen `$wp_query->is_archive = true`-Trick. Hier stattdessen sauber über den
- * `rank_math/json_ld`-Filter: auf Seite 2+ Recipe/ItemList/Article entfernen und die WebPage in
- * eine CollectionPage mit echter ItemList der gezeigten Beiträge umwandeln (deutlich reichhaltiger
- * als das Alt-Setup: Name, Beschreibung, URL, isPartOf, inLanguage, nummerierte ItemList).
+ * DIE LÖSUNG (zweigleisig, weil zwei Quellen die JSON-LD erzeugen):
+ *   1) Rank Math (Filter rank_math/json_ld): auf Seite 2+ die WebPage in eine CollectionPage
+ *      umtypen (behält @id/Verknüpfungen) und etwaige Recipe/ItemList/Article aus dem Rank-Math-
+ *      Graph entfernen.
+ *   2) WPRM gibt sein Recipe-Schema in einem EIGENEN <script> aus (nicht über Rank Math). Das
+ *      erreicht der obige Filter nicht → zusätzlich der Filter wprm_recipe_metadata: auf Seite 2+
+ *      liefern wir ein leeres Metadaten-Array zurück, wodurch WPRM kein Recipe/ItemList/HowTo/
+ *      Nutrition-Schema mehr ausgibt.
  *
- * SEITE 1 bleibt bewusst UNVERÄNDERT (normales Rank-Math-/WPRM-Schema).
+ * ERGEBNIS ab Seite 2: eine schlichte CollectionPage (Name „… – Seite N", Beschreibung, URL,
+ * isPartOf, inLanguage) — bewusst OHNE ItemList (eine CollectionPage genügt). SEITE 1 bleibt
+ * unverändert (normales Rank-Math-/WPRM-Schema).
  *
- * Rank Math ist Voraussetzung (der Filter feuert nur, wenn Rank Math aktiv ist) — ohne Rank Math
- * passiert schlicht nichts.
+ * Rank Math ist Voraussetzung für Teil 1, WPRM für Teil 2 — fehlt eines, passiert dort nichts.
  *
  * @package Depeur\Food\Modules\CategoryPages\Frontend
  * @license GPL-2.0-or-later
@@ -31,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Wandelt das Schema paginierter Kategorie-Seiten in eine CollectionPage um.
+ * Wandelt das Schema paginierter Kategorie-Seiten in eine schlichte CollectionPage um.
  *
  * @since 0.3.0
  */
@@ -43,21 +45,24 @@ final class Schema {
 	 * @since 0.3.0
 	 * @var string[]
 	 */
-	private const STRIP_TYPES = array( 'Recipe', 'ItemList', 'HowTo', 'Article', 'BlogPosting', 'NewsArticle' );
+	private const STRIP_TYPES = array( 'Recipe', 'ItemList', 'HowTo', 'HowToStep', 'NutritionInformation', 'Article', 'BlogPosting', 'NewsArticle' );
 
 	/**
-	 * Verdrahtet den JSON-LD-Filter.
-	 *
-	 * Prio 99: nach Rank Math + WPRM, damit deren Ausgabe vorliegt und wir sie umformen können.
+	 * Verdrahtet beide Schema-Quellen.
 	 *
 	 * @since 0.3.0
 	 */
 	public function __construct() {
+		// Quelle 1: Rank-Math-Graph. Prio 99 = nach Rank Math/WPRM.
 		add_filter( 'rank_math/json_ld', array( $this, 'transform' ), 99, 1 );
+
+		// Quelle 2: WPRMs eigenes Recipe-<script>. Prio 99 = nach der Autor-Anreicherung
+		// (schema-engine, Prio 10), damit unser „leer" auf Seite 2+ gewinnt.
+		add_filter( 'wprm_recipe_metadata', array( $this, 'maybe_suppress_wprm' ), 99, 1 );
 	}
 
 	/**
-	 * Ersetzt auf Seite 2+ einer geflaggten Kategorie-Seite das Schema durch eine CollectionPage.
+	 * Ersetzt auf Seite 2+ einer geflaggten Kategorie-Seite das Rank-Math-Schema durch CollectionPage.
 	 *
 	 * @since 0.3.0
 	 *
@@ -68,24 +73,15 @@ final class Schema {
 		if ( ! is_array( $data ) ) {
 			return $data;
 		}
-		if ( is_admin() || ! is_singular( 'page' ) || ! is_main_query() ) {
-			return $data;
+		$page_id = $this->subpage_id();
+		if ( $page_id < 1 ) {
+			return $data; // Seite 1 / keine Kategorie-Seite → unverändert.
 		}
 
 		$paged = max( 1, (int) get_query_var( 'paged' ) );
-		if ( $paged < 2 ) {
-			return $data; // Seite 1 bleibt unverändert.
-		}
-
-		$page_id = (int) get_queried_object_id();
-		if ( $page_id < 1 || ! get_post_meta( $page_id, 'df_catpage_enabled', true ) ) {
-			return $data;
-		}
-
-		$item_list = $this->build_item_list( $page_id, $paged );
-		$name      = $this->collection_name( $page_id, $paged );
-		$desc      = $this->collection_description( $page_id );
-		$url       = $this->paged_url( $page_id, $paged );
+		$name  = $this->collection_name( $page_id, $paged );
+		$desc  = $this->collection_description( $page_id );
+		$url   = $this->paged_url( $page_id, $paged );
 
 		$webpage_found = false;
 		foreach ( $data as $key => $entity ) {
@@ -102,9 +98,8 @@ final class Schema {
 
 			// Die WebPage in eine CollectionPage umtypen + anreichern (behält @id/Verknüpfungen).
 			if ( in_array( 'WebPage', $types, true ) ) {
-				$entity['@type']      = 'CollectionPage';
-				$entity['name']       = $name;
-				$entity['mainEntity'] = $item_list;
+				$entity['@type'] = 'CollectionPage';
+				$entity['name']  = $name;
 				if ( '' !== $desc ) {
 					$entity['description'] = $desc;
 				}
@@ -113,58 +108,63 @@ final class Schema {
 			}
 		}
 
-		// Fallback: gab es keine WebPage-Entität, eine eigenständige CollectionPage anhängen.
+		// Fallback: gab es keine WebPage-Entität, eine schlichte CollectionPage anhängen.
 		if ( ! $webpage_found ) {
-			$data['CollectionPage'] = array(
+			$collection = array(
 				'@type'      => 'CollectionPage',
 				'@id'        => $url . '#collectionpage',
 				'url'        => $url,
 				'name'       => $name,
-				'description' => $desc,
 				'isPartOf'   => array( '@id' => home_url( '/' ) . '#website' ),
 				'inLanguage' => get_bloginfo( 'language' ),
-				'mainEntity' => $item_list,
 			);
+			if ( '' !== $desc ) {
+				$collection['description'] = $desc;
+			}
+			$data['CollectionPage'] = $collection;
 		}
 
 		return $data;
 	}
 
 	/**
-	 * Baut die ItemList der auf dieser Seite gezeigten Beiträge (nummeriert, mit URL/Name/Bild).
+	 * Unterdrückt WPRMs Recipe-Schema-Ausgabe auf Seite 2+ einer geflaggten Kategorie-Seite.
+	 *
+	 * Ein leeres Metadaten-Array veranlasst WPRM, kein Recipe/ItemList/HowTo/Nutrition-Schema
+	 * auszugeben. Auf allen anderen Seiten (inkl. Seite 1) bleibt die Ausgabe unverändert.
 	 *
 	 * @since 0.3.0
 	 *
-	 * @param int $page_id Seiten-ID.
-	 * @param int $paged   Aktuelle Seite.
-	 * @return array ItemList-Struktur.
+	 * @param mixed $metadata WPRM-Metadaten-Array.
+	 * @return mixed Leeres Array auf Folgeseiten, sonst das unveränderte Array.
 	 */
-	private function build_item_list( int $page_id, int $paged ): array {
-		$ids      = Category_Page::post_ids_for( $page_id, $paged );
-		$elements = array();
+	public function maybe_suppress_wprm( $metadata ) {
+		return $this->subpage_id() > 0 ? array() : $metadata;
+	}
 
-		foreach ( $ids as $index => $id ) {
-			$id      = (int) $id;
-			$element = array(
-				'@type'    => 'ListItem',
-				'position' => $index + 1,
-				'url'      => (string) get_permalink( $id ),
-				'name'     => wp_strip_all_tags( (string) get_the_title( $id ) ),
-			);
-
-			$image = get_the_post_thumbnail_url( $id, 'medium_large' );
-			if ( $image ) {
-				$element['image'] = (string) $image;
-			}
-
-			$elements[] = $element;
+	/**
+	 * Liefert die Seiten-ID, WENN gerade Seite 2+ einer geflaggten Kategorie-Seite gerendert wird.
+	 *
+	 * Gemeinsame Wächter-Logik für beide Filter — identisch zu Hooks\Layout (dort verifiziert,
+	 * dass is_singular/paged/df_catpage_enabled auf diesen Seiten korrekt greifen).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return int Seiten-ID (> 0) oder 0, wenn nicht zutreffend.
+	 */
+	private function subpage_id(): int {
+		if ( is_admin() || ! is_singular( 'page' ) || ! is_main_query() ) {
+			return 0;
+		}
+		if ( max( 1, (int) get_query_var( 'paged' ) ) < 2 ) {
+			return 0;
+		}
+		$page_id = (int) get_queried_object_id();
+		if ( $page_id < 1 || ! get_post_meta( $page_id, 'df_catpage_enabled', true ) ) {
+			return 0;
 		}
 
-		return array(
-			'@type'           => 'ItemList',
-			'numberOfItems'   => count( $elements ),
-			'itemListElement' => $elements,
-		);
+		return $page_id;
 	}
 
 	/**
