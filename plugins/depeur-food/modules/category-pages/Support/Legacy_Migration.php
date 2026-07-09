@@ -141,10 +141,11 @@ final class Legacy_Migration {
 			self::write_field( 'field_df_catpage_tax_' . $taxonomy, Taxonomies::meta_key( $taxonomy ), array_map( 'intval', $term_ids ), $page_id );
 		}
 
-		// Titel übernehmen.
+		// Legacy-Titel wird die H2-Vorschau-Überschrift (NICHT die H1) — die H1 bleibt der
+		// Seitentitel. (Jonas-Korrektur: rezeptkategorie_titel = „Weitere …"-Überschrift.)
 		$title = (string) get_post_meta( $page_id, self::TITLE_META, true );
 		if ( '' !== $title ) {
-			self::write_field( 'field_df_catpage_title', 'df_catpage_title', $title, $page_id );
+			self::write_field( 'field_df_catpage_related_heading', 'df_catpage_related_heading', $title, $page_id );
 		}
 
 		// Als Kategorie-Seite aktivieren.
@@ -184,6 +185,138 @@ final class Legacy_Migration {
 		}
 
 		return self::write_backup( $data );
+	}
+
+	/**
+	 * Stellt den jüngsten Migrations-Backup wieder her (macht die Migration rückgängig).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array{restored: int, file: string}|WP_Error
+	 */
+	public static function restore_latest() {
+		$file = self::latest_backup_path();
+		if ( '' === $file ) {
+			return new WP_Error( 'df_restore_none', __( 'Kein Migrations-Backup gefunden.', 'depeur-food' ) );
+		}
+
+		$json = self::read_file( $file );
+		if ( is_wp_error( $json ) ) {
+			return $json;
+		}
+
+		$data = json_decode( $json, true );
+		if ( ! is_array( $data ) || empty( $data['pages'] ) || ! is_array( $data['pages'] ) ) {
+			return new WP_Error( 'df_restore_parse', __( 'Backup ist leer oder unlesbar.', 'depeur-food' ) );
+		}
+
+		$restored = 0;
+		foreach ( $data['pages'] as $id => $page ) {
+			$id = (int) $id;
+			if ( $id < 1 || ! is_array( $page ) ) {
+				continue;
+			}
+			self::restore_page( $id, $page );
+			++$restored;
+		}
+
+		flush_rewrite_rules( false );
+
+		return array(
+			'restored' => $restored,
+			'file'     => basename( $file ),
+		);
+	}
+
+	/**
+	 * Ob überhaupt ein Backup zum Wiederherstellen existiert.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return bool
+	 */
+	public static function has_backup(): bool {
+		return '' !== self::latest_backup_path();
+	}
+
+	/**
+	 * Setzt eine Seite auf ihren Backup-Zustand zurück (nur Migrations-Keys + Template).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int                  $page_id Seiten-ID.
+	 * @param array<string, mixed> $page    Backup-Eintrag der Seite (meta + template).
+	 * @return void
+	 */
+	private static function restore_page( int $page_id, array $page ): void {
+		$backup_meta = ( isset( $page['meta'] ) && is_array( $page['meta'] ) ) ? $page['meta'] : array();
+
+		// Alle df_catpage_-Keys (inkl. ACF-`_`-Refs) auf den Backup-Stand bringen.
+		foreach ( get_post_meta( $page_id ) as $key => $values ) {
+			if ( 0 !== strpos( ltrim( $key, '_' ), 'df_catpage_' ) ) {
+				continue;
+			}
+			if ( isset( $backup_meta[ $key ][0] ) ) {
+				update_post_meta( $page_id, $key, maybe_unserialize( $backup_meta[ $key ][0] ) );
+			} else {
+				delete_post_meta( $page_id, $key );
+			}
+		}
+
+		// Alt-Template wiederherstellen (oder entfernen, falls im Backup keins war).
+		$template = isset( $page['template'] ) ? (string) $page['template'] : '';
+		if ( '' !== $template ) {
+			update_post_meta( $page_id, '_wp_page_template', $template );
+		} else {
+			delete_post_meta( $page_id, '_wp_page_template' );
+		}
+	}
+
+	/**
+	 * Pfad des jüngsten Migrations-Backups (leer, wenn keins existiert).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string
+	 */
+	private static function latest_backup_path(): string {
+		$uploads = wp_upload_dir();
+		if ( ! empty( $uploads['error'] ) ) {
+			return '';
+		}
+		$pattern = trailingslashit( $uploads['basedir'] ) . self::BACKUP_SUBDIR . '/rezeptkategorie-migration-*.json';
+		$files   = glob( $pattern );
+		if ( empty( $files ) ) {
+			return '';
+		}
+		sort( $files ); // Zeitgestempelte Namen sortieren chronologisch.
+
+		return (string) end( $files );
+	}
+
+	/**
+	 * Liest eine Datei via WP_Filesystem.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $file Absoluter Pfad.
+	 * @return string|WP_Error
+	 */
+	private static function read_file( string $file ) {
+		global $wp_filesystem;
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		WP_Filesystem();
+		if ( ! $wp_filesystem instanceof \WP_Filesystem_Base ) {
+			return new WP_Error( 'df_restore_fs', __( 'Dateisystem-Zugriff nicht verfügbar.', 'depeur-food' ) );
+		}
+		$content = $wp_filesystem->get_contents( $file );
+		if ( false === $content ) {
+			return new WP_Error( 'df_restore_read', __( 'Backup-Datei konnte nicht gelesen werden.', 'depeur-food' ) );
+		}
+
+		return (string) $content;
 	}
 
 	/**

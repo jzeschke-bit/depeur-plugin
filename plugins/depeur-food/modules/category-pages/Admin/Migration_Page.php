@@ -36,7 +36,7 @@ final class Migration_Page {
 	private const PAGE_SLUG = 'depeur-food-catpage-migration';
 
 	/**
-	 * admin-post-Action.
+	 * admin-post-Action (Migration).
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -44,12 +44,28 @@ final class Migration_Page {
 	private const ACTION = 'depeur_food_catpage_migrate';
 
 	/**
-	 * Nonce-Name.
+	 * Nonce-Name (Migration).
 	 *
 	 * @since 0.3.0
 	 * @var string
 	 */
 	private const NONCE = 'depeur_food_catpage_migrate_nonce';
+
+	/**
+	 * admin-post-Action (Restore).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const ACTION_RESTORE = 'depeur_food_catpage_restore';
+
+	/**
+	 * Nonce-Name (Restore).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const NONCE_RESTORE = 'depeur_food_catpage_restore_nonce';
 
 	/**
 	 * Capability.
@@ -67,6 +83,7 @@ final class Migration_Page {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
+		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
 	}
 
 	/**
@@ -174,6 +191,24 @@ final class Migration_Page {
 			<?php else : ?>
 				<p style="margin-top:1em;"><em><?php esc_html_e( 'Alle Seiten sind bereits migriert.', 'depeur-food' ); ?></em></p>
 			<?php endif; ?>
+
+			<?php if ( Legacy_Migration::has_backup() ) : ?>
+				<hr style="margin: 2em 0;" />
+				<h2><?php esc_html_e( 'Rückgängig machen', 'depeur-food' ); ?></h2>
+				<p class="description" style="max-width: 65em;">
+					<?php esc_html_e( 'Stellt den jüngsten Migrations-Backup wieder her: entfernt die vom Plugin gesetzten Kategorie-Seiten-Felder und setzt das ursprüngliche Seiten-Template zurück. Die alten rezept_*-Werte waren nie weg.', 'depeur-food' ); ?>
+				</p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_RESTORE ); ?>" />
+					<?php wp_nonce_field( self::ACTION_RESTORE, self::NONCE_RESTORE ); ?>
+					<p>
+						<button type="submit" class="button"
+							onclick="return confirm('<?php echo esc_js( __( 'Migration rückgängig machen (jüngster Backup)?', 'depeur-food' ) ); ?>');">
+							<?php esc_html_e( 'Migration rückgängig machen', 'depeur-food' ); ?>
+						</button>
+					</p>
+				</form>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -220,6 +255,33 @@ final class Migration_Page {
 			array(
 				'migrated' => $done,
 				'backup'   => rawurlencode( basename( (string) $backup ) ),
+			)
+		);
+	}
+
+	/**
+	 * Verarbeitet den Restore: Cap → Nonce → jüngsten Backup wiederherstellen.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function handle_restore(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Keine Berechtigung.', 'depeur-food' ), '', array( 'response' => 403 ) );
+		}
+
+		check_admin_referer( self::ACTION_RESTORE, self::NONCE_RESTORE );
+
+		$result = Legacy_Migration::restore_latest();
+		if ( is_wp_error( $result ) ) {
+			$this->redirect( 'restore_failed' );
+		}
+
+		$this->redirect(
+			'restored',
+			array(
+				'restored' => (int) $result['restored'],
 			)
 		);
 	}
@@ -281,6 +343,23 @@ final class Migration_Page {
 
 		if ( 'backup_failed' === $status ) {
 			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Backup fehlgeschlagen – es wurde nichts migriert.', 'depeur-food' ) . '</p></div>';
+			return;
+		}
+
+		if ( 'restored' === $status ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Anzeige-Read nach eigenem PRG-Redirect.
+			$restored = isset( $_GET['restored'] ) ? absint( wp_unslash( $_GET['restored'] ) ) : 0;
+			$msg      = sprintf(
+				/* translators: %d: Anzahl wiederhergestellter Seiten. */
+				esc_html__( '%d Seite(n) aus dem Backup wiederhergestellt (Migration rückgängig).', 'depeur-food' ),
+				(int) $restored
+			);
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $msg ) . '</p></div>';
+			return;
+		}
+
+		if ( 'restore_failed' === $status ) {
+			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Wiederherstellung fehlgeschlagen (kein/kaputtes Backup).', 'depeur-food' ) . '</p></div>';
 		}
 	}
 }
