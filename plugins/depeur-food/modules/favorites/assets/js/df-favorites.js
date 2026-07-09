@@ -224,8 +224,11 @@
 	}
 
 	/**
-	 * Rendert ein Favoriten-Archiv clientseitig: liest die IDs, holt die Post-Daten
-	 * per REST (post-type-agnostisch) und baut eine einfache Kartenliste.
+	 * Rendert ein Favoriten-Archiv: liest die IDs, lässt den Server sie als Kadence-Loop-
+	 * Raster rendern (exakte Archiv-Karten-Optik, OE-3) und fügt das HTML ein.
+	 *
+	 * Das HTML stammt aus dem eigenen REST-Endpoint (server-seitig escapt) – kein Fremd-Input.
+	 * Nach dem Einfügen werden die Herz-Buttons der neuen Karten hydriert (alle gemerkt).
 	 *
 	 * @param {HTMLElement} container Der Archiv-Container.
 	 */
@@ -251,46 +254,24 @@
 			.then( function ( response ) {
 				return response.json();
 			} )
-			.then( function ( items ) {
-				if ( ! Array.isArray( items ) || ! items.length ) {
+			.then( function ( data ) {
+				if ( ! data || ! data.html ) {
 					setStatus( container.getAttribute( 'data-empty' ) );
 					return;
 				}
 
-				var list = document.createElement( 'ul' );
-				list.className = 'df-favorites-list';
-
-				items.forEach( function ( item ) {
-					var li = document.createElement( 'li' );
-					li.className = 'df-favorites-item';
-
-					var link = document.createElement( 'a' );
-					link.className = 'df-favorites-link';
-					link.href = item.url || '#';
-
-					if ( item.thumbnail ) {
-						var img = document.createElement( 'img' );
-						img.className = 'df-favorites-thumb';
-						img.src = item.thumbnail;
-						img.alt = '';
-						img.loading = 'lazy';
-						link.appendChild( img );
-					}
-
-					// textContent statt innerHTML: kein HTML-Injection-Vektor aus REST-Daten.
-					var title = document.createElement( 'span' );
-					title.className = 'df-favorites-title';
-					title.textContent = item.title || '';
-					link.appendChild( title );
-
-					li.appendChild( link );
-					list.appendChild( li );
-				} );
-
-				if ( statusEl ) {
+				if ( statusEl && statusEl.parentNode ) {
 					statusEl.parentNode.removeChild( statusEl );
 				}
-				container.appendChild( list );
+
+				var grid = document.createElement( 'div' );
+				grid.className = 'df-favorites-grid';
+				// Server-gerendertes, escaptes HTML aus dem eigenen Endpoint.
+				grid.innerHTML = data.html;
+				container.appendChild( grid );
+
+				// Herz-Zustand der frisch eingefügten Karten setzen (alle sind Favoriten).
+				hydrateButtons( grid );
 			} )
 			.catch( function () {
 				setStatus( container.getAttribute( 'data-error' ) );

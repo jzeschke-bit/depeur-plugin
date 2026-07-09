@@ -20,8 +20,8 @@
 namespace Depeur\Food\Modules\Favorites\Rest;
 
 use Depeur\Food\Modules\Favorites\Meta\Like_Counter;
+use Depeur\Food\Support\Loop_Grid;
 use WP_Error;
-use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
 
@@ -213,15 +213,17 @@ final class Favorites_Controller {
 	}
 
 	/**
-	 * Bedient das Archiv: löst eine ID-Liste in schlanke Post-Karten auf.
+	 * Bedient das Archiv: rendert eine ID-Liste als Kadence-Loop-Raster (OE-3, exakte Optik).
 	 *
-	 * Post-type-agnostisch über die unterstützten Typen; nur veröffentlichte Posts.
-	 * Reihenfolge = übergebene ID-Reihenfolge (orderby post__in).
+	 * Die Merkliste lebt clientseitig (localStorage); der Client schickt seine IDs, der Server
+	 * rendert genau diese Posts als Kadence-Karten (identisch zu den normalen Archiv-Karten)
+	 * und liefert das HTML zurück. Post-type-agnostisch, nur veröffentlichte Posts, Reihenfolge
+	 * = übergebene ID-Reihenfolge.
 	 *
 	 * @since 0.2.0
 	 *
 	 * @param WP_REST_Request $request Der REST-Request.
-	 * @return WP_REST_Response Liste von Post-Datensätzen (ggf. leer).
+	 * @return WP_REST_Response { html, count } (leer, wenn keine gültigen Favoriten).
 	 */
 	public function handle_list( WP_REST_Request $request ): WP_REST_Response {
 		$ids_raw = (string) $request->get_param( 'ids' );
@@ -231,35 +233,23 @@ final class Favorites_Controller {
 		$ids = array_slice( $ids, 0, self::MAX_LIST_IDS );
 
 		if ( empty( $ids ) ) {
-			return new WP_REST_Response( array(), 200 );
-		}
-
-		$query = new WP_Query(
-			array(
-				'post_type'           => Like_Counter::post_types(),
-				'post__in'            => $ids,
-				'orderby'             => 'post__in',
-				'posts_per_page'      => count( $ids ),
-				'post_status'         => 'publish',
-				'ignore_sticky_posts' => true,
-				'no_found_rows'       => true,
-			)
-		);
-
-		$items = array();
-		foreach ( $query->posts as $post ) {
-			$thumbnail = get_the_post_thumbnail_url( $post, 'medium' );
-
-			$items[] = array(
-				'id'        => (int) $post->ID,
-				'title'     => get_the_title( $post ),
-				'url'       => get_permalink( $post ),
-				'thumbnail' => is_string( $thumbnail ) ? $thumbnail : '',
-				'type'      => $post->post_type,
-				'likes'     => Like_Counter::get_likes( (int) $post->ID ),
+			return new WP_REST_Response(
+				array(
+					'html'  => '',
+					'count' => 0,
+				),
+				200
 			);
 		}
 
-		return new WP_REST_Response( $items, 200 );
+		$html = Loop_Grid::render_ids( $ids, array( 'post_type' => Like_Counter::post_types() ) );
+
+		return new WP_REST_Response(
+			array(
+				'html'  => $html,
+				'count' => ( '' === $html ) ? 0 : count( $ids ),
+			),
+			200
+		);
 	}
 }
