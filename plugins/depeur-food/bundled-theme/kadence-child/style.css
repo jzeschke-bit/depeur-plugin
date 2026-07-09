@@ -378,14 +378,15 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
 
 
 /* ============================================================================
-   6) FRAGILE HERO-PIXEL-HACKS  —  standardmäßig DEAKTIVIERT
+   6) HERO-LAYOUT (Custom-HTML-Hero) — responsive Pixel-Feinjustierung  [AKTIV]
    ----------------------------------------------------------------------------
-   Das Alt-Theme positionierte eine „.hero-beschreibung" mit absoluten Pixelwerten je
-   Breakpoint (top: 370px/410px/450px …). Das ist extrem fragil (bricht bei jeder
-   Schrift-/Layoutänderung) UND hängt an einer Hero-Struktur, die im neuen Aufbau
-   evtl. gar nicht mehr existiert. Deshalb bewusst AUSKOMMENTIERT gelassen:
-   erst OHNE testen. Nur wenn der alte Hero 1:1 gebraucht wird, Block aktivieren und
-   die Pixelwerte neu justieren.
+   WOFÜR: Positioniert die „.hero-beschreibung" über dem Hero-Bild je Breakpoint
+   (aus dem Alt-Theme übernommen, vom Betreiber gebraucht → AKTIV).
+   PRÜFEN: Die top-/margin-Werte sind pixelgenau an die konkrete Hero-Struktur gebunden
+   und damit fragil — bei Schrift-/Layoutänderungen die Werte je Breakpoint nachziehen.
+   Greift nur, wenn der Custom-HTML-Hero mit den Klassen .hero-beschreibung/.hero-main
+   im Seiteninhalt vorhanden ist; sonst wirkungslos (tote Selektoren).
+   ============================================================================ */
 
 @media screen and (min-width: 1025px) {
 	.hero-beschreibung { position: absolute !important; top: 370px !important; }
@@ -410,4 +411,3 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
 @media screen and (min-width: 950px) and (max-width: 1050px) {
 	.hero-main { margin-bottom: calc(4vh + 20px) !important; }
 }
-   ============================================================================ */
