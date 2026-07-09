@@ -42,7 +42,9 @@ new \Depeur\Food\Modules\CategoryPages\Hooks\Rewrite();
 // Sidebar ab Seite 2 abschalten (Kadence-„NORMAL"-Layout: kein Sidebar, normale Breite).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Layout();
 
-// Admin: geführte Migration der Alt-Rezeptkategorie-Seiten ins category-pages-System.
+// Admin: zentrale Übersicht aller Kategorie-Seiten (sichtbar) + geführte Migration der
+// Alt-Rezeptkategorie-Seiten (aus der Sidebar ausgeblendet, nur über den Assistenten).
 if ( is_admin() ) {
+	new \Depeur\Food\Modules\CategoryPages\Admin\Overview_Page();
 	new \Depeur\Food\Modules\CategoryPages\Admin\Migration_Page();
 }
