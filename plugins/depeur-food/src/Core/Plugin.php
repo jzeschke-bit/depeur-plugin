@@ -83,6 +83,9 @@ final class Plugin {
 			// Modul-Verwaltungsseite (Aktivieren/Deaktivieren per UI, Task 4b).
 			ModulesPage::register();
 
+			// Geführter Readiness-Check für den Theme-Cutover (Alt-Theme → kadence-child).
+			Migration_Assistant::register();
+
 			// Save-Handler der Settings-Seite an admin_init hängen – muss vor dem
 			// Rendern laufen, damit der PRG-Redirect nach dem Speichern greift.
 			add_action( 'admin_init', array( SettingsPage::class, 'maybe_handle_save' ) );
