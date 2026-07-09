@@ -28,6 +28,9 @@ new \Depeur\Food\Modules\CategoryPages\Frontend\Category_Page();
 // Custom-Titel (H1 + SEO) für geflaggte Kategorie-Seiten.
 new \Depeur\Food\Modules\CategoryPages\Frontend\Title();
 
+// Schema: auf Folgeseiten (Seite 2+) CollectionPage statt Recipe/ItemList (Rank-Math-gated).
+new \Depeur\Food\Modules\CategoryPages\Frontend\Schema();
+
 // „Was koche ich heute": Filter-Shortcode + REST-Endpoint + Assets.
 new \Depeur\Food\Modules\CategoryPages\Frontend\Recipe_Filter();
 new \Depeur\Food\Modules\CategoryPages\Rest\Filter_Controller();

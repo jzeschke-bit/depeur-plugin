@@ -124,19 +124,20 @@ final class Category_Page {
 		}
 
 		$grouped = Term_Resolver::resolve( $page_id );
-		$grouped = $this->maybe_fallback( $page_id, $grouped );
+		$grouped = self::maybe_fallback( $page_id, $grouped );
 		if ( empty( $grouped ) ) {
 			return '';
 		}
 
 		$paged  = max( 1, (int) get_query_var( 'paged' ) );
-		$first  = max( 0, (int) $this->meta_number( $page_id, 'df_catpage_per_page_first', 4 ) );
-		$per    = max( 1, (int) $this->meta_number( $page_id, 'df_catpage_per_page', 21 ) );
-		$offset = ( $paged <= 1 ) ? 0 : $first + ( $paged - 2 ) * $per;
-		$limit  = ( $paged <= 1 ) ? $first : $per;
+		$window = self::page_window( $page_id, $paged );
+		$first  = $window['first'];
+		$per    = $window['per'];
+		$offset = $window['offset'];
+		$limit  = $window['limit'];
 
 		$base_args = array_merge(
-			Query_Builder::build( $grouped, $this->query_options( $page_id ) ),
+			Query_Builder::build( $grouped, self::query_options( $page_id ) ),
 			array(
 				'post_type'           => depeur_food()->get_supported_post_types(),
 				'post_status'         => 'publish',
@@ -267,7 +268,7 @@ final class Category_Page {
 	 * @param array<string, array<int>>  $grouped Aufgelöste Terms.
 	 * @return array<string, array<int>>
 	 */
-	private function maybe_fallback( int $page_id, array $grouped ): array {
+	private static function maybe_fallback( int $page_id, array $grouped ): array {
 		if ( ! empty( $grouped ) ) {
 			return $grouped;
 		}
@@ -298,7 +299,7 @@ final class Category_Page {
 	 * @param int $page_id Seiten-ID.
 	 * @return array<string, mixed>
 	 */
-	private function query_options( int $page_id ): array {
+	private static function query_options( int $page_id ): array {
 		$relation = (string) get_post_meta( $page_id, 'df_catpage_relation', true );
 		$operator = (string) get_post_meta( $page_id, 'df_catpage_operator', true );
 
@@ -361,9 +362,80 @@ final class Category_Page {
 	 * @param int    $default Default, wenn nicht gesetzt.
 	 * @return int
 	 */
-	private function meta_number( int $page_id, string $key, int $default ): int {
+	private static function meta_number( int $page_id, string $key, int $default ): int {
 		$value = get_post_meta( $page_id, $key, true );
 
 		return ( '' === $value || null === $value ) ? $default : (int) $value;
+	}
+
+	/**
+	 * Berechnet das Anzeige-Fenster (offset/limit) für eine Seite — Seite 1 = `first`, ab Seite 2 = `per`.
+	 *
+	 * Eine Quelle der Wahrheit für die Paginierungs-Arithmetik, genutzt von render() UND
+	 * post_ids_for() (damit Grid und Schema exakt dieselben Beiträge sehen).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $page_id Seiten-ID.
+	 * @param int $paged   Aktuelle Seite (>= 1).
+	 * @return array{first:int,per:int,offset:int,limit:int}
+	 */
+	private static function page_window( int $page_id, int $paged ): array {
+		$first  = max( 0, (int) self::meta_number( $page_id, 'df_catpage_per_page_first', 4 ) );
+		$per    = max( 1, (int) self::meta_number( $page_id, 'df_catpage_per_page', 21 ) );
+		$offset = ( $paged <= 1 ) ? 0 : $first + ( $paged - 2 ) * $per;
+		$limit  = ( $paged <= 1 ) ? $first : $per;
+
+		return array(
+			'first'  => $first,
+			'per'    => $per,
+			'offset' => $offset,
+			'limit'  => $limit,
+		);
+	}
+
+	/**
+	 * Liefert die Beitrags-IDs, die auf einer bestimmten Kategorie-Seiten-Seite angezeigt werden.
+	 *
+	 * Nutzt dieselbe Term-Auflösung, Query-Erstellung und Fenster-Arithmetik wie render() — damit
+	 * z. B. das CollectionPage-Schema (Frontend\Schema) exakt die gezeigten Beiträge auflistet.
+	 * Reine ids-Abfrage (leichtgewichtig).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int $page_id Seiten-ID.
+	 * @param int $paged   Aktuelle Seite (>= 1).
+	 * @return int[] Beitrags-IDs in Anzeige-Reihenfolge (leer, wenn nichts kuratiert/gefunden).
+	 */
+	public static function post_ids_for( int $page_id, int $paged ): array {
+		$grouped = Term_Resolver::resolve( $page_id );
+		$grouped = self::maybe_fallback( $page_id, $grouped );
+		if ( empty( $grouped ) ) {
+			return array();
+		}
+
+		$window = self::page_window( $page_id, $paged );
+		if ( $window['limit'] < 1 ) {
+			return array();
+		}
+
+		$args = array_merge(
+			Query_Builder::build( $grouped, self::query_options( $page_id ) ),
+			array(
+				'post_type'           => depeur_food()->get_supported_post_types(),
+				'post_status'         => 'publish',
+				'ignore_sticky_posts' => true,
+				'posts_per_page'      => $window['limit'],
+				'offset'              => $window['offset'],
+				'fields'              => 'ids',
+				'no_found_rows'       => true,
+			)
+		);
+
+		$query = new WP_Query( $args );
+		$ids   = array_map( 'intval', (array) $query->posts );
+		wp_reset_postdata();
+
+		return $ids;
 	}
 }

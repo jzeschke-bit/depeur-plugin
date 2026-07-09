@@ -52,9 +52,18 @@ Ehrlich dokumentiert, damit nichts still verloren geht:
 - **`rest_allow_anonymous_comments`** (Alt-Theme) — bewusst weggelassen; nur nötig, falls
   anonyme Kommentare über REST gebraucht werden.
 
-**Bereits ergänzt:** `template-parts/content/entry_author.php` (Jobtitel-Zeile aus User-Meta
-`author_jobtitle`). Die `#`-Optik der Single-Post-Tags läuft rein per CSS
-(`.entry-tags .tags-links a::before`) — dafür ist KEIN `entry_tags.php`-Override nötig.
+**Bereits ergänzt:**
+- `template-parts/content/entry_author.php` — Jobtitel-Zeile aus User-Meta `author_jobtitle`.
+- `template-parts/content/single-entry.php` — **Autoren-Box, „Ähnliche Beiträge" und Beitrags-
+  Navigation auch für CPTs** (Kadence zeigt sie ab Werk nur für `post`). Einzige Änderung ggü.
+  Kadence-Original: die Post-Type-Prüfung ist auf `depeur_food()->get_supported_post_types()`
+  erweitert. Voraussetzung: In Kadence Autoren-Box + Related Posts aktiviert; die Related-Query
+  erweitert `functions.php`.
+- Die `#`-Optik der Single-Post-Tags läuft rein per CSS (`.entry-tags .tags-links a::before`) —
+  kein `entry_tags.php`-Override nötig.
+
+> **Schema-Hinweis:** Das CollectionPage-Schema für Folgeseiten (Seite 2+) der Kategorie-Seiten
+> liefert das PLUGIN (`category-pages` → `Frontend\Schema`), nicht das Theme.
 
 ---
 
