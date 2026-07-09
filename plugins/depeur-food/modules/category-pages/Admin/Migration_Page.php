@@ -144,7 +144,7 @@ final class Migration_Page {
 					<tr>
 						<th scope="col"><?php esc_html_e( 'Seite', 'depeur-food' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Erkannte Terms', 'depeur-food' ); ?></th>
-						<th scope="col"><?php esc_html_e( 'Neuer Titel', 'depeur-food' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'Neue H2-Überschrift', 'depeur-food' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Alt-Template', 'depeur-food' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Status', 'depeur-food' ); ?></th>
 					</tr>

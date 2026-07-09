@@ -93,7 +93,7 @@ final class Legacy_Migration {
 				'title'        => get_the_title( $id ),
 				'grouped'      => $grouped,
 				'terms_label'  => self::describe_terms( $grouped ),
-				'new_title'    => $title,
+				'new_title'    => ( '' !== $title ) ? self::related_heading( $title ) : '',
 				'old_template' => $is_old_tpl,
 				'already'      => (bool) get_post_meta( $id, 'df_catpage_enabled', true ),
 			);
@@ -142,10 +142,11 @@ final class Legacy_Migration {
 		}
 
 		// Legacy-Titel wird die H2-Vorschau-Überschrift (NICHT die H1) — die H1 bleibt der
-		// Seitentitel. (Jonas-Korrektur: rezeptkategorie_titel = „Weitere …"-Überschrift.)
+		// Seitentitel. Dabei die Legacy-Optik „Weitere {Titel} die dir gefallen könnten"
+		// anwenden (Jonas-Korrektur; Prä-/Postfix über related_heading() filterbar).
 		$title = (string) get_post_meta( $page_id, self::TITLE_META, true );
 		if ( '' !== $title ) {
-			self::write_field( 'field_df_catpage_related_heading', 'df_catpage_related_heading', $title, $page_id );
+			self::write_field( 'field_df_catpage_related_heading', 'df_catpage_related_heading', self::related_heading( $title ), $page_id );
 		}
 
 		// Als Kategorie-Seite aktivieren.
@@ -317,6 +318,31 @@ final class Legacy_Migration {
 		}
 
 		return (string) $content;
+	}
+
+	/**
+	 * Wendet die Legacy-Optik „Weitere {Titel} die dir gefallen könnten" an (filterbar).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $title Legacy-Kategorie-Titel.
+	 * @return string
+	 */
+	public static function related_heading( string $title ): string {
+		/**
+		 * Filtert die H2-Überschrift-Vorlage der Migration (%s = Legacy-Titel).
+		 *
+		 * @since 0.3.0
+		 *
+		 * @param string $template sprintf-Vorlage mit einem %s.
+		 */
+		$template = (string) apply_filters(
+			'depeur_food/category_pages/migration_heading_template',
+			/* translators: %s: der alte Kategorie-Titel, z. B. „Weihnachtscocktails". */
+			__( 'Weitere %s die dir gefallen könnten', 'depeur-food' )
+		);
+
+		return sprintf( $template, $title );
 	}
 
 	/**
