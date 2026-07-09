@@ -68,6 +68,22 @@ final class Migration_Page {
 	private const NONCE_RESTORE = 'depeur_food_catpage_restore_nonce';
 
 	/**
+	 * admin-post-Action (Backups löschen).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const ACTION_DELETE_BACKUPS = 'depeur_food_catpage_del_backups';
+
+	/**
+	 * Nonce-Name (Backups löschen).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const NONCE_DELETE_BACKUPS = 'depeur_food_catpage_del_backups_nonce';
+
+	/**
 	 * Capability.
 	 *
 	 * @since 0.3.0
@@ -84,6 +100,7 @@ final class Migration_Page {
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
+		add_action( 'admin_post_' . self::ACTION_DELETE_BACKUPS, array( $this, 'handle_delete_backups' ) );
 	}
 
 	/**
@@ -208,6 +225,36 @@ final class Migration_Page {
 						</button>
 					</p>
 				</form>
+
+				<?php $backups = Legacy_Migration::list_backups(); ?>
+				<h3 style="margin-top: 1.5em;"><?php esc_html_e( 'Backups', 'depeur-food' ); ?></h3>
+				<p class="description" style="max-width: 65em;">
+					<?php esc_html_e( 'Nach erfolgreicher, verifizierter Migration kannst du die Backup-Dateien löschen, damit kein Müll liegen bleibt. Achtung: Danach ist kein „Rückgängig machen" mehr möglich.', 'depeur-food' ); ?>
+				</p>
+				<ul style="margin: 0 0 1em 1em; list-style: disc;">
+					<?php foreach ( $backups as $backup ) : ?>
+						<li>
+							<code><?php echo esc_html( (string) $backup['name'] ); ?></code>
+							<span class="description">(<?php echo esc_html( size_format( (int) $backup['size'] ) ); ?>)</span>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="<?php echo esc_attr( self::ACTION_DELETE_BACKUPS ); ?>" />
+					<?php wp_nonce_field( self::ACTION_DELETE_BACKUPS, self::NONCE_DELETE_BACKUPS ); ?>
+					<p>
+						<button type="submit" class="button button-link-delete"
+							onclick="return confirm('<?php echo esc_js( __( 'Alle Migrations-Backups unwiderruflich löschen?', 'depeur-food' ) ); ?>');">
+							<?php
+							printf(
+								/* translators: %d: Anzahl Backup-Dateien. */
+								esc_html__( 'Alle %d Backup(s) löschen', 'depeur-food' ),
+								(int) count( $backups )
+							);
+							?>
+						</button>
+					</p>
+				</form>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -287,6 +334,30 @@ final class Migration_Page {
 	}
 
 	/**
+	 * Verarbeitet das Löschen aller Migrations-Backups: Cap → Nonce → löschen.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return void
+	 */
+	public function handle_delete_backups(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'Keine Berechtigung.', 'depeur-food' ), '', array( 'response' => 403 ) );
+		}
+
+		check_admin_referer( self::ACTION_DELETE_BACKUPS, self::NONCE_DELETE_BACKUPS );
+
+		$deleted = Legacy_Migration::delete_backups();
+
+		$this->redirect(
+			'backups_deleted',
+			array(
+				'deleted' => (int) $deleted,
+			)
+		);
+	}
+
+	/**
 	 * PRG-Redirect zurück auf die Seite.
 	 *
 	 * @since 0.3.0
@@ -360,6 +431,18 @@ final class Migration_Page {
 
 		if ( 'restore_failed' === $status ) {
 			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Wiederherstellung fehlgeschlagen (kein/kaputtes Backup).', 'depeur-food' ) . '</p></div>';
+			return;
+		}
+
+		if ( 'backups_deleted' === $status ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Anzeige-Read nach eigenem PRG-Redirect.
+			$deleted = isset( $_GET['deleted'] ) ? absint( wp_unslash( $_GET['deleted'] ) ) : 0;
+			$msg     = sprintf(
+				/* translators: %d: Anzahl gelöschter Backup-Dateien. */
+				esc_html__( '%d Backup-Datei(en) gelöscht.', 'depeur-food' ),
+				(int) $deleted
+			);
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $msg ) . '</p></div>';
 		}
 	}
 }

@@ -241,6 +241,82 @@ final class Legacy_Migration {
 	}
 
 	/**
+	 * Listet die vorhandenen Migrations-Backups (Name + Größe), neueste zuerst.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array<int, array{name: string, size: int}>
+	 */
+	public static function list_backups(): array {
+		$files = self::backup_files();
+		if ( empty( $files ) ) {
+			return array();
+		}
+		rsort( $files ); // Zeitgestempelte Namen: neueste zuerst.
+
+		$out = array();
+		foreach ( $files as $file ) {
+			$size  = @filesize( $file ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Datei kann zwischenzeitlich weg sein.
+			$out[] = array(
+				'name' => basename( $file ),
+				'size' => (int) ( false === $size ? 0 : $size ),
+			);
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Löscht ALLE Migrations-Backups; liefert die Anzahl gelöschter Dateien.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return int
+	 */
+	public static function delete_backups(): int {
+		$files = self::backup_files();
+		if ( empty( $files ) ) {
+			return 0;
+		}
+
+		global $wp_filesystem;
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		WP_Filesystem();
+		if ( ! $wp_filesystem instanceof \WP_Filesystem_Base ) {
+			return 0;
+		}
+
+		$deleted = 0;
+		foreach ( $files as $file ) {
+			if ( $wp_filesystem->delete( $file ) ) {
+				++$deleted;
+			}
+		}
+
+		return $deleted;
+	}
+
+	/**
+	 * Liefert die Pfade aller Migrations-Backup-Dateien.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array<int, string>
+	 */
+	private static function backup_files(): array {
+		$uploads = wp_upload_dir();
+		if ( ! empty( $uploads['error'] ) ) {
+			return array();
+		}
+		$pattern = trailingslashit( $uploads['basedir'] ) . self::BACKUP_SUBDIR . '/rezeptkategorie-migration-*.json';
+		$files   = glob( $pattern );
+
+		return is_array( $files ) ? $files : array();
+	}
+
+	/**
 	 * Setzt eine Seite auf ihren Backup-Zustand zurück (nur Migrations-Keys + Template).
 	 *
 	 * @since 0.3.0
@@ -281,12 +357,7 @@ final class Legacy_Migration {
 	 * @return string
 	 */
 	private static function latest_backup_path(): string {
-		$uploads = wp_upload_dir();
-		if ( ! empty( $uploads['error'] ) ) {
-			return '';
-		}
-		$pattern = trailingslashit( $uploads['basedir'] ) . self::BACKUP_SUBDIR . '/rezeptkategorie-migration-*.json';
-		$files   = glob( $pattern );
+		$files = self::backup_files();
 		if ( empty( $files ) ) {
 			return '';
 		}
