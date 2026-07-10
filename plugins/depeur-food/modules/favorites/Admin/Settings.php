@@ -57,7 +57,14 @@ final class Settings {
 					'label'       => __( 'WPRM-Button automatisch einfügen', 'depeur-food' ),
 					'type'        => 'checkbox',
 					'default'     => true,
-					'description' => __( 'Fügt den Favoriten-Button automatisch in die WP-Recipe-Maker-Rezeptbilder ein. Nur wirksam, wenn WP Recipe Maker aktiv ist.', 'depeur-food' ),
+					'description' => __( 'Fügt den Favoriten-Button automatisch in die WP-Recipe-Maker-Rezeptbilder ein – beim normalen Rezept-Block und je Roundup-Item. Im Roundup zeigt das Herz auf den jeweils verlinkten Beitrag (Eltern-Beitrag des Rezepts), nicht auf den Roundup-Beitrag. Nur wirksam, wenn WP Recipe Maker aktiv ist.', 'depeur-food' ),
+				),
+				array(
+					'id'          => 'grid_hearts',
+					'label'       => __( 'Herzen auf Kadence-Block-Karten einfügen', 'depeur-food' ),
+					'type'        => 'checkbox',
+					'default'     => true,
+					'description' => __( 'Blendet auf Beitrags-Karten der Kadence-Blocks (Post Grid / Post Carousel – z. B. auf der Startseite und in der Sidebar) automatisch ein Merken-Herz ein. Jede Karte verweist auf ihren eigenen Beitrag. Rein clientseitig (Vanilla JS), greift nur auf unterstützten Post-Types.', 'depeur-food' ),
 				),
 				array(
 					'id'    => 'diagnose',

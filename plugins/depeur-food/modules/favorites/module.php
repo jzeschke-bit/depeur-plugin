@@ -25,8 +25,9 @@ new \Depeur\Food\Modules\Favorites\Meta\Like_Counter();
 new \Depeur\Food\Modules\Favorites\Rest\Favorites_Controller();
 
 // Frontend: Shortcodes (Buttons + Archiv) und Asset-Enqueue (Vanilla JS/CSS).
+// Slug an Assets für die Grid-Herzen-Einstellung (basename = Ordnername).
 new \Depeur\Food\Modules\Favorites\Frontend\Shortcodes();
-new \Depeur\Food\Modules\Favorites\Frontend\Assets();
+new \Depeur\Food\Modules\Favorites\Frontend\Assets( basename( __DIR__ ) );
 
 // WPRM-Integration (Soft-Dependency, E2): verdrahtet sich nur, wenn WPRM aktiv ist.
 new \Depeur\Food\Modules\Favorites\Integrations\Wprm( basename( __DIR__ ) );

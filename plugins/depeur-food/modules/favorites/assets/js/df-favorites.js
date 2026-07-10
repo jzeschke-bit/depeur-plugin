@@ -18,6 +18,21 @@
 	var HEART_FULL = '♥'; // ♥
 	var HEART_EMPTY = '♡'; // ♡
 
+	// Standard-Selektoren für Beitrags-Karten in Kadence-Blocks (Post Grid + Carousel),
+	// auf denen automatisch ein Herz-Button injiziert wird. Bewusst auf die stabilen
+	// Kadence-Container gezielt; die tatsächliche Beitrags-ID lesen wir NICHT hieraus,
+	// sondern aus der WordPress-Kern-Klasse `post-<ID>` (siehe postIdFrom). Über den
+	// Filter depeur_food/favorites/grid_selectors (cfg.gridSelectors) überschreibbar.
+	var DEFAULT_GRID_SELECTORS =
+		'.wp-block-kadence-posts article, .kt-blocks-post-grid-wrap article, ' +
+		'.kb-blocks-post-carousel article, .kb-post-carousel article, .kadence-posts article';
+
+	// Kandidaten für den Bild-Container innerhalb einer Karte (dorthin wird das Overlay-
+	// Herz gehängt). Reihenfolge = Präferenz; nicht gefunden ⇒ die Karte selbst.
+	var THUMB_SELECTORS =
+		'.post-thumbnail-inner, .entry-featured-image-inner, .kb-blocks-post-thumbnail, ' +
+		'.kt-post-image, .kb-post-thumbnail, .post-thumbnail';
+
 	/**
 	 * Liest die Favoriten-IDs (als String-Array) aus localStorage.
 	 *
@@ -163,6 +178,134 @@
 	}
 
 	/**
+	 * Liest die Beitrags-ID aus der WordPress-Kern-Klasse `post-<ID>` (bzw. id="post-<ID>").
+	 *
+	 * `post_class()`/`get_post_class()` setzt diese Klasse auf JEDER Beitrags-Karte, auch in
+	 * den Kadence-Blocks. Das ist der versions-stabile Anker – im Gegensatz zu den (je
+	 * Kadence-Version wechselnden) Wrapper-Klassen.
+	 *
+	 * @param {HTMLElement} el Die Karte (article).
+	 * @return {?string} Die Beitrags-ID als String oder null.
+	 */
+	function postIdFrom( el ) {
+		var cls = ( el.getAttribute && el.getAttribute( 'class' ) ) || '';
+		var m = cls.match( /(?:^|\s)post-(\d+)(?:\s|$)/ );
+		if ( m ) {
+			return m[ 1 ];
+		}
+		var m2 = ( el.id || '' ).match( /^post-(\d+)$/ );
+		return m2 ? m2[ 1 ] : null;
+	}
+
+	/**
+	 * Prüft, ob die Karte einen unterstützten Post-Type trägt (Kern-Klasse `type-<pt>`).
+	 *
+	 * Verhindert, dass Herzen auf Karten nicht unterstützter Typen landen (der REST-Toggle
+	 * würde solche ohnehin mit 400 ablehnen – hier sparen wir uns den Fehl-Button gleich).
+	 *
+	 * @param {HTMLElement} el Die Karte (article).
+	 * @return {boolean}
+	 */
+	function typeSupported( el ) {
+		var types = cfg.postTypes || [];
+		if ( ! types.length ) {
+			return true;
+		}
+		for ( var i = 0; i < types.length; i++ ) {
+			if ( el.classList && el.classList.contains( 'type-' + types[ i ] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Baut das Overlay-Herz (identisches Markup zum server-gerenderten Thumbnail-Button),
+	 * damit die vorhandene Klick-Delegation, das Hydrieren und die REST-Logik 1:1 greifen.
+	 *
+	 * @param {string} id Beitrags-ID.
+	 * @return {HTMLElement} Der Wrapper mit Button.
+	 */
+	function buildHeart( id ) {
+		var wrapper = document.createElement( 'div' );
+		wrapper.className = 'df-favorite-wrapper df-favorite-wrapper--injected';
+
+		var button = document.createElement( 'button' );
+		button.type = 'button';
+		button.className = 'df-favorite-button df-favorite-button--thumbnail';
+		button.setAttribute( 'data-post-id', String( id ) );
+		button.setAttribute( 'data-style', 'thumbnail' );
+		button.setAttribute( 'aria-pressed', 'false' );
+		if ( cfg.buttonLabel ) {
+			button.setAttribute( 'aria-label', cfg.buttonLabel );
+		}
+
+		var icon = document.createElement( 'span' );
+		icon.className = 'df-favorite-icon';
+		icon.setAttribute( 'aria-hidden', 'true' );
+		icon.textContent = HEART_EMPTY;
+
+		button.appendChild( icon );
+		wrapper.appendChild( button );
+		return wrapper;
+	}
+
+	/**
+	 * Injiziert Herz-Buttons auf Kadence-Blocks-Karten (Post Grid/Carousel), Startseite +
+	 * Sidebar. Jede Karte bekommt genau ein Herz, das auf ihren eigenen Beitrag zeigt.
+	 *
+	 * Robust/graceful: ungültige Selektoren, fehlende ID, nicht unterstützter Typ, bereits
+	 * vorhandenes Herz (z. B. Theme-Karten) oder Karten ohne Bild werden übersprungen.
+	 *
+	 * @param {Document|HTMLElement} root Wurzelknoten (Default: document).
+	 */
+	function injectGridHearts( root ) {
+		if ( cfg.gridHearts === false ) {
+			return;
+		}
+
+		var selectors = cfg.gridSelectors || DEFAULT_GRID_SELECTORS;
+		var cards;
+		try {
+			cards = ( root || document ).querySelectorAll( selectors );
+		} catch ( e ) {
+			return; // Ungültiger Selektor (z. B. aus dem Filter) – still abbrechen.
+		}
+
+		cards.forEach( function ( card ) {
+			if ( card.querySelector( '.df-favorite-button' ) ) {
+				return; // Karte hat schon ein Herz (z. B. via Theme-Template-Part).
+			}
+			if ( ! card.querySelector( 'img' ) ) {
+				return; // Kein Bild → kein sinnvolles Overlay.
+			}
+			if ( ! typeSupported( card ) ) {
+				return;
+			}
+
+			var id = postIdFrom( card );
+			if ( ! id ) {
+				return;
+			}
+
+			// Bild-Container suchen; ist er ein <a>, hängen wir das Herz an dessen Elternknoten,
+			// damit der Button nicht IM Link steckt (verschachtelte Interaktion vermeiden).
+			var thumb = card.querySelector( THUMB_SELECTORS );
+			if ( thumb && 'A' === thumb.tagName && thumb.parentNode ) {
+				thumb = thumb.parentNode;
+			}
+			if ( ! thumb ) {
+				thumb = card;
+			}
+
+			thumb.classList.add( 'df-has-favorite' );
+			thumb.appendChild( buildHeart( id ) );
+		} );
+
+		hydrateButtons( root || document );
+	}
+
+	/**
 	 * Toggelt einen Favoriten: optimistisch (Storage + UI), dann REST-Call mit Revert bei Fehler.
 	 *
 	 * @param {HTMLElement} button Der geklickte Button.
@@ -284,12 +427,18 @@
 		hydrateButtons( root || document );
 	};
 
+	// Öffentlicher Hook: Herzen in (evtl. später nachgeladene) Kadence-Karten injizieren.
+	window.dfFavoritesInjectGrids = function ( root ) {
+		injectGridHearts( root || document );
+	};
+
 	/**
-	 * Initialisierung: Migration, Button-Hydration, Archive, Klick-Delegation.
+	 * Initialisierung: Migration, Button-Hydration, Archive, Grid-Herzen, Klick-Delegation.
 	 */
 	function init() {
 		migrateLegacy();
 		hydrateButtons( document );
+		injectGridHearts( document );
 		document.querySelectorAll( '.df-favorites-archive' ).forEach( renderArchive );
 
 		// Event-Delegation: ein Listener am Body fängt alle (auch später eingefügte) Buttons.
