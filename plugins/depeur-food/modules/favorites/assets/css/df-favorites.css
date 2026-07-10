@@ -1,0 +1,130 @@
+/**
+ * Depeur Food – Favoriten (Frontend-Styles).
+ *
+ * Portiert aus my-favorite-posts-style.css (Legacy), dedupliziert und auf den
+ * df-Prefix umgestellt. Zwei Button-Varianten: Thumbnail (Overlay auf dem Bild)
+ * und Inline (im Textfluss). Bewusst schlank – keine Framework-Abhängigkeit.
+ */
+
+/* Gemeinsamer Button-Reset. */
+.df-favorite-button {
+	cursor: pointer;
+	border: none;
+	background: none;
+	line-height: 1;
+	font-family: inherit;
+}
+
+.df-favorite-button:disabled {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+/* Thumbnail-Variante: heller Herz-Button auf dunklem Grund, für Bild-Overlays. */
+.df-favorite-button--thumbnail {
+	background-color: rgba( 0, 0, 0, 0.5 );
+	padding: 4px 10px;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 10px;
+	transition: transform 0.1s ease-in-out;
+}
+
+.df-favorite-button--thumbnail:hover {
+	transform: scale( 1.05 );
+}
+
+.df-favorite-button--thumbnail.is-favorited {
+	color: #ffebeb;
+}
+
+/* Wrapper positioniert den Thumbnail-Button oben rechts über dem Bild. */
+.df-favorite-wrapper {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+}
+
+/* Inline-Variante: schlichtes Herz im Textfluss. */
+.df-favorite-button--inline {
+	padding: 0;
+	color: #666;
+	font-size: 24px;
+}
+
+.df-favorite-button--inline:hover {
+	color: #333;
+}
+
+.df-favorite-button--inline.is-favorited {
+	color: #e0245e;
+}
+
+/* Optionaler Zählerstand neben dem Herz. */
+.df-favorite-count {
+	margin-left: 4px;
+	font-size: 0.7em;
+	vertical-align: middle;
+}
+
+/* Ausrichtung mit benachbarten Bedienelementen (Kadence-Snippet-Kontext). */
+.kt-inside-inner-col .df-favorite-button--inline {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/* WPRM-spezifische Positionierung (nur wirksam, wenn WPRM aktiv ist). */
+.wprm-recipe-roundup-summary-container {
+	position: relative;
+}
+
+.wprm-recipe-roundup-summary-container .df-favorite-wrapper {
+	top: 10px;
+	right: 10px;
+	z-index: 999;
+	margin: 0;
+	padding: 0;
+}
+
+.kt-inside-inner-col .df-favorite-wrapper {
+	top: 20px;
+}
+
+/* Client-seitig gerendertes Favoriten-Archiv. */
+.df-favorites-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat( auto-fill, minmax( 220px, 1fr ) );
+	gap: 1.5rem;
+}
+
+.df-favorites-item {
+	margin: 0;
+}
+
+.df-favorites-link {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+}
+
+.df-favorites-thumb {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	margin-bottom: 0.5rem;
+}
+
+.df-favorites-title {
+	display: block;
+	font-weight: 600;
+}
+
+.df-favorites-archive__status {
+	margin: 0;
+	opacity: 0.8;
+}

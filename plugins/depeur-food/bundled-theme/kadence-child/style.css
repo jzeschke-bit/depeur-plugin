@@ -1,0 +1,435 @@
+/*
+Theme Name:     Kadence Child (Depeur Food)
+Theme URI:      https://depeur.de
+Template:       kadence
+Author:         Depeur UG
+Author URI:     https://depeur.de
+Description:    Schlankes Kadence-Child. Trägt NUR Präsentation (CSS + wenige Template-Part-Overrides). Alle Fach-/Query-Logik liegt im Plugin depeur-food (Module favorites, language-selector, schema-engine, newsletter, category-pages). Ablöse des Alt-Themes „Alkipedia 3.0".
+Version:        0.2.1
+License:        GNU General Public License v3.0 (or later)
+License URI:    https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain:    kadence-child
+*/
+
+/* ============================================================================
+   ARCHITEKTUR-HINWEIS (bitte zuerst lesen)
+   ----------------------------------------------------------------------------
+   Dieses Child-Theme ist BEWUSST dünn. Es enthält nur, was zur Kadence-DARSTELLUNG
+   gehört (Farben, Radien, Author-Box-Layout, Tag-Pillen). Es enthält KEINE
+   Query-/Migrations-/REST-/hreflang-/Favoriten-Logik mehr — die kam im Alt-Theme
+   „Alkipedia 3.0" aus der functions.php (928 Zeilen) und wurde ins Plugin depeur-food
+   umgezogen. Siehe README.md in diesem Ordner: „Was ist hier / Was kommt vom Plugin /
+   Was wurde bewusst weggelassen (Dedup)".
+
+   Jede CSS-Regel unten hat einen Kommentar:
+     • WOFÜR  = welches sichtbare Element wird gestylt
+     • WARUM  = warum es hier (Theme) und nicht im Plugin lebt
+     • PRÜFEN = offene Frage / Kandidat zum Streichen (bitte kritisch prüfen)
+
+   Farb-Variablen (var(--global-palette*)) liefert das Kadence-Parent-Theme über den
+   Customizer/Global-Palette. Wir setzen sie NICHT neu, wir referenzieren sie nur —
+   so bleibt ein Palette-Wechsel in Kadence hier automatisch wirksam.
+   ============================================================================ */
+
+
+/* ============================================================================
+   1) GENERISCHE RUNDUNGEN (Marken-Identität „abgerundet")
+   ---------------------------------------------------------------------------- */
+
+/* WOFÜR: Alle Inhaltsbilder bekommen 15px-Radius (Blog-/Rezept-/Cocktail-Bilder).
+   WARUM: Reine Optik, kein Plugin-Belang — gehört ins Theme.
+   PRÜFEN: 15px ist die Alt-Theme-Konstante. Falls zu stark, hier zentral ändern.
+   ACHTUNG: greift ALLE <img>. Ausnahme siehe .no-radius unten. */
+img {
+	border-radius: 15px;
+}
+
+/* WOFÜR: Opt-out fürs generische img-Radius (z. B. Logos, Icons, volle Breite).
+   WARUM: Escape-Hatch zur obigen Pauschal-Regel.
+   NUTZUNG: Elternelement die Klasse .no-radius geben. */
+.no-radius img {
+	border-radius: 0;
+}
+
+/* WOFÜR: Formularfelder rund (Suche, Kommentare, Newsletter-Input).
+   WARUM: Konsistenz zur img-Rundung; reine Optik.
+   PRÜFEN: Lange Selektorliste 1:1 aus dem Alt-Theme — bewusst behalten, damit ALLE
+   Feldtypen erfasst sind (Kadence-Formulare + Fremd-Plugin-Formulare). */
+input[type="text"], input[type="email"], input[type="url"], input[type="password"],
+input[type="search"], input[type="number"], input[type="tel"], input[type="range"],
+input[type="date"], input[type="month"], input[type="week"], input[type="time"],
+input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea {
+	border-radius: 15px;
+}
+
+/* WOFÜR: Abgerundete Ecken an Navigations-Dropdowns + Hover-Zustand der Menüpunkte.
+   WARUM: Kadence-Header-Optik; theme-gebunden (Kadence-spezifische Klassen).
+   PRÜFEN: Nur relevant, wenn ein Dropdown-Menü im Header genutzt wird. */
+.header-navigation ul ul.sub-menu,
+.header-navigation ul ul.submenu {
+	border-radius: 15px;
+}
+.header-navigation li.menu-item > a:hover,
+.header-navigation li.menu-item > a:focus {
+	border-radius: 15px;
+}
+.header-navigation .header-menu-container ul ul li.menu-item.current-menu-item > a {
+	border-radius: 15px;
+}
+
+
+/* ============================================================================
+   2) TAG-PILLEN (#hashtag-Optik auf Archiven/Loops)
+   ----------------------------------------------------------------------------
+   WOFÜR: Die Post-Tag-Links (z. B. unter Rezept-/Cocktail-Karten) als graue,
+          abgerundete Pillen mit vorangestelltem „#".
+   WARUM: Reine Präsentation der Kadence-Tag-Ausgabe (Klasse .taxonomy-post_tag).
+          Die Tag-DATEN liefert WordPress/Kadence, nicht das Plugin.
+   PRÜFEN: Das „#" kommt hier per CSS ::before. Im Single-Post fügt zusätzlich das
+          Template-Part entry_tags.php ein <span class="tag-hash">#</span> ein —
+          NICHT beide gleichzeitig doppeln. (Archiv = CSS-#, Single = Template-#.)
+   ============================================================================ */
+
+.taxonomy-post_tag a {
+	font-size: 80%;
+	background-color: var(--global-palette); /* helles Grau der Kadence-Palette */
+	border-radius: 15px;
+	color: var(--global-palette4);
+	border: 1px solid var(--global-palette2);
+	display: inline-block;
+	padding: 0.4em 0.6em;
+	margin-top: 0.5em;
+	text-decoration: none;
+}
+
+.taxonomy-post_tag a::before {
+	content: "#"; /* Hashtag-Präfix rein visuell */
+	margin-right: 1px;
+}
+
+.taxonomy-post_tag a:hover {
+	background-color: var(--global-palette6);
+	color: var(--global-palette9);
+}
+
+/* WOFÜR: Auch die Tag-Links UNTER Single-Beiträgen (Kadence „Post Tags:") bekommen das „#".
+   WARUM: Ersetzt das Alt-Theme-Template-Part entry_tags.php durch eine reine CSS-Lösung — kein
+   Kadence-Template-Override nötig, kein Update-Drift. Reines Präfix per ::before.
+   PRÜFEN: Falls Kadence die Tag-Ausgabe unter Beiträgen umbaut, hier den Selektor nachziehen. */
+.entry-tags .tags-links a::before {
+	content: "#";
+	margin-right: 1px;
+}
+
+
+/* ============================================================================
+   3) AUTHOR-BOX (Autoren-Kasten unter Single-Beiträgen)
+   ----------------------------------------------------------------------------
+   WOFÜR: Layout des Kadence-Author-Box („entry-author-style-normal"): Avatar links,
+          Name + Jobtitel + Beschreibung rechts, Social-Buttons darunter.
+   WARUM: Präsentation. Die INHALTE (Jobtitel, knowsAbout etc.) reichert das Plugin-
+          Modul schema-engine fürs Schema an; die sichtbare Jobtitel-Zeile rendert
+          aber das Template-Part entry_author.php (Theme). Deshalb Styling hier.
+   PRÜFEN: „entry-author-style-normal" setzt voraus, dass in Kadence der Author-Box-
+          Stil auf „Normal" steht (Customizer → Beiträge → Author Box). Wenn dort ein
+          anderer Stil aktiv ist, greift dieses Grid-Layout nicht.
+   ============================================================================ */
+
+/* Grund-Kasten: Innenabstand, Hintergrund aus Palette, runde Ecken. */
+.entry-author-style-normal {
+	padding: 15px;
+	background-color: var(--global-palette7);
+	border-radius: 15px;
+}
+
+/* 2-Spalten-Grid: Avatar (13%) | Textblock (86%). Zeilen: Name / Jobtitel / Bio. */
+.entry-author-style-normal .entry-author-profile {
+	padding-left: 0;
+	display: grid;
+	grid-template-columns: 13% 86%;
+	grid-template-rows: auto;
+	align-items: center;
+	column-gap: 10px;
+}
+.entry-author-style-normal .entry-author-avatar {
+	position: relative !important;
+	grid-column: span 1;
+	grid-row: span 2; /* Avatar überspannt Name- + Jobtitel-Zeile */
+}
+.entry-author-style-normal .entry-author-name {
+	grid-area: 1/2/1/3;
+	align-self: end;
+}
+.entry-author-style-normal .entry-author-occupation {
+	grid-area: 2/3/2/2;
+	align-self: start;
+}
+.entry-author-style-normal .entry-author-description {
+	grid-area: 3/1/4/3; /* Bio über volle Breite unter Avatar+Name */
+}
+
+/* Social-Follow-Buttons nebeneinander. */
+.entry-author-follow {
+	display: flex;
+	gap: 12px;
+}
+.entry-author-follow a.social-button {
+	padding: 10px;
+}
+
+/* Feintuning Name/Jobtitel-Typografie. */
+.entry-author-name {
+	font-size: 120%;
+}
+.entry-author-name a {
+	color: inherit;
+	text-decoration: none;
+}
+.entry-author-profile p {
+	margin: 1em 0;
+}
+.entry-author-profile p.entry-author-occupation {
+	margin: 0;
+	font-size: 90%;
+}
+
+/* Mobil (≤430px): Avatar-Spalte breiter, damit der Text nicht quetscht. */
+@media screen and (max-width: 430px) {
+	.entry-author-style-normal .entry-author-profile {
+		grid-template-columns: 20% 80% !important;
+	}
+}
+
+/* Desktop (≥767px): zentrierter Author-Stil bekommt volle Beschreibungsbreite.
+   PRÜFEN: nur relevant, falls irgendwo der „center"-Author-Stil genutzt wird. */
+@media screen and (min-width: 767px) {
+	.entry-author-style-center .entry-author-profile .entry-author-description {
+		max-width: 100% !important;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+
+/* ============================================================================
+   4) LOOP-/ARCHIV-DARSTELLUNG
+   ----------------------------------------------------------------------------
+   HINWEIS: Die „gleich hohen Karten" (equal-height) liefert das PLUGIN global über
+   assets/df-loop-grid.css (Core Frontend_Assets), damit sie auch in den vom Plugin
+   server-gerenderten Rastern (Favoriten, Kategorie-Seiten, „Was koche ich heute")
+   gelten — NICHT hier doppeln. Hier nur, was rein Kadence-Markup betrifft.
+   ============================================================================ */
+
+/* WOFÜR: Listen-Bullets an Archiv-Rastern entfernen (Kadence rendert <li>-Karten).
+   WARUM: Kadence-/Theme-Markup-Detail.
+   PRÜFEN: #archive-container ist eine Alt-Theme-ID — schadet nicht, falls ungenutzt. */
+#archive-container,
+.post-archive,
+.grid-cols {
+	list-style: none;
+}
+
+/* WOFÜR: Rundung + Abstände der rechten Sidebar-Widget-Fläche.
+   WARUM: Kadence-Sidebar-Optik.
+   PRÜFEN: greift nur auf Seiten MIT Sidebar (auf Kategorie-Folgeseiten schaltet das
+          Plugin die Sidebar bewusst ab → dort irrelevant). */
+.primary-sidebar.widget-area {
+	margin-bottom: 30px;
+	margin-top: 10px;
+	border-radius: 15px;
+}
+
+/* WOFÜR: vertikaler Abstand des „Ähnliche Beiträge / Kategorie"-Blocks.
+   WARUM: rein kosmetisch.
+   PRÜFEN: .category-related ist eine Alt-Theme-Klasse — behalten, falls Templates sie
+          weiter ausgeben; sonst wirkungslos. */
+.category-related {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+/* WOFÜR: Die „Ähnliche Beiträge"-Box (Kadence entry-related) hat auf Desktop ein seitliches
+   Padding, das sie ggü. der Autoren-Box zu weit links wirken lässt. Nur auf Desktop das
+   horizontale Padding entfernen, damit beide Boxen bündig sitzen.
+   PRÜFEN: Selektor trifft die gängigen Kadence-/Alt-Theme-Container. Sollte es nicht greifen
+   (anderer Kadence-Aufbau), per Browser-Inspect die echte Klasse ermitteln und hier ersetzen. */
+@media screen and (min-width: 1025px) {
+	.entry-related,
+	.entry-related-inner-content {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+/* WOFÜR: Kadence-Hero-Header-Innenabstände.
+   WARUM: Header-Optik der Single-Ansicht. */
+.entry-hero-container-inner .entry-header {
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+/* WOFÜR: Auf schmalen Screens Abstand unter dem Beitragsbild in Karten.
+   WARUM: verhindert Kleben von Bild an Titel im Loop (mobil). */
+@media (max-width: 768px) {
+	.wp-site-blocks .post-thumbnail.kadence-thumbnail-ratio-inherit img {
+		margin-bottom: 1.5em;
+	}
+}
+
+
+/* ============================================================================
+   5) FREMD-PLUGIN-KOSMETIK  —  P R Ü F E N   /   K A N D I D A T   Z U M   K Ü R Z E N
+   ----------------------------------------------------------------------------
+   Diese Blöcke stylen NICHT das Theme selbst, sondern Ausgaben fremder Plugins
+   (WP Recipe Maker, Rank Math Breadcrumbs, Social Warfare). Sie gehören strenggenommen
+   in ein Plugin-CSS oder einen Customizer-Snippet, NICHT ins Theme-Grundgerüst.
+   Ich habe sie 1:1 aus dem Alt-Theme übernommen, damit auf der neuen Seite optisch
+   nichts „springt". Bitte entscheiden:
+     (a) behalten, solange das jeweilige Plugin aktiv ist, ODER
+     (b) in ein eigenes „Brand-Kosmetik"-Snippet auslagern.
+   Jeder Block ist nur wirksam, wenn das zugehörige Plugin aktiv ist — inaktiv = tote
+   Selektoren, kein Schaden.
+   ============================================================================ */
+
+/* --- WPRM (WP Recipe Maker): Stern-Bewertungen in Marken-Farbe (palette1) ------- */
+/* WOFÜR: Rezept-/Cocktail-Sterne einfärben. WARUM: WPRM-Standard ist gelb; hier Brand. */
+.wprm-call-to-action {
+	padding-left: 5px !important;
+	margin-bottom: 10px !important;
+}
+.wprm-recipe-block-container-inline {
+	margin-right: 1em !important;
+}
+.wprm-popup-modal__btn {
+	background-color: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-full svg * {
+	fill: var(--global-palette1) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-33 svg * {
+	fill: url(#wprm-recipe-user-rating-0-33) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-50 svg * {
+	fill: url(#wprm-recipe-user-rating-0-50) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-66 svg * {
+	fill: url(#wprm-recipe-user-rating-0-66) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-empty svg * {
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star-selecting-filled svg * {
+	fill: var(--global-palette1) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star.wprm-rating-star-33.wprm-rating-star-selecting-filled svg *,
+.wprm-rating-star.wprm-rating-star-50.wprm-rating-star-selecting-filled svg *,
+.wprm-rating-star.wprm-rating-star-66.wprm-rating-star-selecting-filled svg * {
+	fill: var(--global-palette1) !important;
+}
+.wprm-rating-star:hover svg polygon,
+.wprm-rating-star:hover ~ .wprm-rating-star svg polygon,
+.wprm-rating-star-selecting-filled:hover svg polygon {
+	fill: var(--global-palette1) !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-rating-star:hover ~ .wprm-rating-star svg polygon {
+	fill: none !important;
+	stroke: var(--global-palette1) !important;
+}
+.wprm-user-rating-summary {
+	padding-bottom: 25px;
+}
+.wprm-recipe-icon img {
+	height: 80px;
+}
+.wprm-call-to-action.wprm-call-to-action-simple {
+	padding-left: 20px !important;
+	padding-right: 20px !important;
+}
+.wprm-checkbox-container label:before {
+	height: 19px !important;
+	top: 4px !important;
+	border-radius: 5px;
+}
+@media screen and (max-width: 430px) {
+	.wprm-recipe-icon img {
+		height: 50px;
+	}
+	.wprm-call-to-action-icon {
+		font-size: 2.2em;
+		margin: 0px !important;
+	}
+}
+
+/* --- Rank Math Breadcrumbs: weiße Schrift auf dunklem Hero ---------------------- */
+/* WOFÜR: Brotkrumen im Hero lesbar (weiß, rosa Trenner). WARUM: Rank-Math-Ausgabe. */
+.rank-math-breadcrumb {
+	color: white;
+}
+.rank-math-breadcrumb a {
+	color: white;
+	text-decoration: none;
+	font-size: 80%;
+}
+.rank-math-breadcrumb a:hover {
+	color: white;
+	text-decoration: none;
+}
+.rank-math-breadcrumb .separator {
+	color: lightpink;
+}
+.rank-math-breadcrumb .last {
+	color: white;
+	font-size: 80%;
+}
+.kadence-breadcrumbs {
+	padding-top: 1em;
+}
+
+/* --- Social Warfare: Tweet-Container-Radius ------------------------------------- */
+/* WOFÜR: Share-Buttons rund. WARUM: Social-Warfare-Plugin-Ausgabe.
+   PRÜFEN: Nur nötig, falls Social Warfare weiter genutzt wird. */
+.swp_social_panel .nc_tweetContainer:not(.total_shares):not(.total_sharesalt) {
+	border-radius: 10px !important;
+}
+
+
+/* ============================================================================
+   6) HERO-LAYOUT (Custom-HTML-Hero) — responsive Pixel-Feinjustierung  [AKTIV]
+   ----------------------------------------------------------------------------
+   WOFÜR: Positioniert die „.hero-beschreibung" über dem Hero-Bild je Breakpoint
+   (aus dem Alt-Theme übernommen, vom Betreiber gebraucht → AKTIV).
+   PRÜFEN: Die top-/margin-Werte sind pixelgenau an die konkrete Hero-Struktur gebunden
+   und damit fragil — bei Schrift-/Layoutänderungen die Werte je Breakpoint nachziehen.
+   Greift nur, wenn der Custom-HTML-Hero mit den Klassen .hero-beschreibung/.hero-main
+   im Seiteninhalt vorhanden ist; sonst wirkungslos (tote Selektoren).
+   ============================================================================ */
+
+@media screen and (min-width: 1025px) {
+	.hero-beschreibung { position: absolute !important; top: 370px !important; }
+}
+@media screen and (min-width: 768px) and (max-width: 790px) {
+	.hero-beschreibung { position: absolute !important; top: 450px !important; padding-right: 33%; }
+	.hero-main { margin-bottom: calc(21vh + 20px) !important; }
+}
+@media screen and (min-width: 790px) and (max-width: 850px) {
+	.hero-beschreibung { position: absolute !important; top: 410px !important; padding-right: 33%; }
+	.hero-main { margin-bottom: calc(12vh + 20px) !important; }
+}
+@media screen and (min-width: 850px) and (max-width: 912px) {
+	.hero-beschreibung { position: absolute !important; top: 370px !important; padding-right: 33%; }
+}
+@media screen and (min-width: 913px) and (max-width: 1024px) {
+	.hero-beschreibung { position: absolute !important; top: 370px !important; padding-right: 33%; }
+}
+@media screen and (min-width: 850px) and (max-width: 1050px) {
+	.hero-main { margin-bottom: calc(9vh + 20px) !important; }
+}
+@media screen and (min-width: 950px) and (max-width: 1050px) {
+	.hero-main { margin-bottom: calc(4vh + 20px) !important; }
+}

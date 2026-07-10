@@ -137,6 +137,15 @@ final class ModuleManager {
 			}
 
 			$manifest_file = $path . '/manifest.php';
+			$module_file   = $path . '/module.php';
+
+			// Weder Manifest noch Bootstrap → kein Modul, nur ein Planungs-/Doku-Ordner (z. B. ein
+			// geplantes Modul mit ausschließlich BRIEF.md wie cache-bridge). Still überspringen,
+			// NICHT als Fehler melden — sonst zeigt die Modul-Liste eine falsche Warnung.
+			if ( ! is_file( $manifest_file ) && ! is_file( $module_file ) ) {
+				continue;
+			}
+
 			if ( ! is_file( $manifest_file ) ) {
 				$errors[] = sprintf(
 					/* translators: %s: Modul-Ordnername. */
@@ -156,7 +165,7 @@ final class ModuleManager {
 				continue;
 			}
 
-			if ( ! is_file( $path . '/module.php' ) ) {
+			if ( ! is_file( $module_file ) ) {
 				$errors[] = sprintf(
 					/* translators: %s: Modul-Ordnername. */
 					__( 'Modul „%s“: module.php fehlt.', 'depeur-food' ),

@@ -73,9 +73,22 @@ final class Plugin {
 		// Aktive Module laden (modules/ ist in dieser Phase leer → lädt nichts).
 		ModuleManager::init();
 
+		// Gemeinsame Frontend-Styles (Loop_Grid: gleich hohe Karten).
+		Frontend_Assets::register();
+
+		// Customizer-Einstellungen beim Theme-Wechsel aufs kadence-child übertragen
+		// (after_switch_theme greift auch bei Aktivierung über Design → Themes).
+		Theme_Installer::register();
+
 		// Admin-spezifische Verdrahtung nur im Backend.
 		if ( is_admin() ) {
 			AdminMenu::register();
+
+			// Modul-Verwaltungsseite (Aktivieren/Deaktivieren per UI, Task 4b).
+			ModulesPage::register();
+
+			// Geführter Readiness-Check für den Theme-Cutover (Alt-Theme → kadence-child).
+			Migration_Assistant::register();
 
 			// Save-Handler der Settings-Seite an admin_init hängen – muss vor dem
 			// Rendern laufen, damit der PRG-Redirect nach dem Speichern greift.
