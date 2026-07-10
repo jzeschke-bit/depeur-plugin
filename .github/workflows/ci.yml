@@ -51,6 +51,9 @@ jobs:
         with:
           php-version: '8.2'
 
+      - name: Composer-Plugin erlauben (Composer 2.2+ blockt Plugins sonst)
+        run: composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
       - name: PHPCS + WordPress Coding Standards installieren
         run: |
           composer global require --no-interaction --no-progress \
