@@ -146,20 +146,19 @@ final class Category_Page {
 			)
 		);
 
-		$total     = $this->count_total( $base_args );
-		$max_pages = $this->max_pages( $total, $first, $per );
-
 		if ( $limit < 1 ) {
 			return '';
 		}
 
+		// Eine Query: no_found_rows NICHT gesetzt → WP liefert die Gesamtzahl via found_posts
+		// (SQL_CALC_FOUND_ROWS ignoriert LIMIT/OFFSET). Ersetzt die frühere zweite -1/ids-Zähl-
+		// Query, die bei großen Kategorien pro Seitenaufruf alle IDs geladen hat.
 		$query = new WP_Query(
 			array_merge(
 				$base_args,
 				array(
 					'posts_per_page' => $limit,
 					'offset'         => $offset,
-					'no_found_rows'  => true,
 				)
 			)
 		);
@@ -168,6 +167,8 @@ final class Category_Page {
 			wp_reset_postdata();
 			return '';
 		}
+
+		$max_pages = $this->max_pages( (int) $query->found_posts, $first, $per );
 
 		$columns = ( $paged <= 1 ) ? 'grid-sm-col-2 grid-lg-col-2' : 'grid-sm-col-2 grid-lg-col-3';
 
@@ -308,31 +309,6 @@ final class Category_Page {
 			'relation' => '' !== $relation ? $relation : 'AND',
 			'operator' => '' !== $operator ? $operator : 'AND',
 		);
-	}
-
-	/**
-	 * Zählt die Gesamt-Treffer der kuratierten Query (für die Pagination).
-	 *
-	 * @since 0.3.0
-	 *
-	 * @param array<string, mixed> $base_args Query-Args (ohne Limit/Offset).
-	 * @return int
-	 */
-	private function count_total( array $base_args ): int {
-		$count = new WP_Query(
-			array_merge(
-				$base_args,
-				array(
-					'posts_per_page' => -1,
-					'fields'         => 'ids',
-					'no_found_rows'  => true,
-				)
-			)
-		);
-		$total = is_array( $count->posts ) ? count( $count->posts ) : 0;
-		wp_reset_postdata();
-
-		return $total;
 	}
 
 	/**
