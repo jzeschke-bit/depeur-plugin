@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class ModulesPage {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -36,7 +36,7 @@ final class ModulesPage {
 	private const PAGE_SLUG = 'depeur-food-modules';
 
 	/**
-	 * admin-post-Action.
+	 * Admin-post-Action.
 	 *
 	 * @since 0.3.0
 	 * @var string

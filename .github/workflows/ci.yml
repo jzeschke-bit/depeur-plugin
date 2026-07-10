@@ -38,10 +38,8 @@ jobs:
   phpcs:
     name: PHPCS (WordPress Coding Standards)
     runs-on: ubuntu-latest
-    # Vorerst NICHT blockierend: WPCS-Version-Drift zwischen CI und lokalem wp-env könnte beim
-    # ersten Lauf abweichen. Sobald der erste Lauf grün ist, diese Zeile entfernen, um phpcs als
-    # echtes Merge-Gate scharfzuschalten.
-    continue-on-error: true
+    # Blockierendes Gate: das Plugin ist WPCS-clean (phpcs.xml.dist scoped auf PHP; bundled-theme
+    # = Kadence-Konventionen und modules/content-types = geparkt sind ausgenommen).
     steps:
       - name: Checkout
         uses: actions/checkout@v4

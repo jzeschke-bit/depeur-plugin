@@ -99,6 +99,7 @@ final class Like_Counter {
 		 *
 		 * @param string[] $types Standardmäßig die unterstützten Post-Types (ADR-4).
 		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- FILTER_POST_TYPES ist depeur_food-prefixiert; der Sniff kann die Konstante nicht statisch prüfen.
 		$types = apply_filters( self::FILTER_POST_TYPES, $types );
 
 		// Defensiv normalisieren: nur nicht-leere String-Slugs, dedupliziert.
@@ -108,7 +109,7 @@ final class Like_Counter {
 	}
 
 	/**
-	 * auth_callback für den protected Meta-Key.
+	 * Auth_callback für den protected Meta-Key.
 	 *
 	 * Gilt nur für die Core-Meta-Wege (REST-Meta-Update, Editor). Der öffentliche
 	 * Toggle-Endpoint schreibt server-seitig via update_post_meta und ist davon

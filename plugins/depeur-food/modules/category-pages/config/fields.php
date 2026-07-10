@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Conditional-Logic-Regel: Feld nur zeigen, wenn der Opt-in-Toggle aktiv ist.
-$df_catpage_when_enabled = array(
+$depeur_food_catpage_when_enabled = array(
 	array(
 		array(
 			'field'    => 'field_df_catpage_enabled',
@@ -67,7 +67,7 @@ return array(
 			'label'    => 'Custom-Titel (H1 / SEO)',
 			'acf'      => array(
 				'instructions'      => 'Überschreibt den Seitentitel (H1 + SEO-Titel) auf allen Seiten dieser Kategorie-Seite. Leer = Seitentitel.',
-				'conditional_logic' => $df_catpage_when_enabled,
+				'conditional_logic' => $depeur_food_catpage_when_enabled,
 			),
 		),
 		array(
@@ -79,7 +79,7 @@ return array(
 			'label'    => 'Überschrift über der Vorschau (Seite 1, H2)',
 			'acf'      => array(
 				'instructions'      => 'Optionale H2 über dem Vorschau-Raster auf Seite 1, z. B. „Weitere Cocktail-Rezepte, die dir gefallen könnten".',
-				'conditional_logic' => $df_catpage_when_enabled,
+				'conditional_logic' => $depeur_food_catpage_when_enabled,
 			),
 		),
 		array(
@@ -93,7 +93,7 @@ return array(
 			'acf'      => array(
 				'min'               => 0,
 				'instructions'      => 'Wie viele Beiträge die Vorschau auf Seite 1 unter dem Intro zeigt.',
-				'conditional_logic' => $df_catpage_when_enabled,
+				'conditional_logic' => $depeur_food_catpage_when_enabled,
 			),
 		),
 		array(
@@ -106,7 +106,7 @@ return array(
 			'default'  => 21,
 			'acf'      => array(
 				'min'               => 1,
-				'conditional_logic' => $df_catpage_when_enabled,
+				'conditional_logic' => $depeur_food_catpage_when_enabled,
 			),
 		),
 	),

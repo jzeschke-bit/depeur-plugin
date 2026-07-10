@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Content_Inserter {
 
 	/**
-	 * the_content-Priorität. Bewusst spät (nach wpautop/Shortcodes), damit die `</p>`-Marken
+	 * The_content-Priorität. Bewusst spät (nach wpautop/Shortcodes), damit die `</p>`-Marken
 	 * bereits stehen — wie im Legacy (Prio 99).
 	 *
 	 * @since 0.2.0
@@ -72,7 +72,7 @@ final class Content_Inserter {
 	}
 
 	/**
-	 * the_content-Callback: reichert den Haupt-Inhalt unterstützter Post-Types an.
+	 * The_content-Callback: reichert den Haupt-Inhalt unterstützter Post-Types an.
 	 *
 	 * @since 0.2.0
 	 *
@@ -199,8 +199,8 @@ final class Content_Inserter {
 	 *
 	 * @param string $content         Roher Inhalt.
 	 * @param int    $post_id         Post-ID (für die Per-Post-Newsletter-Position).
-	 * @param bool   $show_newsletter Newsletter einfügen?
-	 * @param bool   $show_app_promo  App-Promotion einfügen?
+	 * @param bool   $show_newsletter Newsletter einfügen.
+	 * @param bool   $show_app_promo  App-Promotion einfügen.
 	 * @return string
 	 */
 	private function insert_elements( string $content, int $post_id, bool $show_newsletter, bool $show_app_promo ): string {
@@ -234,9 +234,9 @@ final class Content_Inserter {
 	}
 
 	/**
-	 * 0-basierter Einfüge-Index des Newsletters: Per-Post-Wert, sonst globaler Default.
+	 * Der 0-basierte Einfüge-Index des Newsletters: Per-Post-Wert, sonst globaler Default.
 	 *
-	 * metadata_exists unterscheidet einen echt gespeicherten Per-Post-Wert vom
+	 * Die Funktion metadata_exists unterscheidet einen echt gespeicherten Per-Post-Wert vom
 	 * register_post_meta-Default — nur dann sticht der Post die globale Position.
 	 *
 	 * @since 0.2.0
@@ -255,7 +255,7 @@ final class Content_Inserter {
 	}
 
 	/**
-	 * 0-basierter Einfüge-Index der App-Promotion (nur global, kein Per-Post-Override).
+	 * Der 0-basierte Einfüge-Index der App-Promotion (nur global, kein Per-Post-Override).
 	 *
 	 * @since 0.2.0
 	 *

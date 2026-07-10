@@ -40,11 +40,11 @@ final class Recipe_Query {
 	 * @since 0.3.0
 	 *
 	 * @param array<int, string> $slugs post_tag-Slugs (bereits sanitisiert).
-	 * @param string             $match 'and' (alle Tags) oder 'or' (mindestens einer).
+	 * @param string             $relation 'and' (alle Tags) oder 'or' (mindestens einer).
 	 * @param int                $paged Seite (>= 1).
 	 * @return WP_Query
 	 */
-	public static function build( array $slugs, string $match, int $paged ): WP_Query {
+	public static function build( array $slugs, string $relation, int $paged ): WP_Query {
 		$args = array(
 			'post_type'           => depeur_food()->get_supported_post_types(),
 			'post_status'         => 'publish',
@@ -54,7 +54,7 @@ final class Recipe_Query {
 		);
 
 		if ( ! empty( $slugs ) ) {
-			$key          = ( 'or' === $match ) ? 'tag_slug__in' : 'tag_slug__and';
+			$key          = ( 'or' === $relation ) ? 'tag_slug__in' : 'tag_slug__and';
 			$args[ $key ] = $slugs;
 		}
 

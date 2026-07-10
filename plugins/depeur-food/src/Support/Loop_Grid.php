@@ -100,6 +100,7 @@ final class Loop_Grid {
 	 */
 	private static function render_entry(): void {
 		if ( has_action( 'kadence_loop_entry' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kadence-Hook (Drittanbieter), bewusst aufgerufen.
 			do_action( 'kadence_loop_entry' );
 			return;
 		}

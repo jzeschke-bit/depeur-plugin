@@ -95,7 +95,7 @@ final class Layout {
 	 * @return mixed Layout-Array für den Layout-Key des abgefragten Objekts, sonst unverändert.
 	 */
 	public function force_layout( $value, $object_id, $meta_key ) {
-		if ( (int) $object_id !== (int) get_queried_object_id() ) {
+		if ( (int) get_queried_object_id() !== (int) $object_id ) {
 			return $value;
 		}
 

@@ -177,7 +177,7 @@ final class Legacy_Migration {
 		);
 
 		foreach ( $ids as $id ) {
-			$id                    = (int) $id;
+			$id                   = (int) $id;
 			$data['pages'][ $id ] = array(
 				'title'    => get_the_title( $id ),
 				'template' => get_post_meta( $id, '_wp_page_template', true ),
@@ -398,7 +398,7 @@ final class Legacy_Migration {
 				'suppress_filters' => false,
 			)
 		);
-		$names = array();
+		$names  = array();
 		foreach ( $fields as $field ) {
 			$name = (string) $field->post_excerpt; // ACF speichert den Feld-Namen im Excerpt.
 			if ( '' !== $name ) {
@@ -482,7 +482,7 @@ final class Legacy_Migration {
 				'suppress_filters' => false,
 			)
 		);
-		$out = array();
+		$out    = array();
 		foreach ( $fields as $field ) {
 			$out[] = array(
 				'post'   => self::acf_post_array( $field ),
@@ -666,7 +666,7 @@ final class Legacy_Migration {
 	/**
 	 * Schreibt einen Feldwert via ACF (falls verfügbar), sonst via Post-Meta.
 	 *
-	 * update_field pflegt den ACF-Feldkey-Verweis mit, damit der Editor den Wert korrekt zeigt.
+	 * Der Aufruf update_field pflegt den ACF-Feldkey-Verweis mit, damit der Editor den Wert korrekt zeigt.
 	 *
 	 * @since 0.3.0
 	 *
@@ -746,7 +746,7 @@ final class Legacy_Migration {
 			return new WP_Error( 'df_migrate_fs', __( 'Dateisystem-Zugriff nicht verfügbar.', 'depeur-food' ) );
 		}
 
-		$file = trailingslashit( $dir ) . 'rezeptkategorie-migration-' . gmdate( 'Ymd-His' ) . '.json';
+		$file = trailingslashit( $dir ) . $prefix . '-' . gmdate( 'Ymd-His' ) . '.json';
 		if ( ! $wp_filesystem->put_contents( $file, $json, FS_CHMOD_FILE ) ) {
 			return new WP_Error( 'df_migrate_write', __( 'Backup-Datei konnte nicht geschrieben werden.', 'depeur-food' ) );
 		}

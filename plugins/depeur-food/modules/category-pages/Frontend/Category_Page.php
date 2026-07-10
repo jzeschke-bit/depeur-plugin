@@ -206,6 +206,7 @@ final class Category_Page {
 	private function render_entry(): void {
 		// Kadence rendert seine Archiv-Karten über diese Aktion (identische Optik zum Theme).
 		if ( has_action( 'kadence_loop_entry' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kadence-Hook (Drittanbieter), bewusst aufgerufen.
 			do_action( 'kadence_loop_entry' );
 			return;
 		}
@@ -266,8 +267,8 @@ final class Category_Page {
 	 *
 	 * @since 0.3.0
 	 *
-	 * @param int                        $page_id Seiten-ID.
-	 * @param array<string, array<int>>  $grouped Aufgelöste Terms.
+	 * @param int                       $page_id Seiten-ID.
+	 * @param array<string, array<int>> $grouped Aufgelöste Terms.
 	 * @return array<string, array<int>>
 	 */
 	private static function maybe_fallback( int $page_id, array $grouped ): array {
@@ -336,13 +337,13 @@ final class Category_Page {
 	 *
 	 * @param int    $page_id Seiten-ID.
 	 * @param string $key     Meta-Key.
-	 * @param int    $default Default, wenn nicht gesetzt.
+	 * @param int    $fallback Default, wenn nicht gesetzt.
 	 * @return int
 	 */
-	private static function meta_number( int $page_id, string $key, int $default ): int {
+	private static function meta_number( int $page_id, string $key, int $fallback ): int {
 		$value = get_post_meta( $page_id, $key, true );
 
-		return ( '' === $value || null === $value ) ? $default : (int) $value;
+		return ( '' === $value || null === $value ) ? $fallback : (int) $value;
 	}
 
 	/**

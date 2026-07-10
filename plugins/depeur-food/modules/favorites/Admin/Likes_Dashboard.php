@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Likes_Dashboard {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.3.0
 	 * @var string

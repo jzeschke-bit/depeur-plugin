@@ -53,7 +53,7 @@ final class Title {
 			return (string) $title;
 		}
 		// Nur das aktuell abgefragte Page-Objekt im Haupt-Query (nicht Menüs/Sekundär-Queries).
-		if ( ! is_singular( 'page' ) || ! is_main_query() || $post_id !== (int) get_queried_object_id() ) {
+		if ( ! is_singular( 'page' ) || ! is_main_query() || (int) get_queried_object_id() !== $post_id ) {
 			return (string) $title;
 		}
 
