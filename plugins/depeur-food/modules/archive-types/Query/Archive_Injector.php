@@ -26,6 +26,8 @@
 
 namespace Depeur\Food\Modules\ArchiveTypes\Query;
 
+use Depeur\Food\Core\Settings\SettingsRegistry;
+
 // Kein direkter Aufruf.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -37,6 +39,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.3.0
  */
 final class Archive_Injector {
+
+	/**
+	 * Modul-Slug (Options-Key der Settings). Entspricht dem Ordnernamen.
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const MODULE_SLUG = 'archive-types';
 
 	/**
 	 * Verdrahtet die Query-Erweiterung.
@@ -131,6 +141,9 @@ final class Archive_Injector {
 		}
 
 		if ( '' !== $taxonomy ) {
+			if ( ! $this->enabled( 'on_taxonomy' ) ) {
+				return null; // Taxonomie-Archive per Einstellung deaktiviert.
+			}
 			// Nur Typen behalten, die diese Taxonomie führen (inkl. des Typs, dem sie „gehört").
 			$filtered = array();
 			foreach ( $supported as $post_type ) {
@@ -141,12 +154,33 @@ final class Archive_Injector {
 			return $filtered;
 		}
 
-		// b) Autor-/Datums-Archive: alle unterstützten Typen.
-		if ( $query->is_author() || $query->is_date() ) {
+		// b) Autor-/Datums-Archive: alle unterstützten Typen (jeweils per Einstellung schaltbar).
+		if ( $query->is_author() && $this->enabled( 'on_author' ) ) {
+			return $supported;
+		}
+		if ( $query->is_date() && $this->enabled( 'on_date' ) ) {
 			return $supported;
 		}
 
-		// c) Kein von uns behandeltes Archiv.
+		// c) Kein von uns behandeltes (bzw. aktiviertes) Archiv.
 		return null;
+	}
+
+	/**
+	 * Liest einen Modul-Schalter (Default: an, solange nicht explizit abgeschaltet).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $key Settings-Feld-ID (on_taxonomy|on_author|on_date).
+	 * @return bool
+	 */
+	private function enabled( string $key ): bool {
+		$option = get_option( SettingsRegistry::option_key( self::MODULE_SLUG ), array() );
+		if ( ! is_array( $option ) ) {
+			return true;
+		}
+
+		// Unset ⇒ Default aktiv; explizit gespeicherter Wert entscheidet.
+		return ! array_key_exists( $key, $option ) || ! empty( $option[ $key ] );
 	}
 }

@@ -20,6 +20,7 @@
 
 namespace Depeur\Food\Modules\CategoryPages\Frontend;
 
+use Depeur\Food\Core\Settings\SettingsRegistry;
 use Depeur\Food\Modules\CategoryPages\Query\Query_Builder;
 use Depeur\Food\Modules\CategoryPages\Query\Term_Resolver;
 use WP_Query;
@@ -369,6 +370,24 @@ final class Category_Page {
 	}
 
 	/**
+	 * Liest einen globalen Default aus dem category-pages-Settings-Tab (Fallback: harter Wert).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $key  Settings-Feld-ID (default_per_page_first|default_per_page).
+	 * @param int    $hard Harter Legacy-Fallback, wenn nichts konfiguriert ist.
+	 * @return int
+	 */
+	private static function global_default( string $key, int $hard ): int {
+		$option = get_option( SettingsRegistry::option_key( 'category-pages' ), array() );
+		if ( ! is_array( $option ) || ! isset( $option[ $key ] ) || '' === $option[ $key ] ) {
+			return $hard;
+		}
+
+		return max( 0, (int) $option[ $key ] );
+	}
+
+	/**
 	 * Berechnet das Anzeige-Fenster (offset/limit) für eine Seite — Seite 1 = `first`, ab Seite 2 = `per`.
 	 *
 	 * Eine Quelle der Wahrheit für die Paginierungs-Arithmetik von render().
@@ -380,8 +399,9 @@ final class Category_Page {
 	 * @return array{first:int,per:int,offset:int,limit:int}
 	 */
 	private static function page_window( int $page_id, int $paged ): array {
-		$first  = max( 0, (int) self::meta_number( $page_id, 'df_catpage_per_page_first', 4 ) );
-		$per    = max( 1, (int) self::meta_number( $page_id, 'df_catpage_per_page', 21 ) );
+		// Seiten-eigene Werte gewinnen; sonst die globalen Defaults (Settings-Tab), sonst Legacy 4/21.
+		$first  = max( 0, (int) self::meta_number( $page_id, 'df_catpage_per_page_first', self::global_default( 'default_per_page_first', 4 ) ) );
+		$per    = max( 1, (int) self::meta_number( $page_id, 'df_catpage_per_page', self::global_default( 'default_per_page', 21 ) ) );
 		$offset = ( $paged <= 1 ) ? 0 : $first + ( $paged - 2 ) * $per;
 		$limit  = ( $paged <= 1 ) ? $first : $per;
 
