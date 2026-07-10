@@ -18,3 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Speist die unterstützten Inhaltstypen in die Standard-Archiv-Abfragen ein.
 new \Depeur\Food\Modules\ArchiveTypes\Query\Archive_Injector();
+
+// Settings-Tab (welche Archiv-Arten) – nur im Admin. Slug = Ordnername.
+if ( is_admin() ) {
+	new \Depeur\Food\Modules\ArchiveTypes\Admin\Settings( basename( __DIR__ ) );
+}
