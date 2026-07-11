@@ -24,9 +24,12 @@
 	// sondern aus der WordPress-Kern-Klasse `post-<ID>` (siehe postIdFrom). Über den
 	// Filter depeur_food/favorites/grid_selectors (cfg.gridSelectors) überschreibbar.
 	var DEFAULT_GRID_SELECTORS =
-		// Kadence-Blocks „Posts" (Grid + Carousel) – Karten sind <article>.
-		'.wp-block-kadence-posts article, .kt-blocks-post-grid-wrap article, ' +
-		'.kb-blocks-post-carousel article, .kb-post-carousel article, .kadence-posts article, ' +
+		// Kadence-Blocks „Posts" (neuer Block, z. B. Sidebar) – Karten sind <article>.
+		'.wp-block-kadence-posts article, .kb-blocks-post-carousel article, ' +
+		'.kb-post-carousel article, .kadence-posts article, ' +
+		// Kadence-Blocks „Advanced Posts"/Grid (älterer Block, z. B. Startseite): die Karte
+		// selbst ist article.kt-blocks-post-grid-item (trägt post-<ID>/type-<pt>).
+		'.kt-blocks-post-grid-item, ' +
 		// Core Query Loop (häufig auf Startseiten): jedes Item trägt die Klasse
 		// wp-block-post + die Kern-Klassen post-<ID>/type-<pt> (egal ob <li> oder <div>).
 		'.wp-block-post';
@@ -34,8 +37,9 @@
 	// Kandidaten für den Bild-Container innerhalb einer Karte (dorthin wird das Overlay-
 	// Herz gehängt). Reihenfolge = Präferenz; nicht gefunden ⇒ die Karte selbst.
 	var THUMB_SELECTORS =
-		'.wp-block-post-featured-image, .post-thumbnail-inner, .entry-featured-image-inner, ' +
-		'.kb-blocks-post-thumbnail, .kt-post-image, .kb-post-thumbnail, .post-thumbnail';
+		'.wp-block-post-featured-image, .kadence-thumbnail-ratio, .kt-blocks-post-grid-item-image, ' +
+		'.post-thumbnail-inner, .entry-featured-image-inner, .kb-blocks-post-thumbnail, ' +
+		'.kt-post-image, .kb-post-thumbnail, .post-thumbnail';
 
 	/**
 	 * Liest die Favoriten-IDs (als String-Array) aus localStorage.
