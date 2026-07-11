@@ -18,6 +18,7 @@
 
 namespace Depeur\Food\Modules\Favorites\Meta;
 
+use Depeur\Food\Core\Settings\SettingsRegistry;
 use Depeur\Food\Support\Fields\Field_Provisioner;
 
 // Kein direkter Aufruf.
@@ -92,6 +93,13 @@ final class Like_Counter {
 	public static function post_types(): array {
 		$types = depeur_food()->get_supported_post_types();
 
+		// Optionaler Opt-in: Seiten (page) mit aufnehmen (Settings-Toggle, Default aus). Manche
+		// Rezepte/Roundup-Items hängen an Seiten statt an Cocktail-Beiträgen; erst mit diesem
+		// Toggle werden sie likebar (REST-Endpoint akzeptiert sie, Herz-Injektion inklusive).
+		if ( self::pages_enabled() && ! in_array( 'page', $types, true ) ) {
+			$types[] = 'page';
+		}
+
 		/**
 		 * Filtert die Post-Types, für die Favoriten/Like-Zähler gelten.
 		 *
@@ -99,6 +107,7 @@ final class Like_Counter {
 		 *
 		 * @param string[] $types Standardmäßig die unterstützten Post-Types (ADR-4).
 		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- FILTER_POST_TYPES ist depeur_food-prefixiert; der Sniff kann die Konstante nicht statisch prüfen.
 		$types = apply_filters( self::FILTER_POST_TYPES, $types );
 
 		// Defensiv normalisieren: nur nicht-leere String-Slugs, dedupliziert.
@@ -108,7 +117,23 @@ final class Like_Counter {
 	}
 
 	/**
-	 * auth_callback für den protected Meta-Key.
+	 * Ist der Opt-in „Seiten (page) einbeziehen" im Favoriten-Settings-Tab aktiviert?
+	 *
+	 * Bewusst Default aus: sonst würden alle Seiten (About/Impressum/…) likebar. Der Toggle
+	 * ist für Sites gedacht, deren Cocktail-/Rezept-Inhalte teils auf Seiten liegen.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return bool
+	 */
+	private static function pages_enabled(): bool {
+		$option = get_option( SettingsRegistry::option_key( 'favorites' ), array() );
+
+		return is_array( $option ) && ! empty( $option['include_pages'] );
+	}
+
+	/**
+	 * Auth_callback für den protected Meta-Key.
 	 *
 	 * Gilt nur für die Core-Meta-Wege (REST-Meta-Update, Editor). Der öffentliche
 	 * Toggle-Endpoint schreibt server-seitig via update_post_meta und ist davon

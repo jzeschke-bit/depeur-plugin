@@ -195,7 +195,7 @@ final class Tag_Groups_Admin {
 	 * @return array<string, string>
 	 */
 	public function add_column( $columns ): array {
-		$columns = (array) $columns;
+		$columns                         = (array) $columns;
 		$columns[ Tag_Groups::META_KEY ] = __( 'Filter-Gruppe', 'depeur-food' );
 
 		return $columns;

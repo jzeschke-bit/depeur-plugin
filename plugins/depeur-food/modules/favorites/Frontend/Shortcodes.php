@@ -108,7 +108,14 @@ final class Shortcodes {
 	 * @return string
 	 */
 	public function render_legacy_wprm( $atts ): string {
-		$atts    = shortcode_atts( array( 'id' => 0, 'post_id' => get_the_ID() ), $atts, 'wprm-favorite-button' );
+		$atts    = shortcode_atts(
+			array(
+				'id'      => 0,
+				'post_id' => get_the_ID(),
+			),
+			$atts,
+			'wprm-favorite-button'
+		);
 		$post_id = absint( $atts['post_id'] );
 		if ( $post_id < 1 || ! in_array( get_post_type( $post_id ), Like_Counter::post_types(), true ) ) {
 			$post_id = absint( $atts['id'] );

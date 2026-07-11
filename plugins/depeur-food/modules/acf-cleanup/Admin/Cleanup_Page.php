@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Cleanup_Page {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.2.0
 	 * @var string
@@ -42,7 +42,7 @@ final class Cleanup_Page {
 	private const PAGE_SLUG = 'depeur-food-acf-cleanup';
 
 	/**
-	 * admin-post-Action des Lösch-Vorgangs.
+	 * Admin-post-Action des Lösch-Vorgangs.
 	 *
 	 * @since 0.2.0
 	 * @var string
@@ -215,9 +215,9 @@ final class Cleanup_Page {
 	 *
 	 * @since 0.2.0
 	 *
-	 * @param string                             $heading Überschrift.
-	 * @param array<int, array<string, mixed>>   $groups  Gruppenliste.
-	 * @param string                             $kind    'covered' oder 'keep' (nur für die Leer-Meldung).
+	 * @param string                           $heading Überschrift.
+	 * @param array<int, array<string, mixed>> $groups  Gruppenliste.
+	 * @param string                           $kind    'covered' oder 'keep' (nur für die Leer-Meldung).
 	 * @return void
 	 */
 	private function render_table( string $heading, array $groups, string $kind ): void {

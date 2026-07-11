@@ -4,8 +4,26 @@
 
 	<file>.</file>
 
+	<!-- Nur PHP prüfen: JS/CSS folgen eigenen Konventionen (Vanilla-Assets), nicht WPCS. -->
+	<arg name="extensions" value="php"/>
+
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<!--
+	Modul content-types ist geparkt (Default-OFF, ACF besitzt die CPTs). config/seed.php ist ein
+	args-treuer Live-Dump (Daten, kein Handcode) → wird bis zur Reaktivierung vom Ruleset ausgenommen.
+	-->
+	<exclude-pattern>*/modules/content-types/*</exclude-pattern>
+
+	<!--
+	Das gebündelte Child-Theme (bundled-theme/) folgt bewusst KADENCE-Konventionen, nicht den
+	Plugin-Konventionen: es überschreibt Kadence-Template-Parts und MUSS dafür `namespace Kadence`,
+	die exakten Kadence-Dateinamen (entry_author.php …) und Kadence-Hook-Namen (kadence_*) nutzen.
+	Diese „Verstöße" gegen PrefixAllGlobals/ValidHookName/FileName sind funktional zwingend →
+	das Theme wird vom Plugin-Ruleset ausgenommen.
+	-->
+	<exclude-pattern>*/bundled-theme/*</exclude-pattern>
 
 	<rule ref="WordPress-Core">
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>

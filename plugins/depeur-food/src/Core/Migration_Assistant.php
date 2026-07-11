@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Migration_Assistant {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -56,7 +56,7 @@ final class Migration_Assistant {
 	private const CAP = 'manage_options';
 
 	/**
-	 * admin-post-Action „Theme installieren/aktualisieren".
+	 * Admin-post-Action „Theme installieren/aktualisieren".
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -64,7 +64,7 @@ final class Migration_Assistant {
 	private const ACTION_INSTALL = 'depeur_food_install_theme';
 
 	/**
-	 * admin-post-Action „Theme aktivieren".
+	 * Admin-post-Action „Theme aktivieren".
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -88,7 +88,7 @@ final class Migration_Assistant {
 	private const NONCE_ACTIVATE = 'depeur_food_activate_theme_nonce';
 
 	/**
-	 * admin-post-Action „Customizer-Einstellungen übernehmen".
+	 * Admin-post-Action „Customizer-Einstellungen übernehmen".
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -104,7 +104,7 @@ final class Migration_Assistant {
 	private const NONCE_IMPORT_MODS = 'depeur_food_import_thememods_nonce';
 
 	/**
-	 * admin-post-Action „Migration abschließen" (deaktiviert Einmal-Module).
+	 * Admin-post-Action „Migration abschließen" (deaktiviert Einmal-Module).
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -272,10 +272,12 @@ final class Migration_Assistant {
 			<?php if ( 0 === $blocking ) : ?>
 				<div class="notice notice-success inline"><p><strong><?php esc_html_e( '✓ Bereit: Plugin-Seite ist für den Theme-Wechsel vorbereitet.', 'depeur-food' ); ?></strong></p></div>
 			<?php else : ?>
-				<div class="notice notice-error inline"><p><strong><?php
+				<div class="notice notice-error inline"><p><strong>
+				<?php
 					/* translators: %d: Anzahl blockierender Punkte. */
 					echo esc_html( sprintf( _n( '%d blockierender Punkt — bitte vor dem Theme-Wechsel lösen.', '%d blockierende Punkte — bitte vor dem Theme-Wechsel lösen.', $blocking, 'depeur-food' ), $blocking ) );
-				?></strong></p></div>
+				?>
+				</strong></p></div>
 			<?php endif; ?>
 
 			<h2><?php esc_html_e( '1. Umgebung', 'depeur-food' ); ?></h2>
@@ -321,7 +323,7 @@ final class Migration_Assistant {
 		$rows = array();
 
 		// Plugin-Helper vorhanden = Plugin gebootet. (Dass diese Seite überhaupt rendert, ist
-		// bereits ein starker Indikator; die Prüfung bleibt aus Ehrlichkeit trotzdem explizit.)
+		// bereits ein starker Indikator; die Prüfung bleibt aus Ehrlichkeit trotzdem explizit).
 		$rows[] = self::row(
 			function_exists( 'depeur_food' ) ? 'ok' : 'error',
 			__( 'Plugin depeur-food gebootet', 'depeur-food' ),
@@ -425,7 +427,7 @@ final class Migration_Assistant {
 				: __( 'Ordner themes/kadence-child noch nicht auf den Server kopiert.', 'depeur-food' )
 		);
 
-		// b) Ist das Parent-Theme Kadence vorhanden? (Child braucht es als Basis.)
+		// b) Ist das Parent-Theme Kadence vorhanden? (Child braucht es als Basis).
 		$parent        = wp_get_theme( self::PARENT_THEME );
 		$parent_exists = $parent->exists();
 		$rows[]        = self::row(
@@ -436,7 +438,7 @@ final class Migration_Assistant {
 				: __( 'Kadence fehlt — Child-Theme kann ohne Parent nicht laufen.', 'depeur-food' )
 		);
 
-		// c) Läuft noch ein Alt-Theme? (Nur ein Hinweis — der Wechsel ist der letzte Schritt.)
+		// c) Läuft noch ein Alt-Theme? (Nur ein Hinweis — der Wechsel ist der letzte Schritt).
 		$legacy_active = in_array( strtolower( (string) $current_style ), self::LEGACY_THEMES, true )
 			|| in_array( strtolower( (string) $current_parent ), self::LEGACY_THEMES, true );
 		if ( $legacy_active ) {
@@ -476,7 +478,7 @@ final class Migration_Assistant {
 	 * @since 0.3.0
 	 *
 	 * @param array<int, array{status: string, label: string, detail: string}> $rows   Prüfzeilen.
-	 * @param string                                                            $status Gesuchter Status.
+	 * @param string                                                           $status Gesuchter Status.
 	 * @return int Anzahl.
 	 */
 	private static function count_status( array $rows, string $status ): int {
@@ -517,7 +519,7 @@ final class Migration_Assistant {
 	 * @return void
 	 */
 	private static function render_table( array $rows ): void {
-		$icons = array(
+		$icons  = array(
 			'ok'      => '✓',
 			'warning' => '⚠',
 			'error'   => '✗',
@@ -752,13 +754,13 @@ final class Migration_Assistant {
 		$msg = isset( $_GET['df_msg'] ) ? sanitize_text_field( wp_unslash( $_GET['df_msg'] ) ) : '';
 
 		$map = array(
-			'installed' => array( 'success', __( 'Child-Theme installiert.', 'depeur-food' ) ),
-			'updated'   => array( 'success', __( 'Child-Theme aktualisiert.', 'depeur-food' ) ),
-			'activated' => array( 'success', __( 'Child-Theme aktiviert. Bitte den Seiten-Cache leeren.', 'depeur-food' ) ),
+			'installed'     => array( 'success', __( 'Child-Theme installiert.', 'depeur-food' ) ),
+			'updated'       => array( 'success', __( 'Child-Theme aktualisiert.', 'depeur-food' ) ),
+			'activated'     => array( 'success', __( 'Child-Theme aktiviert. Bitte den Seiten-Cache leeren.', 'depeur-food' ) ),
 			'mods_imported' => array( 'success', __( 'Customizer-Einstellungen übernommen. Bitte den Seiten-Cache leeren.', 'depeur-food' ) ),
-			'finished'  => array( 'success', '' === $msg ? __( 'Migration abgeschlossen.', 'depeur-food' ) : $msg ),
-			'nochange'  => array( 'info', __( 'Nichts abzuschließen — keine einmaligen Migrations-Module aktiv.', 'depeur-food' ) ),
-			'error'     => array( 'error', '' === $msg ? __( 'Aktion fehlgeschlagen.', 'depeur-food' ) : $msg ),
+			'finished'      => array( 'success', '' === $msg ? __( 'Migration abgeschlossen.', 'depeur-food' ) : $msg ),
+			'nochange'      => array( 'info', __( 'Nichts abzuschließen — keine einmaligen Migrations-Module aktiv.', 'depeur-food' ) ),
+			'error'         => array( 'error', '' === $msg ? __( 'Aktion fehlgeschlagen.', 'depeur-food' ) : $msg ),
 		);
 		if ( ! isset( $map[ $status ] ) ) {
 			return;
@@ -876,6 +878,7 @@ final class Migration_Assistant {
 	 * @return array<int, array{id:string,title:string,description:string,status:string,status_text:string,action_url:string,action_label:string,module:string,one_time:bool}>
 	 */
 	private static function collect_steps(): array {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- STEPS_FILTER ist depeur_food-prefixiert; der Sniff kann die Konstante nicht statisch prüfen.
 		$raw = apply_filters( self::STEPS_FILTER, array() );
 		if ( ! is_array( $raw ) ) {
 			return array();
@@ -923,7 +926,7 @@ final class Migration_Assistant {
 			return;
 		}
 
-		$icons = array(
+		$icons  = array(
 			'todo'     => '○',
 			'done'     => '✓',
 			'optional' => 'ℹ',

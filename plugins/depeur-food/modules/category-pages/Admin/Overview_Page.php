@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Overview_Page {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -151,7 +151,18 @@ final class Overview_Page {
 										<?php endif; ?>
 									</div>
 								</td>
-								<td><?php echo wp_kses( $this->describe_terms( $page_id ), array( 'strong' => array(), 'br' => array(), 'em' => array() ) ); ?></td>
+								<td>
+								<?php
+								echo wp_kses(
+									$this->describe_terms( $page_id ),
+									array(
+										'strong' => array(),
+										'br'     => array(),
+										'em'     => array(),
+									)
+								);
+								?>
+									</td>
 								<td>
 									<?php
 									printf(
@@ -251,12 +262,12 @@ final class Overview_Page {
 	 *
 	 * @param int    $page_id Seiten-ID.
 	 * @param string $key     Meta-Key.
-	 * @param int    $default Default, wenn nicht gesetzt.
+	 * @param int    $fallback Default, wenn nicht gesetzt.
 	 * @return int
 	 */
-	private function meta_int( int $page_id, string $key, int $default ): int {
+	private function meta_int( int $page_id, string $key, int $fallback ): int {
 		$value = get_post_meta( $page_id, $key, true );
 
-		return ( '' === $value || null === $value ) ? $default : (int) $value;
+		return ( '' === $value || null === $value ) ? $fallback : (int) $value;
 	}
 }

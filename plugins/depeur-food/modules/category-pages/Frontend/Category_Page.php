@@ -146,20 +146,19 @@ final class Category_Page {
 			)
 		);
 
-		$total     = $this->count_total( $base_args );
-		$max_pages = $this->max_pages( $total, $first, $per );
-
 		if ( $limit < 1 ) {
 			return '';
 		}
 
+		// Eine Query: no_found_rows NICHT gesetzt → WP liefert die Gesamtzahl via found_posts
+		// (SQL_CALC_FOUND_ROWS ignoriert LIMIT/OFFSET). Ersetzt die frühere zweite -1/ids-Zähl-
+		// Query, die bei großen Kategorien pro Seitenaufruf alle IDs geladen hat.
 		$query = new WP_Query(
 			array_merge(
 				$base_args,
 				array(
 					'posts_per_page' => $limit,
 					'offset'         => $offset,
-					'no_found_rows'  => true,
 				)
 			)
 		);
@@ -168,6 +167,8 @@ final class Category_Page {
 			wp_reset_postdata();
 			return '';
 		}
+
+		$max_pages = $this->max_pages( (int) $query->found_posts, $first, $per );
 
 		$columns = ( $paged <= 1 ) ? 'grid-sm-col-2 grid-lg-col-2' : 'grid-sm-col-2 grid-lg-col-3';
 
@@ -205,6 +206,7 @@ final class Category_Page {
 	private function render_entry(): void {
 		// Kadence rendert seine Archiv-Karten über diese Aktion (identische Optik zum Theme).
 		if ( has_action( 'kadence_loop_entry' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Kadence-Hook (Drittanbieter), bewusst aufgerufen.
 			do_action( 'kadence_loop_entry' );
 			return;
 		}
@@ -265,8 +267,8 @@ final class Category_Page {
 	 *
 	 * @since 0.3.0
 	 *
-	 * @param int                        $page_id Seiten-ID.
-	 * @param array<string, array<int>>  $grouped Aufgelöste Terms.
+	 * @param int                       $page_id Seiten-ID.
+	 * @param array<string, array<int>> $grouped Aufgelöste Terms.
 	 * @return array<string, array<int>>
 	 */
 	private static function maybe_fallback( int $page_id, array $grouped ): array {
@@ -311,31 +313,6 @@ final class Category_Page {
 	}
 
 	/**
-	 * Zählt die Gesamt-Treffer der kuratierten Query (für die Pagination).
-	 *
-	 * @since 0.3.0
-	 *
-	 * @param array<string, mixed> $base_args Query-Args (ohne Limit/Offset).
-	 * @return int
-	 */
-	private function count_total( array $base_args ): int {
-		$count = new WP_Query(
-			array_merge(
-				$base_args,
-				array(
-					'posts_per_page' => -1,
-					'fields'         => 'ids',
-					'no_found_rows'  => true,
-				)
-			)
-		);
-		$total = is_array( $count->posts ) ? count( $count->posts ) : 0;
-		wp_reset_postdata();
-
-		return $total;
-	}
-
-	/**
 	 * Berechnet die Seitenzahl: Seite 1 zeigt `$first`, jede Folgeseite `$per`.
 	 *
 	 * @since 0.3.0
@@ -360,13 +337,13 @@ final class Category_Page {
 	 *
 	 * @param int    $page_id Seiten-ID.
 	 * @param string $key     Meta-Key.
-	 * @param int    $default Default, wenn nicht gesetzt.
+	 * @param int    $fallback Default, wenn nicht gesetzt.
 	 * @return int
 	 */
-	private static function meta_number( int $page_id, string $key, int $default ): int {
+	private static function meta_number( int $page_id, string $key, int $fallback ): int {
 		$value = get_post_meta( $page_id, $key, true );
 
-		return ( '' === $value || null === $value ) ? $default : (int) $value;
+		return ( '' === $value || null === $value ) ? $fallback : (int) $value;
 	}
 
 	/**

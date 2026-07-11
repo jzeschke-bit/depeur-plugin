@@ -79,6 +79,11 @@
 	position: relative;
 }
 
+/* Rezeptbild (Block- wie Legacy-Template) als Referenz für das Overlay-Herz. */
+.wprm-recipe-image {
+	position: relative;
+}
+
 .wprm-recipe-roundup-summary-container .df-favorite-wrapper {
 	top: 10px;
 	right: 10px;
@@ -89,6 +94,20 @@
 
 .kt-inside-inner-col .df-favorite-wrapper {
 	top: 20px;
+}
+
+/*
+ * Per-JS auf Kadence-Blocks-Karten (Post Grid/Carousel) injizierte Herzen.
+ * Der Bild-Container bekommt eine Positionierungs-Referenz, das absolute Wrapper-Herz
+ * sitzt oben rechts (Basis-Regeln .df-favorite-wrapper gelten weiter).
+ */
+.df-has-favorite {
+	position: relative;
+}
+
+.df-favorite-wrapper--injected {
+	top: 10px;
+	right: 10px;
 }
 
 /* Client-seitig gerendertes Favoriten-Archiv. */

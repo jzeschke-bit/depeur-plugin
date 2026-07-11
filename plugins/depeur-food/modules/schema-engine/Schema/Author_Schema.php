@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Author_Schema {
 
 	/**
-	 * knowsAbout-Meta-Keys in Ausgabereihenfolge (1–4, wie beide Legacy-Konsumenten).
+	 * KnowsAbout-Meta-Keys in Ausgabereihenfolge (1–4, wie beide Legacy-Konsumenten).
 	 *
 	 * `author_knowabout_5` existiert live, wurde aber nie ins Schema gezogen (acf-discovery
 	 * § 4.1) → bewusst nicht enthalten (faithful port).

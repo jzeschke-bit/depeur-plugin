@@ -17,6 +17,8 @@
 
 namespace Depeur\Food\Modules\Favorites\Frontend;
 
+use Depeur\Food\Core\Settings\SettingsRegistry;
+use Depeur\Food\Modules\Favorites\Meta\Like_Counter;
 use Depeur\Food\Modules\Favorites\Rest\Favorites_Controller;
 
 // Kein direkter Aufruf.
@@ -40,11 +42,23 @@ final class Assets {
 	private const HANDLE = 'df-favorites';
 
 	/**
+	 * Modul-Slug (Options-Kontext für die Grid-Herzen-Einstellung).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private string $slug;
+
+	/**
 	 * Verdrahtet den Enqueue-Hook.
 	 *
 	 * @since 0.2.0
+	 *
+	 * @param string $slug Modul-Slug (= Ordnername), für den Options-Zugriff.
 	 */
-	public function __construct() {
+	public function __construct( string $slug = 'favorites' ) {
+		$this->slug = $slug;
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
@@ -92,7 +106,54 @@ final class Assets {
 				// Legacy-Quellen für die einmalige Migration (Cookie + alter localStorage-Key).
 				'legacyCookie'     => 'my_favorite_posts',
 				'legacyStorageKey' => 'my_favorite_posts',
+				// Automatische Herz-Injektion auf Kadence-Blocks-Karten (Post Grid/Carousel).
+				'gridHearts'       => $this->grid_hearts_enabled(),
+				// Nur diese Post-Types bekommen ein Herz (Kern-Klasse type-<pt> auf der Karte).
+				'postTypes'        => array_values( Like_Counter::post_types() ),
+				// Selektor-Override; leer ⇒ das JS nutzt seine Kadence-Standard-Selektoren.
+				'gridSelectors'    => $this->grid_selectors(),
+				// Generisches aria-label für die per-JS gebauten Herzen (kein Titel-Kontext im JS).
+				'buttonLabel'      => esc_attr__( 'Zu Favoriten hinzufügen oder entfernen', 'depeur-food' ),
 			)
 		);
+	}
+
+	/**
+	 * Liest die Einstellung „Herzen auf Kadence-Karten injizieren" (Default: aktiv).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return bool
+	 */
+	private function grid_hearts_enabled(): bool {
+		$option = get_option( SettingsRegistry::option_key( $this->slug ), array() );
+		if ( ! is_array( $option ) ) {
+			return true;
+		}
+
+		// Unset ⇒ Default aktiv; explizit gespeicherter Wert entscheidet.
+		return ! array_key_exists( 'grid_hearts', $option ) || ! empty( $option['grid_hearts'] );
+	}
+
+	/**
+	 * Liefert einen optionalen CSS-Selektor-Override für die Grid-Herzen.
+	 *
+	 * Standard leer → das JS nutzt seine eigenen, auf Kadence-Blocks abgestimmten
+	 * Selektoren. Über den Filter kann eine Site abweichende/zusätzliche Container
+	 * ansteuern, ohne den Code zu ändern.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string
+	 */
+	private function grid_selectors(): string {
+		/**
+		 * Filtert die CSS-Selektoren für die automatische Herz-Injektion auf Karten.
+		 *
+		 * @since 0.3.0
+		 *
+		 * @param string $selectors Leerer String ⇒ JS-Standardselektoren.
+		 */
+		return (string) apply_filters( 'depeur_food/favorites/grid_selectors', '' );
 	}
 }

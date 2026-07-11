@@ -1,0 +1,68 @@
+name: CI
+
+# Läuft bei jedem Pull Request gegen main und bei Pushes auf main.
+# Zweck: automatische Basis-Prüfung, die vorher nur manuell im wp-env lief.
+#  1) php-lint  — Syntax-Check aller Plugin-PHP-Dateien (hartes Gate).
+#  2) phpcs     — WordPress Coding Standards gegen plugins/depeur-food/phpcs.xml.dist.
+#
+# Hinweis: `wp plugin check` läuft NICHT in CI (bräuchte eine volle WordPress-Instanz);
+# das bleibt der manuelle Schritt im wp-env (tests-cli).
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: PHP Lint (php -l, 8.2)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coding_standards: none
+
+      - name: Lint alle Plugin-PHP-Dateien
+        run: |
+          set -euo pipefail
+          find plugins -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+
+  phpcs:
+    name: PHPCS (WordPress Coding Standards)
+    runs-on: ubuntu-latest
+    # Blockierendes Gate: das Plugin ist WPCS-clean (phpcs.xml.dist scoped auf PHP; bundled-theme
+    # = Kadence-Konventionen und modules/content-types = geparkt sind ausgenommen).
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Composer-Plugin erlauben (Composer 2.2+ blockt Plugins sonst)
+        run: composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+      - name: PHPCS + WordPress Coding Standards installieren
+        run: |
+          composer global require --no-interaction --no-progress \
+            squizlabs/php_codesniffer:^3.9 \
+            wp-coding-standards/wpcs:^3.1 \
+            phpcompatibility/phpcompatibility-wp:^2.1 \
+            dealerdirect/phpcodesniffer-composer-installer:^1.0
+
+      - name: Composer-Bin in den PATH aufnehmen
+        run: echo "$(composer global config bin-dir --absolute -q)" >> "$GITHUB_PATH"
+
+      - name: PHPCS ausführen (nutzt phpcs.xml.dist des Plugins)
+        working-directory: plugins/depeur-food
+        run: phpcs -q --report=full

@@ -64,7 +64,7 @@ $author_id = get_the_author_meta( 'ID' );
 			foreach ( array( 'facebook', 'twitter', 'instagram', 'youtube', 'flickr', 'vimeo', 'linkedin', 'pinterest', 'dribbble', 'amazon', 'medium', 'goodreads', 'bookbub' ) as $social ) {
 				if ( get_the_author_meta( $social ) ) {
 					?>
-					<a href="<?php echo esc_url( get_the_author_meta( $social ) ); ?>" class="<?php echo esc_attr( $social ); ?>-link social-button" target="_blank" rel="noopener" title="<?php /* translators: 1: Author Name, 2: Social Media Name */ echo sprintf( esc_attr__( 'Follow %1$s on %2$s', 'kadence' ), esc_attr( get_the_author_meta( 'display_name' ) ), esc_attr( ucfirst( $social ) ) ); ?>">
+					<a href="<?php echo esc_url( get_the_author_meta( $social ) ); ?>" class="<?php echo esc_attr( $social ); ?>-link social-button" target="_blank" rel="noopener" title="<?php /* translators: 1: Author Name, 2: Social Media Name */ printf( esc_attr__( 'Follow %1$s on %2$s', 'kadence' ), esc_attr( get_the_author_meta( 'display_name' ) ), esc_attr( ucfirst( $social ) ) ); ?>">
 						<?php kadence()->print_icon( $social, '', false ); ?>
 					</a>
 					<?php

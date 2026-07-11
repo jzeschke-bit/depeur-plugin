@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Migration_Page {
 
 	/**
-	 * page-Parameter der Unterseite.
+	 * Page-Parameter der Unterseite.
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -36,7 +36,7 @@ final class Migration_Page {
 	private const PAGE_SLUG = 'depeur-food-catpage-migration';
 
 	/**
-	 * admin-post-Action (Migration).
+	 * Admin-post-Action (Migration).
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -52,7 +52,7 @@ final class Migration_Page {
 	private const NONCE = 'depeur_food_catpage_migrate_nonce';
 
 	/**
-	 * admin-post-Action (Restore).
+	 * Admin-post-Action (Restore).
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -68,7 +68,7 @@ final class Migration_Page {
 	private const NONCE_RESTORE = 'depeur_food_catpage_restore_nonce';
 
 	/**
-	 * admin-post-Action (Backups löschen).
+	 * Admin-post-Action (Backups löschen).
 	 *
 	 * @since 0.3.0
 	 * @var string
@@ -84,7 +84,7 @@ final class Migration_Page {
 	private const NONCE_DELETE_BACKUPS = 'depeur_food_catpage_del_backups_nonce';
 
 	/**
-	 * admin-post-Action (Legacy-ACF-Gruppe löschen).
+	 * Admin-post-Action (Legacy-ACF-Gruppe löschen).
 	 *
 	 * @since 0.3.0
 	 * @var string

@@ -50,7 +50,7 @@ final class Field_Provisioner {
 	/**
 	 * Verdrahtet Meta-Registrierung (init) und ACF-Group (acf/init).
 	 *
-	 * did_action-Guards: Feature-Module werden vom ModuleManager AUF init geladen (nach
+	 * Die did_action-Guards: Feature-Module werden vom ModuleManager AUF init geladen (nach
 	 * ACFs acf/init prio 5) — daher sofort registrieren, wenn der Hook schon lief.
 	 *
 	 * @since 0.2.0

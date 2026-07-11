@@ -51,7 +51,7 @@ final class Archive_Injector {
 	/**
 	 * Verdrahtet die Query-Erweiterung.
 	 *
-	 * pre_get_posts läuft nach parse_query, aber vor dem eigentlichen DB-Zugriff — der richtige
+	 * Der Hook pre_get_posts läuft nach parse_query, aber vor dem eigentlichen DB-Zugriff — der richtige
 	 * Ort, um post_type der Haupt-Abfrage zu setzen.
 	 *
 	 * @since 0.3.0

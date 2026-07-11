@@ -33,6 +33,8 @@ final class Settings {
 	private string $slug;
 
 	/**
+	 * Meldet den Settings-Tab des Sprachumschalter-Moduls an.
+	 *
 	 * @since 0.2.0
 	 *
 	 * @param string $slug Modul-Slug (= Ordnername).

@@ -57,7 +57,21 @@ final class Settings {
 					'label'       => __( 'WPRM-Button automatisch einfügen', 'depeur-food' ),
 					'type'        => 'checkbox',
 					'default'     => true,
-					'description' => __( 'Fügt den Favoriten-Button automatisch in die WP-Recipe-Maker-Rezeptbilder ein. Nur wirksam, wenn WP Recipe Maker aktiv ist.', 'depeur-food' ),
+					'description' => __( 'Fügt den Favoriten-Button automatisch in die WP-Recipe-Maker-Rezeptbilder ein – beim normalen Rezept-Block und je Roundup-Item. Im Roundup zeigt das Herz auf den jeweils verlinkten Beitrag (Eltern-Beitrag des Rezepts), nicht auf den Roundup-Beitrag. Nur wirksam, wenn WP Recipe Maker aktiv ist.', 'depeur-food' ),
+				),
+				array(
+					'id'          => 'grid_hearts',
+					'label'       => __( 'Herzen auf Kadence-Block-Karten einfügen', 'depeur-food' ),
+					'type'        => 'checkbox',
+					'default'     => true,
+					'description' => __( 'Blendet auf Beitrags-Karten der Kadence-Blocks (Post Grid / Post Carousel – z. B. auf der Startseite und in der Sidebar) automatisch ein Merken-Herz ein. Jede Karte verweist auf ihren eigenen Beitrag. Rein clientseitig (Vanilla JS), greift nur auf unterstützten Post-Types.', 'depeur-food' ),
+				),
+				array(
+					'id'          => 'include_pages',
+					'label'       => __( 'Favoriten auch auf Seiten (page) erlauben', 'depeur-food' ),
+					'type'        => 'checkbox',
+					'default'     => false,
+					'description' => __( 'Standardmäßig sind nur Beiträge/CPTs likebar (post, cocktails, …). Aktiviere dies, wenn Rezepte oder Roundup-Items an WordPress-Seiten (page) hängen und dort ein Herz bekommen sollen. Nebeneffekt: Herzen können dann generell auf Seiten-Inhalten erscheinen (auch Seiten-Karten in Grids) und der Like-Endpoint akzeptiert Seiten.', 'depeur-food' ),
 				),
 				array(
 					'id'    => 'diagnose',
