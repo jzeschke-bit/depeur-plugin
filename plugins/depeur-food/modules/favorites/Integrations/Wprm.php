@@ -68,16 +68,18 @@ final class Wprm {
 			return;
 		}
 
-		// WPRM reicht ($image_container, $recipe_id) herein – Legacy nutzte denselben Filter.
+		// WPRM reicht ($image_container, $recipe_id) herein. Der Legacy-Template-Pfad nutzt
+		// diesen Filter; im Roundup feuert er je Item mit der Item-Rezept-ID (Parent-tauglich).
 		add_filter( 'wprm_recipe_image_container', array( $this, 'inject_button' ), 10, 2 );
 
-		// Das moderne WPRM-Block-Template rendert das Bild NICHT über wprm_recipe_image_container
-		// (Klasse wprm-block-image-*), weshalb dort kein Herz erschien. Deshalb zusätzlich am
-		// Gesamt-Output des Rezepts andocken und in den ersten .wprm-recipe-image-Container
-		// injizieren – deckt Legacy- UND Block-Template ab, pro Rezept mit $recipe-Objekt
-		// (roundup-tauglich). Der Doppel-Schutz (ist schon ein df-favorite-button drin?)
-		// verhindert zwei Herzen, falls beide Filter feuern.
-		add_filter( 'wprm_recipe_output', array( $this, 'inject_into_output' ), 20, 2 );
+		// Das moderne WPRM-Block-Template rendert das Bild als <div class="wprm-recipe-image
+		// wprm-block-image-*"> OHNE den wprm_recipe_image_container-Filter → dort erschien kein
+		// Herz. Der Rezept-Block steht aber im Post-Content, also injizieren wir auf einer
+		// singulären Rezept-Seite direkt in den ersten .wprm-recipe-image-Container des Inhalts.
+		// Ziel = der aktuelle Beitrag (auf einer Rezept-Single ist das der Eltern-Beitrag des
+		// Haupt-Rezepts). Der Doppel-Schutz verhindert zwei Herzen, falls der Legacy-Filter
+		// (oben) bereits injiziert hat. Roundup-Items bleiben dem per-Item-Filter überlassen.
+		add_filter( 'the_content', array( $this, 'inject_into_content' ), 20 );
 	}
 
 	/**
@@ -146,48 +148,59 @@ final class Wprm {
 	}
 
 	/**
-	 * Injiziert das Herz in den Gesamt-Output eines Rezepts (Legacy- + Block-Template).
+	 * Injiziert das Herz in das Rezeptbild einer singulären Rezept-Seite (Block-Template).
 	 *
 	 * Das moderne WPRM-Block-Template rendert das Bild als <div class="wprm-recipe-image
-	 * wprm-block-image-…"> ohne den wprm_recipe_image_container-Filter. Hier setzen wir daher
-	 * am fertigen Rezept-HTML an und schieben den Button in den ERSTEN .wprm-recipe-image-
-	 * Container. Ein bereits vorhandenes Herz (Legacy-Filter hat schon injiziert) bricht ab –
-	 * kein Doppel-Button. Das Ziel ist wie überall der Eltern-Beitrag des Rezepts.
+	 * wprm-block-image-…"> ohne den wprm_recipe_image_container-Filter. Da der Rezept-Block
+	 * aber im Post-Content steht, setzen wir hier am the_content an und schieben den Button
+	 * in den ERSTEN .wprm-recipe-image-Container. Ziel = der aktuelle Beitrag: auf einer
+	 * Rezept-Single ist das Haupt-Rezept dessen eigenes, also der korrekte Eltern-Beitrag.
+	 *
+	 * Enge Gates: nur Haupt-Loop einer singulären Ansicht eines unterstützten Post-Types
+	 * (verhindert Doppel-Läufe/Sekundär-Queries und Roundup-Seiten auf `page` – die sind
+	 * kein unterstützter Typ und werden hier gar nicht angefasst). Der Doppel-Schutz bricht
+	 * ab, falls der Legacy-Filter bereits ein Herz gesetzt hat.
 	 *
 	 * @since 0.3.0
 	 *
-	 * @param string $output Fertiges Rezept-HTML.
-	 * @param mixed  $recipe WPRM-Recipe-Objekt (liefert die Rezept-ID via ->id()).
+	 * @param string $content Post-Content.
 	 * @return string
 	 */
-	public function inject_into_output( $output, $recipe ): string {
-		$output = (string) $output;
+	public function inject_into_content( $content ): string {
+		$content = (string) $content;
 
-		// Doppel-Schutz: hat der Legacy-Filter (oder ein früherer Lauf) schon injiziert?
-		if ( false !== strpos( $output, 'df-favorite-button' ) ) {
-			return $output;
+		if ( is_admin() || ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+			return $content;
 		}
 
-		$recipe_id = ( is_object( $recipe ) && method_exists( $recipe, 'id' ) ) ? absint( $recipe->id() ) : 0;
+		// Doppel-Schutz: hat der Legacy-Filter (oder ein früherer Lauf) schon injiziert?
+		if ( false !== strpos( $content, 'df-favorite-button' ) ) {
+			return $content;
+		}
 
-		$post_id = $this->resolve_target_post( $recipe_id );
-		if ( $post_id < 1 ) {
-			return $output;
+		// Kein Rezeptbild im Inhalt → nichts zu tun (spart die Regex).
+		if ( false === strpos( $content, 'wprm-recipe-image' ) ) {
+			return $content;
+		}
+
+		$post_id = absint( get_the_ID() );
+		if ( ! $this->is_favoritable( $post_id ) ) {
+			return $content;
 		}
 
 		$button = Shortcodes::button_markup( $post_id, 'thumbnail', false );
 		if ( '' === $button ) {
-			return $output;
+			return $content;
 		}
 
 		// In den ersten Bild-Container einsetzen (unmittelbar nach dessen öffnendem <div>).
-		if ( preg_match( '/<div[^>]*\bwprm-recipe-image\b[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE ) ) {
+		if ( preg_match( '/<div[^>]*\bwprm-recipe-image\b[^>]*>/', $content, $matches, PREG_OFFSET_CAPTURE ) ) {
 			$insert_at = (int) $matches[0][1] + strlen( (string) $matches[0][0] );
 
-			return substr( $output, 0, $insert_at ) . $button . substr( $output, $insert_at );
+			return substr( $content, 0, $insert_at ) . $button . substr( $content, $insert_at );
 		}
 
-		return $output;
+		return $content;
 	}
 
 	/**
