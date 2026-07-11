@@ -186,6 +186,48 @@
 	}
 
 	/**
+	 * Alle Buttons einer Beitrags-ID auf der Seite (Titelbild + Rezeptbild + Karten teilen
+	 * sich denselben Beitrag → müssen gemeinsam reagieren, sonst driften sie auseinander).
+	 *
+	 * @param {string} id Beitrags-ID.
+	 * @return {Array<HTMLElement>}
+	 */
+	function buttonsForPost( id ) {
+		var target = String( id );
+		var out = [];
+		document.querySelectorAll( '.df-favorite-button' ).forEach( function ( button ) {
+			if ( button.getAttribute( 'data-post-id' ) === target ) {
+				out.push( button );
+			}
+		} );
+		return out;
+	}
+
+	/**
+	 * Setzt den Herz-Zustand für ALLE Buttons eines Beitrags (Sync mehrerer Instanzen).
+	 *
+	 * @param {string}  id        Beitrags-ID.
+	 * @param {boolean} favorited Neuer Zustand.
+	 */
+	function setStateForPost( id, favorited ) {
+		buttonsForPost( id ).forEach( function ( button ) {
+			setButtonState( button, favorited );
+		} );
+	}
+
+	/**
+	 * Aktualisiert den Zählerstand für ALLE Buttons eines Beitrags.
+	 *
+	 * @param {string} id    Beitrags-ID.
+	 * @param {number} likes Neuer Zählerstand.
+	 */
+	function updateCountForPost( id, likes ) {
+		buttonsForPost( id ).forEach( function ( button ) {
+			updateCount( button, likes );
+		} );
+	}
+
+	/**
 	 * Liest die Beitrags-ID aus der WordPress-Kern-Klasse `post-<ID>` (bzw. id="post-<ID>").
 	 *
 	 * `post_class()`/`get_post_class()` setzt diese Klasse auf JEDER Beitrags-Karte, auch in
@@ -327,14 +369,20 @@
 		var wasFavorited = hasFavorite( id );
 		var direction = wasFavorited ? 'remove' : 'add';
 
-		// Optimistisch: Storage + UI sofort umstellen.
+		// Alle Buttons desselben Beitrags gemeinsam behandeln (Titelbild + Rezeptbild + Karten),
+		// damit sie synchron umschalten und nicht bis zum Reload auseinanderlaufen.
+		var buttons = buttonsForPost( id );
+
+		// Optimistisch: Storage + UI (alle Instanzen) sofort umstellen.
 		if ( wasFavorited ) {
 			removeFavorite( id );
 		} else {
 			addFavorite( id );
 		}
-		setButtonState( button, ! wasFavorited );
-		button.disabled = true;
+		setStateForPost( id, ! wasFavorited );
+		buttons.forEach( function ( b ) {
+			b.disabled = true;
+		} );
 
 		function revert() {
 			if ( wasFavorited ) {
@@ -342,7 +390,7 @@
 			} else {
 				removeFavorite( id );
 			}
-			setButtonState( button, wasFavorited );
+			setStateForPost( id, wasFavorited );
 		}
 
 		fetch( cfg.toggleUrl, {
@@ -361,7 +409,7 @@
 			} )
 			.then( function ( result ) {
 				if ( result.ok && result.data && result.data.success ) {
-					updateCount( button, result.data.likes );
+					updateCountForPost( id, result.data.likes );
 				} else {
 					revert();
 				}
@@ -370,7 +418,9 @@
 				revert();
 			} )
 			.then( function () {
-				button.disabled = false;
+				buttons.forEach( function ( b ) {
+					b.disabled = false;
+				} );
 			} );
 	}
 
