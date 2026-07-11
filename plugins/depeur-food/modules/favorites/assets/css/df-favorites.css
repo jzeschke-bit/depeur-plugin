@@ -79,6 +79,11 @@
 	position: relative;
 }
 
+/* Rezeptbild (Block- wie Legacy-Template) als Referenz für das Overlay-Herz. */
+.wprm-recipe-image {
+	position: relative;
+}
+
 .wprm-recipe-roundup-summary-container .df-favorite-wrapper {
 	top: 10px;
 	right: 10px;

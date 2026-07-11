@@ -70,6 +70,14 @@ final class Wprm {
 
 		// WPRM reicht ($image_container, $recipe_id) herein – Legacy nutzte denselben Filter.
 		add_filter( 'wprm_recipe_image_container', array( $this, 'inject_button' ), 10, 2 );
+
+		// Das moderne WPRM-Block-Template rendert das Bild NICHT über wprm_recipe_image_container
+		// (Klasse wprm-block-image-*), weshalb dort kein Herz erschien. Deshalb zusätzlich am
+		// Gesamt-Output des Rezepts andocken und in den ersten .wprm-recipe-image-Container
+		// injizieren – deckt Legacy- UND Block-Template ab, pro Rezept mit $recipe-Objekt
+		// (roundup-tauglich). Der Doppel-Schutz (ist schon ein df-favorite-button drin?)
+		// verhindert zwei Herzen, falls beide Filter feuern.
+		add_filter( 'wprm_recipe_output', array( $this, 'inject_into_output' ), 20, 2 );
 	}
 
 	/**
@@ -135,6 +143,51 @@ final class Wprm {
 		}
 
 		return $image_container . $button;
+	}
+
+	/**
+	 * Injiziert das Herz in den Gesamt-Output eines Rezepts (Legacy- + Block-Template).
+	 *
+	 * Das moderne WPRM-Block-Template rendert das Bild als <div class="wprm-recipe-image
+	 * wprm-block-image-…"> ohne den wprm_recipe_image_container-Filter. Hier setzen wir daher
+	 * am fertigen Rezept-HTML an und schieben den Button in den ERSTEN .wprm-recipe-image-
+	 * Container. Ein bereits vorhandenes Herz (Legacy-Filter hat schon injiziert) bricht ab –
+	 * kein Doppel-Button. Das Ziel ist wie überall der Eltern-Beitrag des Rezepts.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $output Fertiges Rezept-HTML.
+	 * @param mixed  $recipe WPRM-Recipe-Objekt (liefert die Rezept-ID via ->id()).
+	 * @return string
+	 */
+	public function inject_into_output( $output, $recipe ): string {
+		$output = (string) $output;
+
+		// Doppel-Schutz: hat der Legacy-Filter (oder ein früherer Lauf) schon injiziert?
+		if ( false !== strpos( $output, 'df-favorite-button' ) ) {
+			return $output;
+		}
+
+		$recipe_id = ( is_object( $recipe ) && method_exists( $recipe, 'id' ) ) ? absint( $recipe->id() ) : 0;
+
+		$post_id = $this->resolve_target_post( $recipe_id );
+		if ( $post_id < 1 ) {
+			return $output;
+		}
+
+		$button = Shortcodes::button_markup( $post_id, 'thumbnail', false );
+		if ( '' === $button ) {
+			return $output;
+		}
+
+		// In den ersten Bild-Container einsetzen (unmittelbar nach dessen öffnendem <div>).
+		if ( preg_match( '/<div[^>]*\bwprm-recipe-image\b[^>]*>/', $output, $matches, PREG_OFFSET_CAPTURE ) ) {
+			$insert_at = (int) $matches[0][1] + strlen( (string) $matches[0][0] );
+
+			return substr( $output, 0, $insert_at ) . $button . substr( $output, $insert_at );
+		}
+
+		return $output;
 	}
 
 	/**
