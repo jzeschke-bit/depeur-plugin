@@ -141,8 +141,12 @@ final class Wprm {
 		}
 
 		// Jeden Rezept-Container (Container-Öffnung … erstes Rezeptbild) einzeln behandeln.
+		// Der Container trägt den Klassen-Token „wprm-recipe" (als eigenständige Klasse, nicht
+		// als Präfix von wprm-recipe-image) – das matcht den Haupt-Rezept-Container der
+		// Einzelseite (wprm-recipe wprm-recipe-template-…) UND jedes Roundup-Item
+		// (wprm-recipe wprm-recipe-roundup-item-<ID> …). Die Ziel-Auflösung passiert im Callback.
 		return (string) preg_replace_callback(
-			'/(<div[^>]*class="[^"]*wprm-recipe-(?:roundup-item-)?\d+[^"]*"[^>]*>)(.*?)(<div[^>]*wprm-recipe-image\b[^>]*>)/s',
+			'/(<div[^>]*class="(?:[^"]*\s)?wprm-recipe[\s"][^"]*"[^>]*>)(.*?)(<div[^>]*wprm-recipe-image\b[^>]*>)/s',
 			array( $this, 'inject_recipe_image_match' ),
 			$content
 		);
@@ -162,21 +166,14 @@ final class Wprm {
 			return $parts[0];
 		}
 
-		if ( ! preg_match( '/wprm-recipe-(?:roundup-item-)?(\d+)/', $parts[1], $id_match ) ) {
-			return $parts[0];
-		}
-
-		$recipe_id  = absint( $id_match[1] );
-		$is_roundup = ( false !== strpos( $parts[1], 'wprm-recipe-roundup-item' ) );
-
-		// Ziel = Eltern-Beitrag des Rezepts. Beim Einzel-Rezept notfalls der aktuelle Beitrag;
-		// im Roundup NIE der aktuelle (das wäre der Roundup-Beitrag statt des verlinkten).
-		$post_id = $this->resolve_recipe_parent( $recipe_id );
-		if ( $post_id < 1 && ! $is_roundup ) {
+		if ( preg_match( '/wprm-recipe-roundup-item-(\d+)/', $parts[1], $id_match ) ) {
+			// Roundup-Item: Ziel = Eltern-Beitrag DIESES Rezepts (nicht der Roundup-Beitrag).
+			// Kein Fallback auf get_the_ID(), sonst bekäme der Roundup-Beitrag die Likes.
+			$post_id = $this->resolve_recipe_parent( absint( $id_match[1] ) );
+		} else {
+			// Haupt-/Einzel-Rezept: Ziel = aktueller Beitrag (dessen eigenes Rezept).
 			$current = absint( get_the_ID() );
-			if ( $this->is_favoritable( $current ) ) {
-				$post_id = $current;
-			}
+			$post_id = $this->is_favoritable( $current ) ? $current : 0;
 		}
 
 		if ( $post_id < 1 ) {
