@@ -67,6 +67,13 @@ final class Settings {
 					'description' => __( 'Blendet auf Beitrags-Karten der Kadence-Blocks (Post Grid / Post Carousel – z. B. auf der Startseite und in der Sidebar) automatisch ein Merken-Herz ein. Jede Karte verweist auf ihren eigenen Beitrag. Rein clientseitig (Vanilla JS), greift nur auf unterstützten Post-Types.', 'depeur-food' ),
 				),
 				array(
+					'id'          => 'include_pages',
+					'label'       => __( 'Favoriten auch auf Seiten (page) erlauben', 'depeur-food' ),
+					'type'        => 'checkbox',
+					'default'     => false,
+					'description' => __( 'Standardmäßig sind nur Beiträge/CPTs likebar (post, cocktails, …). Aktiviere dies, wenn Rezepte oder Roundup-Items an WordPress-Seiten (page) hängen und dort ein Herz bekommen sollen. Nebeneffekt: Herzen können dann generell auf Seiten-Inhalten erscheinen (auch Seiten-Karten in Grids) und der Like-Endpoint akzeptiert Seiten.', 'depeur-food' ),
+				),
+				array(
 					'id'    => 'diagnose',
 					'type'  => 'html',
 					'label' => '',
