@@ -10,10 +10,10 @@
  *   - `content` ist hart „hallo".
  *   - `rest_wprm_recipe_query`: `max(custom_per_page, 200)` – kleinere Werte werden ignoriert.
  *
- * Einzige Härtung (Geist von R1, weil Staging PHP 8.4 ist): der Legacy hatte KEINE
- * Existenzprüfung des Suchtreffers → `null->ID` wäre auf PHP 8 ein Fatal. Wir geben bei
- * unbekanntem Slug eine leere Antwort zurück statt abzustürzen; der valide Pfad (bekannter
- * Slug) liefert exakt dieselbe Shape wie zuvor.
+ * Nicht-gefunden-Fall 1:1: der Legacy erzeugte bei unbekanntem Slug PHP-Warnings, lieferte
+ * aber ein Objekt mit null-Werten (content „hallo", Bilder false) – KEIN Fatal (null->prop
+ * ist in PHP 8 nur eine Warning). Wir reproduzieren exakt diese Shape null-sicher (?? / Guard)
+ * – identische Ausgabe, nur ohne die PHP-Warnings.
  *
  * @package Depeur\Food\Modules\RestLegacy\Rest
  * @license GPL-2.0-or-later
@@ -105,12 +105,12 @@ final class Recipe_Routes {
 	}
 
 	/**
-	 * GET `wl/v1/posts?slug=` — Recipe-Slug-Lookup (Legacy-Shape 1:1).
+	 * GET `wl/v1/posts?slug=` — Recipe-Slug-Lookup (Legacy-Shape 1:1, auch „nicht gefunden").
 	 *
 	 * @since 0.3.0
 	 *
 	 * @param WP_REST_Request $request Request.
-	 * @return array Response-Array (leer bei unbekanntem Slug – Fatal-Schutz, s. Docblock).
+	 * @return array Response-Array – immer dieselbe Shape wie der Legacy.
 	 */
 	public function get_post_by_slug( WP_REST_Request $request ): array {
 		$slug = (string) $request['slug'];
@@ -122,28 +122,26 @@ final class Recipe_Routes {
 			)
 		);
 
-		// Fatal-Schutz auf PHP 8.4 (Legacy hatte keine Prüfung): leere Antwort statt Absturz.
-		if ( empty( $posts ) ) {
-			return array();
-		}
+		// Null-sicher, damit die Shape auch OHNE Treffer 1:1 dem Legacy entspricht (id=null,
+		// content „hallo", Bilder false). Der Legacy erzeugte hier nur zusätzlich PHP-Warnings
+		// (kein Fatal – null->prop ist in PHP 8 eine Warning) und lieferte dieselbe Shape.
+		$post = isset( $posts[0] ) ? $posts[0] : null;
 
-		$post = $posts[0];
-
-		// Bekannte Tech-Debt: Legacy-Property ParrentID existiert nicht → immer null (1:1).
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Legacy-Property (Tippfehler) bewusst 1:1 erhalten, existiert nicht → null.
 		$parrent_id = $post->ParrentID ?? null;
 
-		$data          = array();
-		$data['id']    = $post->ID;
-		$data['id2']   = $parrent_id;
-		$data['title'] = $post->post_title;
-		// Bekannte Tech-Debt: content war im Legacy hart „hallo" (1:1).
-		$data['content']                     = 'hallo';
-		$data['slug']                        = $post->post_name;
-		$data['featured_image']['thumbnail'] = get_the_post_thumbnail_url( $post->ID, 'thumbnail' );
-		$data['featured_image']['medium']    = get_the_post_thumbnail_url( $post->ID, 'medium' );
-		$data['featured_image']['large']     = get_the_post_thumbnail_url( $post->ID, 'large' );
-
-		return $data;
+		return array(
+			'id'             => $post->ID ?? null,
+			'id2'            => $parrent_id,
+			'title'          => $post->post_title ?? null,
+			// Bekannte Tech-Debt: content war im Legacy hart „hallo" (1:1).
+			'content'        => 'hallo',
+			'slug'           => $post->post_name ?? null,
+			'featured_image' => array(
+				'thumbnail' => $post ? get_the_post_thumbnail_url( $post->ID, 'thumbnail' ) : false,
+				'medium'    => $post ? get_the_post_thumbnail_url( $post->ID, 'medium' ) : false,
+				'large'     => $post ? get_the_post_thumbnail_url( $post->ID, 'large' ) : false,
+			),
+		);
 	}
 }

@@ -26,7 +26,9 @@ new \Depeur\Food\Modules\RestLegacy\Rest\Rating_Routes();
 // wl/v1/posts + rest_wprm_recipe_query-Filter.
 new \Depeur\Food\Modules\RestLegacy\Rest\Recipe_Routes();
 
-// Read-only Diagnose-Tab (Routen-Übersicht + WPRM-Status) – nur im Admin.
+// Admin: read-only Diagnose-Tab (Routen-Übersicht + WPRM-Status) + geführter, reversibler
+// Cutover (Alt-Plugin rest-api-wprm aus/an) im Migrations-Assistenten.
 if ( is_admin() ) {
 	new \Depeur\Food\Modules\RestLegacy\Admin\Settings( basename( __DIR__ ) );
+	new \Depeur\Food\Modules\RestLegacy\Admin\Cutover_Page();
 }
