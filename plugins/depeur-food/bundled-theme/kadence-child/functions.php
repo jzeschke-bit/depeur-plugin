@@ -80,6 +80,15 @@ add_action( 'wp_enqueue_scripts', 'depeur_child_enqueue_styles', 100 );
  * @return array Gefilterte Argumente.
  */
 function depeur_child_related_posts_for_cpt( array $args ): array {
+	// KATEGORIE-SEITEN: keine „Ähnlichen Beiträge". Dort rendert das Plugin bereits ein
+	// kuratiertes Raster; Kadences Karussell zieht mangels Tags ZUFALLS-Beiträge und wirkt
+	// deshalb deplatziert/„buggy". df_catpage_enabled = Flag des category-pages-Moduls.
+	// post__in => [0] liefert keine Treffer → Kadence rendert das Karussell gar nicht.
+	if ( is_page() && get_post_meta( get_the_ID(), 'df_catpage_enabled', true ) ) {
+		$args['post__in'] = array( 0 );
+		return $args;
+	}
+
 	// Quelle der Wahrheit: Plugin. Fallback auf 'post', wenn Plugin nicht aktiv.
 	if ( function_exists( 'depeur_food' ) ) {
 		$post_types = depeur_food()->get_supported_post_types();
