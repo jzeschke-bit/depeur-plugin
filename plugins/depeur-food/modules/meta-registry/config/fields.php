@@ -264,44 +264,12 @@ return array(
 		// 'text' wie live exportiert (acf_type→field_type-Map im Group_Registrar: email→text).
 		'acf'       => array(),
 	),
-	array(
-		'name'      => 'static_page_for_author',
-		'key'       => 'field_6523ed75c2965',
-		'label'     => 'Seite 1',
-		'acf_type'  => 'post_object',
-		'object'    => array( 'user' ),
-		'subtypes'  => array(),
-		'group'     => 'author_fields',
-		'default'   => '',
-		'editor_ui' => true,
-		'acf'       => array(
-			'post_type'     => array( 'page' ),
-			'post_status'   => array( 'private' ),
-			'return_format' => 'object',
-			'allow_null'    => 0,
-			'multiple'      => 0,
-		),
-	),
+	// static_page_for_author → umgezogen nach category-pages (Provisioning\Static_Intro_Fields),
+	// wo auch der rendernde Konsument (Frontend\Static_Intro) lebt. Kein Doppel-Owner mehr.
 
 	// ───────────────────────── TERM-META ─────────────────────────
 	// Kategorie-Custom (taxonomy==category; Live-Location "all" → category, § 4.5).
-	array(
-		'name'      => 'static_page',
-		'key'       => 'field_6516c1ef9cfc3',
-		'label'     => 'Seite 1',
-		'acf_type'  => 'post_object',
-		'object'    => array( 'term' ),
-		'subtypes'  => array( 'term' => array( 'category' ) ),
-		'group'     => 'kategorie_custom',
-		'default'   => '',
-		'editor_ui' => true,
-		'acf'       => array(
-			'post_type'     => array( 'page' ),
-			'return_format' => 'id',
-			'allow_null'    => 0,
-			'multiple'      => 0,
-		),
-	),
+	// static_page → umgezogen nach category-pages (Provisioning\Static_Intro_Fields).
 	array(
 		'name'      => 'WPRM',
 		'key'       => 'field_653f9974e2ac1',
