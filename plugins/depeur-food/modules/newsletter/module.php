@@ -35,4 +35,6 @@ new \Depeur\Food\Modules\Newsletter\Frontend\Assets();
 // Settings-Tab + Diagnose — nur im Admin. Slug = Ordnername (basename), example-module-Muster.
 if ( is_admin() ) {
 	new \Depeur\Food\Modules\Newsletter\Admin\Settings( basename( __DIR__ ) );
+	// Massen-Reset der Per-Post-Überschreibungen (admin-post-Handler + Erfolgs-Notice).
+	new \Depeur\Food\Modules\Newsletter\Admin\Reset_Overrides( basename( __DIR__ ) );
 }
