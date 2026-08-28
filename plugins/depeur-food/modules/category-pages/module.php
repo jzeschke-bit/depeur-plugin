@@ -39,6 +39,11 @@ new \Depeur\Food\Modules\CategoryPages\Frontend\Recipe_Filter();
 new \Depeur\Food\Modules\CategoryPages\Rest\Filter_Controller();
 new \Depeur\Food\Modules\CategoryPages\Frontend\Assets();
 
+// „Seite 1"-Intro: Feld-Provisionierung (static_page je Kategorie / static_page_for_author je
+// Autor) + Konsument, der die zugewiesene Seite auf Archiv-Seite 1 statt der Beitragsliste rendert.
+new \Depeur\Food\Modules\CategoryPages\Provisioning\Static_Intro_Fields();
+new \Depeur\Food\Modules\CategoryPages\Frontend\Static_Intro();
+
 // Enge `/page/N/`-Rewrites für geflaggte Kategorie-Seiten (+ deferred Flush).
 new \Depeur\Food\Modules\CategoryPages\Hooks\Rewrite();
 
