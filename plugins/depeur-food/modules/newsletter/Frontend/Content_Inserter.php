@@ -152,8 +152,7 @@ final class Content_Inserter {
 			return false;
 		}
 
-		// Per-Post-Override (register_post_meta-Default = true → an, solange nicht abgewählt).
-		return (bool) get_post_meta( $post_id, 'show_newsletter_form', true );
+		return $this->resolve_visibility( $post_id, 'show_newsletter_form', 'newsletter' );
 	}
 
 	/**
@@ -172,7 +171,34 @@ final class Content_Inserter {
 			return false;
 		}
 
-		return (bool) get_post_meta( $post_id, 'show_app_promo', true );
+		return $this->resolve_visibility( $post_id, 'show_app_promo', 'app_promo' );
+	}
+
+	/**
+	 * Löst die 3-Zustand-Sichtbarkeit auf: Per-Post-Wahl schlägt den Post-Type-Standard.
+	 *
+	 * Das Per-Post-Feld ist „Standard / Anzeigen / Ausblenden": „1" erzwingt Anzeigen, „0"
+	 * erzwingt Ausblenden, „" (bzw. nicht gesetzt) folgt dem Post-Type-Standard (Einstellungen).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param int    $post_id  Post-ID.
+	 * @param string $meta_key Per-Post-Meta-Key (show_newsletter_form|show_app_promo).
+	 * @param string $element  'newsletter' oder 'app_promo'.
+	 * @return bool
+	 */
+	private function resolve_visibility( int $post_id, string $meta_key, string $element ): bool {
+		$choice = (string) get_post_meta( $post_id, $meta_key, true );
+
+		if ( '1' === $choice ) {
+			return true;
+		}
+		if ( '0' === $choice ) {
+			return false;
+		}
+
+		// „Standard" (leer / nicht gesetzt) → Post-Type-Vorgabe aus den Einstellungen.
+		return Config::type_default( (string) get_post_type( $post_id ), $element );
 	}
 
 	/**

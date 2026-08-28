@@ -159,4 +159,36 @@ final class Config {
 
 		return is_scalar( $value ) ? (string) $value : $fallback;
 	}
+
+	/**
+	 * Options-Key des Post-Type-Standards (z. B. „newsletter_default_page").
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $element   'newsletter' oder 'app_promo'.
+	 * @param string $post_type Post-Type-Slug.
+	 * @return string
+	 */
+	public static function type_default_key( string $element, string $post_type ): string {
+		return sanitize_key( $element . '_default_' . $post_type );
+	}
+
+	/**
+	 * Standard-Sichtbarkeit eines Elements für einen Post-Type (Fallback: an).
+	 *
+	 * Greift, wenn ein Beitrag KEINE explizite Per-Post-Wahl trifft (Feld „Standard"). Nie
+	 * gespeicherte Typen bleiben AN (bisheriges Verhalten), damit der Wechsel nichts abschaltet.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $post_type Post-Type-Slug.
+	 * @param string $element   'newsletter' oder 'app_promo'.
+	 * @return bool
+	 */
+	public static function type_default( string $post_type, string $element ): bool {
+		$all = self::all();
+		$key = self::type_default_key( $element, $post_type );
+
+		return array_key_exists( $key, $all ) ? (bool) $all[ $key ] : true;
+	}
 }

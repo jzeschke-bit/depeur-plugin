@@ -51,7 +51,7 @@ final class Settings {
 		SettingsRegistry::register(
 			$this->slug,
 			__( 'Newsletter', 'depeur-food' ),
-			$this->fields(),
+			array_merge( $this->fields(), $this->type_default_fields() ),
 			$this->intro()
 		);
 	}
@@ -256,5 +256,60 @@ final class Settings {
 				'default' => $defaults['app_promo_show_on_mobile'],
 			),
 		);
+	}
+
+	/**
+	 * Baut je unterstütztem Post-Type zwei Standard-Checkboxen (Newsletter + App-Promo).
+	 *
+	 * WOFÜR (§ 6.2): pro Inhaltstyp festlegen, ob Newsletter/App-Promo standardmäßig eingefügt
+	 * werden. Einzelne Beiträge überschreiben das über das 3-Zustand-Feld im Editor. Default: an
+	 * (bewahrt das bisherige Verhalten). Typ-Liste = Ziel-Typen des Inserters (filterbar).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return array<int,array<string,mixed>>
+	 */
+	private function type_default_fields(): array {
+		/** This filter is documented in Fields/Overrides.php */
+		$types = apply_filters( 'depeur_food/newsletter/post_types', depeur_food()->get_supported_post_types() );
+		$types = array_values( array_unique( array_filter( array_map( 'strval', (array) $types ) ) ) );
+
+		if ( empty( $types ) ) {
+			return array();
+		}
+
+		$fields = array(
+			array(
+				'id'    => 'section_type_defaults',
+				'type'  => 'html',
+				'label' => '',
+				'html'  => '<h2 class="title">' . esc_html__( 'Standard je Inhaltstyp', 'depeur-food' ) . '</h2>'
+					. '<p class="description" style="max-width: 60em;">'
+					. esc_html__( 'Legt fest, ob Newsletter-Formular und App-Promotion auf einem Inhaltstyp standardmäßig eingefügt werden. Einzelne Beiträge/Seiten überschreiben das über die Box „Newsletter-Einstellungen" im Editor („Standard / Anzeigen / Ausblenden").', 'depeur-food' )
+					. '</p>',
+			),
+		);
+
+		foreach ( $types as $type ) {
+			$object = get_post_type_object( $type );
+			$label  = ( $object && ! empty( $object->labels->singular_name ) ) ? (string) $object->labels->singular_name : $type;
+
+			$fields[] = array(
+				'id'      => Config::type_default_key( 'newsletter', $type ),
+				/* translators: %s: Name des Inhaltstyps. */
+				'label'   => sprintf( __( 'Newsletter-Standard: %s', 'depeur-food' ), $label ),
+				'type'    => 'checkbox',
+				'default' => true,
+			);
+			$fields[] = array(
+				'id'      => Config::type_default_key( 'app_promo', $type ),
+				/* translators: %s: Name des Inhaltstyps. */
+				'label'   => sprintf( __( 'App-Promo-Standard: %s', 'depeur-food' ), $label ),
+				'type'    => 'checkbox',
+				'default' => true,
+			);
+		}
+
+		return $fields;
 	}
 }
