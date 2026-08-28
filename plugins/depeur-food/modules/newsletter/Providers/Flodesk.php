@@ -40,9 +40,13 @@ final class Flodesk {
 	 *
 	 * @since 0.2.0
 	 *
-	 * @param string $mode Darstellungs-Variante: 'spotlight' (Standard, mit Abdunklung) oder
-	 *                     'minimal' (dezenter Slide-in am Rand, ohne Overlay). Unbekannte Werte
-	 *                     fallen auf 'spotlight' zurück. Der Shortcode ruft ohne Argument auf.
+	 * @param string $mode Darstellungs-Variante:
+	 *                     - 'spotlight' (Standard): inline, sticky, mit Vollbild-Abdunklung.
+	 *                     - 'minimal': inline + sticky wie spotlight, aber OHNE Abdunklung.
+	 *                     - 'popup': fixed, auf Desktop mittig, ohne Abdunklung, per JS erst ab
+	 *                       einer Scroll-Tiefe eingeblendet.
+	 *                     Unbekannte Werte fallen auf 'spotlight' zurück. Der Shortcode ruft ohne
+	 *                     Argument auf (⇒ spotlight, inline).
 	 * @return string Fertiges, vollständig escaptes Formular-Markup.
 	 */
 	public function render( string $mode = 'spotlight' ): string {
@@ -61,9 +65,14 @@ final class Flodesk {
 		}
 
 		// Nur bekannte Varianten; alles andere = Standard (Spotlight).
-		$mode       = ( 'minimal' === $mode ) ? 'minimal' : 'spotlight';
-		$is_minimal = ( 'minimal' === $mode );
-		$modifier   = ' df-newsletter--' . $mode;
+		$mode     = in_array( $mode, array( 'spotlight', 'minimal', 'popup' ), true ) ? $mode : 'spotlight';
+		$modifier = ' df-newsletter--' . $mode;
+
+		// Overlay (Vollbild-Abdunklung) nur im Spotlight. Sticky-Scrollraum in den beiden
+		// INLINE-Varianten (spotlight, minimal), damit das Formular „mitscrollt"; der Popup ist
+		// fixed positioniert und braucht ihn nicht.
+		$render_overlay      = ( 'spotlight' === $mode );
+		$render_scroll_space = ( 'popup' !== $mode );
 
 		$ff = 'ff-' . $form_id;
 
@@ -71,22 +80,27 @@ final class Flodesk {
 		?>
 		<div class="df-newsletter<?php echo esc_attr( $modifier ); ?>" data-df-mode="<?php echo esc_attr( $mode ); ?>" data-df-flodesk-form-id="<?php echo esc_attr( $form_id ); ?>">
 			<button type="button" class="df-newsletter__close" aria-label="<?php esc_attr_e( 'Newsletter-Formular schließen', 'depeur-food' ); ?>">&times;</button>
-			<div class="<?php echo esc_attr( $ff ); ?>" data-ff-el="root" data-ff-version="3" data-ff-type="inline" data-ff-name="inlineImage">
-				<div class="<?php echo esc_attr( $ff ); ?>__container">
+			<?php
+			// Generische df-newsletter__*-Klassen ZUSÄTZLICH zu den ff-<id>-Klassen: damit das
+			// Varianten-CSS (Positionierung/Spalten) form-id-UNABHÄNGIG greift. Flodesk bindet
+			// weiterhin über die ff-<id>-Klassen — die bleiben unverändert.
+			?>
+			<div class="<?php echo esc_attr( $ff ); ?> df-newsletter__root" data-ff-el="root" data-ff-version="3" data-ff-type="inline" data-ff-name="inlineImage">
+				<div class="<?php echo esc_attr( $ff ); ?>__container df-newsletter__container">
 					<form
-						class="<?php echo esc_attr( $ff ); ?>__wrapper"
+						class="<?php echo esc_attr( $ff ); ?>__wrapper df-newsletter__wrapper"
 						action="<?php echo esc_url( $form_action ); ?>"
 						method="post"
 						data-ff-el="form"
 						data-ff-embed="inline"
 						data-ff-layout-type="inline"
 						data-success-url="<?php echo esc_url( $success_url ); ?>">
-						<div class="<?php echo esc_attr( $ff ); ?>__left">
+						<div class="<?php echo esc_attr( $ff ); ?>__left df-newsletter__col-left">
 							<div class="<?php echo esc_attr( $ff ); ?>__image">
 								<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Newsletter-Anmeldung', 'depeur-food' ); ?>" />
 							</div>
 						</div>
-						<div class="<?php echo esc_attr( $ff ); ?>__right">
+						<div class="<?php echo esc_attr( $ff ); ?>__right df-newsletter__col-right">
 							<div class="<?php echo esc_attr( $ff ); ?>__title">
 								<div><strong><?php echo esc_html( $title ); ?></strong></div>
 							</div>
@@ -125,13 +139,16 @@ final class Flodesk {
 				</div>
 			</div>
 			<?php
-			// Overlay + Sticky-Scrollraum NUR im Spotlight-Modus. Der Minimal-Slide-in dunkelt
-			// bewusst nichts ab und braucht keinen Sticky-Scrollraum (er ist fixed am Rand).
-			if ( ! $is_minimal ) :
+			// Ganzseiten-Grau-Überblendung (fixed, z-index 998): nur Spotlight. Fadet via
+			// `.in-view` ein (CSS/JS).
+			if ( $render_overlay ) :
 				?>
-				<?php // Ganzseiten-Grau-Überblendung (fixed, z-index 998): fadet via `.in-view`/Hover ein (CSS). ?>
 				<div class="df-newsletter__overlay"></div>
-				<?php // Zusätzlicher Scrollraum, damit der Sticky-Effekt des Formulars greift (Legacy). ?>
+				<?php
+			endif;
+			// Zusätzlicher Scrollraum für den Sticky-Effekt der Inline-Varianten (Legacy).
+			if ( $render_scroll_space ) :
+				?>
 				<div class="df-newsletter__scroll-space"></div>
 				<?php
 			endif;

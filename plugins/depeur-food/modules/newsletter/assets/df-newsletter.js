@@ -21,6 +21,9 @@
 	// Sichtbarkeits-Schwelle (30 %) für den Grau-Überblendungs-Effekt (Legacy-Wert).
 	var VISIBLE_RATIO = 0.3;
 
+	// Scroll-Tiefe (Anteil der Seite), ab der die Popup-Variante eingeblendet wird.
+	var POPUP_SCROLL_TRIGGER = 0.5;
+
 	/**
 	 * Blendet alle Newsletter-Wrapper aus (App-Promotion bleibt sichtbar — Legacy-Verhalten).
 	 */
@@ -86,13 +89,13 @@
 	 * Verdrahtet den Schließen-Button.
 	 *
 	 * Spotlight: merkt die Ablehnung (localStorage) und blendet alle Formulare aus — einmal
-	 * weg, bleibt weg. Minimal: blendet NUR diesen Wrapper für die aktuelle Seite aus, OHNE
-	 * Merker → beim nächsten Seitenaufruf/Refresh erscheint der Slide-in erneut (bewusst, für
-	 * mehr Sichtbarkeit/Conversions). Ein tatsächliches Abo (Submit) setzt in beiden Fällen den
-	 * Merker (siehe bindSubmit), sodass Abonnenten künftig nichts mehr sehen.
+	 * weg, bleibt weg. Minimal + Popup: blenden NUR diesen Wrapper für die aktuelle Seite aus,
+	 * OHNE Merker → beim nächsten Seitenaufruf/Refresh erscheint das Formular erneut (bewusst,
+	 * für mehr Sichtbarkeit/Conversions). Ein tatsächliches Abo (Submit) setzt in ALLEN
+	 * Varianten den Merker (siehe bindSubmit), sodass Abonnenten künftig nichts mehr sehen.
 	 *
 	 * @param {Element} wrapper Ein .df-newsletter-Wrapper.
-	 * @param {string}  mode    'minimal' oder 'spotlight'.
+	 * @param {string}  mode    'spotlight', 'minimal' oder 'popup'.
 	 */
 	function bindClose( wrapper, mode ) {
 		var button = wrapper.querySelector( '.df-newsletter__close' );
@@ -101,13 +104,52 @@
 		}
 		button.addEventListener( 'click', function ( event ) {
 			event.preventDefault();
-			if ( 'minimal' === mode ) {
-				hideOne( wrapper );
+			// Nur Spotlight merkt sich das Wegklicken dauerhaft.
+			if ( 'spotlight' === mode ) {
+				remember();
+				hideAll();
 				return;
 			}
-			remember();
-			hideAll();
+			hideOne( wrapper );
 		} );
+	}
+
+	/**
+	 * Aktuelle Scroll-Tiefe als Anteil (0..1) der scrollbaren Gesamthöhe.
+	 *
+	 * @return {number} 0 (oben) bis 1 (unten). Bei nicht-scrollbaren Seiten: 1.
+	 */
+	function scrollProgress() {
+		var doc = document.documentElement;
+		var max = doc.scrollHeight - window.innerHeight;
+		if ( max <= 0 ) {
+			return 1;
+		}
+		return ( window.pageYOffset || doc.scrollTop || 0 ) / max;
+	}
+
+	/**
+	 * Blendet die Popup-Variante erst ab POPUP_SCROLL_TRIGGER ein (dann einmalig, Listener weg).
+	 * Ist die Schwelle beim Laden schon überschritten (kurze Seite / Deep-Link), sofort zeigen.
+	 *
+	 * @param {Element} wrapper Ein .df-newsletter-Wrapper (Popup-Variante).
+	 */
+	function armPopupReveal( wrapper ) {
+		function reveal() {
+			wrapper.classList.add( 'is-visible' );
+			window.removeEventListener( 'scroll', onScroll );
+		}
+		function onScroll() {
+			if ( scrollProgress() >= POPUP_SCROLL_TRIGGER ) {
+				reveal();
+			}
+		}
+
+		if ( scrollProgress() >= POPUP_SCROLL_TRIGGER ) {
+			reveal();
+			return;
+		}
+		window.addEventListener( 'scroll', onScroll, { passive: true } );
 	}
 
 	/**
@@ -164,11 +206,16 @@
 			var mode = wrapper.getAttribute( 'data-df-mode' ) || 'spotlight';
 			bindClose( wrapper, mode );
 			bindSubmit( wrapper );
-			// Die `.in-view`-Grau-Überblendung gibt es nur im Spotlight-Modus; der Minimal-
-			// Slide-in dunkelt bewusst nichts ab.
-			if ( 'minimal' !== mode ) {
+
+			if ( 'spotlight' === mode ) {
+				// Nur Spotlight bekommt die `.in-view`-Vollbild-Abdunklung.
 				observe( wrapper );
+			} else if ( 'popup' === mode ) {
+				// Popup: fest positioniert, erst ab Scroll-Tiefe einblenden.
+				armPopupReveal( wrapper );
 			}
+			// 'minimal': inline + sticky wie Spotlight, ohne Abdunklung → keine Zusatz-Logik.
+
 			initFlodesk( wrapper );
 		} );
 	}

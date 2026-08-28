@@ -119,10 +119,11 @@ final class Settings {
 				'type'        => 'select',
 				'default'     => $defaults['newsletter_display_mode'],
 				'options'     => array(
-					'spotlight' => __( 'Spotlight – mit Fokus-Abdunklung, einmal weggeklickt = weg', 'depeur-food' ),
-					'minimal'   => __( 'Dezenter Slide-in – ohne Abdunklung, erscheint bei jedem Seitenaufruf wieder', 'depeur-food' ),
+					'spotlight' => __( 'Spotlight – im Text, sticky, mit Fokus-Abdunklung (einmal weg = weg)', 'depeur-food' ),
+					'minimal'   => __( 'Minimal – im Text, sticky wie Spotlight, aber ohne Abdunklung', 'depeur-food' ),
+					'popup'     => __( 'Popup – fest positioniert, auf Desktop mittig, ab 50 % Scrolltiefe', 'depeur-food' ),
 				),
-				'description' => __( '„Spotlight" dunkelt die Seite beim Reinscrollen ab und rückt das Formular in den Fokus; einmal geschlossen wird es (Browser-Merker) nicht erneut gezeigt. „Dezenter Slide-in" bleibt klein am Bildschirmrand und scrollt mit, dunkelt nichts ab und wird bei jedem Seitenaufruf/Refresh erneut angezeigt (Schließen gilt nur für die aktuelle Seite). Wer sich einträgt, sieht in beiden Fällen künftig nichts mehr. Der Shortcode [df_newsletter] bleibt unverändert inline.', 'depeur-food' ),
+				'description' => __( '„Spotlight" dunkelt beim Reinscrollen die ganze Seite ab und rückt das Formular in den Fokus; einmal geschlossen wird es (Browser-Merker) nicht erneut gezeigt. „Minimal" verhält sich genau wie Spotlight (im Textfluss, scrollt ein Stück mit), nur OHNE Abdunklung. „Popup" ist fest positioniert (auf Desktop mittig, mobil als Leiste unten), erscheint erst ab 50 % Scrolltiefe und dunkelt nichts ab. Bei „Minimal" und „Popup" gilt Schließen nur für die aktuelle Seite (erscheint bei jedem Aufruf/Refresh wieder – mehr Sichtbarkeit); wer sich einträgt, sieht in allen Varianten künftig nichts mehr. Der Shortcode [df_newsletter] bleibt unverändert inline.', 'depeur-food' ),
 			),
 			array(
 				'id'          => 'flodesk_form_id',
