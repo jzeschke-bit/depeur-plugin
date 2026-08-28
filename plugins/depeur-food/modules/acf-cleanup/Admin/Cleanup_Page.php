@@ -73,9 +73,11 @@ final class Cleanup_Page {
 	public function __construct() {
 		// Prio 20: nach dem Core-Menü (AdminMenu::register), damit MENU_SLUG existiert.
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
-		// Verschlankung: aus dem Sidebar-Menü ausblenden (nur über den Migrations-Assistenten
-		// erreichbar). Prio 999 = nach allen Registrierungen. Seite bleibt über ?page= aufrufbar.
-		add_action( 'admin_menu', array( $this, 'hide_from_menu' ), 999 );
+		// Aus dem Sidebar-Menü ausblenden — bewusst bei admin_head, NICHT bei admin_menu:
+		// user_can_access_admin_page() leitet Parent + Capability der Seite aus dem Submenu-Eintrag
+		// ab. Entfernt man ihn schon bei admin_menu, verweigert WordPress den ?page=-Zugriff
+		// („nicht berechtigt"). admin_head läuft nach der Zugriffsprüfung, aber vor dem Menü-Render.
+		add_action( 'admin_head', array( $this, 'hide_from_menu' ) );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 
 		// Diesen Schritt im zentralen Migrations-Assistenten (Core) anmelden. Kopplung nur über
@@ -147,9 +149,10 @@ final class Cleanup_Page {
 	/**
 	 * Blendet die Unterseite aus dem Sidebar-Menü aus (bleibt über ?page= erreichbar).
 	 *
-	 * Verschlankung: nur über den Migrations-Assistenten (dessen „Öffnen"-Link) erreichbar.
-	 * remove_submenu_page entfernt nur den sichtbaren Eintrag; Callback + $_registered_pages
-	 * bleiben bestehen, die Seite ist also weiter aufrufbar.
+	 * MUSS an admin_head hängen, NICHT an admin_menu: user_can_access_admin_page() ermittelt
+	 * Parent + Capability der Seite über den Submenu-Eintrag. Bei admin_menu entfernt, schlägt die
+	 * Prüfung fehl → „nicht berechtigt". admin_head läuft nach der Prüfung, aber vor dem Menü-
+	 * Render — Zugriff bleibt, der Eintrag verschwindet ($_registered_pages bleibt ohnehin intakt).
 	 *
 	 * @since 0.2.0
 	 *
