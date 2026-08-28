@@ -74,17 +74,37 @@
 	}
 
 	/**
-	 * Verdrahtet den Schließen-Button: merkt die Ablehnung und blendet alle Formulare aus.
+	 * Blendet genau EINEN Wrapper aus (für den nicht-persistenten Minimal-Schließen-Fall).
 	 *
 	 * @param {Element} wrapper Ein .df-newsletter-Wrapper.
 	 */
-	function bindClose( wrapper ) {
+	function hideOne( wrapper ) {
+		wrapper.style.display = 'none';
+	}
+
+	/**
+	 * Verdrahtet den Schließen-Button.
+	 *
+	 * Spotlight: merkt die Ablehnung (localStorage) und blendet alle Formulare aus — einmal
+	 * weg, bleibt weg. Minimal: blendet NUR diesen Wrapper für die aktuelle Seite aus, OHNE
+	 * Merker → beim nächsten Seitenaufruf/Refresh erscheint der Slide-in erneut (bewusst, für
+	 * mehr Sichtbarkeit/Conversions). Ein tatsächliches Abo (Submit) setzt in beiden Fällen den
+	 * Merker (siehe bindSubmit), sodass Abonnenten künftig nichts mehr sehen.
+	 *
+	 * @param {Element} wrapper Ein .df-newsletter-Wrapper.
+	 * @param {string}  mode    'minimal' oder 'spotlight'.
+	 */
+	function bindClose( wrapper, mode ) {
 		var button = wrapper.querySelector( '.df-newsletter__close' );
 		if ( ! button ) {
 			return;
 		}
 		button.addEventListener( 'click', function ( event ) {
 			event.preventDefault();
+			if ( 'minimal' === mode ) {
+				hideOne( wrapper );
+				return;
+			}
 			remember();
 			hideAll();
 		} );
@@ -141,9 +161,14 @@
 
 		var wrappers = document.querySelectorAll( '.df-newsletter' );
 		Array.prototype.forEach.call( wrappers, function ( wrapper ) {
-			bindClose( wrapper );
+			var mode = wrapper.getAttribute( 'data-df-mode' ) || 'spotlight';
+			bindClose( wrapper, mode );
 			bindSubmit( wrapper );
-			observe( wrapper );
+			// Die `.in-view`-Grau-Überblendung gibt es nur im Spotlight-Modus; der Minimal-
+			// Slide-in dunkelt bewusst nichts ab.
+			if ( 'minimal' !== mode ) {
+				observe( wrapper );
+			}
 			initFlodesk( wrapper );
 		} );
 	}

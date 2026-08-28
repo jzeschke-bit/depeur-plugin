@@ -64,6 +64,11 @@ final class Config {
 		return array(
 			// Newsletter (Flodesk).
 			'newsletter_enabled'         => true,
+			// Darstellung des automatisch eingefügten Formulars: 'spotlight' (Legacy: dunkelt
+			// die Seite ab, einmal geschlossen = via Browser-Merker weg) oder 'minimal'
+			// (dezenter Slide-in am Rand, keine Abdunklung, kein Schließen-Merker → erscheint
+			// bei jedem Seitenaufruf erneut). Der [df_newsletter]-Shortcode bleibt inline.
+			'newsletter_display_mode'    => 'spotlight',
 			'flodesk_form_id'            => '68319b10b61ee160f25775e2',
 			'flodesk_form_action'        => 'https://form.flodesk.com/forms/68319b10b61ee160f25775e2/submit',
 			'newsletter_success_url'     => 'https://alkipedia.com/newsletter-danke/?subscribed=true',

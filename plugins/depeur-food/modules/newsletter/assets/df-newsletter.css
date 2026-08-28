@@ -441,3 +441,100 @@ body.single-post article > .df-app-promo:first-child {
     color: rgba(255, 255, 255, 1);
     transform: scale(1.1);
 }
+
+/* --------------------------------------------------------------------------
+ * MINIMAL-VARIANTE (dezenter Slide-in) — Modus 'minimal', per Einstellung wählbar.
+ *
+ * Ziel: weniger aufdringlich als der Spotlight-Modus, aber häufiger sichtbar.
+ *   - KEINE Ganzseiten-Abdunklung (Overlay wird im Minimal-Markup gar nicht gerendert).
+ *   - Kompakte, FIXIERTE Karte am unteren rechten Rand → scrollt mit (bleibt im Viewport),
+ *     statt im Textfluss zu „kleben".
+ *   - Einspaltig, Bild ausgeblendet → minimalistisch (Titel + Text + Eingabe + Button).
+ *   - Schließen ist nicht-persistent (JS): erscheint bei jedem Seitenaufruf/Refresh erneut.
+ *     Erst ein Abo (Submit) blendet es künftig aus.
+ * -------------------------------------------------------------------------- */
+.df-newsletter--minimal {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    top: auto;
+    margin: 0;
+    padding: 0;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    z-index: 999;
+    animation: df-newsletter-slide-in 0.4s ease-out both;
+}
+
+@keyframes df-newsletter-slide-in {
+    from { transform: translateY(24px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Defensive: falls Overlay/Scrollraum doch im DOM landen, im Minimal-Modus unsichtbar. */
+.df-newsletter--minimal .df-newsletter__overlay,
+.df-newsletter--minimal .df-newsletter__scroll-space {
+    display: none;
+}
+
+/* Innerer Flodesk-Container: kein Sticky, kompakt, eigene Rundung/Schatten. */
+.df-newsletter--minimal [data-ff-el="root"].ff-68319b10b61ee160f25775e2 {
+    position: static;
+    top: auto;
+    margin: 0;
+}
+
+.df-newsletter--minimal [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__container {
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+.df-newsletter--minimal [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__wrapper {
+    flex-direction: column;
+    border-radius: 12px;
+}
+
+/* Bild weg → minimalistisch. */
+.df-newsletter--minimal .ff-68319b10b61ee160f25775e2__left {
+    display: none;
+}
+
+.df-newsletter--minimal .ff-68319b10b61ee160f25775e2__right {
+    flex: 1 1 auto;
+    padding: 20px 20px 22px;
+    border-radius: 12px;
+}
+
+.df-newsletter--minimal .ff-68319b10b61ee160f25775e2__title {
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.df-newsletter--minimal .ff-68319b10b61ee160f25775e2__subtitle {
+    font-size: 14px;
+    margin: 0 0 14px;
+}
+
+.df-newsletter--minimal .ff-68319b10b61ee160f25775e2__control {
+    height: 44px;
+    margin-bottom: 10px;
+}
+
+/* Schließen-Button INNERHALB der Karte (die Spotlight-Negativ-Offsets ragen sonst
+   am Bildschirmrand ins Nichts). */
+.df-newsletter--minimal .df-newsletter__close {
+    top: 8px;
+    right: 8px;
+}
+
+/* Mobil: als volle Breite unten (Bottom-Bar-Charakter). */
+@media (max-width: 600px) {
+    .df-newsletter--minimal {
+        right: 8px;
+        left: 8px;
+        bottom: 8px;
+        width: auto;
+        max-width: none;
+    }
+}

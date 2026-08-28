@@ -114,6 +114,17 @@ final class Settings {
 				'description' => __( 'Newsletter-Formular automatisch in unterstützte Inhalte einfügen.', 'depeur-food' ),
 			),
 			array(
+				'id'          => 'newsletter_display_mode',
+				'label'       => __( 'Darstellung', 'depeur-food' ),
+				'type'        => 'select',
+				'default'     => $defaults['newsletter_display_mode'],
+				'options'     => array(
+					'spotlight' => __( 'Spotlight – mit Fokus-Abdunklung, einmal weggeklickt = weg', 'depeur-food' ),
+					'minimal'   => __( 'Dezenter Slide-in – ohne Abdunklung, erscheint bei jedem Seitenaufruf wieder', 'depeur-food' ),
+				),
+				'description' => __( '„Spotlight" dunkelt die Seite beim Reinscrollen ab und rückt das Formular in den Fokus; einmal geschlossen wird es (Browser-Merker) nicht erneut gezeigt. „Dezenter Slide-in" bleibt klein am Bildschirmrand und scrollt mit, dunkelt nichts ab und wird bei jedem Seitenaufruf/Refresh erneut angezeigt (Schließen gilt nur für die aktuelle Seite). Wer sich einträgt, sieht in beiden Fällen künftig nichts mehr. Der Shortcode [df_newsletter] bleibt unverändert inline.', 'depeur-food' ),
+			),
+			array(
 				'id'          => 'flodesk_form_id',
 				'label'       => __( 'Flodesk Formular-ID', 'depeur-food' ),
 				'type'        => 'text',
