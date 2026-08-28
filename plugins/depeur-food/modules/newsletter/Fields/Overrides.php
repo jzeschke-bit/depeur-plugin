@@ -89,15 +89,22 @@ final class Overrides {
 			array(
 				'name'     => 'show_newsletter_form',
 				'key'      => 'field_show_newsletter',
-				'label'    => __( 'Newsletter-Formular anzeigen', 'depeur-food' ),
-				'acf_type' => 'true_false',
+				'label'    => __( 'Newsletter-Formular', 'depeur-food' ),
+				'acf_type' => 'select',
 				'object'   => array( 'post' ),
 				'subtypes' => $subtypes,
-				'default'  => true,
+				'default'  => '',
 				'acf'      => array(
-					'instructions'  => __( 'Blendet das Newsletter-Formular in diesem Beitrag ein.', 'depeur-food' ),
-					'ui'            => 1,
-					'default_value' => 1,
+					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „Anzeigen"/„Ausblenden" gilt nur für diesen Beitrag.', 'depeur-food' ),
+					'choices'       => array(
+						''  => __( 'Standard (Typ-Vorgabe)', 'depeur-food' ),
+						'1' => __( 'Anzeigen', 'depeur-food' ),
+						'0' => __( 'Ausblenden', 'depeur-food' ),
+					),
+					'default_value' => '',
+					'return_format' => 'value',
+					'allow_null'    => 0,
+					'ui'            => 0,
 				),
 			),
 			array(
@@ -119,8 +126,8 @@ final class Overrides {
 						array(
 							array(
 								'field'    => 'field_show_newsletter',
-								'operator' => '==',
-								'value'    => '1',
+								'operator' => '!=',
+								'value'    => '0',
 							),
 						),
 					),
@@ -129,15 +136,22 @@ final class Overrides {
 			array(
 				'name'     => 'show_app_promo',
 				'key'      => 'field_show_app_promo',
-				'label'    => __( 'App-Promotion anzeigen', 'depeur-food' ),
-				'acf_type' => 'true_false',
+				'label'    => __( 'App-Promotion', 'depeur-food' ),
+				'acf_type' => 'select',
 				'object'   => array( 'post' ),
 				'subtypes' => $subtypes,
-				'default'  => true,
+				'default'  => '',
 				'acf'      => array(
-					'instructions'  => __( 'Blendet den App-Promotion-Block in diesem Beitrag ein.', 'depeur-food' ),
-					'ui'            => 1,
-					'default_value' => 1,
+					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „Anzeigen"/„Ausblenden" gilt nur für diesen Beitrag.', 'depeur-food' ),
+					'choices'       => array(
+						''  => __( 'Standard (Typ-Vorgabe)', 'depeur-food' ),
+						'1' => __( 'Anzeigen', 'depeur-food' ),
+						'0' => __( 'Ausblenden', 'depeur-food' ),
+					),
+					'default_value' => '',
+					'return_format' => 'value',
+					'allow_null'    => 0,
+					'ui'            => 0,
 				),
 			),
 		);
