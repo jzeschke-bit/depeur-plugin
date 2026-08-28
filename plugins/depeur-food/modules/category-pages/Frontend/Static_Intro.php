@@ -73,8 +73,9 @@ final class Static_Intro {
 			return 0;
 		}
 
-		// Zielseite muss existieren + veröffentlicht sein.
-		return ( 'publish' === get_post_status( $page_id ) ) ? $page_id : 0;
+		// Zielseite muss existieren; „publish" ODER „private" akzeptieren — Autor-Intro-Seiten
+		// sind bewusst privat (Legacy-Feld post_status=private) und sollen trotzdem rendern.
+		return in_array( get_post_status( $page_id ), array( 'publish', 'private' ), true ) ? $page_id : 0;
 	}
 
 	/**
