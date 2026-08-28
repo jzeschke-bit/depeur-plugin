@@ -31,6 +31,17 @@ use function get_the_author_meta;
 use function the_author_meta;
 use function get_the_author_posts_link;
 
+// SICHTBARKEIT (Depeur-Erweiterung): Auf SEITEN nur für Kategorie-Seiten zeigen. Ohne diesen
+// Guard erscheint Kadences Autoren-Box auf ALLEN Seiten; gewünscht ist sie dort nur auf den
+// vom Plugin geflaggten Kategorie-Seiten (`df_catpage_enabled`). Beiträge/CPTs (Rezepte,
+// Cocktails) bleiben unberührt. Theme→Plugin-Brücke: liest das Flag via Core-get_post_meta.
+$df_show_author_box = ! ( \is_page() && ! \get_post_meta( \get_the_ID(), 'df_catpage_enabled', true ) );
+/** Filter, um die Sichtbarkeit der Autoren-Box zu überschreiben (true = zeigen). */
+$df_show_author_box = (bool) \apply_filters( 'depeur_food/theme/show_author_box', $df_show_author_box, \get_the_ID() );
+if ( ! $df_show_author_box ) {
+	return;
+}
+
 // Kadence-eigene Author-Box-Styles einbinden (wie im Original).
 kadence()->print_styles( 'kadence-author-box' );
 
