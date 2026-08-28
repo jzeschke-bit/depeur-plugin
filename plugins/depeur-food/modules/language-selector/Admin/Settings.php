@@ -47,13 +47,24 @@ final class Settings {
 			__( 'Sprachumschalter', 'depeur-food' ),
 			array(
 				array(
+					'id'          => 'site_language',
+					'label'       => __( 'Sprache dieser Website', 'depeur-food' ),
+					'type'        => 'select',
+					'default'     => 'de',
+					'options'     => array(
+						'de' => __( 'Deutsch (de)', 'depeur-food' ),
+						'en' => __( 'Englisch (en)', 'depeur-food' ),
+					),
+					'description' => __( 'Bestimmt die Sprache, mit der sich jede Seite dieser Website im hreflang selbst referenziert (Pflicht für ein gültiges hreflang-Cluster). einfachandersessen.de = Deutsch; alkipedia.com aktuell Deutsch (später eigene englische Installation = Englisch). Die Gegenstück-URLs kommen weiter aus den Feldern link_de/link_en pro Beitrag/Term.', 'depeur-food' ),
+				),
+				array(
 					'id'    => 'diagnose',
 					'type'  => 'html',
 					'label' => '',
 					'html'  => $this->build_diagnostics(),
 				),
 			),
-			__( 'Legt die Felder link_de/link_en automatisch für Post + Term an und gibt hreflang-Tags im <head> aus. Sprachumschalter im Theme via Shortcode [df_language_switcher]. Aktiviere die Ziel-Inhaltstypen im Core-Tab → Unterstützte Post-Types (post-type-agnostisch). Dieser Tab ist eine read-only Diagnose.', 'depeur-food' )
+			__( 'Legt die Felder link_de/link_en automatisch für Post + Term an und gibt hreflang-Tags im <head> aus (inkl. Selbstreferenz in der eingestellten Sprache + x-default auf die deutsche Version). Sprachumschalter im Theme via Shortcode [df_language_switcher]. Aktiviere die Ziel-Inhaltstypen im Core-Tab → Unterstützte Post-Types (post-type-agnostisch).', 'depeur-food' )
 		);
 	}
 

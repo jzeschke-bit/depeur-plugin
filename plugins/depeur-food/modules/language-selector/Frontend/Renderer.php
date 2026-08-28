@@ -13,6 +13,8 @@
 
 namespace Depeur\Food\Modules\LanguageSelector\Frontend;
 
+use Depeur\Food\Core\Settings\SettingsRegistry;
+
 // Kein direkter Aufruf.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -26,6 +28,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Renderer {
 
 	/**
+	 * Modul-Slug (für den Options-Key der Site-Sprache).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const MODULE_SLUG = 'language-selector';
+
+	/**
 	 * Verdrahtet wp_head + Shortcode.
 	 *
 	 * @since 0.2.0
@@ -36,25 +46,116 @@ final class Renderer {
 	}
 
 	/**
-	 * Gibt die hreflang-Alternate-Links im <head> aus (nur wenn URLs vorhanden).
+	 * Gibt ein vollständiges hreflang-Cluster im <head> aus.
+	 *
+	 * Ein gültiges Cluster verlangt, dass JEDE Sprachversion sich selbst mit-referenziert
+	 * (Google ignoriert das Cluster sonst). Deshalb wird IMMER eine Selbstreferenz in der
+	 * eingestellten Site-Sprache (auf die eigene Canonical-URL) ausgegeben, dazu die
+	 * gepflegte(n) Gegenstück-URL(en) aus link_de/link_en und ein x-default auf die deutsche
+	 * Version. Ohne echtes Gegenstück (nur Selbstreferenz) wird NICHTS ausgegeben — eine
+	 * einsprachige Seite braucht kein hreflang.
 	 *
 	 * @since 0.2.0
 	 *
 	 * @return void
 	 */
 	public function render_hreflang(): void {
-		$links = $this->current_links();
+		$self_url = $this->self_url();
+		if ( '' === $self_url ) {
+			return; // Nur auf singularem Content und Term-Archiven sinnvoll.
+		}
 
-		foreach ( $links as $lang => $url ) {
-			if ( '' === $url ) {
+		$site_lang = $this->site_language();
+		$meta      = $this->current_links();
+
+		// Selbstreferenz: die aktuelle Seite ist in ihrer eigenen Sprache.
+		$alternates = array( $site_lang => $self_url );
+
+		// Gegenstück-Sprachen aus den gepflegten Meta-URLs (die eigene Sprache nie überschreiben).
+		foreach ( array( 'de', 'en' ) as $lang ) {
+			if ( $lang === $site_lang ) {
 				continue;
 			}
-			printf(
-				'<link rel="alternate" hreflang="%1$s" href="%2$s">' . "\n",
-				esc_attr( $lang ),
-				esc_url( $url )
-			);
+			if ( '' !== $meta[ $lang ] ) {
+				$alternates[ $lang ] = $meta[ $lang ];
+			}
 		}
+
+		// Nur Selbstreferenz ⇒ kein Gegenstück ⇒ hreflang wäre wertlos → nichts ausgeben.
+		if ( count( $alternates ) < 2 ) {
+			return;
+		}
+
+		foreach ( $alternates as $lang => $url ) {
+			$this->print_alternate( $lang, $url );
+		}
+
+		// x-default → deutsche Version (Haupt-/Einstiegssprache); Fallback auf die aktuelle Seite.
+		$x_default = isset( $alternates['de'] ) ? $alternates['de'] : $self_url;
+		$this->print_alternate( 'x-default', $x_default );
+	}
+
+	/**
+	 * Gibt einen einzelnen hreflang-Alternate-Link aus.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $lang hreflang-Wert (z. B. de, en, x-default).
+	 * @param string $url  Ziel-URL.
+	 * @return void
+	 */
+	private function print_alternate( string $lang, string $url ): void {
+		printf(
+			'<link rel="alternate" hreflang="%1$s" href="%2$s">' . "\n",
+			esc_attr( $lang ),
+			esc_url( $url )
+		);
+	}
+
+	/**
+	 * Canonical-URL des aktuellen Objekts (Selbstreferenz-Ziel).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string Permalink (Single) bzw. Term-Link (Archiv), sonst '' (kein hreflang).
+	 */
+	private function self_url(): string {
+		if ( is_singular() ) {
+			$post_id = (int) get_queried_object_id();
+			return $post_id > 0 ? (string) get_permalink( $post_id ) : '';
+		}
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term = get_queried_object();
+			if ( $term instanceof \WP_Term ) {
+				$link = get_term_link( $term );
+				return is_string( $link ) ? $link : '';
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Eingestellte Sprache dieser Website ('de'|'en', Default 'de', filterbar).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string
+	 */
+	private function site_language(): string {
+		$options = get_option( SettingsRegistry::option_key( self::MODULE_SLUG ), array() );
+		$lang    = ( is_array( $options ) && isset( $options['site_language'] ) ) ? (string) $options['site_language'] : 'de';
+		$lang    = in_array( $lang, array( 'de', 'en' ), true ) ? $lang : 'de';
+
+		/**
+		 * Überschreibt die Site-Sprache für die hreflang-Selbstreferenz.
+		 *
+		 * @since 0.3.0
+		 *
+		 * @param string $lang 'de' oder 'en'.
+		 */
+		$lang = (string) apply_filters( 'depeur_food/language_selector/site_language', $lang );
+
+		return in_array( $lang, array( 'de', 'en' ), true ) ? $lang : 'de';
 	}
 
 	/**
