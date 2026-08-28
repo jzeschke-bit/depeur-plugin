@@ -114,9 +114,11 @@ final class Migration_Page {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_page' ), 20 );
-		// Verschlankung: aus dem Sidebar-Menü ausblenden (Prio 999 = nach allen Registrierungen).
-		// Die Seite bleibt über ?page= erreichbar — der Migrations-Assistent verlinkt sie.
-		add_action( 'admin_menu', array( $this, 'hide_from_menu' ), 999 );
+		// Aus dem Sidebar-Menü ausblenden — bewusst bei admin_head, NICHT bei admin_menu:
+		// user_can_access_admin_page() leitet Parent + Capability aus dem Submenu-Eintrag ab; bei
+		// admin_menu entfernt, verweigert WordPress den ?page=-Zugriff. admin_head läuft nach der
+		// Zugriffsprüfung, aber vor dem Menü-Render — die Seite bleibt über den Assistenten-Link erreichbar.
+		add_action( 'admin_head', array( $this, 'hide_from_menu' ) );
 		add_action( 'admin_post_' . self::ACTION, array( $this, 'handle' ) );
 		add_action( 'admin_post_' . self::ACTION_RESTORE, array( $this, 'handle_restore' ) );
 		add_action( 'admin_post_' . self::ACTION_DELETE_BACKUPS, array( $this, 'handle_delete_backups' ) );
@@ -200,10 +202,10 @@ final class Migration_Page {
 	/**
 	 * Blendet die Unterseite aus dem Sidebar-Menü aus (bleibt über ?page= erreichbar).
 	 *
-	 * Verschlankung: Die Migrations-Tools sollen nicht einzeln im Menü stehen, sondern nur über
-	 * den Migrations-Assistenten (dessen „Öffnen"-Link) erreichbar sein. remove_submenu_page
-	 * entfernt nur den sichtbaren Eintrag; Callback + $_registered_pages bleiben bestehen, die
-	 * Seite ist also weiter aufrufbar.
+	 * MUSS an admin_head hängen, NICHT an admin_menu: user_can_access_admin_page() ermittelt
+	 * Parent + Capability der Seite über den Submenu-Eintrag. Bei admin_menu entfernt, schlägt die
+	 * Prüfung fehl → „nicht berechtigt". admin_head läuft nach der Prüfung, aber vor dem Menü-
+	 * Render — Zugriff bleibt, der Eintrag verschwindet ($_registered_pages bleibt ohnehin intakt).
 	 *
 	 * @since 0.3.0
 	 *
