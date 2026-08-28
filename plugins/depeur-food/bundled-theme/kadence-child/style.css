@@ -281,7 +281,7 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
    5) FREMD-PLUGIN-KOSMETIK  —  P R Ü F E N   /   K A N D I D A T   Z U M   K Ü R Z E N
    ----------------------------------------------------------------------------
    Diese Blöcke stylen NICHT das Theme selbst, sondern Ausgaben fremder Plugins
-   (WP Recipe Maker, Rank Math Breadcrumbs, Social Warfare). Sie gehören strenggenommen
+   (WP Recipe Maker, Rank Math Breadcrumbs). Sie gehören strenggenommen
    in ein Plugin-CSS oder einen Customizer-Snippet, NICHT ins Theme-Grundgerüst.
    Ich habe sie 1:1 aus dem Alt-Theme übernommen, damit auf der neuen Seite optisch
    nichts „springt". Bitte entscheiden:
@@ -389,13 +389,6 @@ input[type="datetime"], input[type="datetime-local"], input[type="color"], texta
 }
 .kadence-breadcrumbs {
 	padding-top: 1em;
-}
-
-/* --- Social Warfare: Tweet-Container-Radius ------------------------------------- */
-/* WOFÜR: Share-Buttons rund. WARUM: Social-Warfare-Plugin-Ausgabe.
-   PRÜFEN: Nur nötig, falls Social Warfare weiter genutzt wird. */
-.swp_social_panel .nc_tweetContainer:not(.total_shares):not(.total_sharesalt) {
-	border-radius: 10px !important;
 }
 
 
