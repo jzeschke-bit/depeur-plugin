@@ -266,10 +266,12 @@ final class Content_Inserter {
 	 *
 	 * @since 0.3.0
 	 *
-	 * @return string 'spotlight' oder 'minimal'.
+	 * @return string 'spotlight', 'minimal' oder 'popup'.
 	 */
 	private function newsletter_mode(): string {
-		return ( 'minimal' === Config::text( 'newsletter_display_mode', 'spotlight' ) ) ? 'minimal' : 'spotlight';
+		$mode = Config::text( 'newsletter_display_mode', 'spotlight' );
+
+		return in_array( $mode, array( 'spotlight', 'minimal', 'popup' ), true ) ? $mode : 'spotlight';
 	}
 
 	/**
