@@ -28,6 +28,9 @@ new \Depeur\Food\Modules\CategoryPages\Frontend\Category_Page();
 // Custom-Titel (H1 + SEO) für geflaggte Kategorie-Seiten.
 new \Depeur\Food\Modules\CategoryPages\Frontend\Title();
 
+// SEO: selbst-referenzierende Canonical auf Folgeseiten (…/page/N/) — sonst Duplikat auf Seite 1.
+new \Depeur\Food\Modules\CategoryPages\Frontend\Canonical();
+
 // Schema: auf Folgeseiten (Seite 2+) CollectionPage statt Recipe/ItemList (Rank-Math-gated).
 new \Depeur\Food\Modules\CategoryPages\Frontend\Schema();
 
