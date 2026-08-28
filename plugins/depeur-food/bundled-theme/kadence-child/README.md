@@ -14,7 +14,7 @@ Alt-Theme **„Alkipedia 3.0"** (functions.php ~928 Zeilen) ab.
 
 | Datei | Inhalt | Warum Theme statt Plugin |
 |---|---|---|
-| `style.css` | Tag-Pillen, Author-Box-Layout, Rundungen, Sidebar-/Archiv-Kosmetik, Fremd-Plugin-Kosmetik (WPRM/Rank Math/Social Warfare) | CSS ist per Definition Präsentation. |
+| `style.css` | Tag-Pillen, Author-Box-Layout, Rundungen, Sidebar-/Archiv-Kosmetik, Fremd-Plugin-Kosmetik (WPRM/Rank Math) | CSS ist per Definition Präsentation. |
 | `functions.php` | 3 Glue-Hooks: (1) Child-CSS laden, (2) Kadence „Ähnliche Beiträge" auf Plugin-Post-Types erweitern, (3) Sprachumschalter im Footer platzieren | Alle drei hängen an **Kadence-spezifischen** Hooks — ein theme-agnostisches Plugin darf sich daran nicht binden. |
 | `template-parts/content/entry_loop_thumbnail.php` | Kadence-Loop-Bild **+ Herz-Button** (`[thumbnail_favorite_button]`) | Kadence-Template-Parts kann nur ein Child-Theme über den gleichen Pfad ersetzen. Der Button selbst kommt aus dem Plugin. |
 
