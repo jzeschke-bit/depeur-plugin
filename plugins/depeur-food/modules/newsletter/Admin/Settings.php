@@ -285,7 +285,7 @@ final class Settings {
 				'label' => '',
 				'html'  => '<h2 class="title">' . esc_html__( 'Standard je Inhaltstyp', 'depeur-food' ) . '</h2>'
 					. '<p class="description" style="max-width: 60em;">'
-					. esc_html__( 'Legt fest, ob Newsletter-Formular und App-Promotion auf einem Inhaltstyp standardmäßig eingefügt werden. Einzelne Beiträge/Seiten überschreiben das über die Box „Newsletter-Einstellungen" im Editor („Standard / Anzeigen / Ausblenden").', 'depeur-food' )
+					. esc_html__( 'Legt fest, ob Newsletter-Formular und App-Promotion auf einem Inhaltstyp standardmäßig eingefügt werden. Der Standard gilt für alle Beiträge dieses Typs, die im Editor auf „Standard" stehen; wer dort „An" oder „Aus" wählt, überschreibt den Standard nur für diesen Beitrag — dauerhaft, auch wenn der Typ-Standard später wechselt. Mit „Alle Überschreibungen zurücksetzen" (unten je Typ) setzt du diese individuellen Wahlen wieder auf „Standard".', 'depeur-food' )
 					. '</p>',
 			),
 		);
@@ -307,6 +307,21 @@ final class Settings {
 				'label'   => sprintf( __( 'App-Promo-Standard: %s', 'depeur-food' ), $label ),
 				'type'    => 'checkbox',
 				'default' => true,
+			);
+			// Massen-Reset je Typ: Link (kein Formular — würde das umschließende Settings-Formular
+			// verschachteln) auf den nonce-gesicherten admin-post-Handler mit Bestätigungsseite.
+			$fields[] = array(
+				'id'    => 'reset_overrides_' . $type,
+				'type'  => 'html',
+				'label' => '',
+				'html'  => '<p style="margin:.2em 0 1.6em;">'
+					. '<a href="' . esc_url( Reset_Overrides::url( $type ) ) . '" class="button button-secondary">'
+					/* translators: %s: Name des Inhaltstyps. */
+					. esc_html( sprintf( __( 'Alle Überschreibungen für „%s" zurücksetzen', 'depeur-food' ), $label ) )
+					. '</a>'
+					. '<span class="description" style="display:block;margin-top:4px;max-width:60em;">'
+					. esc_html__( 'Setzt An/Aus in ALLEN Beiträgen dieses Typs auf „Standard" zurück (mit Sicherheitsabfrage; die Position bleibt erhalten).', 'depeur-food' )
+					. '</span></p>',
 			);
 		}
 

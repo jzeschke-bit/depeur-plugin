@@ -85,31 +85,40 @@ final class Overrides {
 	private function fields( array $post_types ): array {
 		$subtypes = array( 'post' => $post_types );
 
+		// 3-Zustand-Auswahl als Button-Group (Toggle-Optik): „Standard" folgt der Typ-Vorgabe,
+		// „An"/„Aus" ist eine gespeicherte Per-Post-Überschreibung. Der leere Wert („Standard")
+		// wird NICHT als Überschreibung gespeichert → ein späterer Wechsel des Typ-Standards
+		// wirkt weiter, während eine manuelle „An"/„Aus"-Wahl erhalten bleibt.
+		$visibility_choices = array(
+			''  => __( 'Standard', 'depeur-food' ),
+			'1' => __( 'An', 'depeur-food' ),
+			'0' => __( 'Aus', 'depeur-food' ),
+		);
+
 		return array(
 			array(
 				'name'     => 'show_newsletter_form',
-				'key'      => 'field_show_newsletter',
+				// Eigener, plugin-namespaced Key (NICHT der Legacy-Key field_show_newsletter):
+				// verhindert die ACF-Kollision mit dem Alt-Plugin spotlight-subscribe. Der
+				// Meta-NAME bleibt gleich → bestehende 1/0-Werte bleiben als An/Aus erhalten.
+				'key'      => 'field_df_nl_newsletter',
 				'label'    => __( 'Newsletter-Formular', 'depeur-food' ),
-				'acf_type' => 'select',
+				'acf_type' => 'button_group',
 				'object'   => array( 'post' ),
 				'subtypes' => $subtypes,
 				'default'  => '',
 				'acf'      => array(
-					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „Anzeigen"/„Ausblenden" gilt nur für diesen Beitrag.', 'depeur-food' ),
-					'choices'       => array(
-						''  => __( 'Standard (Typ-Vorgabe)', 'depeur-food' ),
-						'1' => __( 'Anzeigen', 'depeur-food' ),
-						'0' => __( 'Ausblenden', 'depeur-food' ),
-					),
+					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „An"/„Aus" gilt nur für diesen Beitrag und bleibt auch erhalten, wenn der Typ-Standard später wechselt.', 'depeur-food' ),
+					'choices'       => $visibility_choices,
 					'default_value' => '',
 					'return_format' => 'value',
+					'layout'        => 'horizontal',
 					'allow_null'    => 0,
-					'ui'            => 0,
 				),
 			),
 			array(
 				'name'     => 'newsletter_position',
-				'key'      => 'field_newsletter_position',
+				'key'      => 'field_df_nl_position',
 				'label'    => __( 'Newsletter-Position', 'depeur-food' ),
 				'acf_type' => 'number',
 				'object'   => array( 'post' ),
@@ -121,11 +130,11 @@ final class Overrides {
 					'min'               => 1,
 					'max'               => 20,
 					'step'              => 1,
-					// Nur sichtbar, wenn das Formular in diesem Beitrag aktiviert ist.
+					// Nur sichtbar, wenn das Formular in diesem Beitrag nicht auf „Aus" steht.
 					'conditional_logic' => array(
 						array(
 							array(
-								'field'    => 'field_show_newsletter',
+								'field'    => 'field_df_nl_newsletter',
 								'operator' => '!=',
 								'value'    => '0',
 							),
@@ -135,23 +144,19 @@ final class Overrides {
 			),
 			array(
 				'name'     => 'show_app_promo',
-				'key'      => 'field_show_app_promo',
+				'key'      => 'field_df_nl_app_promo',
 				'label'    => __( 'App-Promotion', 'depeur-food' ),
-				'acf_type' => 'select',
+				'acf_type' => 'button_group',
 				'object'   => array( 'post' ),
 				'subtypes' => $subtypes,
 				'default'  => '',
 				'acf'      => array(
-					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „Anzeigen"/„Ausblenden" gilt nur für diesen Beitrag.', 'depeur-food' ),
-					'choices'       => array(
-						''  => __( 'Standard (Typ-Vorgabe)', 'depeur-food' ),
-						'1' => __( 'Anzeigen', 'depeur-food' ),
-						'0' => __( 'Ausblenden', 'depeur-food' ),
-					),
+					'instructions'  => __( '„Standard" folgt der Typ-Vorgabe in den Newsletter-Einstellungen; „An"/„Aus" gilt nur für diesen Beitrag und bleibt auch erhalten, wenn der Typ-Standard später wechselt.', 'depeur-food' ),
+					'choices'       => $visibility_choices,
 					'default_value' => '',
 					'return_format' => 'value',
+					'layout'        => 'horizontal',
 					'allow_null'    => 0,
-					'ui'            => 0,
 				),
 			),
 		);

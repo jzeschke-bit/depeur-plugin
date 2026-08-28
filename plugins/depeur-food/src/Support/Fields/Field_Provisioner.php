@@ -326,6 +326,7 @@ final class Field_Provisioner {
 				};
 
 			case 'select':
+			case 'button_group':
 				$allowed = isset( $field['acf']['choices'] ) && is_array( $field['acf']['choices'] )
 					? array_map( 'strval', array_keys( $field['acf']['choices'] ) )
 					: array();
