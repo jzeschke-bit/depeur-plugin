@@ -233,6 +233,8 @@ final class Content_Inserter {
 		$parts = explode( '</p>', $content );
 		$count = count( $parts );
 
+		$mode = $this->newsletter_mode();
+
 		// Zu wenige Absätze: Elemente vorne anfügen (App-Promotion zuerst, dann Newsletter).
 		if ( $count < 2 ) {
 			$prefix = '';
@@ -240,7 +242,7 @@ final class Content_Inserter {
 				$prefix .= $this->app_promo->render();
 			}
 			if ( $show_newsletter ) {
-				$prefix .= $this->flodesk->render();
+				$prefix .= $this->flodesk->render( $mode );
 			}
 
 			return $prefix . $content;
@@ -253,10 +255,21 @@ final class Content_Inserter {
 
 		if ( $show_newsletter ) {
 			$index           = min( $this->newsletter_index( $post_id ), $count - 1 );
-			$parts[ $index ] = $this->flodesk->render() . $parts[ $index ];
+			$parts[ $index ] = $this->flodesk->render( $mode ) . $parts[ $index ];
 		}
 
 		return implode( '</p>', $parts );
+	}
+
+	/**
+	 * Darstellungs-Variante des automatisch eingefügten Formulars (Config, validiert).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string 'spotlight' oder 'minimal'.
+	 */
+	private function newsletter_mode(): string {
+		return ( 'minimal' === Config::text( 'newsletter_display_mode', 'spotlight' ) ) ? 'minimal' : 'spotlight';
 	}
 
 	/**
