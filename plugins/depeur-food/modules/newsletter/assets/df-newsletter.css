@@ -1,14 +1,14 @@
 /**
  * df-newsletter.css — Newsletter-Formular (Flodesk) + App-Promotion.
  *
- * Portiert aus spotlight-subscribe/subscribe.css (386 Z., vollständig — Hover-States,
- * Grau-Überblendung/Overlay, Sticky-Scroll-Effekt, App-Store-Button, Responsive-Regeln).
- * Nur die `spotlight-*`/`app-promo-*`-Klassen wurden auf den df_-Frontend-Prefix umbenannt
- * (Mapping in den Kommentaren pro Block). Die inneren Flodesk-Klassen
- * `ff-68319b10b61ee160f25775e2*` bleiben UNVERÄNDERT, weil das Flodesk-Universal-Script sie
- * exakt so bindet — sie sind an die Standard-Form-ID gekoppelt (wie im Original-Plugin).
- * Setzt eine Site eine abweichende `flodesk_form_id`, greifen diese ff-Regeln nicht mehr und
- * Flodesk rendert sein Eigen-Styling (identische Einschränkung wie im Legacy).
+ * Portiert aus spotlight-subscribe/subscribe.css (Hover-States, Grau-Überblendung/Overlay,
+ * Sticky-Scroll-Effekt, App-Store-Button, Responsive-Regeln) auf den df_-Frontend-Prefix.
+ *
+ * FORM-ID-UNABHÄNGIG: Das Formular-Styling hängt an den generischen `df-newsletter__*`-Klassen
+ * (Provider legt sie ZUSÄTZLICH zu den Flodesk-eigenen `ff-<id>`-Klassen ins Markup). Dadurch
+ * greift das Design bei JEDER `flodesk_form_id`. Früher waren die Regeln an die feste ID
+ * `ff-68319…` gekoppelt → ein ID-Wechsel zerschoss das Design. Flodesks Universal-Script bindet
+ * weiterhin über die `ff-<id>`-Klassen (unverändert vorhanden).
  *
  * @package Depeur\Food\Modules\Newsletter
  */
@@ -130,16 +130,12 @@
 }
 
 .df-newsletter.in-view .df-newsletter__overlay,
-.df-newsletter:has([data-ff-el="root"].ff-68319b10b61ee160f25775e2:hover) .df-newsletter__overlay {
+.df-newsletter:has(.df-newsletter__root:hover) .df-newsletter__overlay {
     opacity: 1;
 }
 
-.df-newsletter.in-view .df-newsletter-container {
-    transform: scale(1.02);
-}
-
-.df-newsletter.in-view .ff-68319b10b61ee160f25775e2__container,
-.df-newsletter:has([data-ff-el="root"].ff-68319b10b61ee160f25775e2:hover) .ff-68319b10b61ee160f25775e2__container {
+.df-newsletter.in-view .df-newsletter__container,
+.df-newsletter:has(.df-newsletter__root:hover) .df-newsletter__container {
     transform: scale(1.02);
     box-shadow: 0 0 50px rgba(255,255,255,0.4);
 }
@@ -162,14 +158,17 @@
     }
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 {
+/* Form-Styling über die generischen df-newsletter__*-Klassen → GILT FÜR JEDE Flodesk-Form-ID
+   (die Klassen liegen zusätzlich zu den ff-<id>-Klassen im Markup). Früher waren diese Regeln an
+   die feste ID ff-68319… gekoppelt; das zerschoss das Design, sobald die flodesk_form_id wechselte. */
+.df-newsletter__root {
     position: sticky;
     top: 120px; /* Increased for desktop */
     z-index: 999;
     margin-bottom: 40px;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__container {
+.df-newsletter__container {
     margin: 0 auto;
     background: #ffffff;
     border-radius: 15px;
@@ -177,14 +176,14 @@
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__wrapper {
+.df-newsletter__wrapper {
     display: flex;
     align-items: stretch;
     background: #ffffff;
     border-radius: 15px;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__left {
+.df-newsletter__col-left {
     flex: 1;
     display: flex;
     align-items: center;
@@ -194,7 +193,7 @@
     padding: 20px;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__image {
+.df-newsletter__image {
     width: 100%;
     height: 100%;
     display: flex;
@@ -203,21 +202,21 @@
     background: #ffffff;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__image img {
+.df-newsletter__image img {
     max-width: 100%;
     height: auto;
     border-radius: 15px;
     object-fit: contain;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__right {
+.df-newsletter__col-right {
     flex: 1;
     padding: 30px;
     background: #ffffff;
     border-radius: 0 15px 15px 0;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__title {
+.df-newsletter__title {
     color: #2C1A1A;
     margin: 0 0 20px;
     font-size: 23px;
@@ -225,14 +224,14 @@
     font-weight: 700;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__subtitle {
+.df-newsletter__subtitle {
     margin: 0 0 25px;
     font-size: 16px;
     line-height: 1.5;
     color: #482D2D;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__control {
+.df-newsletter__control {
     width: 100%;
     color: #333;
     border: 1px solid #000000;
@@ -244,7 +243,7 @@
     margin-bottom: 15px;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__button {
+.df-newsletter__button {
     color: #ffffff;
     width: 100%;
     border: none;
@@ -257,7 +256,7 @@
     transition: background-color 0.3s ease;
 }
 
-[data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__button:hover {
+.df-newsletter__button:hover {
     background: var(--global-palette-btn-bg-hover);
 }
 
@@ -270,29 +269,25 @@
         height: 30vh; /* Mobile scroll space - stays longer */
     }
 
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 {
+    .df-newsletter__root {
         top: 20px;
     }
 
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__container {
-        top: 20px;
-    }
-
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__wrapper {
+    .df-newsletter__wrapper {
         flex-direction: column;
     }
 
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__left {
+    .df-newsletter__col-left {
         border-radius: 15px 15px 0 0;
         padding: 15px;
     }
 
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__right {
+    .df-newsletter__col-right {
         border-radius: 15px 15px 15px 15px;
         padding: 20px 15px;
     }
 
-    [data-ff-el="root"].ff-68319b10b61ee160f25775e2 .ff-68319b10b61ee160f25775e2__title {
+    .df-newsletter__title {
         font-size: 20px;
     }
 }
