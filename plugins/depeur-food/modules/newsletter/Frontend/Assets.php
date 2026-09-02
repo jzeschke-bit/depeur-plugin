@@ -33,6 +33,14 @@ final class Assets {
 	private const HANDLE = 'df-newsletter';
 
 	/**
+	 * Handle des Flodesk-Universal-Loaders (Abhängigkeit von HANDLE).
+	 *
+	 * @since 0.3.0
+	 * @var string
+	 */
+	private const LOADER_HANDLE = 'df-flodesk-loader';
+
+	/**
 	 * Verdrahtet den Enqueue-Hook.
 	 *
 	 * @since 0.2.0
@@ -62,14 +70,22 @@ final class Assets {
 		$base_url  = DEPEUR_FOOD_URL . 'modules/newsletter/assets/';
 		$base_path = DEPEUR_FOOD_PATH . 'modules/newsletter/assets/';
 
-		$css_file = $base_path . 'df-newsletter.css';
-		$js_file  = $base_path . 'df-newsletter.js';
+		$css_file    = $base_path . 'df-newsletter.css';
+		$js_file     = $base_path . 'df-newsletter.js';
+		$loader_file = $base_path . 'flodesk-loader.js';
 
 		// filemtime als Version → Browser lädt neu, sobald sich die Datei ändert.
-		$css_version = is_file( $css_file ) ? (string) filemtime( $css_file ) : DEPEUR_FOOD_VERSION;
-		$js_version  = is_file( $js_file ) ? (string) filemtime( $js_file ) : DEPEUR_FOOD_VERSION;
+		$css_version    = is_file( $css_file ) ? (string) filemtime( $css_file ) : DEPEUR_FOOD_VERSION;
+		$js_version     = is_file( $js_file ) ? (string) filemtime( $js_file ) : DEPEUR_FOOD_VERSION;
+		$loader_version = is_file( $loader_file ) ? (string) filemtime( $loader_file ) : DEPEUR_FOOD_VERSION;
 
 		wp_enqueue_style( self::HANDLE, $base_url . 'df-newsletter.css', array(), $css_version );
-		wp_enqueue_script( self::HANDLE, $base_url . 'df-newsletter.js', array(), $js_version, true );
+
+		// Flodesk-Universal-Loader ZUERST: legt window.fd an (Submit-Interception + Anti-Bot-
+		// Token). Ohne ihn verlangt Flodesk beim Absenden ein Captcha (siehe flodesk-loader.js).
+		wp_enqueue_script( self::LOADER_HANDLE, $base_url . 'flodesk-loader.js', array(), $loader_version, true );
+
+		// Unser Verhalten hängt vom Loader ab (window.fd muss vor form:handle existieren).
+		wp_enqueue_script( self::HANDLE, $base_url . 'df-newsletter.js', array( self::LOADER_HANDLE ), $js_version, true );
 	}
 }
