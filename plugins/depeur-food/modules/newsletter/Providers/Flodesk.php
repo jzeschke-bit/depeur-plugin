@@ -96,15 +96,15 @@ final class Flodesk {
 						data-ff-layout-type="inline"
 						data-success-url="<?php echo esc_url( $success_url ); ?>">
 						<div class="<?php echo esc_attr( $ff ); ?>__left df-newsletter__col-left">
-							<div class="<?php echo esc_attr( $ff ); ?>__image">
+							<div class="<?php echo esc_attr( $ff ); ?>__image df-newsletter__image">
 								<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Newsletter-Anmeldung', 'depeur-food' ); ?>" />
 							</div>
 						</div>
 						<div class="<?php echo esc_attr( $ff ); ?>__right df-newsletter__col-right">
-							<div class="<?php echo esc_attr( $ff ); ?>__title">
+							<div class="<?php echo esc_attr( $ff ); ?>__title df-newsletter__title">
 								<div><strong><?php echo esc_html( $title ); ?></strong></div>
 							</div>
-							<div class="<?php echo esc_attr( $ff ); ?>__subtitle">
+							<div class="<?php echo esc_attr( $ff ); ?>__subtitle df-newsletter__subtitle">
 								<div><?php echo esc_html( $subtitle ); ?></div>
 							</div>
 							<div class="<?php echo esc_attr( $ff ); ?>__content fd-form-content" data-ff-el="content">
@@ -112,7 +112,7 @@ final class Flodesk {
 									<div class="<?php echo esc_attr( $ff ); ?>__field fd-form-group">
 										<input
 											id="<?php echo esc_attr( $ff ); ?>-email"
-											class="<?php echo esc_attr( $ff ); ?>__control fd-form-control"
+											class="<?php echo esc_attr( $ff ); ?>__control fd-form-control df-newsletter__control"
 											type="email"
 											maxlength="255"
 											name="email"
@@ -127,7 +127,7 @@ final class Flodesk {
 								<div class="<?php echo esc_attr( $ff ); ?>__footer" data-ff-el="footer">
 									<button
 										type="submit"
-										class="<?php echo esc_attr( $ff ); ?>__button fd-btn kt-btn button kt-btn-size-normal kt-btn-style-primary"
+										class="<?php echo esc_attr( $ff ); ?>__button fd-btn kt-btn button kt-btn-size-normal kt-btn-style-primary df-newsletter__button"
 										data-ff-el="submit"
 										data-ff-tab="submit">
 										<span><?php echo esc_html( $button_text ); ?></span>
