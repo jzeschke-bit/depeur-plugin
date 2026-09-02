@@ -100,6 +100,12 @@ final class Content_Inserter {
 		$show_newsletter = $this->should_show_newsletter( (int) $post_id );
 		$show_app_promo  = $this->should_show_app_promo( (int) $post_id );
 
+		// Flodesk-Popup (nativ): Flodesk zeigt sein EIGENES Popup (Init in Frontend\Assets) —
+		// kein Formular in den Inhalt einfügen. App-Promotion bleibt unberührt.
+		if ( 'flodesk_popup' === $this->newsletter_mode() ) {
+			$show_newsletter = false;
+		}
+
 		if ( ! $show_newsletter && ! $show_app_promo ) {
 			return $content;
 		}
@@ -242,7 +248,7 @@ final class Content_Inserter {
 				$prefix .= $this->app_promo->render();
 			}
 			if ( $show_newsletter ) {
-				$prefix .= $this->flodesk->render( $mode );
+				$prefix .= $this->newsletter_markup( $mode );
 			}
 
 			return $prefix . $content;
@@ -255,7 +261,7 @@ final class Content_Inserter {
 
 		if ( $show_newsletter ) {
 			$index           = min( $this->newsletter_index( $post_id ), $count - 1 );
-			$parts[ $index ] = $this->flodesk->render( $mode ) . $parts[ $index ];
+			$parts[ $index ] = $this->newsletter_markup( $mode ) . $parts[ $index ];
 		}
 
 		return implode( '</p>', $parts );
@@ -266,12 +272,28 @@ final class Content_Inserter {
 	 *
 	 * @since 0.3.0
 	 *
-	 * @return string 'spotlight', 'minimal' oder 'popup'.
+	 * @return string 'spotlight', 'minimal', 'popup', 'flodesk_inline' oder 'flodesk_popup'.
 	 */
 	private function newsletter_mode(): string {
 		$mode = Config::text( 'newsletter_display_mode', 'spotlight' );
 
-		return in_array( $mode, array( 'spotlight', 'minimal', 'popup' ), true ) ? $mode : 'spotlight';
+		return in_array( $mode, array( 'spotlight', 'minimal', 'popup', 'flodesk_inline', 'flodesk_popup' ), true ) ? $mode : 'spotlight';
+	}
+
+	/**
+	 * Liefert das einzufügende Newsletter-Markup je nach Modus.
+	 *
+	 * 'flodesk_inline' → leerer Flodesk-Container (Flodesk rendert selbst, captcha-frei);
+	 * Eigenes-Design-Modi (spotlight/minimal/popup) → hand-gebautes Provider-Markup.
+	 * ('flodesk_popup' erreicht diese Methode nicht — dort ist $show_newsletter bereits false.)
+	 *
+	 * @since 0.3.0
+	 *
+	 * @param string $mode Darstellungs-Modus.
+	 * @return string
+	 */
+	private function newsletter_markup( string $mode ): string {
+		return ( 'flodesk_inline' === $mode ) ? $this->flodesk->embed_container() : $this->flodesk->render( $mode );
 	}
 
 	/**

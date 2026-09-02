@@ -119,11 +119,13 @@ final class Settings {
 				'type'        => 'select',
 				'default'     => $defaults['newsletter_display_mode'],
 				'options'     => array(
-					'spotlight' => __( 'Spotlight – im Text, sticky, mit Fokus-Abdunklung (einmal weg = weg)', 'depeur-food' ),
-					'minimal'   => __( 'Minimal – im Text, sticky wie Spotlight, aber ohne Abdunklung', 'depeur-food' ),
-					'popup'     => __( 'Popup – fest positioniert, auf Desktop mittig, ab 50 % Scrolltiefe', 'depeur-food' ),
+					'flodesk_inline' => __( 'Flodesk-Inline (nativ) – von Flodesk gerendert, kein Captcha (empfohlen)', 'depeur-food' ),
+					'flodesk_popup'  => __( 'Flodesk-Popup (nativ) – Flodesk zeigt sein eigenes Popup, kein Captcha', 'depeur-food' ),
+					'spotlight'      => __( 'Spotlight (eigenes Design) – im Text, sticky, mit Abdunklung', 'depeur-food' ),
+					'minimal'        => __( 'Minimal (eigenes Design) – im Text, sticky, ohne Abdunklung', 'depeur-food' ),
+					'popup'          => __( 'Popup (eigenes Design) – fest positioniert, mittig, ab 50 % Scrolltiefe', 'depeur-food' ),
 				),
-				'description' => __( '„Spotlight" dunkelt beim Reinscrollen die ganze Seite ab und rückt das Formular in den Fokus; einmal geschlossen wird es (Browser-Merker) nicht erneut gezeigt. „Minimal" verhält sich genau wie Spotlight (im Textfluss, scrollt ein Stück mit), nur OHNE Abdunklung. „Popup" ist fest positioniert (auf Desktop mittig, mobil als Leiste unten), erscheint erst ab 50 % Scrolltiefe und dunkelt nichts ab. Bei „Minimal" und „Popup" gilt Schließen nur für die aktuelle Seite (erscheint bei jedem Aufruf/Refresh wieder – mehr Sichtbarkeit); wer sich einträgt, sieht in allen Varianten künftig nichts mehr. Der Shortcode [df_newsletter] bleibt unverändert inline.', 'depeur-food' ),
+				'description' => __( 'NATIVE Modi (empfohlen): Flodesk rendert das Formular selbst — Design, Einblende-Trigger UND Anti-Bot kommen aus Flodesk, deshalb erscheint KEIN „I am not a robot". „Flodesk-Inline" bettet die in Flodesk gestaltete Form direkt in den Inhalt ein (an der unten eingestellten Position); „Flodesk-Popup" lässt Flodesk sein eigenes Popup zeigen. In beiden Fällen die Form in Flodesk gestalten und deren Formular-ID unten eintragen. — EIGENES-DESIGN-Modi (Spotlight/Minimal/Popup): unser hand-gebautes Markup mit den Feldern aus diesen Einstellungen (Titel/Bild/Button); Nachteil: beim Absenden verlangt Flodesk aktuell das Captcha. Der Shortcode [df_newsletter] bleibt inline.', 'depeur-food' ),
 			),
 			array(
 				'id'          => 'flodesk_form_id',

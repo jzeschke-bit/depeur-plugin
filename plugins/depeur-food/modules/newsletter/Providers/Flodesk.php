@@ -157,4 +157,27 @@ final class Flodesk {
 		<?php
 		return (string) ob_get_clean();
 	}
+
+	/**
+	 * Leerer Container für das offizielle Flodesk-Inline-Embed (Modus 'flodesk_inline').
+	 *
+	 * Flodesk rendert die in Flodesk gestaltete Form komplett selbst hinein
+	 * (`window.fd('form', { formId, containerEl })`, siehe Frontend\Assets) — inklusive Design,
+	 * config-Block und Anti-Bot-Token. Deshalb KEIN eigenes Markup/CSS und damit kein Captcha.
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string Container-`<div>` oder '' ohne konfigurierte Form-ID.
+	 */
+	public function embed_container(): string {
+		$form_id = Config::text( 'flodesk_form_id' );
+		if ( '' === $form_id ) {
+			return '';
+		}
+
+		return sprintf(
+			'<div id="fd-form-%1$s" class="df-newsletter-embed"></div>',
+			esc_attr( $form_id )
+		);
+	}
 }

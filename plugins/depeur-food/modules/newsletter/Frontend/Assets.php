@@ -12,6 +12,8 @@
 
 namespace Depeur\Food\Modules\Newsletter\Frontend;
 
+use Depeur\Food\Modules\Newsletter\Support\Config;
+
 // Kein direkter Aufruf.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -67,17 +69,50 @@ final class Assets {
 			return;
 		}
 
-		$base_url  = DEPEUR_FOOD_URL . 'modules/newsletter/assets/';
-		$base_path = DEPEUR_FOOD_PATH . 'modules/newsletter/assets/';
-
-		$css_file    = $base_path . 'df-newsletter.css';
-		$js_file     = $base_path . 'df-newsletter.js';
+		$base_url    = DEPEUR_FOOD_URL . 'modules/newsletter/assets/';
+		$base_path   = DEPEUR_FOOD_PATH . 'modules/newsletter/assets/';
 		$loader_file = $base_path . 'flodesk-loader.js';
-
 		// filemtime als Version → Browser lädt neu, sobald sich die Datei ändert.
-		$css_version    = is_file( $css_file ) ? (string) filemtime( $css_file ) : DEPEUR_FOOD_VERSION;
-		$js_version     = is_file( $js_file ) ? (string) filemtime( $js_file ) : DEPEUR_FOOD_VERSION;
 		$loader_version = is_file( $loader_file ) ? (string) filemtime( $loader_file ) : DEPEUR_FOOD_VERSION;
+
+		$mode = $this->display_mode();
+
+		// NATIVE Modi (flodesk_inline/flodesk_popup): Flodesk rendert das Formular selbst. Nur den
+		// Universal-Loader laden + Flodesks eigenen Init-Aufruf anhängen (offizielles Embed-Muster).
+		// Kein eigenes CSS/JS → kein Captcha, Design/Anti-Bot komplett aus Flodesk.
+		if ( 'flodesk_inline' === $mode || 'flodesk_popup' === $mode ) {
+			if ( ! Config::flag( 'newsletter_enabled' ) ) {
+				return;
+			}
+			$form_id = Config::text( 'flodesk_form_id' );
+			if ( '' === $form_id ) {
+				return;
+			}
+
+			wp_enqueue_script( self::LOADER_HANDLE, $base_url . 'flodesk-loader.js', array(), $loader_version, true );
+
+			// 'flodesk_inline' rendert in den vom Content_Inserter gesetzten Container;
+			// 'flodesk_popup' lässt Flodesk sein eigenes Popup zeigen (ohne containerEl).
+			if ( 'flodesk_inline' === $mode ) {
+				$init = sprintf(
+					"window.fd('form', { formId: %s, containerEl: %s });",
+					wp_json_encode( $form_id ),
+					wp_json_encode( '#fd-form-' . $form_id )
+				);
+			} else {
+				$init = sprintf( "window.fd('form', { formId: %s });", wp_json_encode( $form_id ) );
+			}
+			wp_add_inline_script( self::LOADER_HANDLE, $init, 'after' );
+
+			return;
+		}
+
+		// EIGENES-DESIGN-Modi (spotlight/minimal/popup): unser Markup + CSS + Verhalten.
+		$css_file = $base_path . 'df-newsletter.css';
+		$js_file  = $base_path . 'df-newsletter.js';
+
+		$css_version = is_file( $css_file ) ? (string) filemtime( $css_file ) : DEPEUR_FOOD_VERSION;
+		$js_version  = is_file( $js_file ) ? (string) filemtime( $js_file ) : DEPEUR_FOOD_VERSION;
 
 		wp_enqueue_style( self::HANDLE, $base_url . 'df-newsletter.css', array(), $css_version );
 
@@ -87,5 +122,20 @@ final class Assets {
 
 		// Unser Verhalten hängt vom Loader ab (window.fd muss vor form:handle existieren).
 		wp_enqueue_script( self::HANDLE, $base_url . 'df-newsletter.js', array( self::LOADER_HANDLE ), $js_version, true );
+	}
+
+	/**
+	 * Aktueller Darstellungs-Modus (Config, validiert; Default 'spotlight').
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string
+	 */
+	private function display_mode(): string {
+		$mode = Config::text( 'newsletter_display_mode', 'spotlight' );
+
+		$allowed = array( 'spotlight', 'minimal', 'popup', 'flodesk_inline', 'flodesk_popup' );
+
+		return in_array( $mode, $allowed, true ) ? $mode : 'spotlight';
 	}
 }

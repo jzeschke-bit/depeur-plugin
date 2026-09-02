@@ -3,7 +3,7 @@
  * Plugin Name: Depeur Food
  * Plugin URI: https://depeur.de
  * Description: Modulares Plugin für die Depeur-Content-Sites (Schema, Favoriten, Newsletter, Cache-Bridge, Recipe-Extras). Post-type-agnostisch, ohne ACF-Runtime-Abhängigkeit.
- * Version: 1.0.13
+ * Version: 1.0.14
  * Requires at least: 6.5
  * Tested up to: 6.5
  * Requires PHP: 8.2
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin-Konstanten.
-define( 'DEPEUR_FOOD_VERSION', '1.0.13' );
+define( 'DEPEUR_FOOD_VERSION', '1.0.14' );
 define( 'DEPEUR_FOOD_FILE', __FILE__ );
 define( 'DEPEUR_FOOD_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DEPEUR_FOOD_URL', plugin_dir_url( __FILE__ ) );
