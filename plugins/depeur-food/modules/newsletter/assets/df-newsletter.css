@@ -260,6 +260,27 @@
     background: var(--global-palette-btn-bg-hover);
 }
 
+/* Honeypot: für Menschen unsichtbar; von Bots gefüllt → serverseitig verworfen. */
+.df-newsletter__hp {
+    display: none !important;
+}
+
+/* Status-/Fehlermeldung nach dem Absenden (fetch an den Plugin-REST-Endpoint). */
+.df-newsletter__message {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    min-height: 1em;
+}
+
+.df-newsletter__message.is-success {
+    color: #1a7f37;
+}
+
+.df-newsletter__message.is-error {
+    color: #c0392b;
+}
+
 .df-newsletter__scroll-space {
     height: 5vh; /* Desktop scroll space - much shorter now */
 }

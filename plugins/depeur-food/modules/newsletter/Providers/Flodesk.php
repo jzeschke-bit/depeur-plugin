@@ -1,15 +1,18 @@
 <?php
 /**
- * Flodesk — rendert das Flodesk-Inline-Newsletter-Formular.
+ * Flodesk — baut das Newsletter-Formular-Markup (zwei Wege, je nach Darstellungs-Modus).
  *
- * Dünne Provider-Naht (E4): EINE Klasse kapselt das Flodesk-spezifische Markup. Bewusst
- * KEINE Provider-Interface/Registry/Factory — die kommt erst mit einem zweiten realen
- * Provider (Disziplin analog cache-bridge). Alle Werte stammen aus Support\Config; jeder
- * dynamische Wert wird beim Ausgeben escaped (esc_attr/esc_url/esc_html/esc_js).
+ * 1) render() — EIGENES DESIGN (Modi spotlight/minimal/popup): unser eigenes Formular-Markup
+ *    (Titel/Bild/Button aus Support\Config). Es sendet NICHT an das Flodesk-Widget, sondern an
+ *    unseren REST-Endpoint (Rest\Subscribe_Controller), der serverseitig über die Flodesk-API
+ *    einträgt. Dadurch entfällt Flodesks „I am not a robot"-Captcha; Spam-Schutz via Nonce +
+ *    Honeypot + Rate-Limit. Styling: generische df-newsletter__*-Klassen (form-id-unabhängig).
  *
- * Portiert aus spotlight-subscribe.php:1004–1075 (Formular-Markup), CSS-Klassen auf den
- * df_-Frontend-Prefix umgestellt; die inneren `ff-<formid>`-Klassen bleiben unverändert,
- * weil das Flodesk-Universal-Script sie exakt so bindet.
+ * 2) embed_container() — NATIVES FLODESK-EMBED (Modus flodesk_inline): leerer Container, den
+ *    Flodesks Universal-Script selbst füllt (window.fd('form', { formId, containerEl })).
+ *
+ * Dünne Provider-Naht (E4): EINE Klasse kapselt beides. Jeder dynamische Wert wird beim
+ * Ausgeben escaped (esc_attr/esc_url/esc_html).
  *
  * @package Depeur\Food\Modules\Newsletter\Providers
  * @license GPL-2.0-or-later
@@ -25,134 +28,92 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Baut das HTML des Flodesk-Formulars aus den Modul-Einstellungen.
+ * Baut das HTML des Newsletter-Formulars aus den Modul-Einstellungen.
  *
  * @since 0.2.0
  */
 final class Flodesk {
 
 	/**
-	 * Rendert das Newsletter-Formular als HTML-String.
+	 * Rendert das EIGENE Newsletter-Formular (Modi spotlight/minimal/popup) als HTML-String.
 	 *
-	 * Der Wrapper trägt die Flodesk-Form-ID als data-Attribut; das gebündelte Vanilla-JS
-	 * (assets/df-newsletter.js) initialisiert damit `window.fd(...)`, falls das Flodesk-
-	 * Universal-Script geladen ist — statt eines Inline-<script> (Asset-Convention).
+	 * Das Formular sendet per JS (assets/df-newsletter.js) an den Plugin-REST-Endpoint —
+	 * NICHT an Flodesks Widget. Kein Flodesk-Universal-Script, kein Captcha.
 	 *
 	 * @since 0.2.0
 	 *
 	 * @param string $mode Darstellungs-Variante:
 	 *                     - 'spotlight' (Standard): inline, sticky, mit Vollbild-Abdunklung.
 	 *                     - 'minimal': inline + sticky wie spotlight, aber OHNE Abdunklung.
-	 *                     - 'popup': fixed, auf Desktop mittig, ohne Abdunklung, per JS erst ab
-	 *                       einer Scroll-Tiefe eingeblendet.
-	 *                     Unbekannte Werte fallen auf 'spotlight' zurück. Der Shortcode ruft ohne
-	 *                     Argument auf (⇒ spotlight, inline).
+	 *                     - 'popup': fixed, auf Desktop mittig, per JS erst ab Scroll-Tiefe.
+	 *                     Unbekannte Werte fallen auf 'spotlight' zurück.
 	 * @return string Fertiges, vollständig escaptes Formular-Markup.
 	 */
 	public function render( string $mode = 'spotlight' ): string {
-		$form_id     = Config::text( 'flodesk_form_id' );
-		$form_action = Config::text( 'flodesk_form_action' );
-		$success_url = Config::text( 'newsletter_success_url' );
 		$image       = Config::text( 'newsletter_image' );
 		$title       = Config::text( 'newsletter_title' );
 		$subtitle    = Config::text( 'newsletter_subtitle' );
 		$button_text = Config::text( 'newsletter_button_text' );
 		$placeholder = Config::text( 'newsletter_placeholder' );
 
-		// Ohne Form-ID kann Flodesk nichts binden → nichts ausgeben (kein halbes Markup).
-		if ( '' === $form_id ) {
-			return '';
-		}
-
 		// Nur bekannte Varianten; alles andere = Standard (Spotlight).
-		$mode     = in_array( $mode, array( 'spotlight', 'minimal', 'popup' ), true ) ? $mode : 'spotlight';
-		$modifier = ' df-newsletter--' . $mode;
+		$mode = in_array( $mode, array( 'spotlight', 'minimal', 'popup' ), true ) ? $mode : 'spotlight';
 
 		// Overlay (Vollbild-Abdunklung) nur im Spotlight. Sticky-Scrollraum in den beiden
-		// INLINE-Varianten (spotlight, minimal), damit das Formular „mitscrollt"; der Popup ist
-		// fixed positioniert und braucht ihn nicht.
+		// INLINE-Varianten (spotlight, minimal); der Popup ist fixed und braucht ihn nicht.
 		$render_overlay      = ( 'spotlight' === $mode );
 		$render_scroll_space = ( 'popup' !== $mode );
 
-		$ff = 'ff-' . $form_id;
-
 		ob_start();
 		?>
-		<div class="df-newsletter<?php echo esc_attr( $modifier ); ?>" data-df-mode="<?php echo esc_attr( $mode ); ?>" data-df-flodesk-form-id="<?php echo esc_attr( $form_id ); ?>">
+		<div class="df-newsletter df-newsletter--<?php echo esc_attr( $mode ); ?>" data-df-mode="<?php echo esc_attr( $mode ); ?>">
 			<button type="button" class="df-newsletter__close" aria-label="<?php esc_attr_e( 'Newsletter-Formular schließen', 'depeur-food' ); ?>">&times;</button>
-			<?php
-			// Generische df-newsletter__*-Klassen ZUSÄTZLICH zu den ff-<id>-Klassen: damit das
-			// Varianten-CSS (Positionierung/Spalten) form-id-UNABHÄNGIG greift. Flodesk bindet
-			// weiterhin über die ff-<id>-Klassen — die bleiben unverändert.
-			?>
-			<div class="<?php echo esc_attr( $ff ); ?> df-newsletter__root" data-ff-el="root" data-ff-version="3" data-ff-type="inline" data-ff-name="inlineImage">
-				<div class="<?php echo esc_attr( $ff ); ?>__container df-newsletter__container">
-					<form
-						class="<?php echo esc_attr( $ff ); ?>__wrapper df-newsletter__wrapper"
-						action="<?php echo esc_url( $form_action ); ?>"
-						method="post"
-						data-ff-el="form"
-						data-ff-embed="inline"
-						data-ff-layout-type="inline"
-						data-success-url="<?php echo esc_url( $success_url ); ?>">
-						<div class="<?php echo esc_attr( $ff ); ?>__left df-newsletter__col-left">
-							<div class="<?php echo esc_attr( $ff ); ?>__image df-newsletter__image">
-								<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Newsletter-Anmeldung', 'depeur-food' ); ?>" />
-							</div>
-						</div>
-						<div class="<?php echo esc_attr( $ff ); ?>__right df-newsletter__col-right">
-							<div class="<?php echo esc_attr( $ff ); ?>__title df-newsletter__title">
-								<div><strong><?php echo esc_html( $title ); ?></strong></div>
-							</div>
-							<div class="<?php echo esc_attr( $ff ); ?>__subtitle df-newsletter__subtitle">
-								<div><?php echo esc_html( $subtitle ); ?></div>
-							</div>
-							<div class="<?php echo esc_attr( $ff ); ?>__content fd-form-content" data-ff-el="content">
-								<div class="<?php echo esc_attr( $ff ); ?>__fields" data-ff-el="fields">
-									<div class="<?php echo esc_attr( $ff ); ?>__field fd-form-group">
-										<input
-											id="<?php echo esc_attr( $ff ); ?>-email"
-											class="<?php echo esc_attr( $ff ); ?>__control fd-form-control df-newsletter__control"
-											type="email"
-											maxlength="255"
-											name="email"
-											placeholder="<?php echo esc_attr( $placeholder ); ?>"
-											data-ff-tab="email::submit"
-											data-ff-validate="true"
-											required />
-									</div>
-									<?php // Honeypot (Flodesk-Konvention): für Menschen unsichtbar. ?>
-									<input type="text" maxlength="255" name="confirm_email_address" style="display: none" tabindex="-1" autocomplete="off" />
+			<div class="df-newsletter__root">
+				<div class="df-newsletter__container">
+					<div class="df-newsletter__wrapper">
+						<?php if ( '' !== $image ) : ?>
+							<div class="df-newsletter__col-left">
+								<div class="df-newsletter__image">
+									<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Newsletter-Anmeldung', 'depeur-food' ); ?>" />
 								</div>
-								<div class="<?php echo esc_attr( $ff ); ?>__footer" data-ff-el="footer">
-									<button
-										type="submit"
-										class="<?php echo esc_attr( $ff ); ?>__button fd-btn kt-btn button kt-btn-size-normal kt-btn-style-primary df-newsletter__button"
-										data-ff-el="submit"
-										data-ff-tab="submit">
+							</div>
+						<?php endif; ?>
+						<div class="df-newsletter__col-right">
+							<?php if ( '' !== $title ) : ?>
+								<div class="df-newsletter__title"><strong><?php echo esc_html( $title ); ?></strong></div>
+							<?php endif; ?>
+							<?php if ( '' !== $subtitle ) : ?>
+								<div class="df-newsletter__subtitle"><?php echo esc_html( $subtitle ); ?></div>
+							<?php endif; ?>
+							<form class="df-newsletter__form" method="post">
+								<div class="df-newsletter__field">
+									<input
+										type="email"
+										class="df-newsletter__control"
+										name="email"
+										placeholder="<?php echo esc_attr( $placeholder ); ?>"
+										autocomplete="email"
+										required />
+								</div>
+								<?php // Honeypot: per CSS unsichtbar; von Bots gefüllt → serverseitig verworfen. ?>
+								<input type="text" class="df-newsletter__hp" name="df_hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+								<div class="df-newsletter__footer">
+									<button type="submit" class="df-newsletter__button kt-btn button kt-btn-size-normal kt-btn-style-primary">
 										<span><?php echo esc_html( $button_text ); ?></span>
 									</button>
 								</div>
-							</div>
+								<div class="df-newsletter__message" role="status" aria-live="polite"></div>
+							</form>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
-			<?php
-			// Ganzseiten-Grau-Überblendung (fixed, z-index 998): nur Spotlight. Fadet via
-			// `.in-view` ein (CSS/JS).
-			if ( $render_overlay ) :
-				?>
+			<?php if ( $render_overlay ) : ?>
 				<div class="df-newsletter__overlay"></div>
-				<?php
-			endif;
-			// Zusätzlicher Scrollraum für den Sticky-Effekt der Inline-Varianten (Legacy).
-			if ( $render_scroll_space ) :
-				?>
+			<?php endif; ?>
+			<?php if ( $render_scroll_space ) : ?>
 				<div class="df-newsletter__scroll-space"></div>
-				<?php
-			endif;
-			?>
+			<?php endif; ?>
 		</div>
 		<?php
 		return (string) ob_get_clean();

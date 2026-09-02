@@ -125,7 +125,32 @@ final class Settings {
 					'minimal'        => __( 'Minimal (eigenes Design) – im Text, sticky, ohne Abdunklung', 'depeur-food' ),
 					'popup'          => __( 'Popup (eigenes Design) – fest positioniert, mittig, ab 50 % Scrolltiefe', 'depeur-food' ),
 				),
-				'description' => __( 'NATIVE Modi (empfohlen): Flodesk rendert das Formular selbst — Design, Einblende-Trigger UND Anti-Bot kommen aus Flodesk, deshalb erscheint KEIN „I am not a robot". „Flodesk-Inline" bettet die in Flodesk gestaltete Form direkt in den Inhalt ein (an der unten eingestellten Position); „Flodesk-Popup" lässt Flodesk sein eigenes Popup zeigen. In beiden Fällen die Form in Flodesk gestalten und deren Formular-ID unten eintragen. — EIGENES-DESIGN-Modi (Spotlight/Minimal/Popup): unser hand-gebautes Markup mit den Feldern aus diesen Einstellungen (Titel/Bild/Button); Nachteil: beim Absenden verlangt Flodesk aktuell das Captcha. Der Shortcode [df_newsletter] bleibt inline.', 'depeur-food' ),
+				'description' => __( 'NATIVE Modi: Flodesk rendert das Formular selbst — Design, Einblende-Trigger UND Anti-Bot kommen aus Flodesk (kein Captcha). „Flodesk-Inline" bettet die in Flodesk gestaltete Form in den Inhalt ein; „Flodesk-Popup" lässt Flodesk sein eigenes Popup zeigen. Dafür die Form in Flodesk gestalten und deren Formular-ID unten eintragen. — EIGENES-DESIGN-Modi (Spotlight/Minimal/Popup): unser eigenes Markup (Titel/Bild/Button aus diesen Einstellungen). Das Absenden läuft serverseitig über die Flodesk-API (Felder „Flodesk-API" unten) → ebenfalls OHNE Captcha. Der Shortcode [df_newsletter] bleibt inline.', 'depeur-food' ),
+			),
+			// Abschnitt Flodesk-API (nur für die Eigenes-Design-Modi relevant).
+			array(
+				'id'    => 'section_flodesk_api',
+				'type'  => 'html',
+				'label' => '',
+				'html'  => '<h2 class="title">' . esc_html__( 'Flodesk-API (für eigenes Design ohne Captcha)', 'depeur-food' ) . '</h2>'
+					. '<p class="description" style="max-width: 60em;">'
+					. esc_html__( 'Nur nötig für die Eigenes-Design-Modi (Spotlight/Minimal/Popup): Dann trägt das Plugin die Anmeldung serverseitig über die Flodesk-API ein — ganz ohne Flodesk-Widget und damit ohne „I am not a robot". Den API-Key findest du in Flodesk unter Account → API. Die Segment-ID(s) bestimmen, in welche Liste eingetragen wird (Flodesk → Audience → Segments; mehrere kommagetrennt). Für die NATIVEN Modi wird beides nicht benötigt.', 'depeur-food' )
+					. '</p>',
+			),
+			array(
+				'id'          => 'flodesk_api_key',
+				'label'       => __( 'Flodesk-API-Key', 'depeur-food' ),
+				'type'        => 'password',
+				'default'     => $defaults['flodesk_api_key'],
+				'autoload'    => false,
+				'description' => __( 'Wird sicher gespeichert und verlässt nie den Server. Leer lassen = kein serverseitiger Eintrag (dann funktionieren nur die nativen Flodesk-Modi).', 'depeur-food' ),
+			),
+			array(
+				'id'          => 'flodesk_segment_ids',
+				'label'       => __( 'Flodesk Segment-ID(s)', 'depeur-food' ),
+				'type'        => 'text',
+				'default'     => $defaults['flodesk_segment_ids'],
+				'description' => __( 'In welche(s) Segment(e) neue Abonnenten eingetragen werden (kommagetrennt). Löst bei aktivem Double-Opt-In die Bestätigungs-Mail aus.', 'depeur-food' ),
 			),
 			array(
 				'id'          => 'flodesk_form_id',

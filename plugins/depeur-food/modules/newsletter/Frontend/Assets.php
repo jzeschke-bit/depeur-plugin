@@ -13,6 +13,7 @@
 namespace Depeur\Food\Modules\Newsletter\Frontend;
 
 use Depeur\Food\Modules\Newsletter\Support\Config;
+use Depeur\Food\Modules\Newsletter\Rest\Subscribe_Controller;
 
 // Kein direkter Aufruf.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -107,7 +108,11 @@ final class Assets {
 			return;
 		}
 
-		// EIGENES-DESIGN-Modi (spotlight/minimal/popup): unser Markup + CSS + Verhalten.
+		// EIGENES-DESIGN-Modi (spotlight/minimal/popup): unser Markup + CSS + Verhalten. Das
+		// Absenden läuft per fetch an den Plugin-REST-Endpoint (Flodesk-API serverseitig) →
+		// KEIN Flodesk-Widget, KEIN Loader, kein Captcha.
+		unset( $loader_version );
+
 		$css_file = $base_path . 'df-newsletter.css';
 		$js_file  = $base_path . 'df-newsletter.js';
 
@@ -115,13 +120,20 @@ final class Assets {
 		$js_version  = is_file( $js_file ) ? (string) filemtime( $js_file ) : DEPEUR_FOOD_VERSION;
 
 		wp_enqueue_style( self::HANDLE, $base_url . 'df-newsletter.css', array(), $css_version );
+		wp_enqueue_script( self::HANDLE, $base_url . 'df-newsletter.js', array(), $js_version, true );
 
-		// Flodesk-Universal-Loader ZUERST: legt window.fd an (Submit-Interception + Anti-Bot-
-		// Token). Ohne ihn verlangt Flodesk beim Absenden ein Captcha (siehe flodesk-loader.js).
-		wp_enqueue_script( self::LOADER_HANDLE, $base_url . 'flodesk-loader.js', array(), $loader_version, true );
-
-		// Unser Verhalten hängt vom Loader ab (window.fd muss vor form:handle existieren).
-		wp_enqueue_script( self::HANDLE, $base_url . 'df-newsletter.js', array( self::LOADER_HANDLE ), $js_version, true );
+		// REST-URL + Nonce + Meldungstexte an das Script übergeben (Daten, keine Logik).
+		wp_localize_script(
+			self::HANDLE,
+			'dfNewsletter',
+			array(
+				'restUrl' => esc_url_raw( rest_url( Subscribe_Controller::REST_NAMESPACE . Subscribe_Controller::ROUTE ) ),
+				'nonce'   => wp_create_nonce( Subscribe_Controller::NONCE_ACTION ),
+				'sending' => __( 'Wird gesendet …', 'depeur-food' ),
+				'success' => __( 'Vielen Dank! Bitte bestätige deine Anmeldung per E-Mail.', 'depeur-food' ),
+				'error'   => __( 'Es ist ein Fehler aufgetreten. Bitte später erneut versuchen.', 'depeur-food' ),
+			)
+		);
 	}
 
 	/**

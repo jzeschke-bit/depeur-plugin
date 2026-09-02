@@ -64,11 +64,17 @@ final class Config {
 		return array(
 			// Newsletter (Flodesk).
 			'newsletter_enabled'         => true,
-			// Darstellung des automatisch eingefügten Formulars: 'spotlight' (Legacy: dunkelt
-			// die Seite ab, einmal geschlossen = via Browser-Merker weg) oder 'minimal'
-			// (dezenter Slide-in am Rand, keine Abdunklung, kein Schließen-Merker → erscheint
-			// bei jedem Seitenaufruf erneut). Der [df_newsletter]-Shortcode bleibt inline.
+			// Darstellung des automatisch eingefügten Formulars — siehe Admin\Settings:
+			// spotlight/minimal/popup (eigenes Design, Absenden via Flodesk-API → kein Captcha)
+			// oder flodesk_inline/flodesk_popup (natives Flodesk-Embed).
 			'newsletter_display_mode'    => 'spotlight',
+
+			// Flodesk-API (nur für die Eigenes-Design-Modi): der API-Key trägt Abonnenten
+			// serverseitig ein (statt via Flodesk-Widget) → kein Captcha. Segment-ID(s) =
+			// in welche Liste(n) eingetragen wird (kommagetrennt). Key ist ein Secret
+			// (autoload=false, Passwort-Feld); Werte kommen aus dem Flodesk-Account.
+			'flodesk_api_key'            => '',
+			'flodesk_segment_ids'        => '',
 			'flodesk_form_id'            => '68319b10b61ee160f25775e2',
 			'flodesk_form_action'        => 'https://form.flodesk.com/forms/68319b10b61ee160f25775e2/submit',
 			'newsletter_success_url'     => 'https://alkipedia.com/newsletter-danke/?subscribed=true',
@@ -163,6 +169,20 @@ final class Config {
 		$value = self::get( $key, $fallback );
 
 		return is_scalar( $value ) ? (string) $value : $fallback;
+	}
+
+	/**
+	 * Flodesk-Segment-IDs als bereinigtes Array (aus dem kommagetrennten Setting).
+	 *
+	 * @since 0.3.0
+	 *
+	 * @return string[] Nicht-leere, deduplizierte Segment-IDs.
+	 */
+	public static function segment_ids(): array {
+		$raw = self::text( 'flodesk_segment_ids' );
+		$ids = array_filter( array_map( 'trim', explode( ',', $raw ) ) );
+
+		return array_values( array_unique( $ids ) );
 	}
 
 	/**

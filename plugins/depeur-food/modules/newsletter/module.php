@@ -32,6 +32,10 @@ new \Depeur\Food\Modules\Newsletter\Frontend\Content_Inserter( $depeur_food_news
 new \Depeur\Food\Modules\Newsletter\Frontend\Shortcodes( $depeur_food_newsletter_flodesk, $depeur_food_newsletter_app_promo );
 new \Depeur\Food\Modules\Newsletter\Frontend\Assets();
 
+// REST-Endpoint für die Eigenes-Design-Formulare: trägt serverseitig über die Flodesk-API ein
+// (statt via Flodesk-Widget) → kein Captcha. Registriert sich selbst auf rest_api_init.
+new \Depeur\Food\Modules\Newsletter\Rest\Subscribe_Controller();
+
 // Settings-Tab + Diagnose — nur im Admin. Slug = Ordnername (basename), example-module-Muster.
 if ( is_admin() ) {
 	new \Depeur\Food\Modules\Newsletter\Admin\Settings( basename( __DIR__ ) );
